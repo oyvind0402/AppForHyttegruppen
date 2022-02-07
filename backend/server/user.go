@@ -1,7 +1,7 @@
 package server
 
 import (
-	"bachelorprosjekt/internal/data"
+	"bachelorprosjekt/backend/data"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

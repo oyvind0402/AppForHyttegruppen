@@ -1,6 +1,6 @@
 package main
 
-import "bachelorprosjekt/internal/server"
+import "bachelorprosjekt/backend/server"
 
 func main() {
   server.Start()
