@@ -13,6 +13,9 @@ export const LoginContextProvider = (props) => {
 
   const [token, setToken] = useState(localStorage.getItem(key));
 
+  //Setting loggedIn as a boolean from a previous value
+  const loggedIn = !!token;
+
   //Logging in sets the key with the token thats passed with the function
   const login = (token) => {
     setToken(token);
@@ -28,7 +31,7 @@ export const LoginContextProvider = (props) => {
   //Setting the values to the context
   const contextValues = {
     token: token,
-    loggedIn: true,
+    loggedIn: loggedIn,
     login: login,
     logout: logout,
   };
