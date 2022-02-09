@@ -30,7 +30,7 @@ const SignupForm = () => {
       });
       const data = await response.json();
       if (!response.ok) {
-        alert("Something went wrong!");
+        alert(response.statusText);
       } else {
         loginContext.login(data.jwt);
         history.replace("/");
