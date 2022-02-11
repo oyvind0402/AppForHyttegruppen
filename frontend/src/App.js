@@ -17,11 +17,11 @@ function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-                            {!loginContext.loggedIn && (
-                              <Route path="/login">
-                                <LoginPage />
-                              </Route>
-                            )}
+          {!loginContext.loggedIn && (
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+          )}
         {!loginContext.loggedIn && (
           <Route path="/signup">
             <SignupPage />
