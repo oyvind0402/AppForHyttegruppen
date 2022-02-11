@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import LoginContext from "../../LoginContext/login-context";
+import LoginContext from '../../LoginContext/login-context';
 
 const Post = () => {
   const loginContext = useContext(LoginContext);
@@ -9,6 +9,8 @@ const Post = () => {
 
   return (
     <section>
+      <h1>Ye olde Admin Page yarr</h1>
+      <h1>Ye olde Admin Page yarr</h1>
       <h1>Ye olde Admin Page yarr</h1>
     </section>
   );
