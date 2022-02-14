@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 //Setting default values to the context
 const LoginContext = React.createContext({
@@ -9,7 +9,8 @@ const LoginContext = React.createContext({
 });
 
 export const LoginContextProvider = (props) => {
-  const key = "hyttetoken";
+  const key = 'hyttetoken';
+  //comment check
 
   const [token, setToken] = useState(localStorage.getItem(key));
 
