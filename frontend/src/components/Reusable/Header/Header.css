@@ -1,9 +1,121 @@
-.navbar {
-    
+.nav-container {
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 100px;
+    align-items: center;
+    position: sticky;
 }
 
-.navbar-container {
-    background-color: blue;
-    width: 100%;
+.left-side {
+    padding-left: 15px;
+    display: flex;
     height: 100px;
+}
+
+.home-icon img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.nav-title {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 45px;
+}
+
+.nav-list {
+    padding-left: 10px;
+    text-align: center;
+}
+
+.nav-list-item {
+    text-decoration: none;
+    font-size: 24px;
+    margin-right: 10px;
+    color: black;
+    transition: border 500s ease-in;
+    background-size: 0% 3px;
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(black, black);
+    transition: background 0.3s linear;
+}
+
+.nav-list-item:hover {
+    background-size: 100% 3px;
+}
+
+.user-icon {
+    justify-self: end;
+    padding-right: 25px;
+}
+
+.user-icon img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.user-icon img:hover {
+    opacity: 0.5;
+}
+
+.profile-popup-title {
+    margin-left: 10%;
+    width: 80%;
+    text-align: center;
+}
+
+.profile-popup-title h3 {
+    font-size: 14px;
+}
+
+.profile-popup-title p {
+    width: 80%;
+    font-size: 12px;
+}
+
+.profile-popup-buttons {
+    margin-left: 10%;
+    width: 80%;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.minside-btn {
+    background: #BD00FF;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    color: white;
+    margin-bottom: 20px;
+    padding: 10px 5px;
+    cursor: pointer;
+}
+
+.logout-btn {
+    border: 2px solid transparent;
+    background: #EADDFF;
+    border-radius: 50px;
+    color: black;
+    padding: 10px 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.minside-btn:hover {
+    border: 2px black solid;
+}
+
+.logout-btn:hover {
+    border: 2px black solid;
+}
+
+.minside-link {
+    text-decoration: none;
+    color: white;
 }
