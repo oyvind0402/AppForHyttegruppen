@@ -115,7 +115,12 @@
     border: 2px black solid;
 }
 
-.minside-link {
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.link-white {
     text-decoration: none;
     color: white;
 }

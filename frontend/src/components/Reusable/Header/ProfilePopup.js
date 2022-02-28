@@ -4,7 +4,7 @@ import './ProfilePopup.css';
 const ProfilePopup = (props) => {
   return (
     <>
-      <div id="profil-popup" className="profil-popup-bg">
+      <div id="profile-popup" className="profile-popup-bg">
         {props.children}
       </div>
     </>

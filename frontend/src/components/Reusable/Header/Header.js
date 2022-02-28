@@ -25,11 +25,11 @@ const Header = () => {
   const handlePfpClick = () => {
     if (visible) {
       setVisible(!visible);
-      document.getElementById("profil-popup").style.display = "none";
+      document.getElementById("profile-popup").style.display = "none";
 
     } else {
       setVisible(!visible);
-      document.getElementById('profil-popup').style.display = "block";
+      document.getElementById('profile-popup').style.display = "block";
     }
   }
 
@@ -38,11 +38,11 @@ const Header = () => {
       <nav className="nav-container">
         <div className="left-side">
           <div className="home-icon">
-            <Link to="/">
+            <Link to="/" className="link">
               <img src={icon} alt="Hjemmeikon" />
             </Link>
           </div>
-          <div className="nav-title">HyttePortal</div>
+          <div className="nav-title"><Link className="link" to="/">HyttePortal</Link></div>
         </div>
         <div className="nav-list">
           <Link className="nav-list-item" to="/hytter">
@@ -68,10 +68,9 @@ const Header = () => {
           </div>
           <hr />
           <div className="profile-popup-buttons">
-              <Link className="minside-btn minside-link" to="/minside">
+              <Link onClick={handlePfpClick} className="minside-btn link-white" to="/minside">
                 Min Side
               </Link>
-            
             <Link className="logout-btn">Logg ut</Link>
           </div>
         </ProfilePopup>

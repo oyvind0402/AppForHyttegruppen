@@ -1,4 +1,4 @@
-.profil-popup-bg {
+.profile-popup-bg {
   height: 225px;
   width: 200px;
   background: rgba(245, 245, 245, 1);
@@ -10,6 +10,6 @@
   right: 25px;
 }
 
-#profil-popup {
+#profile-popup {
   display: none;
 }
