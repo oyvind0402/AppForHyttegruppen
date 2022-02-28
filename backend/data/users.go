@@ -1,9 +1,7 @@
 package data
 
 type User struct {
-	Username    string
-	Password    string
-	AdminAccess bool
+	Username    string `json:"username"`
+	Password    string `json:"password"`
+	AdminAccess bool   `json:"adminAccess"`
 }
-
-var Users []*User
