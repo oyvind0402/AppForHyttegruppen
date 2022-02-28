@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import LoginContext from "../../LoginContext/login-context";
+import LoginContext from "../../../LoginContext/login-context";
 
 const Header = () => {
   const history = useHistory();

@@ -1,4 +1,4 @@
-import Header from "../Header/Header";
+import Header from "../Reusable/Header/Header";
 import "./Layout.css";
 
 const Layout = (props) => {

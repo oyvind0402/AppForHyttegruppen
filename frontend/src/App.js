@@ -24,7 +24,7 @@ function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-          {!loginContext.loggedIn && (
+          {/* {!loginContext.loggedIn && (
             <Route path="/login">
               <LoginPage />
             </Route>
@@ -33,7 +33,7 @@ function App() {
           <Route path="/signup">
             <SignupPage />
           </Route>
-        )}
+        )} */}
         <Route path="/admin">
           {loginContext.loggedIn && <AdminPage />}
           {!loginContext.loggedIn && <Redirect to="/login" />}
