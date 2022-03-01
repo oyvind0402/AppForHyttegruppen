@@ -13,12 +13,12 @@ const Header = () => {
 
   const loggedIn = loginContext.loggedIn;
 
-  /*
   const logoutHandler = () => {
+    handlePfpClick();
     loginContext.logout();
     history.replace("/");
   };
-  */
+  
   
   const [visible, setVisible] = useState(false);
   
@@ -42,7 +42,11 @@ const Header = () => {
               <img src={icon} alt="Hjemmeikon" />
             </Link>
           </div>
-          <div className="nav-title"><Link className="link" to="/">HyttePortal</Link></div>
+          <div className="nav-title">
+            <Link className="link" to="/">
+              HyttePortal
+            </Link>
+          </div>
         </div>
         <div className="nav-list">
           <Link className="nav-list-item" to="/hytter">
@@ -62,16 +66,23 @@ const Header = () => {
           <img src={userpic} alt="Profilbilde" />
         </div>
         <ProfilePopup>
-          <div className="profile-popup-title">
+          {}<div className="profile-popup-title">
             <h3>Navn Navnesen</h3>
             <p>navn.navnesen@accenture.com</p>
           </div>
           <hr />
           <div className="profile-popup-buttons">
-              <Link onClick={handlePfpClick} className="minside-btn link-white" to="/minside">
-                Min Side
-              </Link>
-            <Link className="logout-btn">Logg ut</Link>
+            <Link
+              onClick={handlePfpClick}
+              className="minside-btn link-white"
+              to="/minside"
+            >
+              Min Side
+            </Link>
+            <Link className="logout-btn">
+              Logg ut
+              {/*loggedIn ? 'Logg ut' : 'Logg inn'*/}
+            </Link>
           </div>
         </ProfilePopup>
       </nav>
