@@ -15,7 +15,7 @@
   padding-left: 50px;
 
   transition-delay: 450ms;
-  transition: all 1s ease;
+  transition: all 0.2s ease;
 }
 
 .FAQs .FAQ .FAQ-question::after {
@@ -39,7 +39,7 @@
   color: #d182ff;
   font-weight: bold;
 
-  transition: all 0.65s ease;
+  transition: all 0.2s ease;
 }
 
 .FAQs .FAQ.open .FAQ-question::after {
@@ -51,7 +51,7 @@
   opacity: 0;
   max-height: 0;
   overflow-y: hidden;
-  transition: all 0.4s ease;
+  transition: all 0.2s ease;
 }
 
 .FAQs .FAQ.open .FAQ-question {
