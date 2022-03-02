@@ -1,0 +1,49 @@
+.btn {
+  display: block;
+  padding: 20px;
+
+  background-color: #bd00ff;
+  border-radius: 5px;
+  border: 0;
+
+  font-size: 23px;
+  text-align: center;
+  color: white;
+  font-weight: 750;
+
+  border: 3px solid #bd00ff;
+}
+
+.btn-link {
+  color: white;
+  text-decoration: none;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+  color: black;
+}
+
+.btn:hover .btn-link {
+  color: black;
+}
+
+.big {
+  max-width: 400px;
+  width: 50%;
+  margin: 25px auto 25px auto;
+}
+
+.small {
+  max-width: 200px;
+  width: 30%;
+  margin: 25px auto 25px auto;
+}
+
+@media only screen and (max-width: 500px) {
+  .btn {
+    padding: 15px 10px;
+    font-size: 18px;
+  }
+}

@@ -1,6 +1,10 @@
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import LoginContext from '../../LoginContext/login-context';
+import BigButton from '../Reusable/Buttons/BigButton';
+import BigButtonLink from '../Reusable/Buttons/BigButtonLink';
+import SmallButton from '../Reusable/Buttons/SmallButton';
 import FAQ_Question from '../Reusable/FAQ_Question/FAQ_Question';
 
 const FAQ = () => {
@@ -47,6 +51,9 @@ const FAQ = () => {
           />
         ))}
       </div>
+      <BigButtonLink name="To Home Weeee" link="/" />
+      <BigButton name="To Home Weeee" />
+      <SmallButton name="Forrige" />
     </>
   );
 };
