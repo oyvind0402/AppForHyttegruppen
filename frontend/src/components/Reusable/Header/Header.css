@@ -69,11 +69,16 @@
     text-align: center;
 }
 
-.profile-popup-title h3 {
-    font-size: 14px;
+.profile-popup-title p {
+    
 }
 
-.profile-popup-title p {
+.profile-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.profile-email {
     width: 80%;
     font-size: 12px;
 }

@@ -49,6 +49,9 @@ const Header = () => {
           </div>
         </div>
         <div className="nav-list">
+          <Link className="nav-list-item" to="/">
+            Hjem
+          </Link>
           <Link className="nav-list-item" to="/hytter">
             Hytter
           </Link>
@@ -67,8 +70,8 @@ const Header = () => {
         </div>
         <ProfilePopup>
           {}<div className="profile-popup-title">
-            <h3>Navn Navnesen</h3>
-            <p>navn.navnesen@accenture.com</p>
+            <p className="profile-title">Navn Navnesen</p>
+            <p className="profile-email">navn.navnesen@accenture.com</p>
           </div>
           <hr />
           <div className="profile-popup-buttons">
