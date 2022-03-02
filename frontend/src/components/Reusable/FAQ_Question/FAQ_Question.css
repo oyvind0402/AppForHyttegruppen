@@ -1,0 +1,64 @@
+.FAQ {
+  margin: 20px 0 20px 0;
+  padding: 15px;
+  background-color: #f4f4f4;
+  border-radius: 2px;
+  border: 1px #c4c4c4;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+
+.FAQs .FAQ .FAQ-question {
+  position: relative;
+  font-size: 18px;
+  font-weight: 750;
+
+  padding-left: 50px;
+
+  transition-delay: 450ms;
+  transition: all 1s ease;
+}
+
+.FAQs .FAQ .FAQ-question::after {
+  content: '>';
+
+  /*Instead of the content we can use the logo right here*/
+  /*
+    background-image: url('');
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+  */
+
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+
+  color: #d182ff;
+  font-weight: bold;
+
+  transition: all 0.65s ease;
+}
+
+.FAQs .FAQ.open .FAQ-question::after {
+  transform: translateY(-40%) rotate(90deg);
+}
+
+.FAQs .FAQ .FAQ-answer {
+  padding-left: 50px;
+  opacity: 0;
+  max-height: 0;
+  overflow-y: hidden;
+  transition: all 0.4s ease;
+}
+
+.FAQs .FAQ.open .FAQ-question {
+  margin-bottom: 15px;
+}
+
+.FAQs .FAQ.open .FAQ-answer {
+  max-height: 300px;
+  opacity: 1;
+}
