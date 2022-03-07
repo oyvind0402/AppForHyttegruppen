@@ -3,6 +3,7 @@ package server
 import (
 	//"bachelorprosjekt/backend/data"
 
+	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,7 +13,7 @@ import (
 func Start() {
 	r := startDB()
 	defer r.sqlDb.Close()
-	defer r.noSqlDb.Disconnect(r.noSqlCtx)
+	defer r.noSqlDb.Disconnect(context.Background())
 	router := setRouter(r)
 	// Start listening and serving requests
 	router.Run(":8080")
@@ -44,8 +45,8 @@ func setRouter(r repo) *gin.Engine {
 	cabinsapi := router.Group("/cabin")
 	{
 		cabinsapi.GET("/get")
-		cabinsapi.GET("/getall")
-		cabinsapi.POST("/post")
+		cabinsapi.GET("/getall", r.GetAllCabins)
+		cabinsapi.POST("/post", r.PostCabin)
 	}
 
 	entryapi := router.Group("/entry")

@@ -20,15 +20,14 @@ import (
 // Defines all databases
 // IMPORTANT: if changing databases, remember to change close statements in server.go > Start()
 type repo struct {
-	sqlDb    *sql.DB
-	noSqlDb  *mongo.Client
-	noSqlCtx context.Context
+	sqlDb   *sql.DB
+	noSqlDb *mongo.Client
 }
 
 func startDB() repo {
 	sqlDb := startSqlDB()
-	noSqlDb, noSqlCtx := startNoSqlDB()
-	r := repo{sqlDb, noSqlDb, noSqlCtx}
+	noSqlDb := startNoSqlDB()
+	r := repo{sqlDb, noSqlDb}
 	return r
 }
 
@@ -49,7 +48,7 @@ func startSqlDB() *sql.DB {
 	return db
 }
 
-func startNoSqlDB() (*mongo.Client, context.Context) {
+func startNoSqlDB() *mongo.Client {
 	// Database connection information
 	const (
 		host       = "localhost"
@@ -68,5 +67,5 @@ func startNoSqlDB() (*mongo.Client, context.Context) {
 	err = db.Connect(ctx)
 	utils.Panicker(err, "Could not connect to MongoDB")
 
-	return db, ctx
+	return db
 }
