@@ -57,6 +57,9 @@ func (r repo) PostPeriod(ctx *gin.Context) {
 
 func (r repo) PostCabin(ctx *gin.Context) {
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+
+	// THIS WILL PANIC
+	// It is intentional, because now there is a schema for the cabins
 	res, err := collection.InsertOne(
 		context.Background(),
 		bson.D{

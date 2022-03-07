@@ -27,7 +27,23 @@ then
 	chmod +x "$gosh"
 	bash "$gosh"
 else
+	echo ""
 	echo "ERROR: $gosh not found"
 	echo "Go to the folder where this script is located and run $gosh manually"
 	echo "REMINDER: you might need to run 'chmod +x $gosh' first"
+	sleep 2
+fi
+
+# Populate MongoDB
+nosql="nosql-populate.sh"
+if [ -f "$nosql" ]
+then
+	chmod +x "$nosql"
+	bash "$nosql"
+else
+	echo ""
+	echo "ERROR: $nosql not found"
+	echo "Go to the folder where this script is located and run $nosql manually"
+	echo "REMINDER: you might need to run 'chmod +x $nosql' first"
+	sleep 2
 fi
