@@ -2,26 +2,15 @@ package server
 
 import (
 	//"bachelorprosjekt/backend/data"
-	"bufio"
-	"database/sql"
-	"fmt"
+
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-
-	"bachelorprosjekt/backend/utils"
 )
 
-type repo struct {
-	db *sql.DB
-}
-
 func Start() {
-	db := startDB()
-	defer db.Close()
-	r := repo{db}
+	r := startDB()
 	router := setRouter(r)
 
 	// Start listening and serving requests
@@ -68,34 +57,4 @@ func setRouter(r repo) *gin.Engine {
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
 
 	return router
-}
-
-func startDB() *sql.DB {
-	// Database connection information (minus credentials)
-	const (
-		host   = "localhost"
-		port   = 5432
-		dbname = "hypothetical"
-	)
-
-	// Read credentials from file
-	f, err := os.Open("backend/creds")
-	defer f.Close()
-	utils.Panicker(err, "Cannot read credentials")
-
-	reader := bufio.NewReader(f)
-	usernameByte, _, err := reader.ReadLine()
-	username := string(usernameByte)
-	utils.Panicker(err, "Cannot read username")
-
-	passwdBytes, _, err := reader.ReadLine()
-	passwd := string(passwdBytes)
-	utils.Panicker(err, "Cannot read password")
-
-	// Start database
-	params := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", host, port, username, passwd, dbname)
-	db, err := sql.Open("postgres", params)
-	utils.Panicker(err, "Cannot open database")
-
-	return db
 }

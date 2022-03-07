@@ -11,7 +11,7 @@ import (
 )
 
 func (r repo) GetPeriod(ctx *gin.Context) {
-	row := r.db.QueryRow(`SELECT "" FROM "" WHERE ""`)
+	row := r.sqlDb.QueryRow(`SELECT "" FROM "" WHERE ""`)
 
 	var start time.Time
 	var end time.Time
@@ -25,7 +25,7 @@ func (r repo) GetPeriod(ctx *gin.Context) {
 }
 
 func (r repo) GetAllPeriods(ctx *gin.Context) {
-	rows, err := r.db.Query(`SELECT "" FROM ""`)
+	rows, err := r.sqlDb.Query(`SELECT "" FROM ""`)
 	defer rows.Close()
 	utils.AbortWithStatus(err, *ctx)
 
@@ -47,6 +47,6 @@ func (r repo) GetAllPeriods(ctx *gin.Context) {
 
 func (r repo) PostPeriod(ctx *gin.Context) {
 	st := `INSERT INTO ""("", "") values($1, $2)`
-	_, err := r.db.Exec(st, "", "")
+	_, err := r.sqlDb.Exec(st, "", "")
 	utils.AbortWithStatus(err, *ctx)
 }
