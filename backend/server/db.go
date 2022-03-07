@@ -37,7 +37,7 @@ func startSqlDB() *sql.DB {
 	)
 
 	// Read credentials from file
-	f, err := os.Open("backend/creds")
+	f, err := os.Open("backend/screds")
 	defer f.Close()
 	utils.Panicker(err, "Cannot read credentials")
 

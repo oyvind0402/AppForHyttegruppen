@@ -15,6 +15,11 @@ rm "$mongodeb"
 # Start MongoDB
 nohup mongod &>/dev/null &
 
+# Install MongoDB Shell
+mongoshell="$HOME/mongoshell.deb"
+curl "https://downloads.mongodb.com/compass/mongodb-mongosh_1.2.2_amd64.deb" -o "$mongoshell"
+sudo dpkg -i "$mongoshell"
+
 # Install Go
 gosh="go.sh"
 if [ -f "$gosh" ]
