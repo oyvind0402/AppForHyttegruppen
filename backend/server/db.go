@@ -16,6 +16,7 @@ import (
 )
 
 // Defines all databases
+// IMPORTANT: if changing databases, remember to change close statements in server.go > Start()
 type repo struct {
 	sqlDb *sql.DB
 	// noSqlDb
@@ -23,7 +24,6 @@ type repo struct {
 
 func startDB() repo {
 	sqlDb := startSqlDB()
-	defer sqlDb.Close()
 	r := repo{sqlDb}
 	return r
 }
@@ -31,9 +31,9 @@ func startDB() repo {
 func startSqlDB() *sql.DB {
 	// Database connection information (minus credentials)
 	const (
-		host   = "159.223.16.218"
+		host   = "localhost"
 		port   = 5432
-		dbname = "test"
+		dbname = "hyttegruppen"
 	)
 
 	// Read credentials from file
