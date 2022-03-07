@@ -12,6 +12,7 @@ import (
 func Start() {
 	r := startDB()
 	defer r.sqlDb.Close()
+	defer r.noSqlDb.Disconnect(r.noSqlCtx)
 	router := setRouter(r)
 	// Start listening and serving requests
 	router.Run(":8080")
