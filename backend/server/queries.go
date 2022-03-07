@@ -25,7 +25,8 @@ func (r repo) GetPeriod(ctx *gin.Context) {
 }
 
 func (r repo) GetAllPeriods(ctx *gin.Context) {
-	rows, err := r.sqlDb.Query(`SELECT "" FROM ""`)
+	print(r.sqlDb)
+	rows, err := r.sqlDb.Query(`SELECT * FROM Periods`)
 	defer rows.Close()
 	utils.AbortWithStatus(err, *ctx)
 
