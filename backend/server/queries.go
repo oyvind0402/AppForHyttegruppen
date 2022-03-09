@@ -4,6 +4,7 @@ import (
 	//"net/http"
 
 	"context"
+	"fmt"
 	"time"
 
 	"bachelorprosjekt/backend/data"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func (r repo) GetPeriod(ctx *gin.Context) {
@@ -56,23 +58,72 @@ func (r repo) PostPeriod(ctx *gin.Context) {
 }
 
 func (r repo) PostCabin(ctx *gin.Context) {
-	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	cabin := data.Cabin{
+		Name:             "Utsikten",
+		Active:           true,
+		ShortDescription: "The cabin with the most beautiful view",
+		LongDescription:  "Throughout the years, Utsikten has been described as the one with the most beautiful view. It has been favoured by projects and privates alike",
+		Address:          "Hemsedal",
+		Directions:       "Drive to Hemsedal",
+		Price:            1200,
+		CleaningPrice:    1200,
+		Features: data.Features{
+			Countable: data.CountableFeatures{
+				Bathrooms:     2,
+				Bedrooms:      4,
+				SleepingSlots: 4,
+				Other: map[string]int{
+					"cats": 2,
+					"dogs": 1,
+				},
+			},
+			Uncountable: data.UncountableFeatures{
+				Wifi:     false,
+				Features: map[string]bool{},
+			},
+		},
+		Comments: "It's beautiful!",
+	}
 
-	// THIS WILL PANIC
-	// It is intentional, because now there is a schema for the cabins
+	//TODO Make this an all-or-nothing operation
+
+	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	res, err := collection.InsertOne(
 		context.Background(),
-		bson.D{
-			{"item", "test"},
-			{"time", time.Now()},
-		})
-	utils.Panicker(err, "Failed to add cabin")
+		cabin)
+	utils.AbortWithStatus(err, *ctx)
+
+	resId, ok := res.InsertedID.(primitive.ObjectID)
+	var id string
+	if ok {
+		id = resId.Hex()
+	} else {
+		utils.Panicker(nil, fmt.Sprint("Your id %v is not an ObjectID", resId))
+	}
+
+	st := `INSERT INTO Cabins("nosqlid", "cabinname", "active") values($1, $2, $3)`
+	_, err = r.sqlDb.Exec(st, id, cabin.Name, cabin.Active)
+	utils.AbortWithStatus(err, *ctx)
+
 	ctx.JSON(200, res)
 }
 
-type Test struct {
-	item string
-	time time.Time
+func (r repo) GetActiveCabinNames(ctx *gin.Context) {
+	rows, err := r.sqlDb.Query(`SELECT cabinName FROM Cabins WHERE active = TRUE`)
+	defer rows.Close()
+	utils.AbortWithStatus(err, *ctx)
+
+	var cabins []string
+
+	for rows.Next() {
+		var cabinName string
+		err = rows.Scan(&cabinName)
+		utils.AbortWithStatus(err, *ctx)
+		cabins = append(cabins, cabinName)
+	}
+	utils.AbortWithStatus(err, *ctx)
+
+	ctx.JSON(200, cabins)
 }
 
 func (r repo) GetAllCabins(ctx *gin.Context) {

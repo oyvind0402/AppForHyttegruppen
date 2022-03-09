@@ -15,9 +15,6 @@ db.createCollection(
                 "directions",
                 "price",
                 "cleaningPrice",
-                "bedrooms",
-                "bathrooms",
-                "sleepingSlots",
                 "features",
                 "comments"
             ],
@@ -29,18 +26,6 @@ db.createCollection(
                 "longDescription": { "bsonType": "string" },
                 "address": { "bsonType": "string" },
                 "directions": { "bsonType": "string" },
-                "bedrooms": {
-                    "bsonType": "number",
-                    "minimum": 0
-                },
-                "bathrooms": {
-                    "bsonType": "number",
-                    "minimum": 0
-                },
-                "sleepingSlots": {
-                    "bsonType": "number",
-                    "minimum": 0
-                },
                 "price": {
                     "bsonType": "number",
                     "minimum": 0
@@ -51,7 +36,47 @@ db.createCollection(
                 },
                 "features": {
                     "bsonType": "object",
-                    "additionalProperties": true
+                    "required": [
+                        "countableFeatures"
+                    ],
+                    "properties": {
+                        "countableFeatures": {
+                            "bsonType": "object",
+                            "required": [
+                                "bathrooms",
+                                "bedrooms",
+                                "sleepingSlots"
+                            ],
+                            "properties": {
+                                "bathrooms": {
+                                    "bsonType": "number",
+                                    "minimum": 0
+                                },
+                                "sleepingSlots": {
+                                    "bsonType": "number",
+                                    "minimum": 0
+                                },
+                                "bedrooms": {
+                                    "bsonType": "number",
+                                    "minimum": 0
+                                },
+                            },
+                            "additionalProperties": true
+                        },
+                        "uncountableFeatures" : {
+                            "bsonType": "object",
+                            "required": [
+                                "wifi",
+                            ],
+                            "properties": {
+                                "wifi": {
+                                    "bsonType": "bool",
+                                },
+                            },
+                            "additionalProperties": true
+                        }
+                    },
+                    "additionalProperties": false
                 },
                 "comments": { "bsonType": "string" }
             },

@@ -7,9 +7,6 @@ type Cabin struct {
 	LongDescription  string   `bson:"longDescription"`
 	Address          string   `bson:"address"`
 	Directions       string   `bson:"directions"`
-	Bedrooms         int      `bson:"bedrooms"`
-	Bathrooms        int      `bson:"bathrooms"`
-	SleepingSlots    int      `bson:"sleepingSlots"`
 	Price            int      `bson:"price"`
 	CleaningPrice    int      `bson:"cleaningPrice"`
 	Features         Features `bson:"features"`

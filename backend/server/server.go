@@ -45,6 +45,7 @@ func setRouter(r repo) *gin.Engine {
 	cabinsapi := router.Group("/cabin")
 	{
 		cabinsapi.GET("/get")
+		cabinsapi.GET("/getactivenames", r.GetActiveCabinNames)
 		cabinsapi.GET("/getall", r.GetAllCabins)
 		cabinsapi.POST("/post", r.PostCabin)
 	}
