@@ -31,15 +31,31 @@ func setRouter(r repo) *gin.Engine {
 	periodapi := router.Group("/period")
 	{
 		periodapi.GET("/get", r.GetPeriod)
+		periodapi.GET("/getallinseason")
 		periodapi.GET("/getall", r.GetAllPeriods)
 		periodapi.POST("/post", r.PostPeriod)
+		periodapi.POST("/postmany")
+		periodapi.PUT("/update")
+		periodapi.DELETE("/delete")
+		periodapi.DELETE("/deletemany")
 	}
 
-	userapi := router.Group("/user")
+	seasonapi := router.Group("/season")
 	{
-		userapi.GET("/get")
-		userapi.GET("/getall")
-		userapi.POST("/post")
+		seasonapi.GET("/get")
+		seasonapi.GET("/getall")
+		seasonapi.POST("/post")
+		seasonapi.PUT("/update")
+		seasonapi.DELETE("/delete")
+		seasonapi.DELETE("/deletemany")
+	}
+
+	featureapi := router.Group("/feature")
+	{
+		featureapi.GET("/getall")
+		featureapi.PUT("/update")
+		featureapi.DELETE("/delete")
+		featureapi.DELETE("/deletemany")
 	}
 
 	cabinsapi := router.Group("/cabin")
@@ -48,6 +64,10 @@ func setRouter(r repo) *gin.Engine {
 		cabinsapi.GET("/getactivenames", r.GetActiveCabinNames)
 		cabinsapi.GET("/getall", r.GetAllCabins)
 		cabinsapi.POST("/post", r.PostCabin)
+		cabinsapi.PATCH("/updatefield")
+		cabinsapi.PUT("/update")
+		cabinsapi.DELETE("/delete")
+		cabinsapi.DELETE("/deletemany")
 	}
 
 	entryapi := router.Group("/entry")
@@ -55,6 +75,19 @@ func setRouter(r repo) *gin.Engine {
 		entryapi.GET("/get")
 		entryapi.GET("/getall")
 		entryapi.POST("/post")
+		entryapi.PUT("/update")
+		entryapi.DELETE("/delete")
+		entryapi.DELETE("/deletemany")
+	}
+
+	userapi := router.Group("/user")
+	{
+		userapi.GET("/get")
+		userapi.GET("/getall")
+		userapi.POST("/post")
+		userapi.PUT("/update")
+		userapi.DELETE("/delete")
+		userapi.DELETE("/deletemany")
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })

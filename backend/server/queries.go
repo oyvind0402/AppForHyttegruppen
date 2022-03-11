@@ -15,6 +15,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+//periods
 func (r repo) GetPeriod(ctx *gin.Context) {
 	row := r.sqlDb.QueryRow(`SELECT "" FROM "" WHERE ""`)
 
@@ -57,6 +58,7 @@ func (r repo) PostPeriod(ctx *gin.Context) {
 	utils.AbortWithStatus(err, *ctx)
 }
 
+//cabins
 func (r repo) PostCabin(ctx *gin.Context) {
 	cabin := data.Cabin{
 		Name:             "Utsikten",
