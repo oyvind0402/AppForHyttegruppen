@@ -1,5 +1,7 @@
 use hyttegruppen;
 
+db.cabins.drop()
+
 db.createCollection(
     "cabins", 
     {validator:
@@ -7,7 +9,7 @@ db.createCollection(
             "title": "cabin",
             "bsonType": "object",
             "required": [
-                "name",
+                "_id",
                 "active",
                 "shortDescription",
                 "longDescription",
@@ -19,8 +21,7 @@ db.createCollection(
                 "comments"
             ],
             "properties": {
-                "_id": { "bsonType": "objectId" },
-                "name": { "bsonType": "string" },
+                "_id": { "bsonType": "string" },
                 "active": { "bsonType": "bool" },
                 "shortDescription": { "bsonType": "string" },
                 "longDescription": { "bsonType": "string" },

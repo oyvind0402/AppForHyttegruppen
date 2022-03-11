@@ -4,18 +4,29 @@ import (
 	//"net/http"
 
 	"context"
-	"fmt"
+	"net/http"
 
 	"bachelorprosjekt/backend/data"
 	"bachelorprosjekt/backend/utils"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 //cabins
 func (r repo) PostCabin(ctx *gin.Context) {
+	// UNCOMMENT IF YOU WANT TO TEST POSTCABIN (will delete Utsikten)
+	// coll := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	// _, error := coll.DeleteOne(
+	// 	context.Background(),
+	// 	bson.M{"_id": "Utsikten"})
+	// utils.AbortWithStatus(error, *ctx)
+
+	// TODO Uncomment when getting from front-end
+	// cabin := new(data.Cabin)
+	// err := ctx.Bind(cabin)
+	// utils.AbortWithStatus(err)
+
 	cabin := data.Cabin{
 		Name:             "Utsikten",
 		Active:           true,
@@ -30,38 +41,44 @@ func (r repo) PostCabin(ctx *gin.Context) {
 				Bathrooms:     2,
 				Bedrooms:      4,
 				SleepingSlots: 4,
-				Other: map[string]int{
+				Other: &map[string]int{
 					"cats": 2,
 					"dogs": 1,
 				},
 			},
 			Uncountable: data.UncountableFeatures{
 				Wifi:     false,
-				Features: map[string]bool{},
+				Features: &map[string]bool{},
 			},
 		},
 		Comments: "It's beautiful!",
 	}
 
-	//TODO Make this an all-or-nothing operation
-
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	res, err := collection.InsertOne(
 		context.Background(),
 		cabin)
-	utils.AbortWithStatus(err, *ctx)
-
-	resId, ok := res.InsertedID.(primitive.ObjectID)
-	var id string
-	if ok {
-		id = resId.Hex()
-	} else {
-		utils.Panicker(nil, fmt.Sprint("Your id %v is not an ObjectID", resId))
+	// If there is an error, stop here
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
 	}
+	resId := res.InsertedID
 
-	st := `INSERT INTO Cabins("nosqlid", "cabinname", "active") values($1, $2, $3)`
-	_, err = r.sqlDb.Exec(st, id, cabin.Name, cabin.Active)
-	utils.AbortWithStatus(err, *ctx)
+	st := `INSERT INTO Cabins("cabinname", "active") values($1, $2)`
+	_, err = r.sqlDb.Exec(st, resId, cabin.Active)
+	// If there is an error, delete entry from MongoDB and stop
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		r.noSqlDb.Disconnect(ctx)
+		_, err = collection.DeleteOne(
+			context.Background(),
+			bson.M{"_id": resId})
+		if err != nil {
+			utils.Panicker(err, "Repeated database failures: could not add to Postgres, and could not delete from MongoDB when handling error")
+		}
+		return
+	}
 
 	ctx.JSON(200, res)
 }

@@ -1,7 +1,7 @@
 package data
 
 type Cabin struct {
-	Name             string   `bson:"name"`
+	Name             string   `bson:"_id"`
 	Active           bool     `bson:"active"`
 	ShortDescription string   `bson:"shortDescription"`
 	LongDescription  string   `bson:"longDescription"`
