@@ -5,6 +5,7 @@ import (
 
 	// "context"
 	// "fmt"
+	"fmt"
 	"time"
 
 	"bachelorprosjekt/backend/data"
@@ -21,6 +22,7 @@ func (r repo) GetPeriod(ctx *gin.Context) {
 
 	var start time.Time
 	var end time.Time
+	//season
 
 	err := row.Scan(&start, &end)
 	utils.AbortWithStatus(err, *ctx)
@@ -41,6 +43,7 @@ func (r repo) GetAllPeriods(ctx *gin.Context) {
 	for rows.Next() {
 		var start time.Time
 		var end time.Time
+		//season
 
 		err = rows.Scan(&start, &end)
 		utils.AbortWithStatus(err, *ctx)
@@ -53,7 +56,28 @@ func (r repo) GetAllPeriods(ctx *gin.Context) {
 }
 
 func (r repo) PostPeriod(ctx *gin.Context) {
-	st := `INSERT INTO ""("", "") values($1, $2)`
-	_, err := r.sqlDb.Exec(st, "", "")
+	st := `INSERT INTO "Period"("start", "end", "season") values($1, $2, $3)`
+	_, err := r.sqlDb.Exec(st, "01-02.2002", "28-04-2022")
 	utils.AbortWithStatus(err, *ctx)
+}
+
+func (r repo) PostManyPeriods(ctx *gin.Context) {
+	st := `INSERT INTO "Periods"("starting","ending") VALUES  `
+
+	periods := new([]data.Period)
+	err := ctx.Bind(periods)
+	utils.AbortWithStatus(err, *ctx)
+
+	var periodValues []interface{}
+
+	for i, period := range *periods {
+
+		periodValues = append(periodValues, period.Start, period.End, period.Season)
+		//periodValues.(period.Start, period.End)
+		st += fmt.Sprintf(`($%d, $%d, $%d)`, 1+3*i, 2+3*i, 3+3*i)
+	}
+	st += `;`
+	_, err = r.sqlDb.Exec(st, periodValues...)
+	utils.AbortWithStatus(err, *ctx)
+
 }
