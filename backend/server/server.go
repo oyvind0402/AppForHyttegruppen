@@ -70,14 +70,14 @@ func setRouter(r repo) *gin.Engine {
 		cabinsapi.DELETE("/deletemany")
 	}
 
-	entryapi := router.Group("/entry")
+	applicationapi := router.Group("/application")
 	{
-		entryapi.GET("/get")
-		entryapi.GET("/getall")
-		entryapi.POST("/post")
-		entryapi.PUT("/update")
-		entryapi.DELETE("/delete")
-		entryapi.DELETE("/deletemany")
+		applicationapi.GET("/get")
+		applicationapi.GET("/getall")
+		applicationapi.POST("/post")
+		applicationapi.PUT("/update")
+		applicationapi.DELETE("/delete")
+		applicationapi.DELETE("/deletemany")
 	}
 
 	userapi := router.Group("/user")

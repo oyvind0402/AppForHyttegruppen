@@ -1,6 +1,6 @@
 package data
 
-type LotteryEntry struct {
+type Application struct {
 	User           User   `json:"user"`
 	AccentureId    int    `json:"accentureId"`
 	TripPurpose    string `json:"tripPurpose"`
