@@ -3,6 +3,18 @@
 # Install necessary tools for script + PostgreSQL
 sudo apt install -y curl dpkg postgresql
 
+# Populate PostgreSQL
+sql="db.sql"
+if [ -f "$sql" ]
+then
+	psql -h localhost -d postgres -U postgres -W -f "$sql"
+else
+	echo ""
+	echo "ERROR: $sql not found"
+	echo "Go to the folder where this script is located and try rerunning it"
+	sleep 2
+fi
+
 # Install MongoDB
 mongodeb="$HOME/mongodb.deb"
 curl "https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.6_amd64.deb" -o "$mongodeb"

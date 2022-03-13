@@ -38,11 +38,17 @@ CREATE TABLE Applications(
     employee_id int NOT NULL,
     trip_purpose varchar(20),
     number_of_cabins int,
+    winning boolean NULL,
+    season varchar(20),
 
     PRIMARY KEY(application_id),
     CONSTRAINT fk_user
         FOREIGN KEY(user_id)
             REFERENCES Users(user_id)
+            ON DELETE CASCADE,
+    CONSTRAINT fk_season
+        FOREIGN KEY(season)
+            REFERENCES Seasons(season_name)
             ON DELETE CASCADE
 );
 
