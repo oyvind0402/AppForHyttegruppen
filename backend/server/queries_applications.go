@@ -160,7 +160,13 @@ func (r repo) DeleteApplication(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(200, res)
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, rowsAffected)
 }
 
 func (r repo) DeleteLosingApplications(ctx *gin.Context) {
@@ -172,13 +178,19 @@ func (r repo) DeleteLosingApplications(ctx *gin.Context) {
 		return
 	}
 
-	res, err := r.sqlDb.Exec(`DELETE FROM Applications WHERE NOT winning OR winning IS NULL AND season = $1`, &season)
+	res, err := r.sqlDb.Exec(`DELETE FROM Applications WHERE NOT winner OR winner IS NULL AND season = $1`, &season)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
-	ctx.JSON(200, res)
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, rowsAffected)
 }
 
 func (r repo) DeleteApplicationsById(ctx *gin.Context) {
@@ -206,5 +218,11 @@ func (r repo) DeleteApplicationsById(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(200, res)
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, rowsAffected)
 }
