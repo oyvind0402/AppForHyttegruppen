@@ -1,6 +1,7 @@
 import { useContext } from 'react';
-
 import LoginContext from '../../LoginContext/login-context';
+import CabinCardBig from '../01-Reusable/CabinCard/CabinCardBig';
+import './Cabins.css';
 
 const Cabins = () => {
   const loginContext = useContext(LoginContext);
@@ -8,9 +9,14 @@ const Cabins = () => {
   const loggedIn = loginContext.loggedIn;
 
   return (
-    <section>
-      <h1>This is a cabin</h1>
-    </section>
+    <>
+      <div className="cabins-display">
+        <CabinCardBig />
+        <CabinCardBig />
+        <CabinCardBig />
+        <CabinCardBig />
+      </div>
+    </>
   );
 };
 

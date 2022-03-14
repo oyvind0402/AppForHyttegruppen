@@ -1,0 +1,10 @@
+.cabins-display {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+@media only screen and (max-width: 700px) {
+  .cabins-display {
+    grid-template-columns: auto;
+  }
+}

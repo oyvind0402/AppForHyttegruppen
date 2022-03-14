@@ -1,6 +1,6 @@
-import Footer from "../Reusable/Footer/Footer";
-import Header from "../Reusable/Header/Header";
-import "./Layout.css";
+import Footer from '../01-Reusable/Footer/Footer';
+import Header from '../01-Reusable/Header/Header';
+import './Layout.css';
 
 const Layout = (props) => {
   return (

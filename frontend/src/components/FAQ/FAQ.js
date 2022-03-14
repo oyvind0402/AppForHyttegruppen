@@ -2,10 +2,10 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import LoginContext from '../../LoginContext/login-context';
-import BigButton from '../Reusable/Buttons/BigButton';
-import BigButtonLink from '../Reusable/Buttons/BigButtonLink';
-import SmallButton from '../Reusable/Buttons/SmallButton';
-import FAQ_Question from '../Reusable/FAQ_Question/FAQ_Question';
+import BigButton from '../01-Reusable/Buttons/BigButton';
+import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
+import SmallButton from '../01-Reusable/Buttons/SmallButton';
+import FAQ_Question from '../01-Reusable/FAQ_Question/FAQ_Question';
 
 const FAQ = () => {
   const loginContext = useContext(LoginContext);

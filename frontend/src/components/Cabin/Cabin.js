@@ -8,9 +8,9 @@ const Cabin = () => {
   const loggedIn = loginContext.loggedIn;
 
   return (
-    <section>
+    <>
       <h1>Cabin info :D</h1>
-    </section>
+    </>
   );
 };
 

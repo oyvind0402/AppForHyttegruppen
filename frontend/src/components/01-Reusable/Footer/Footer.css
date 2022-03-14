@@ -25,7 +25,7 @@
   display: flex;
   align-items: center;
 }
-p {
+.footer-container p {
   color: white;
   opacity: 0.7;
 }
