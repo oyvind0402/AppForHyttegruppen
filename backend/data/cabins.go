@@ -12,3 +12,8 @@ type Cabin struct {
 	Features         Features `bson:"features"`
 	Comments         string   `bson:"comments"`
 }
+
+type CabinShort struct {
+	Name   string `json:"cabin_name"`
+	Active bool   `json:"active,omitempty"`
+}
