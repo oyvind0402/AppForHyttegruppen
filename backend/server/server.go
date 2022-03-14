@@ -74,7 +74,7 @@ func setRouter(r repo) *gin.Engine {
 	{
 		applicationapi.GET("/get", r.GetApplication)
 		applicationapi.GET("/getall", r.GetAllApplications)
-		applicationapi.POST("/post")
+		applicationapi.POST("/post", r.PostApplication)
 		applicationapi.PUT("/update")
 		applicationapi.DELETE("/delete", r.DeleteApplication)
 		applicationapi.DELETE("/deletelosing", r.DeleteLosingApplications)

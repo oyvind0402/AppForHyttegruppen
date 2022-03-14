@@ -11,18 +11,14 @@ import (
 // Applications
 func (r repo) GetApplication(ctx *gin.Context) {
 	applicationId := new(int)
-	// For URL queries, use
-	// localhost:8080/application/get/applicatonid=[NUMBER HERE WITHOUT BRACKETS]
-	// And uncomment:
-	// applicationId, err := strconv.Atoi(ctx.Request.URL.Query()["applicationid"][0])
+	// curl -X GET -v -d "1" localhost:8080/application/get
 	err := ctx.BindJSON(applicationId)
-	println(applicationId)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
-	rows, err := r.sqlDb.Query(`SELECT * FROM Applications WHERE application_id = $1 LIMIT 1`, &applicationId)
+	rows, err := r.sqlDb.Query(`SELECT * FROM Applications WHERE application_id = $1 LIMIT 1`, *applicationId)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -32,14 +28,23 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	var application data.Application
 
 	for rows.Next() {
-		err = rows.Scan(&application.ApplicationId, &application.UserId, &application.AccentureId, &application.TripPurpose, &application.NumberOfCabins, &application.Season.SeasonName, &application.Winner)
+		err = rows.Scan(
+			&application.ApplicationId,
+			&application.UserId,
+			&application.AccentureId,
+			&application.TripPurpose,
+			&application.NumberOfCabins,
+			&application.Period.Season.SeasonName,
+			&application.Period.Start,
+			&application.Period.End,
+			&application.Winner)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return
 		}
 
 		// Get cabins
-		cabinRows, err := r.sqlDb.Query(`SELECT cabin_name FROM ApplicationCabins WHERE application_id = $1`, &applicationId)
+		cabinRows, err := r.sqlDb.Query(`SELECT cabin_name FROM ApplicationCabins WHERE application_id = $1`, *applicationId)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return
@@ -54,24 +59,6 @@ func (r repo) GetApplication(ctx *gin.Context) {
 				return
 			}
 			application.Cabins = append(application.Cabins, cabin)
-		}
-
-		// Get periods
-		periodRows, err := r.sqlDb.Query(`SELECT starting, ending FROM ApplicationPeriods WHERE application_id = $1`, &applicationId)
-		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return
-		}
-		defer periodRows.Close()
-
-		for periodRows.Next() {
-			var period data.Period
-			err = periodRows.Scan(&period.Start, &period.End)
-			if err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-				return
-			}
-			application.Periods = append(application.Periods, period)
 		}
 	}
 	ctx.JSON(200, application)
@@ -90,7 +77,17 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 	for rows.Next() {
 		var application data.Application
 
-		err = rows.Scan(&application.ApplicationId, &application.UserId, &application.AccentureId, &application.TripPurpose, &application.NumberOfCabins)
+		err = rows.Scan(
+			&application.ApplicationId,
+			&application.UserId,
+			&application.AccentureId,
+			&application.TripPurpose,
+			&application.NumberOfCabins,
+			&application.Period.Season.SeasonName,
+			&application.Period.Start,
+			&application.Period.End,
+			&application.Winner)
+
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return
@@ -114,35 +111,71 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 			application.Cabins = append(application.Cabins, cabin)
 		}
 
-		// Get periods
-		periodRows, err := r.sqlDb.Query(`SELECT starting, ending FROM ApplicationPeriods WHERE application_id = $1`, application.ApplicationId)
-		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return
-		}
-		defer periodRows.Close()
-		for periodRows.Next() {
-			var period data.Period
-			err = periodRows.Scan(&period.Start, &period.End)
-			if err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-				return
-			}
-			application.Periods = append(application.Periods, period)
-		}
-
 		applications = append(applications, application)
 	}
 
 	ctx.JSON(200, applications)
 }
 
-func (r repo) PostApplication() {
+func (r repo) PostApplication(ctx *gin.Context) {
+	tx, err := r.sqlDb.BeginTx(ctx, nil)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer tx.Rollback()
 
+	application := new(data.Application)
+	err = ctx.BindJSON(application)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	var resId int
+	if err = tx.QueryRow(
+		`INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, season, starting, ending, winner) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING application_id`,
+		application.UserId,
+		application.AccentureId,
+		application.TripPurpose,
+		application.NumberOfCabins,
+		application.Period.Season.SeasonName,
+		application.Period.Start,
+		application.Period.End,
+		application.Winner,
+	).Scan(&resId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	for _, cabin := range application.Cabins {
+		_, err := tx.Exec(
+			`INSERT INTO ApplicationCabins VALUES($1, $2)`,
+			resId,
+			cabin.Name,
+		)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
+		}
+	}
+
+	if err = tx.Commit(); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, resId)
 }
 
 func (r repo) UpdateApplication() {
+	// rowsAffected, err := res.RowsAffected()
+	// if err != nil {
+	// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+	// 	return
+	// }
 
+	// ctx.JSON(200, rowsAffected)
 }
 
 func (r repo) DeleteApplication(ctx *gin.Context) {
