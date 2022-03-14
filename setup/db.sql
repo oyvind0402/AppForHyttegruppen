@@ -1,4 +1,4 @@
-DROP DATABASE hyttegruppen;
+--DROP DATABASE hyttegruppen;
 CREATE DATABASE hyttegruppen;
 \c hyttegruppen;
 
@@ -40,6 +40,8 @@ CREATE TABLE Applications(
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
     season varchar(20) NOT NULL,
+    starting timestamp NOT NULL,
+    ending timestamp NOT NULL,
     winner boolean NOT NULL,
 
     PRIMARY KEY(application_id),
@@ -50,22 +52,11 @@ CREATE TABLE Applications(
     CONSTRAINT fk_season
         FOREIGN KEY(season)
             REFERENCES Seasons(season_name)
-            ON DELETE CASCADE
-);
-
-CREATE TABLE ApplicationPeriods(
-    application_id int NOT NULL,
-    starting timestamp NOT NULL,
-    ending timestamp NOT NULL,
-    CONSTRAINT fk_application
-        FOREIGN KEY(application_id)
-            REFERENCES Applications(application_id)
             ON DELETE CASCADE,
     CONSTRAINT fk_period
         FOREIGN KEY(starting, ending)
             REFERENCES Periods(starting, ending)
-            ON DELETE CASCADE,
-    PRIMARY KEY(application_id, starting, ending)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE ApplicationCabins(
@@ -91,9 +82,7 @@ INSERT INTO Cabins
 VALUES('Utsikten', TRUE);
 INSERT INTO Users 
 VALUES('981279386', 'test@teter.com','Test', 'password123', FALSE);
-INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, season, winner)
-VALUES('981279386','123', 'private', '1',  'winter2022', FALSE);
-INSERT INTO ApplicationPeriods (application_id, starting, ending) 
-VALUES ('1', '2022-02-02', '2022-02-09');
+INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, season, starting, ending, winner)
+VALUES('981279386','123', 'private', '1',  'winter2022', '2022-02-02', '2022-02-09', FALSE);
 INSERT INTO ApplicationCabins (application_id, cabin_name) 
 VALUES ('1', 'Utsikten');
