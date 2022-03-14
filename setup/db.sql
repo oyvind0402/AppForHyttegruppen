@@ -62,6 +62,7 @@ CREATE TABLE Applications(
 CREATE TABLE ApplicationCabins(
     application_id int NOT NULL,
     cabin_name varchar(20) NOT NULL,
+    cabin_won boolean NOT NULL,
     CONSTRAINT fk_application
         FOREIGN KEY(application_id)
             REFERENCES Applications(application_id)
@@ -84,5 +85,5 @@ INSERT INTO Users
 VALUES('981279386', 'test@teter.com','Test', 'password123', FALSE);
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, season, starting, ending, winner)
 VALUES('981279386','123', 'private', '1',  'winter2022', '2022-02-02', '2022-02-09', FALSE);
-INSERT INTO ApplicationCabins (application_id, cabin_name) 
-VALUES ('1', 'Utsikten');
+INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
+VALUES ('1', 'Utsikten', FALSE);

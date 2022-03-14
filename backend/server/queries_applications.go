@@ -150,9 +150,10 @@ func (r repo) PostApplication(ctx *gin.Context) {
 
 	for _, cabin := range application.Cabins {
 		_, err := tx.Exec(
-			`INSERT INTO ApplicationCabins VALUES($1, $2)`,
+			`INSERT INTO ApplicationCabins VALUES($1, $2, $3)`,
 			resId,
 			cabin.Name,
+			false,
 		)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -168,14 +169,112 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	ctx.JSON(200, resId)
 }
 
-func (r repo) UpdateApplication() {
-	// rowsAffected, err := res.RowsAffected()
-	// if err != nil {
-	// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-	// 	return
-	// }
+func (r repo) UpdateApplication(ctx *gin.Context) {
+	tx, err := r.sqlDb.BeginTx(ctx, nil)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer tx.Rollback()
 
-	// ctx.JSON(200, rowsAffected)
+	application := new(data.Application)
+	err = ctx.BindJSON(application)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	res, err := tx.Exec(
+		`UPDATE Applications
+		SET user_id = $1, employee_id = $2, trip_purpose = $3, number_of_cabins = $4, season = $5, starting = $6, ending = $7, winner = $8
+		WHERE application_id = $9`,
+		application.UserId,
+		application.AccentureId,
+		application.TripPurpose,
+		application.NumberOfCabins,
+		application.Period.Season.SeasonName,
+		application.Period.Start,
+		application.Period.End,
+		application.Winner,
+		application.ApplicationId,
+	)
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// TODO FIX: need to remove cabins first, then add
+	for _, cabin := range application.Cabins {
+		fmt.Println(application.ApplicationId)
+		_, err := tx.Exec(
+			`INSERT INTO ApplicationCabins VALUES($1, $2)`,
+			application.ApplicationId,
+			cabin.Name,
+		)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
+		}
+	}
+
+	if err = tx.Commit(); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, rowsAffected)
+}
+
+func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
+	tx, err := r.sqlDb.BeginTx(ctx, nil)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer tx.Rollback()
+
+	application := new(data.WinnerApplication)
+	err = ctx.BindJSON(application)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	res, err := tx.Exec(
+		`UPDATE Applications
+		SET winner = $1
+		WHERE application_id = $2`,
+		application.Winner,
+		application.ApplicationId,
+	)
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// TODO FIX: need to set false first, then true to selected ones only
+	for _, cabin := range application.CabinsWon {
+		fmt.Println(application.ApplicationId)
+		_, err := tx.Exec(
+			`INSERT INTO ApplicationCabins VALUES($1, $2, $3)`,
+			application.ApplicationId,
+			cabin.Name,
+			true,
+		)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
+		}
+	}
+
+	if err = tx.Commit(); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, rowsAffected)
 }
 
 func (r repo) DeleteApplication(ctx *gin.Context) {
