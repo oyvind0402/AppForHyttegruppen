@@ -72,12 +72,13 @@ func setRouter(r repo) *gin.Engine {
 
 	applicationapi := router.Group("/application")
 	{
-		applicationapi.GET("/get")
-		applicationapi.GET("/getall")
-		applicationapi.POST("/post")
-		applicationapi.PUT("/update")
-		applicationapi.DELETE("/delete")
-		applicationapi.DELETE("/deletemany")
+		applicationapi.GET("/get", r.GetApplication)
+		applicationapi.GET("/getall", r.GetAllApplications)
+		applicationapi.POST("/post", r.PostApplication)
+		applicationapi.PUT("/update", r.UpdateApplication)
+		applicationapi.DELETE("/delete", r.DeleteApplication)
+		applicationapi.DELETE("/deletelosing", r.DeleteLosingApplications)
+		applicationapi.DELETE("/deletemanybyid", r.DeleteApplicationsById)
 	}
 
 	userapi := router.Group("/user")
