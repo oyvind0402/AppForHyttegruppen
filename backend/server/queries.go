@@ -71,13 +71,10 @@ func (r repo) PostManyPeriods(ctx *gin.Context) {
 	var periodValues []interface{}
 
 	for i, period := range *periods {
-
 		periodValues = append(periodValues, period.Start, period.End, period.Season)
-		//periodValues.(period.Start, period.End)
 		st += fmt.Sprintf(`($%d, $%d, $%d)`, 1+3*i, 2+3*i, 3+3*i)
 	}
 	st += `;`
 	_, err = r.sqlDb.Exec(st, periodValues...)
 	utils.AbortWithStatus(err, *ctx)
-
 }
