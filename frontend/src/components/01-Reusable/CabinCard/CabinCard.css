@@ -1,17 +1,5 @@
-.cabins-display {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-@media only screen and (max-width: 700px) {
-  .cabins-display {
-    grid-template-columns: auto;
-  }
-}
-
 .card {
   height: 400px;
-  min-width: 200px;
   width: 300px;
   margin: 20px auto;
   padding: 5px;
@@ -101,4 +89,44 @@
   height: 25px;
   width: 25px;
   margin: 7px 20px 7px 0;
+}
+
+@media only screen and (max-width: 900px) {
+  .card {
+    height: 300px;
+    width: 200px;
+  }
+
+  .card-content .card-title {
+    font-size: 20px;
+    color: #8900c5;
+  }
+
+  .card-content .card-address {
+    font-size: 11px;
+  }
+
+  .card-features p {
+    font-size: 13px;
+  }
+
+  .card-icon {
+    height: 20px;
+    width: 20px;
+    margin: 4px 20px 4px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .card {
+    height: 300px;
+    width: 150px;
+    margin: 10px auto;
+  }
+
+  .card-icon {
+    height: 20px;
+    width: 20px;
+    margin: 4px 10px 4px 0;
+  }
 }
