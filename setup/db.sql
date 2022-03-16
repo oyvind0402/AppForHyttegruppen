@@ -9,11 +9,13 @@ CREATE TABLE Seasons (
 );
 
 CREATE TABLE Periods (
+    period_id int NOT NULL,
+    period_name VARCHAR(20),
     season_name VARCHAR(20),
     starting timestamp NOT NULL,
     ending timestamp NOT NULL,
     
-    PRIMARY KEY (starting, ending),
+    PRIMARY KEY (period_id),
     CONSTRAINT fk_season
         FOREIGN KEY(season_name)
             REFERENCES Seasons(season_name)
@@ -54,8 +56,8 @@ CREATE TABLE Applications(
             REFERENCES Seasons(season_name)
             ON DELETE CASCADE,
     CONSTRAINT fk_period
-        FOREIGN KEY(starting, ending)
-            REFERENCES Periods(starting, ending)
+        FOREIGN KEY(period_id)
+            REFERENCES Periods(period_id)
             ON DELETE CASCADE
 );
 
@@ -76,14 +78,14 @@ CREATE TABLE ApplicationCabins(
 
 INSERT INTO Seasons (season_name, first_day, last_day)
 VALUES('winter2022','2022-01-01', '2022-03-30');
-INSERT INTO Periods (starting, ending, season_name) 
-VALUES ('2022-02-02', '2022-02-09', 'winter2022'),
+INSERT INTO Periods (period_id, period_name, starting, ending, season_name) 
+VALUES ('Week 1', '2022-02-02', '2022-02-09', 'winter2022'),
 ('2022-02-09', '2022-02-16', 'winter2022');
 INSERT INTO Cabins
 VALUES('Utsikten', TRUE);
 INSERT INTO Users 
 VALUES('981279386', 'test@teter.com','Test', 'password123', FALSE);
-INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, season, starting, ending, winner)
-VALUES('981279386','123', 'private', '1',  'winter2022', '2022-02-02', '2022-02-09', FALSE);
+INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, period_id, winner)
+VALUES('981279386','123', 'private', '1',  '1', FALSE);
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', FALSE);
