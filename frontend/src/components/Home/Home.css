@@ -1,0 +1,44 @@
+.home-display {
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-buttons {
+  padding: 50px 0;
+}
+
+.mine-turer,
+.faq {
+  vertical-align: bottom;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  -webkit-align-items: center; /* Safari 7.0+ */
+  align-items: center;
+  -webkit-justify-content: space-evenly;
+  justify-content: space-evenly;
+}
+
+.icon {
+  height: 2rem;
+  width: 2rem;
+}
+
+@media only screen and (max-width: 1600px) {
+  .home-display {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .home-display {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .icon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+}
