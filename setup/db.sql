@@ -1,4 +1,4 @@
---DROP DATABASE hyttegruppen;
+DROP DATABASE hyttegruppen;
 CREATE DATABASE hyttegruppen;
 \c hyttegruppen;
 
@@ -9,7 +9,7 @@ CREATE TABLE Seasons (
 );
 
 CREATE TABLE Periods (
-    period_id int NOT NULL,
+    period_id INT GENERATED ALWAYS AS IDENTITY,
     period_name VARCHAR(20),
     season_name VARCHAR(20),
     starting timestamp NOT NULL,
@@ -41,19 +41,13 @@ CREATE TABLE Applications(
     employee_id int NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
-    season varchar(20) NOT NULL,
-    starting timestamp NOT NULL,
-    ending timestamp NOT NULL,
+    period_id int NOT NULL,
     winner boolean NOT NULL,
 
     PRIMARY KEY(application_id),
     CONSTRAINT fk_user
         FOREIGN KEY(user_id)
             REFERENCES Users(user_id)
-            ON DELETE CASCADE,
-    CONSTRAINT fk_season
-        FOREIGN KEY(season)
-            REFERENCES Seasons(season_name)
             ON DELETE CASCADE,
     CONSTRAINT fk_period
         FOREIGN KEY(period_id)
@@ -65,6 +59,7 @@ CREATE TABLE ApplicationCabins(
     application_id int NOT NULL,
     cabin_name varchar(20) NOT NULL,
     cabin_won boolean NOT NULL,
+
     CONSTRAINT fk_application
         FOREIGN KEY(application_id)
             REFERENCES Applications(application_id)
@@ -78,14 +73,21 @@ CREATE TABLE ApplicationCabins(
 
 INSERT INTO Seasons (season_name, first_day, last_day)
 VALUES('winter2022','2022-01-01', '2022-03-30');
-INSERT INTO Periods (period_id, period_name, starting, ending, season_name) 
+
+INSERT INTO Periods (period_name, starting, ending, season_name) 
 VALUES ('Week 1', '2022-02-02', '2022-02-09', 'winter2022'),
-('2022-02-09', '2022-02-16', 'winter2022');
+('Week 2', '2022-02-09', '2022-02-16', 'winter2022');
+
 INSERT INTO Cabins
-VALUES('Utsikten', TRUE);
+VALUES('Utsikten', TRUE),
+('Fanitullen', TRUE);
+
 INSERT INTO Users 
 VALUES('981279386', 'test@teter.com','Test', 'password123', FALSE);
+
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, period_id, winner)
 VALUES('981279386','123', 'private', '1',  '1', FALSE);
+
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
-VALUES ('1', 'Utsikten', FALSE);
+VALUES ('1', 'Utsikten', FALSE),
+('1', 'Fanitullen', FALSE);

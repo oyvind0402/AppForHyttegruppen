@@ -13,6 +13,6 @@ type Application struct {
 
 type WinnerApplication struct {
 	ApplicationId int          `json:"applicationId"`
-	Winner        bool         `json:"winner"`
 	CabinsWon     []CabinShort `json:"cabinsWon"`
+	Winner        bool         `json:"winner"`
 }
