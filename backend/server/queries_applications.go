@@ -9,6 +9,39 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Get cabins for a given ID (returns: []cabins, []cabinsWon, err)
+func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cabinsWon []data.CabinShort, err error) {
+	// Execute query to fetch cabins and won information
+	cabinRows, err := r.sqlDb.Query(`SELECT cabin_name, cabin_won FROM ApplicationCabins WHERE application_id = $1`, id)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return cabins, cabinsWon, err
+	}
+	defer cabinRows.Close()
+
+	// Add Cabins to Application.Cabins
+	for cabinRows.Next() {
+		// Create Cabin
+		var cabin data.CabinShort
+		var cabinWon bool
+
+		// Map column to Cabin.Name
+		if err = cabinRows.Scan(&cabin.Name, &cabinWon); err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return cabins, cabinsWon, err
+		}
+
+		// Append Cabin to Application.Cabins array
+		cabins = append(cabins, cabin)
+
+		// Append Cabin to Application.CabinsWon array
+		if cabinWon {
+			cabinsWon = append(cabinsWon, cabin)
+		}
+	}
+	return cabins, cabinsWon, err
+}
+
 // Remove from DB all Cabins associated to an Application
 func removeCabins(tx *sql.Tx, application data.Application) (*sql.Tx, error) {
 	_, err := tx.Exec(
@@ -37,6 +70,36 @@ func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, a
 	return tx, err
 }
 
+// TODO Merge with Period queries
+func (r repo) getPeriodById(ctx *gin.Context, periodId int) (data.Period, error) {
+	// Define Period
+	var period data.Period
+
+	// Retrieve period by ID
+	rows, err := r.sqlDb.Query(`SELECT * FROM Periods WHERE period_id = $1 LIMIT 1`, periodId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return period, err
+	}
+	defer rows.Close()
+
+	// Populate Period fields with column values
+	for rows.Next() {
+		// Map columns to Period fields
+		if err = rows.Scan(
+			&period.Id,
+			&period.Name,
+			&period.Season.Name,
+			&period.Start,
+			&period.End); err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		}
+	}
+
+	// Return period and error
+	return period, err
+}
+
 // Retrieve one application by ID (receives int)
 func (r repo) GetApplication(ctx *gin.Context) {
 	// curl -X GET -v -d "1" localhost:8080/application/get
@@ -59,6 +122,8 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	// Create Application
 	var application data.Application
 	for rows.Next() {
+		var periodId int
+
 		// Map columns to Application fields
 		if err = rows.Scan(
 			&application.ApplicationId,
@@ -66,35 +131,24 @@ func (r repo) GetApplication(ctx *gin.Context) {
 			&application.AccentureId,
 			&application.TripPurpose,
 			&application.NumberOfCabins,
-			&application.Period.Season.SeasonName,
-			&application.Period.Start,
-			&application.Period.End,
+			&periodId,
 			&application.Winner); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return
 		}
 
-		// Get cabins
-		cabinRows, err := r.sqlDb.Query(`SELECT cabin_name FROM ApplicationCabins WHERE application_id = $1`, *applicationId)
+		// Get Period information
+		application.Period, err = r.getPeriodById(ctx, periodId)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return
 		}
-		defer cabinRows.Close()
 
-		// Add Cabins to Application.Cabins
-		for cabinRows.Next() {
-			// Create Cabin
-			var cabin data.CabinShort
-
-			// Map column to Cabin.Name
-			if err = cabinRows.Scan(&cabin.Name); err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-				return
-			}
-
-			// Append Cabin to Application.Cabins array
-			application.Cabins = append(application.Cabins, cabin)
+		// Get cabins
+		application.Cabins, application.CabinsWon, err = r.getCabins(ctx, *applicationId)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
 		}
 	}
 
@@ -118,6 +172,7 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 	// For each retrieved row, create Application and append to array
 	for rows.Next() {
 		var application data.Application
+		var periodId int
 
 		// Insert row values into Application
 		if err = rows.Scan(
@@ -126,31 +181,23 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 			&application.AccentureId,
 			&application.TripPurpose,
 			&application.NumberOfCabins,
-			&application.Period.Season.SeasonName,
-			&application.Period.Start,
-			&application.Period.End,
+			&periodId,
 			&application.Winner); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return
 		}
 
-		// Get cabins
-		cabinRows, err := r.sqlDb.Query(`SELECT cabin_name FROM ApplicationCabins WHERE application_id = $1`, application.ApplicationId)
+		application.Period, err = r.getPeriodById(ctx, periodId)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return
 		}
-		defer cabinRows.Close()
 
-		// For each row, insert Cabin into Application.Cabins
-		for cabinRows.Next() {
-			var cabin data.CabinShort
-			if cabinRows.Scan(&cabin.Name); err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-				return
-			}
-			// Append Cabin to Application.Cabins array
-			application.Cabins = append(application.Cabins, cabin)
+		// Get cabins
+		application.Cabins, application.CabinsWon, err = r.getCabins(ctx, application.ApplicationId)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
 		}
 
 		// Append Application to Applications array
@@ -182,14 +229,12 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
 	if err = tx.QueryRow(
-		`INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, season, starting, ending, winner) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING application_id`,
+		`INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, period_id, winner) VALUES($1, $2, $3, $4, $5, $6) RETURNING application_id`,
 		application.UserId,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
-		application.Period.Season.SeasonName,
-		application.Period.Start,
-		application.Period.End,
+		application.Period.Id,
 		application.Winner,
 	).Scan(&resId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -233,15 +278,13 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	// Update all application fields
 	res, err := tx.Exec(
 		`UPDATE Applications
-		SET user_id = $1, employee_id = $2, trip_purpose = $3, number_of_cabins = $4, season = $5, starting = $6, ending = $7, winner = $8
-		WHERE application_id = $9`,
+		SET user_id = $1, employee_id = $2, trip_purpose = $3, number_of_cabins = $4, period_id = $5, winner = $6
+		WHERE application_id = $7`,
 		application.UserId,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
-		application.Period.Season.SeasonName,
-		application.Period.Start,
-		application.Period.End,
+		application.Period.Id,
 		application.Winner,
 		application.ApplicationId,
 	)
@@ -281,7 +324,7 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Update application, defining it as a winning application AND specifying cabins that were won (receives WinnerApplication)
+// Update application, defining it as a winning application AND specifying cabins that were won (receives Application, requires only Id, Winner and CabinsWon)
 func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
@@ -292,7 +335,7 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	defer tx.Rollback()
 
 	// Retrieve data from front-end (WinnerApplication type)
-	application := new(data.WinnerApplication)
+	application := new(data.Application)
 	if err = ctx.BindJSON(application); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -321,12 +364,17 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	// Reset all cabins from application to "not won"
 	if _, err = tx.Exec(
 		`UPDATE ApplicationCabins
-		SET winner = $1
+		SET cabin_won = $1
 		WHERE application_id = $2`,
 		false,
 		application.ApplicationId,
 	); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	if application.CabinsWon == nil || len(application.CabinsWon) <= 0 {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Must select cabins won in application."})
 		return
 	}
 
@@ -388,7 +436,14 @@ func (r repo) DeleteLosingApplications(ctx *gin.Context) {
 	}
 
 	// Delete from database
-	res, err := r.sqlDb.Exec(`DELETE FROM Applications WHERE NOT winner OR winner IS NULL AND season = $1`, &season)
+	res, err := r.sqlDb.Exec(`
+		DELETE FROM Applications 
+		WHERE NOT winner OR winner IS NULL 
+		AND period_id IN (
+			SELECT period_id
+			FROM Periods
+			WHERE season_name = $1
+		)`, &season)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
