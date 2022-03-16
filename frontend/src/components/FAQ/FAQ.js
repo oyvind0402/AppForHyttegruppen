@@ -6,6 +6,7 @@ import BigButton from '../01-Reusable/Buttons/BigButton';
 import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
 import SmallButton from '../01-Reusable/Buttons/SmallButton';
 import FAQ_Question from '../01-Reusable/FAQ_Question/FAQ_Question';
+import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 
 const FAQ = () => {
   const loginContext = useContext(LoginContext);
@@ -40,7 +41,7 @@ const FAQ = () => {
 
   return (
     <>
-      <h1>FAQ info :D</h1>
+      <HeroBanner name="faq" />
       <div className="FAQs">
         {FAQElements.map((faq, index) => (
           <FAQ_Question

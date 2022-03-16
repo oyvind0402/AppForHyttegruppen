@@ -5,20 +5,3 @@ body {
 html {
   height: 100%;
 }
-
-.container {
-  width: 60%;
-  margin: 0 auto;
-}
-
-@media only screen and (max-width: 1600px) {
-  .container {
-    width: 80%;
-  }
-}
-
-@media only screen and (max-width: 1200px) {
-  .container {
-    width: 100%;
-  }
-}

@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import LoginContext from '../../LoginContext/login-context';
 import CabinCardBig from '../01-Reusable/CabinCard/CabinCardBig';
+import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './Cabins.css';
 
 const Cabins = () => {
@@ -10,6 +11,7 @@ const Cabins = () => {
 
   return (
     <>
+      <HeroBanner name="Hytter" />
       <div className="cabins-display">
         <CabinCardBig />
         <CabinCardBig />
