@@ -16,7 +16,7 @@ const TripCardPending = (props) => {
               props.data.active ? 'mytrip-picture' : 'mytrip-picture-blur'
             }
             src={props.data.picture}
-            alt="picture of the cabin for the trip"
+            alt="the cabin for the trip"
           />
           <div className="card-info">
             <p className="card-title">{props.data.cabinName}</p>

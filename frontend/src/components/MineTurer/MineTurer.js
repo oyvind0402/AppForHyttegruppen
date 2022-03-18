@@ -55,8 +55,8 @@ const MineTurer = () => {
 
   return (
     <>
+      <HeroBanner name="Mine turer" />
       <div className="mytrip-container">
-        <HeroBanner name="Mine turer" />
         <div className="mytrip-card-wrapper">
           <p className="mytrip-title">Krever handling:</p>
           <div className="trip-row-wrapper">

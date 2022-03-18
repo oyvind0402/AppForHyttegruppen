@@ -10,9 +10,15 @@
 
 .trip-row-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 600px 600px;
+  grid-gap: 10%;
   justify-content: center;
   margin-bottom: 5rem;
+}
+
+.mytrip-card-wrapper {
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 .mintur-link {
