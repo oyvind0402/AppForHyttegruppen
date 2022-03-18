@@ -6,7 +6,7 @@ import { GiTakeMyMoney } from 'react-icons/gi';
 const card = {
   picture: [
     {
-      Name: 'Utsikten',
+      Name: 'UtsiktenTEST',
       Address: 'Grøndalsvegen 764',
       Bedrooms: '5',
       SleepingSlots: '10',
