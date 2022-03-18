@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import './FAQ.css';
 import LoginContext from '../../LoginContext/login-context';
 import BigButton from '../01-Reusable/Buttons/BigButton';
 import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
@@ -13,6 +13,36 @@ const FAQ = () => {
   const loggedIn = loginContext.loggedIn;
 
   const [FAQElements, setFAQElements] = useState([
+    {
+      question: 'I am a question',
+      anwser: 'i am an anwser',
+      open: false,
+    },
+    {
+      question: 'I am also a question',
+      anwser: 'i am also an anwser',
+      open: false,
+    },
+    {
+      question: 'I am a question',
+      anwser: 'i am an anwser',
+      open: false,
+    },
+    {
+      question: 'I am also a question',
+      anwser: 'i am also an anwser',
+      open: false,
+    },
+    {
+      question: 'I am a question',
+      anwser: 'i am an anwser',
+      open: false,
+    },
+    {
+      question: 'I am also a question',
+      anwser: 'i am also an anwser',
+      open: false,
+    },
     {
       question: 'I am a question',
       anwser: 'i am an anwser',
@@ -52,9 +82,6 @@ const FAQ = () => {
           />
         ))}
       </div>
-      <BigButtonLink name="To Home Weeee" link="/" />
-      <BigButton name="To Home Weeee" />
-      <SmallButton name="Forrige" />
     </>
   );
 };

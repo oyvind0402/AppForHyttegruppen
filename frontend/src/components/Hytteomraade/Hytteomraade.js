@@ -8,7 +8,6 @@ import { GiMountainClimbing, GiHorseshoe, GiFishingPole } from 'react-icons/gi';
 import { IoIosBicycle } from 'react-icons/io';
 import { BiWalk } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-
 import './Hytteomraade.css';
 
 const Hytteomraade = () => {
