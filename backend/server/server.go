@@ -34,8 +34,8 @@ func setRouter(r repo) *gin.Engine {
 		periodapi.GET("/getallinseason")
 		periodapi.GET("/getall", r.GetAllPeriods)
 		periodapi.POST("/post", r.PostPeriod)
-		periodapi.POST("/postmany")
-		periodapi.PUT("/update")
+		periodapi.POST("/postmany", r.PostManyPeriods)
+		periodapi.PUT("/update", r.UpdatePeriod)
 		periodapi.DELETE("/delete")
 		periodapi.DELETE("/deletemany")
 	}

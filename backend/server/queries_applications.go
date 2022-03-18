@@ -70,36 +70,6 @@ func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, a
 	return tx, err
 }
 
-// TODO Merge with Period queries
-func (r repo) getPeriodById(ctx *gin.Context, periodId int) (data.Period, error) {
-	// Define Period
-	var period data.Period
-
-	// Retrieve period by ID
-	rows, err := r.sqlDb.Query(`SELECT * FROM Periods WHERE period_id = $1 LIMIT 1`, periodId)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return period, err
-	}
-	defer rows.Close()
-
-	// Populate Period fields with column values
-	for rows.Next() {
-		// Map columns to Period fields
-		if err = rows.Scan(
-			&period.Id,
-			&period.Name,
-			&period.Season.Name,
-			&period.Start,
-			&period.End); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		}
-	}
-
-	// Return period and error
-	return period, err
-}
-
 // Retrieve one application by ID (receives int)
 func (r repo) GetApplication(ctx *gin.Context) {
 	// curl -X GET -v -d "1" localhost:8080/application/get

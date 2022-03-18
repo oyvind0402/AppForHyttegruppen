@@ -5,7 +5,7 @@ import (
 
 	// "context"
 	// "fmt"
-	"fmt"
+
 	"net/http"
 	"time"
 
@@ -27,119 +27,18 @@ import (
 
 
 */
-//periods
-func (r repo) GetPeriod(ctx *gin.Context) {
-	row := r.sqlDb.QueryRow(`SELECT "start, end" FROM "Period" WHERE period_id=$1`) // decides which db to send querry to
 
-	var start time.Time
-	var end time.Time
-	var season Season
-
-	err := row.Scan(&start, &end, &season)
-	utils.AbortWithStatus(err, *ctx)
-
-	period := data.Period{Start: start, End: end, Season: season}
-
-	ctx.JSON(200, period)
-}
-
-func (r repo) GetAllPeriods(ctx *gin.Context) {
-	print(r.sqlDb)
-	rows, err := r.sqlDb.Query(`SELECT * FROM Periods`)
-	defer rows.Close()
-	utils.AbortWithStatus(err, *ctx)
-
-	var periods []data.Period
-
-	for rows.Next() {
-		var start time.Time
-		var end time.Time
-		var season Season
-
-		err = rows.Scan(&start, &end, &season)
-		utils.AbortWithStatus(err, *ctx)
-
-		period := data.Period{Start: start, End: end, Season: season}
-		periods = append(periods, period)
-	}
-
-	ctx.JSON(200, periods)
-}
-
-func (r repo) PostPeriod(ctx *gin.Context) {
-	st := `INSERT INTO "Period"("start", "end", "season") values($1, $2, $3)`
-	_, err := r.sqlDb.Exec(st, "01-02.2002", "28-04-2022")
-	utils.AbortWithStatus(err, *ctx)
-}
-
-func (r repo) PostManyPeriods(ctx *gin.Context) {
-	st := `INSERT INTO "Periods"("starting","ending") VALUES  `
-
-	periods := new([]data.Period)
-	err := ctx.Bind(periods)
-	utils.AbortWithStatus(err, *ctx)
-
-	var periodValues []interface{}
-
-	for i, period := range *periods {
-		periodValues = append(periodValues, period.Start, period.End, period.Season)
-		st += fmt.Sprintf(`($%d, $%d, $%d)`, 1+3*i, 2+3*i, 3+3*i)
-	}
-	st += `;`
-	_, err = r.sqlDb.Exec(st, periodValues...)
-	utils.AbortWithStatus(err, *ctx)
-}
-
-func (r repo) UpdatePeriod(ctx *gin.Context) {
-	tx, err := r.sqlDb.BeginTx(ctx, nil) //starts a transaction session with the given context
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
-	defer tx.Rollback()
-
-	periodId := new(time.Time)
-	period := new(data.Period)
-	err = ctx.BindJSON(period)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-	}
-
-	err := ctx.BindJSON(periodId)
-
-	res, err := tx.Exec(
-		`UPDATE Period SET start= $1, end = $2, season = $3 WHERE start = $4`,
-		season.FirstDay, season.LastDay, season.SeasonName, periodId,
-	)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
-	rowsAffected, err := res.RowsAffected()
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
-
-	if err = tx.Commit(); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
-	ctx.JSON(200, rowsAffected)
-}
-
-//season
 func (r repo) GetSeason(ctx *gin.Context) {
 	row := r.sqlDb.QueryRow(`SELECT "" FROM "" WHERE ""`)
 
-	var seasonName string
+	var name string
 	var firstDay time.Time
 	var lastDay time.Time
 
-	err := row.Scan(&seasonName, &firstDay, &lastDay)
+	err := row.Scan(&name, &firstDay, &lastDay)
 	utils.AbortWithStatus(err, *ctx)
 
-	season := data.Season{SeasonName: seasonName, FirstDay: &firstDay, LastDay: &lastDay}
+	season := data.Season{Name: name, FirstDay: &firstDay, LastDay: &lastDay}  //why pointers here? 
 
 	ctx.JSON(200, season)
 }
@@ -154,14 +53,14 @@ func (r repo) GetAllSeasons(ctx *gin.Context) {
 
 	for rows.Next() {
 
-		var seasonName string
+		var name string
 		var firstDay time.Time
 		var lastDay time.Time
 
-		err = rows.Scan(&seasonName, &firstDay, &lastDay)
+		err = rows.Scan(&name, &firstDay, &lastDay)
 		utils.AbortWithStatus(err, *ctx)
 
-		season := data.Season{SeasonName: seasonName, FirstDay: &firstDay, LastDay: &lastDay}
+		season := data.Season{Name: name, FirstDay: &firstDay, LastDay: &lastDay}
 		seasons = append(seasons, season)
 	}
 
@@ -190,7 +89,7 @@ func (r repo) UpdateSeason(ctx *gin.Context) {
 
 	res, err := tx.Exec(
 		`UPDATE Season SET first_day = $1, last_day = $2WHERE season_name = $3`,
-		season.FirstDay, season.LastDay, season.SeasonName,
+		season.FirstDay, season.LastDay, season.Name,
 	)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})

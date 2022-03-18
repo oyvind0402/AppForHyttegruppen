@@ -41,7 +41,7 @@ func startSqlDB() *sql.DB {
 	username, passwd := utils.GetCreds("backend/screds")
 
 	// Start database
-	params := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", host, port, username, passwd, dbname)
+	params := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, username, passwd, dbname)
 	db, err := sql.Open("postgres", params)
 	utils.Panicker(err, "Cannot open database")
 
