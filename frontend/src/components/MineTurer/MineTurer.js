@@ -15,6 +15,7 @@ const MineTurer = () => {
   const data = {
     applications: [
       {
+        id: 1,
         cabinName: 'Utsikten',
         season: 'Uke 52',
         date: '27.12.2022',
@@ -23,6 +24,7 @@ const MineTurer = () => {
         picture: `${process.env.PUBLIC_URL}/assets/pictures/TripPicture.svg`,
       },
       {
+        id: 2,
         cabinName: 'Knausen',
         season: 'Uke 12',
         date: '12.04.2023',
@@ -31,6 +33,7 @@ const MineTurer = () => {
         picture: `${process.env.PUBLIC_URL}/assets/pictures/TripPicture.svg`,
       },
       {
+        id: 3,
         cabinName: 'Fanitullen',
         season: 'Uke 2',
         date: '14.01.2023',
@@ -39,6 +42,7 @@ const MineTurer = () => {
         picture: `${process.env.PUBLIC_URL}/assets/pictures/TripPicture.svg`,
       },
       {
+        id: 4,
         cabinName: 'Store Grøndalen',
         season: 'Uke 13',
         date: '19.04.2023',

@@ -16,6 +16,11 @@
   justify-content: center;
 }
 
+.mintur-link {
+  text-decoration: none;
+  color: black;
+}
+
 hr {
   margin-left: 3rem;
   margin-right: 3rem;

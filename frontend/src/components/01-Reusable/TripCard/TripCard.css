@@ -2,8 +2,8 @@
   width: 600px;
   height: 266px;
   margin-bottom: 2.25rem;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 256.99px 171.5px 171.5px;
   border-radius: 0.3125rem;
   box-shadow: 0 1rem 1rem 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -25,7 +25,7 @@
 .card-info {
   display: flex;
   flex-direction: column;
-  margin-left: 3%;
+  margin-left: 10%;
 }
 
 .card-title {
@@ -38,7 +38,7 @@
 .season-date-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   grid-gap: 0.625rem;
 }
@@ -49,23 +49,32 @@
 }
 
 .handling-info {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-areas:
+    'a'
+    'b'
+    'c'
+    'd'
+    'e'
+    'f';
   height: 266px;
-  align-items: center;
+  align-items: flex-end;
   justify-content: end;
+  padding-right: 10%;
 }
 
 .warning-icon {
   color: red;
   width: 2.5rem;
   height: auto;
+  grid-area: e;
+  justify-self: center;
 }
 
 .warning-text {
   margin: 0;
-  margin-bottom: 10px;
+  grid-area: f;
+  align-self: center;
 }
 
 .cancel-box {
@@ -77,6 +86,16 @@
     'd';
   justify-content: end;
   align-items: end;
+  padding-right: 10%;
+}
+
+.pending-text {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.pending-date {
+  margin-top: 0;
 }
 
 .pending-container {
