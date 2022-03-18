@@ -11,7 +11,6 @@
   width: 50vw;
   max-width: 50%;
   object-fit: cover;
-  opacity: 0.3;
 }
 
 .omraade-logo {
@@ -20,6 +19,9 @@
   z-index: 2;
   width: 50vw;
   max-width: 700px;
+  background-color: white;
+  opacity: 0.85;
+  border-radius: 5px;
 }
 
 .season {
