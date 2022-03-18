@@ -1,0 +1,108 @@
+.mytrip-card-container {
+  width: 600px;
+  height: 266px;
+  margin-bottom: 2.25rem;
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.3125rem;
+  box-shadow: 0 1rem 1rem 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.mytrip-card-container:hover {
+  background-color: #eaddff;
+}
+
+.mytrip-picture {
+  object-fit: cover;
+}
+
+.mytrip-picture-blur {
+  object-fit: cover;
+  filter: blur(2px);
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 3%;
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  margin-top: 5%;
+}
+
+.season-date-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 0.625rem;
+}
+
+.card-season {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.handling-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 266px;
+  align-items: center;
+  justify-content: end;
+}
+
+.warning-icon {
+  color: red;
+  width: 2.5rem;
+  height: auto;
+}
+
+.warning-text {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.cancel-box {
+  display: grid;
+  grid-template-areas:
+    'a'
+    'b'
+    'c'
+    'd';
+  justify-content: end;
+  align-items: end;
+}
+
+.pending-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.pending-icon {
+  font-size: 2.5rem;
+}
+
+.cancel-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  grid-area: d;
+}
+
+.cancel-icon {
+  color: red;
+  font-size: 2.5rem;
+}
+
+.cancel-text {
+  font-weight: 700;
+  text-decoration: underline;
+}

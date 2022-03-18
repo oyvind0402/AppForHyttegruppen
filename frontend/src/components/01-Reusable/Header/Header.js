@@ -1,10 +1,7 @@
-import { useContext, useState, useRef, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import LoginContext from "../../../LoginContext/login-context";
-import "./Header.css";
-import icon from "../../../static/greaterthanicon.png";
-import userpic from "../../../static/default-pic.jpg";
-import ProfilePopup from "./ProfilePopup";
+import { useContext, useState, useRef, useEffect } from 'react';
+import { Link, NavLink, useHistory } from 'react-router-dom';
+import LoginContext from '../../../LoginContext/login-context';
+import './Header.css';
 
 const Header = () => {
   const history = useHistory();
@@ -13,25 +10,16 @@ const Header = () => {
 
   const loggedIn = loginContext.loggedIn;
 
-  const logoutHandler = () => {
-    handlePfpClick();
-    loginContext.logout();
-    history.replace("/");
-  };
-  
-  
-  const [visible, setVisible] = useState(false);
-  
-  const handlePfpClick = () => {
-    if (visible) {
-      setVisible(!visible);
-      document.getElementById("profile-popup").style.display = "none";
+  const [defaultLocale, setDefaultLocale] = useState(true);
 
-    } else {
-      setVisible(!visible);
-      document.getElementById('profile-popup').style.display = "block";
-    }
-  }
+  const logoutHandler = () => {
+    loginContext.logout();
+    history.replace('/');
+  };
+
+  const changeLanguage = () => {
+    setDefaultLocale(!defaultLocale);
+  };
 
   return (
     <>
@@ -39,55 +27,69 @@ const Header = () => {
         <div className="left-side">
           <div className="home-icon">
             <Link to="/" className="link">
-              <img src={icon} alt="Hjemmeikon" />
-            </Link>
-          </div>
-          <div className="nav-title">
-            <Link className="link" to="/">
-              HyttePortal
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/pictures/Logo.svg`}
+                alt="Hjemmeikon"
+              />
             </Link>
           </div>
         </div>
         <div className="nav-list">
-          <Link className="nav-list-item" to="/">
+          <NavLink
+            exact={true}
+            activeClassName="active"
+            className="nav-list-item"
+            to="/"
+          >
             Hjem
-          </Link>
-          <Link className="nav-list-item" to="/hytter">
-            Hytter
-          </Link>
-          <Link className="nav-list-item" to="/soknad">
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            className="nav-list-item"
+            to="/mineturer"
+          >
+            Mine Turer
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            className="nav-list-item"
+            to="/soknad"
+          >
             Søknad
-          </Link>
-          <Link className="nav-list-item" to="/hytteomraade">
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            className="nav-list-item"
+            to="/hytter"
+          >
+            Hytter
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            className="nav-list-item"
+            to="/hytteomraade"
+          >
             Hemsedal
-          </Link>
-          <Link className="nav-list-item" to="/faq">
+          </NavLink>
+          <NavLink activeClassName="active" className="nav-list-item" to="/faq">
             FAQ
-          </Link>
+          </NavLink>
         </div>
-        <div onClick={handlePfpClick} className="user-icon">
-          <img src={userpic} alt="Profilbilde" />
+        <div className="right-side">
+          <a className="nav-list-item" href="http://www.nooooooooooooooo.com/">
+            Logg ut
+          </a>
+          <img
+            className="language-nor"
+            onClick={changeLanguage}
+            src={
+              defaultLocale
+                ? `${process.env.PUBLIC_URL}/assets/pictures/Norwegian.svg`
+                : `${process.env.PUBLIC_URL}/assets/pictures/English.svg`
+            }
+            alt="Hjemmeikon"
+          />
         </div>
-        <ProfilePopup>
-          {}<div className="profile-popup-title">
-            <p className="profile-title">Navn Navnesen</p>
-            <p className="profile-email">navn.navnesen@accenture.com</p>
-          </div>
-          <hr />
-          <div className="profile-popup-buttons">
-            <Link
-              onClick={handlePfpClick}
-              className="minside-btn link-white"
-              to="/minside"
-            >
-              Min Side
-            </Link>
-            <Link className="logout-btn">
-              Logg ut
-              {/*loggedIn ? 'Logg ut' : 'Logg inn'*/}
-            </Link>
-          </div>
-        </ProfilePopup>
       </nav>
     </>
   );
