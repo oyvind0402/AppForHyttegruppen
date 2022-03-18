@@ -10,10 +10,10 @@ import SignupPage from './pages/SignupPage';
 import HytterPage from './pages/HytterPage';
 import HyttePage from './pages/HyttePage';
 import SoknadPage from './pages/SoknadPage';
-import MinSidePage from './pages/MinSidePage';
 import MinTurPage from './pages/MinTurPage';
 import FAQPage from './pages/FAQPage';
 import HytteomraadePage from './pages/HytteomraadePage';
+import MineTurerPage from './pages/MineTurerPage';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -24,7 +24,7 @@ function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-          {/* {!loginContext.loggedIn && (
+        {/* {!loginContext.loggedIn && (
             <Route path="/login">
               <LoginPage />
             </Route>
@@ -50,8 +50,8 @@ function App() {
         <Route path="/soknad">
           <SoknadPage />
         </Route>
-        <Route path="/minside">
-          <MinSidePage />
+        <Route path="/mineturer">
+          <MineTurerPage />
         </Route>
         <Route path="/mintur">
           <MinTurPage />
