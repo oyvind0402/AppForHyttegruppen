@@ -57,20 +57,26 @@ const MineTurer = () => {
     <>
       <div className="mytrip-container">
         <HeroBanner name="Mine turer" />
-        <p className="mytrip-title">Krever handling:</p>
-        <div className="trip-row-wrapper">
-          <TripCardActionReq data={data.applications[0]} />
+        <div className="mytrip-card-wrapper">
+          <p className="mytrip-title">Krever handling:</p>
+          <div className="trip-row-wrapper">
+            <TripCardActionReq data={data.applications[0]} />
+          </div>
         </div>
         <hr />
-        <p className="mytrip-title">Venter på godkjenning:</p>
-        <div className="trip-row-wrapper">
-          <TripCardPending data={data.applications[1]} />
-          <TripCardPending data={data.applications[3]} />
+        <div className="mytrip-card-wrapper">
+          <p className="mytrip-title">Venter på godkjenning:</p>
+          <div className="trip-row-wrapper">
+            <TripCardPending data={data.applications[1]} />
+            <TripCardPending data={data.applications[3]} />
+          </div>
         </div>
         <hr />
-        <p className="mytrip-title">Dine fremtidige turer:</p>
-        <div className="trip-row-wrapper">
-          <TripCardActive data={data.applications[2]} />
+        <div className="mytrip-card-wrapper">
+          <p className="mytrip-title">Dine fremtidige turer:</p>
+          <div className="trip-row-wrapper">
+            <TripCardActive data={data.applications[2]} />
+          </div>
         </div>
         <BigButton name="Vis tidligere turer" />
       </div>

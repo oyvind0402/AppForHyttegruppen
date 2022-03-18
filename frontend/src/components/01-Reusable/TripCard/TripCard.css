@@ -13,6 +13,11 @@
   background-color: #eaddff;
 }
 
+.mytrip-card-wrapper {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
 .mytrip-picture {
   object-fit: cover;
 }

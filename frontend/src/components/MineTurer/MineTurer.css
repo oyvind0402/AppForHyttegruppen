@@ -6,22 +6,23 @@
   font-weight: bold;
   font-size: 2.25rem;
   margin-top: 1rem;
-  padding-left: 3rem;
 }
 
 .trip-row-wrapper {
-  padding-left: 3rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: center;
+  margin-bottom: 5rem;
 }
 
 .mintur-link {
   text-decoration: none;
   color: black;
+  width: 600px;
+  height: 266px;
 }
 
 hr {
-  margin-left: 3rem;
-  margin-right: 3rem;
+  margin-left: 10%;
+  margin-right: 10%;
 }
