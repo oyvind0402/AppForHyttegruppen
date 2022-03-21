@@ -1,0 +1,27 @@
+.stepQuestion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.soknad-question-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+}
+
+.soknad-question-text {
+  font-size: 1.75rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .soknad-question-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  .soknad-question-text {
+    font-size: 1.1rem;
+  }
+}

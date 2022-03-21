@@ -1,0 +1,79 @@
+.soknad-purpose {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px 10px;
+  background-color: #eaddff;
+  border-radius: 5px;
+  display: flex;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.soknad-step1-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+.soknad-radio {
+  display: none;
+}
+
+.soknad-radio-text {
+  margin: 5px 10px;
+  padding: 5px 10px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.soknad-radio-text:hover {
+  cursor: pointer;
+}
+
+.soknad-radio:checked ~ .soknad-radio-text {
+  background-color: #bd00ff;
+  color: white;
+  border-radius: 5px;
+}
+
+.step1-input {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.soknad-label {
+  font-size: 1.1rem;
+  font-weight: 750;
+  margin-bottom: 5px;
+}
+
+.soknad-input {
+  width: 300px;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 1.75rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .soknad-input {
+    width: 150px;
+    padding: 5px;
+    margin-bottom: 1.75rem;
+  }
+
+  .soknad-purpose {
+    padding: 5px;
+  }
+
+  .soknad-step1-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+}

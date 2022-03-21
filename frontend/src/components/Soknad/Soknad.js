@@ -1,7 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import Progressbar from './Progressbar';
+import Step1 from './Steps/Step1';
+import Step2 from './Steps/Step2';
+import Step3 from './Steps/Step3';
 import './Soknad.css';
 
 const Soknad = () => {
@@ -30,7 +33,11 @@ const Soknad = () => {
       <HeroBanner name="Søknad om hytte" />
       <Progressbar page={page} clickOnProgressbar={clickOnProgressbar} />
       <div className="content-soknad">
-        <p>{page}</p>
+        <div className="step-soknad">
+          {page === 1 && <Step1 />}
+          {page === 2 && <Step2 />}
+          {page === 3 && <Step3 />}
+        </div>
 
         <div className="soknad-btn">
           {page === 1 ? (
