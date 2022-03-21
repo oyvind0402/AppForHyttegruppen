@@ -31,13 +31,13 @@ func setRouter(r repo) *gin.Engine {
 	periodapi := router.Group("/period")
 	{
 		periodapi.GET("/get", r.GetPeriod)
-		periodapi.GET("/getallinseason")
+		periodapi.GET("/getallinseason", r.GetAllPeriodsInSeason)
 		periodapi.GET("/getall", r.GetAllPeriods)
 		periodapi.POST("/post", r.PostPeriod)
 		periodapi.POST("/postmany", r.PostManyPeriods)
 		periodapi.PUT("/update", r.UpdatePeriod)
 		periodapi.DELETE("/delete", r.DeletePeriod)
-		periodapi.DELETE("/deletemany")
+		periodapi.DELETE("/deletemany", r.DeleteManyPeriods)
 	}
 
 	seasonapi := router.Group("/season")
@@ -88,10 +88,6 @@ func setRouter(r repo) *gin.Engine {
 		applicationapi.DELETE("/delete", r.DeleteApplication)
 		applicationapi.DELETE("/deletelosing", r.DeleteLosingApplications)
 		applicationapi.DELETE("/deletemanybyid", r.DeleteApplicationsById)
-		//get by user id
-		//get by user id future active trips
-		//get by user id awaiting answer
-		//get by user id past winning applications
 	}
 
 	userapi := router.Group("/user")
