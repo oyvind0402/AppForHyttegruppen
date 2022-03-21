@@ -46,8 +46,9 @@ func (r repo) GetSeason(ctx *gin.Context) {
 func (r repo) GetAllSeasons(ctx *gin.Context) {
 	print(r.sqlDb)
 	rows, err := r.sqlDb.Query(`SELECT * FROM Season`)
+	utils.AbortWithStatus(err, *ctx)	
 	defer rows.Close()
-	utils.AbortWithStatus(err, *ctx)
+	
 
 	var seasons []data.Season
 

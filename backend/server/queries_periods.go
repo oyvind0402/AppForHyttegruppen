@@ -26,8 +26,6 @@ import (
 	add(&end) -> creates a pointer
 */
 
-//TODO change period start and endt types to pointers like in season
-
 // retrieves one peried by id (receives int)
 func (r repo) getPeriodById(ctx *gin.Context, periodId int) (data.Period, error) {
 	// Define Period
@@ -58,7 +56,6 @@ func (r repo) getPeriodById(ctx *gin.Context, periodId int) (data.Period, error)
 	return period, err
 }
 
-/*periods*/
 //retrieve one period
 func (r repo) GetPeriod(ctx *gin.Context) {
 	id := new(int) //new creates a pointer
@@ -77,8 +74,13 @@ func (r repo) GetPeriod(ctx *gin.Context) {
 	ctx.JSON(200, period)
 }
 
+
+//TODO get all periods from 1 season 
+func GetAllInSeason (ctx *gin.Context){
+
+}
 /*
-//get all periods from 1 season
+//
 func(r repo) GetAllInSeason(ctx *gin.Context){
 	st := `SELECT name, start, end WHERE season `
 	
@@ -93,8 +95,9 @@ func(r repo) GetAllInSeason(ctx *gin.Context){
 func (r repo) GetAllPeriods(ctx *gin.Context) {
 	print(r.sqlDb)
 	rows, err := r.sqlDb.Query(`SELECT * FROM Periods`)
-	defer rows.Close()
 	utils.AbortWithStatus(err, *ctx)
+	defer rows.Close()
+	
 
 	var periods []data.Period
 
@@ -108,7 +111,7 @@ func (r repo) GetAllPeriods(ctx *gin.Context) {
 		err = rows.Scan(&id, &name,  &season.Name, &start, &end)
 		utils.AbortWithStatus(err, *ctx)
 
-		period := data.Period{Id: id, Name: name, Season: season, Start: start, End: end}
+		period := data.Period{Id: id, Name: name, Season: season, Start: &start, End: &end}
 		periods = append(periods, period)
 	}
 
@@ -137,7 +140,7 @@ func (r repo) PostPeriod(ctx *gin.Context) {
 	}
 	ctx.JSON(200, resId)
 }
-
+//post many periods. Takes in an array
 func (r repo) PostManyPeriods(ctx *gin.Context) {
 	st := `INSERT INTO Periods(period_name, season_name, starting, ending) VALUES  `
 
@@ -174,7 +177,7 @@ func (r repo) PostManyPeriods(ctx *gin.Context) {
 	
 	ctx.JSON(200, rowsAffected)
 }
-
+//update one period
 func (r repo) UpdatePeriod(ctx *gin.Context) {
 	tx, err := r.sqlDb.BeginTx(ctx, nil) //starts a transaction session with the given context
 	if err != nil {
@@ -236,6 +239,6 @@ func (r repo )DeletePeriod(ctx *gin.Context){
 	ctx.JSON(200, rowsAffected)
 
 }
-//TODO create many
+//TODO create delete many
 //delete periods that belongs to one period
 
