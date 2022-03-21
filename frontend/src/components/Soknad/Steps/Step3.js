@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { BsQuestionCircle } from 'react-icons/bs';
+import CabinCardSmall from './../../01-Reusable/CabinCard/CabinCardSmall';
+
 import './Steps.css';
 import './Step3.css';
 
@@ -41,6 +43,12 @@ const Step3 = () => {
           <label for="pickSelf">Jeg ønsker å velge hytte(ne)</label>
           <p className="soknad-step3-next">{'>'}</p>
         </div>
+      </div>
+      <div className="soknad-step3-cabins">
+        <CabinCardSmall />
+        <CabinCardSmall />
+        <CabinCardSmall />
+        <CabinCardSmall />
       </div>
     </>
   );

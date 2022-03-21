@@ -1,0 +1,117 @@
+.card-small {
+  height: 225px;
+  width: 200px;
+  margin: 10px auto;
+  padding: 2px;
+  text-align: left;
+
+  border-radius: 5px;
+  border: 0;
+  box-shadow: 0px 0px 2px 2px #e5e5e5;
+  background-color: white;
+  overflow: hidden;
+}
+
+.card-small:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+}
+
+.card-small-active {
+  background-color: #eaddff;
+  box-shadow: 0px 0px 2px 2px #8900c5;
+}
+
+.card-picture-small {
+  object-fit: cover;
+  height: 40%;
+  width: 100%;
+  border: 0;
+  margin: 0;
+  border-radius: 5px 5px 0 0;
+}
+
+.card-content-small {
+  height: 60%;
+  width: 100%;
+  padding-left: 2px;
+  vertical-align: baseline;
+}
+
+.card-content-small .card-title {
+  font-size: 1.5rem;
+  color: #8900c5;
+  font-weight: 750;
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+
+.card-content-small .card-address {
+  font-size: 12px;
+  margin-top: 0px;
+  font-weight: 50;
+}
+
+.bed {
+  grid-area: bedIcon;
+}
+.bath {
+  grid-area: bathIcon;
+}
+.sleepingslots {
+  grid-area: textSleeping;
+}
+.badrooms {
+  grid-area: textBath;
+}
+
+.card-content-small .card-features-small {
+  display: grid;
+  grid-template-areas:
+    'bedIcon textSleeping'
+    'bathIcon textBath';
+  grid-template-columns: auto auto;
+}
+
+.card-features-small p {
+  font-size: 14px;
+  margin: auto 0;
+  height: auto;
+}
+
+.card-icon-small {
+  height: 25px;
+  width: 25px;
+  margin: 4px 0;
+}
+
+@media only screen and (max-width: 900px) {
+  .card-small {
+    height: 200px;
+    width: 150px;
+  }
+
+  .card-picture-small {
+    height: 30%;
+  }
+  .card-content-small {
+    height: 70%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .card-small {
+    height: 175px;
+    width: 125px;
+  }
+
+  .card-icon-small {
+    height: 18;
+    width: 18;
+    margin: 2px 0;
+  }
+
+  .card-content-small .card-address {
+    margin-bottom: 5px;
+  }
+}

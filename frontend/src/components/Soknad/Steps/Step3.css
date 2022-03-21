@@ -16,3 +16,22 @@
   transform: rotate(90deg);
   border-radius: 10px;
 }
+
+.soknad-step3-cabins {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  margin: 2rem;
+}
+
+@media only screen and (max-width: 1300px) {
+  .soknad-step3-cabins {
+    grid-template-columns: auto auto;
+    margin: 2rem;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .soknad-step3-cabins {
+    margin: 0;
+  }
+}
