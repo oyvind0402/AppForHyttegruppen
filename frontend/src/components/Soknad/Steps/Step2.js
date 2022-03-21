@@ -1,6 +1,5 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BsQuestionCircle } from 'react-icons/bs';
-import Period from './Period';
 import './Steps.css';
 import './Step2.css';
 
