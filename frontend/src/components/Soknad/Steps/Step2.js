@@ -133,7 +133,7 @@ const Step2 = () => {
             Legg til
           </button>
           <button
-            className="btn small step2-btn-remove"
+            className="btn small step2-btn-remove btn-nonActive"
             onClick={removePerioder}
           >
             Fjern

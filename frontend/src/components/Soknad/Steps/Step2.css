@@ -8,14 +8,13 @@
   min-height: 100px;
   max-height: 200px;
 
-  margin: 0 auto;
+  margin: 25px auto;
   padding: 10px 20px;
   overflow-x: hidden;
   overflow-y: scroll;
 
   display: flex;
   flex-direction: column;
-  margin-bottom: 50px;
 
   border: 2px solid black;
   border-radius: 5px;
@@ -49,4 +48,24 @@
 
 .soknad-step2-btns {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.soknad-step2-indicator {
+  font-size: 4rem;
+  font-weight: 1000;
+  margin: 0;
+  padding: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .perioder-input {
+    width: calc(90% - 10px);
+    min-height: 50px;
+    max-height: 100px;
+
+    margin: 15px auto;
+    padding: 5px;
+  }
 }

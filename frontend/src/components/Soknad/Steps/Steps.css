@@ -13,3 +13,15 @@
 .soknad-question-text {
   font-size: 1.75rem;
 }
+
+@media only screen and (max-width: 600px) {
+  .soknad-question-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  .soknad-question-text {
+    font-size: 1.1rem;
+  }
+}
