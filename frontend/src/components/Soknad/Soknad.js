@@ -10,15 +10,11 @@ const Soknad = () => {
   const [page, setPage] = useState(1);
 
   function nextPage() {
-    if (page < 3) {
-      setPage(page + 1);
-    }
+    if (page < 3) setPage(page + 1);
   }
 
   function previousPage() {
-    if (page != 1) {
-      setPage(page - 1);
-    }
+    if (page != 1) setPage(page - 1);
   }
 
   const clickOnProgressbar = (newPage) => {
@@ -35,6 +31,7 @@ const Soknad = () => {
       <Progressbar page={page} clickOnProgressbar={clickOnProgressbar} />
       <div className="content-soknad">
         <p>{page}</p>
+
         <div className="soknad-btn">
           {page === 1 ? (
             <button className="btn small btn-nonActive" onClick={nullstillForm}>
