@@ -5,7 +5,9 @@ CREATE DATABASE hyttegruppen;
 CREATE TABLE Seasons (
     season_name varchar(20) PRIMARY KEY,
     first_day timestamp UNIQUE NOT NULL,
-    last_day timestamp UNIQUE NOT NULL
+    last_day timestamp UNIQUE NOT NULL,
+    apply_from timestamp NOT NULL,
+    apply_until timestamp NOT NULL
 );
 
 CREATE TABLE Periods (
@@ -20,7 +22,7 @@ CREATE TABLE Periods (
         FOREIGN KEY(season_name)
             REFERENCES Seasons(season_name)
             ON DELETE CASCADE
-);
+        );
 
 CREATE TABLE Cabins (
     cabin_name varchar(20) PRIMARY KEY,
@@ -72,9 +74,9 @@ CREATE TABLE ApplicationCabins(
     PRIMARY KEY(application_id, cabin_name)
 );
 
-INSERT INTO Seasons (season_name, first_day, last_day)
-VALUES('winter2022','2022-01-01', '2022-03-30'),
-('spring2022','2022-07-01', '2022-11-30');
+INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
+VALUES('winter2022','2022-01-01', '2022-03-30', '2021-10-01', '2021-12-31'),
+('spring2022','2022-07-01', '2022-11-30', '2022-02-01', '2022-05-30');
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
 VALUES ('Week 1', '2022-02-02', '2022-02-09', 'winter2022'),

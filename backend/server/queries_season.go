@@ -1,11 +1,6 @@
 package server
 
 import (
-	//"net/http"
-
-	// "context"
-	// "fmt"
-
 	"net/http"
 	"time"
 
@@ -13,55 +8,99 @@ import (
 	"bachelorprosjekt/backend/utils"
 
 	"github.com/gin-gonic/gin"
-	// "go.mongodb.org/mongo-driver/bson"
-	// "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// curl -X GET -v -d "1" localhost:8080/application/get
-// -X -> type of request (POST/GET...) -d -> data that you send in.
-/*
-	var end *string address = 1
-	add(end) -> object itself in the array
-	add(*end) -> takes a pointer and returns the variable
-	add(&end) -> creates a pointer
-
-
-*/
-
+// Retrieves one season by season name (receives season_name: string; returns Seasons)
 func (r repo) GetSeason(ctx *gin.Context) {
-	row := r.sqlDb.QueryRow(`SELECT "" FROM "" WHERE ""`)
+	// Retrieve season name/id from context
+	seasonName := new(string)
+	err := ctx.BindJSON(seasonName)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
 
-	var name string
-	var firstDay time.Time
-	var lastDay time.Time
+	// Run select query
+	row := r.sqlDb.QueryRow(`SELECT * FROM Seasons WHERE season_name = $1`, *seasonName)
 
-	err := row.Scan(&name, &firstDay, &lastDay)
-	utils.AbortWithStatus(err, *ctx)
-
-	season := data.Season{Name: name, FirstDay: &firstDay, LastDay: &lastDay}  //why pointers here? 
+	// Read values into object
+	var season data.Season
+	if err := row.Scan(&season.Name, &season.FirstDay, &season.LastDay, &season.ApplyFrom, &season.ApplyUntil); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
 
 	ctx.JSON(200, season)
 }
 
-func (r repo) GetAllSeasons(ctx *gin.Context) {
-	print(r.sqlDb)
-	rows, err := r.sqlDb.Query(`SELECT * FROM Season`)
-	utils.AbortWithStatus(err, *ctx)	
+// Retrieves information about ongoing application season (receives NOTHING; returns {bool, []Season})
+func (r repo) GetCurrentOpenSeason(ctx *gin.Context) {
+	currdate := time.Now()
+
+	// Run select query
+	rows, err := r.sqlDb.Query(`
+		SELECT * 
+		FROM Seasons 
+		WHERE apply_from < $1 
+			AND apply_until > $1`, currdate)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
 	defer rows.Close()
-	
 
-	var seasons []data.Season
-
+	// Parse open seasons into []Season
+	var openSeasons []data.Season
 	for rows.Next() {
+		// Read values into object
+		var season data.Season
+		if err := rows.Scan(&season.Name, &season.FirstDay, &season.LastDay, &season.ApplyFrom, &season.ApplyUntil); err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
+		}
+		openSeasons = append(openSeasons, season)
+	}
 
-		var name string
-		var firstDay time.Time
-		var lastDay time.Time
+	// restult type indicates whether there is a period open (IsOpen) and, if so, which one(s)
+	type result struct {
+		IsOpen  bool          `json:"isOpen"`
+		Seasons []data.Season `json:"seasons,omitempty"`
+	}
 
-		err = rows.Scan(&name, &firstDay, &lastDay)
-		utils.AbortWithStatus(err, *ctx)
+	// Only include array if a period is open
+	var res result
+	if len(openSeasons) > 0 {
+		res.IsOpen = true
+		res.Seasons = openSeasons
+	} else {
+		res.IsOpen = false
+	}
 
-		season := data.Season{Name: name, FirstDay: &firstDay, LastDay: &lastDay}
+	ctx.JSON(200, res)
+}
+
+// Retrieve all seasons (receives NOTHING; returns []Season)
+func (r repo) GetAllSeasons(ctx *gin.Context) {
+	// Get seasons from table
+	rows, err := r.sqlDb.Query(`SELECT * FROM Seasons ORDER BY first_day DESC`)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	// Create seasons array
+	var seasons []data.Season
+	for rows.Next() {
+		// Create Season
+		var season data.Season
+		err = rows.Scan(&season.Name, &season.FirstDay, &season.LastDay, &season.ApplyFrom, &season.ApplyUntil)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
+		}
+
+		// Add Season to array
 		seasons = append(seasons, season)
 	}
 
@@ -69,61 +108,97 @@ func (r repo) GetAllSeasons(ctx *gin.Context) {
 }
 
 func (r repo) PostSeason(ctx *gin.Context) {
-	st := `INSERT INTO "Season"( "seasonName","firstDay", "lastDay") values($1, $2, $3)`
-	_, err := r.sqlDb.Exec(st, "Winter2023", "01-02.2023", "31-03-2023")
-	utils.AbortWithStatus(err, *ctx)
-}
-
-func (r repo) UpdateSeason(ctx *gin.Context) {
-	tx, err := r.sqlDb.BeginTx(ctx, nil) //starts a transaction session with the given context
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
-	defer tx.Rollback()
-
+	// Get Season from context
 	season := new(data.Season)
-	err = ctx.BindJSON(season)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-	}
-
-	res, err := tx.Exec(
-		`UPDATE Season SET first_day = $1, last_day = $2WHERE season_name = $3`,
-		season.FirstDay, season.LastDay, season.Name,
-	)
+	err := ctx.BindJSON(season)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
+
+	// Insert values into table
+	stmt := `INSERT INTO Seasons(
+		season_name,
+		first_day,
+		last_day,
+		apply_from,
+		apply_until) 
+		VALUES($1, $2, $3, $4, $5)`
+	res, err := r.sqlDb.Exec(stmt,
+		season.Name,
+		season.FirstDay,
+		season.LastDay,
+		season.ApplyFrom,
+		season.ApplyUntil)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Retrieve number of rows affected
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
-	if err = tx.Commit(); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
 	ctx.JSON(200, rowsAffected)
 }
 
-func (r repo) DeleteSeason(ctx *gin.Context) {
-	seasonId := new(string)
+// Update season (receives Season; returns rows_affected: int)
+func (r repo) UpdateSeason(ctx *gin.Context) {
+	// Get Season from context
+	season := new(data.Season)
+	err := ctx.BindJSON(season)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
 
+	// Run update
+	res, err := r.sqlDb.Exec(
+		`UPDATE Seasons 
+			SET 
+				first_day = $1, 
+				last_day = $2, 
+				apply_from = $3,
+				apply_until = $4
+			WHERE season_name = $5`,
+		season.FirstDay, season.LastDay, season.ApplyFrom, season.ApplyUntil, season.Name,
+	)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Retrieve number of rows affected
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, rowsAffected)
+}
+
+// Delete season by name (receives season_name: string; returns rows_affected: int)
+func (r repo) DeleteSeason(ctx *gin.Context) {
+	// Get season name/id from context
+	seasonId := new(string)
 	err := ctx.BindJSON(seasonId)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
-	res, err := r.sqlDb.Exec(`DELETE FROM Season WHERE season_name = $1`, &seasonId)
+	// Run delete query
+	res, err := r.sqlDb.Exec(`DELETE FROM Seasons WHERE season_name = $1`, &seasonId)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
+	// Retrieve rows affected
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -133,23 +208,35 @@ func (r repo) DeleteSeason(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-func (r repo) DeleteSeasons(ctx *gin.Context) {
-	inputDate := new(string)
+// Delete seasons (receives date Time "2006-01-02T00:00:00Z" OR "2006-01-02"; returns rows_affected: int)
+func (r repo) DeleteOlderSeasons(ctx *gin.Context) {
+	// Retrieve date from context
+	input := new(string)
+	err := ctx.BindJSON(input)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
 
-	err := ctx.BindJSON(inputDate)
+	inputDate, err := utils.NormaliseTime(*input)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
-	res, err := r.sqlDb.Exec(`DELETE FREOM Seasons WHERE last_day < $1`, inputDate)
+
+	// Execute delete query
+	res, err := r.sqlDb.Exec(`DELETE FROM Seasons WHERE last_day < $1`, inputDate)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
+
+	// Retrieve number of rows affected
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
+
 	ctx.JSON(200, rowsAffected)
 }

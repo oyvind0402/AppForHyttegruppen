@@ -11,10 +11,12 @@ import (
 )
 
 func Start() {
+	// Handle databases
 	r := startDB()
 	defer r.sqlDb.Close()
 	defer r.noSqlDb.Disconnect(context.Background())
 	router := setRouter(r)
+
 	// Start listening and serving requests
 	router.Run(":8080")
 }
@@ -42,15 +44,13 @@ func setRouter(r repo) *gin.Engine {
 
 	seasonapi := router.Group("/season")
 	{
-		seasonapi.GET("/get")
-		seasonapi.GET("/getall")
-		seasonapi.POST("/post")
-		seasonapi.PUT("/update")
-		seasonapi.DELETE("/delete")
-		seasonapi.DELETE("/deletemany") //older than a date
-
-		//Add application period open/closed to season
-		// if a season is open, start and end date
+		seasonapi.GET("/get", r.GetSeason)
+		seasonapi.GET("/getcurrentopen", r.GetCurrentOpenSeason)
+		seasonapi.GET("/getall", r.GetAllSeasons)
+		seasonapi.POST("/post", r.PostSeason)
+		seasonapi.PUT("/update", r.UpdateSeason)
+		seasonapi.DELETE("/delete", r.DeleteSeason)
+		seasonapi.DELETE("/deleteolder", r.DeleteOlderSeasons)
 	}
 
 	featureapi := router.Group("/feature")
