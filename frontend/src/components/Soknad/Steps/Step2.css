@@ -1,0 +1,52 @@
+.input-header {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.perioder-input {
+  width: calc(80% - 40px);
+  min-height: 100px;
+  max-height: 200px;
+
+  margin: 0 auto;
+  padding: 10px 20px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.soknad-step2-period {
+  margin: 2px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.soknad-step2-label {
+  padding: 10px;
+  border-radius: 1px;
+}
+
+.soknad-step2-label:hover {
+  cursor: pointer;
+}
+
+.soknad-step2-checkbox {
+  width: 100%;
+  visibility: hidden;
+  height: 0px;
+}
+
+.soknad-step2-checkbox:checked ~ .soknad-step2-label {
+  background-color: #bc01ff;
+  color: white;
+}
+
+.soknad-step2-btns {
+  display: flex;
+}
