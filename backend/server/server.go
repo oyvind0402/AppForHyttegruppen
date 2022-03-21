@@ -76,6 +76,11 @@ func setRouter(r repo) *gin.Engine {
 	applicationapi := router.Group("/application")
 	{
 		applicationapi.GET("/get", r.GetApplication)
+		applicationapi.GET("/getbyuser", r.GetUserApplications)
+		applicationapi.GET("/getbyuserwon", r.GetPastTripsUserApplications)
+		applicationapi.GET("/getbyuserpending", r.GetPendingUserApplications)
+		applicationapi.GET("/getbyusercurrent", r.GetCurrentTripsUserApplications)
+		applicationapi.GET("/getbyuserfuture", r.GetFutureTripsUserApplications)
 		applicationapi.GET("/getall", r.GetAllApplications)
 		applicationapi.POST("/post", r.PostApplication)
 		applicationapi.PUT("/update", r.UpdateApplication)

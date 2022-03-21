@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -70,71 +71,9 @@ func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, a
 	return tx, err
 }
 
-// Retrieve one application by ID (receives int)
-func (r repo) GetApplication(ctx *gin.Context) {
-	// curl -X GET -v -d "1" localhost:8080/application/get
-
-	// Retrieve parameter ID
-	applicationId := new(int)
-	if err := ctx.BindJSON(applicationId); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
-
-	// Select application from database
-	rows, err := r.sqlDb.Query(`SELECT * FROM Applications WHERE application_id = $1 LIMIT 1`, *applicationId)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
-	defer rows.Close()
-
-	// Create Application
-	var application data.Application
-	for rows.Next() {
-		var periodId int
-
-		// Map columns to Application fields
-		if err = rows.Scan(
-			&application.ApplicationId,
-			&application.UserId,
-			&application.AccentureId,
-			&application.TripPurpose,
-			&application.NumberOfCabins,
-			&periodId,
-			&application.Winner); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return
-		}
-
-		// Get Period information
-		application.Period, err = r.getPeriodById(ctx, periodId)
-		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return
-		}
-
-		// Get cabins
-		application.Cabins, application.CabinsWon, err = r.getCabins(ctx, *applicationId)
-		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return
-		}
-	}
-
-	// Return success and one application
-	ctx.JSON(200, application)
-}
-
-// Retrieve all applications in database (receives NOTHING)
-func (r repo) GetAllApplications(ctx *gin.Context) {
-	// Get all applications from database
-	rows, err := r.sqlDb.Query(`SELECT * FROM Applications`)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
-	defer rows.Close()
+// Get applications from Query
+func (r repo) getApplications(ctx *gin.Context, rows *sql.Rows) ([]data.Application, error) {
+	var err error
 
 	// Create Application array
 	var applications []data.Application
@@ -154,31 +93,284 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 			&periodId,
 			&application.Winner); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return
+			return applications, err
 		}
 
+		// Get period
 		application.Period, err = r.getPeriodById(ctx, periodId)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return
+			return applications, err
 		}
 
 		// Get cabins
 		application.Cabins, application.CabinsWon, err = r.getCabins(ctx, application.ApplicationId)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return
+			return applications, err
 		}
 
 		// Append Application to Applications array
 		applications = append(applications, application)
+	}
+	return applications, err
+}
+
+// Retrieve one application by ID (receives int, returns Application)
+func (r repo) GetApplication(ctx *gin.Context) {
+	// curl -X GET -v -d "1" localhost:8080/application/get
+
+	// Retrieve parameter ID
+	applicationId := new(int)
+	if err := ctx.BindJSON(applicationId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Select application from database
+	row := r.sqlDb.QueryRow(`SELECT * FROM Applications WHERE application_id = $1`, *applicationId)
+
+	var err error
+
+	// Create Application
+	var application data.Application
+	var periodId int
+
+	// Map columns to Application fields
+	if err = row.Scan(
+		&application.ApplicationId,
+		&application.UserId,
+		&application.AccentureId,
+		&application.TripPurpose,
+		&application.NumberOfCabins,
+		&periodId,
+		&application.Winner); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Get Period information
+	application.Period, err = r.getPeriodById(ctx, periodId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Get cabins
+	application.Cabins, application.CabinsWon, err = r.getCabins(ctx, *applicationId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and one application
+	ctx.JSON(200, application)
+}
+
+// Retrieve all applications for a userid (receives int, returns []Application)
+func (r repo) GetUserApplications(ctx *gin.Context) {
+	// Retrieve ID parameter
+	userId := new(int)
+	if err := ctx.BindJSON(userId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Get all applications from database
+	rows, err := r.sqlDb.Query(`SELECT * FROM Applications WHERE user_id = $1`, *userId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	applications, err := r.getApplications(ctx, rows)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
 	}
 
 	// Return success and Application array
 	ctx.JSON(200, applications)
 }
 
-// Post one cabin (receives Application)
+// Retrieve applications for a userid where winner=true and end_date < today (receives int, returns []Application)
+func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
+	// Retrieve ID parameter
+	userId := new(int)
+	if err := ctx.BindJSON(userId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	curdate := time.Now()
+
+	// Get all applications from database
+	rows, err := r.sqlDb.Query(`
+		SELECT * FROM Applications 
+		WHERE user_id = $1 
+		AND winner = True 
+		AND period_id IN (
+			SELECT period_id
+			FROM Periods
+			WHERE ending < $2
+		) `,
+		*userId,
+		curdate)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	applications, err := r.getApplications(ctx, rows)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve applications for a userid where winner=false and start_date > today (receives int, returns []Application)
+func (r repo) GetPendingUserApplications(ctx *gin.Context) {
+	// Retrieve ID parameter
+	userId := new(int)
+	if err := ctx.BindJSON(userId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	curdate := time.Now()
+
+	// Get all applications from database
+	rows, err := r.sqlDb.Query(`
+		SELECT * FROM Applications 
+		WHERE user_id = $1 
+		AND winner = False 
+		AND period_id IN (
+			SELECT period_id
+			FROM Periods
+			WHERE starting > $2
+		) `,
+		*userId,
+		curdate)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	applications, err := r.getApplications(ctx, rows)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve applications for a userid where winner=true and start_date < today < end_date (receives int, returns []Application)
+func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
+	// Retrieve ID parameter
+	userId := new(int)
+	if err := ctx.BindJSON(userId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	curdate := time.Now()
+
+	// Get applications from database
+	rows, err := r.sqlDb.Query(`
+		SELECT * FROM Applications 
+		WHERE user_id = $1 
+		AND winner = True 
+		AND period_id IN (
+			SELECT period_id
+			FROM Periods
+			WHERE starting < $2 AND ending > $2
+		) `,
+		*userId,
+		curdate)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	applications, err := r.getApplications(ctx, rows)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve applications for a userid where winner=true and start_date > today (receives int, returns []Application)
+func (r repo) GetFutureTripsUserApplications(ctx *gin.Context) {
+	// Retrieve ID parameter
+	userId := new(int)
+	if err := ctx.BindJSON(userId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	curdate := time.Now()
+
+	// Get all applications from database
+	rows, err := r.sqlDb.Query(`
+		SELECT * FROM Applications 
+		WHERE user_id = $1 
+		AND winner = True 
+		AND period_id IN (
+			SELECT period_id
+			FROM Periods
+			WHERE starting > $2
+		) `,
+		*userId,
+		curdate)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	applications, err := r.getApplications(ctx, rows)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve all applications in database (receives NOTHING, returns []Application)
+func (r repo) GetAllApplications(ctx *gin.Context) {
+	// Get all applications from database
+	rows, err := r.sqlDb.Query(`SELECT * FROM Applications`)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	applications, err := r.getApplications(ctx, rows)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Post one cabin (receives Application, returns application_id: int)
 func (r repo) PostApplication(ctx *gin.Context) {
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
@@ -228,7 +420,7 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	ctx.JSON(200, resId)
 }
 
-// Update application (ALL fields) (receives Application)
+// Update application (ALL fields) (receives Application, returns rows_affected: int)
 func (r repo) UpdateApplication(ctx *gin.Context) {
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
@@ -294,7 +486,7 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Update application, defining it as a winning application AND specifying cabins that were won (receives Application, requires only Id, Winner and CabinsWon)
+// Update application, defining it as a winning application AND specifying cabins that were won (receives Application, requires only Id, Winner and CabinsWon; returns rows_affected: int)
 func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
@@ -365,7 +557,7 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete one application with specified ID (receives [int)
+// Delete one application with specified ID (receives int, returns rows_affected: int)
 func (r repo) DeleteApplication(ctx *gin.Context) {
 	// curl -X DELETE -v -d "1" localhost:8080/application/delete
 
@@ -394,7 +586,7 @@ func (r repo) DeleteApplication(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete all losing applications of a specified season (receives string)
+// Delete all losing applications of a specified season (receives string, returns rows_affected: int)
 func (r repo) DeleteLosingApplications(ctx *gin.Context) {
 	// curl -X DELETE -v -d "\"winter2022\"" localhost:8080/application/deletelosing
 
@@ -430,7 +622,7 @@ func (r repo) DeleteLosingApplications(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete multiple applications by ID (receives []int)
+// Delete multiple applications by ID (receives []int, returns rows_affected: int)
 func (r repo) DeleteApplicationsById(ctx *gin.Context) {
 	// curl -X DELETE -v -d "[1, 2]" localhost:8080/application/deletemanybyid
 

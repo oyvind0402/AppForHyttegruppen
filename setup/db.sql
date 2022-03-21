@@ -73,11 +73,14 @@ CREATE TABLE ApplicationCabins(
 );
 
 INSERT INTO Seasons (season_name, first_day, last_day)
-VALUES('winter2022','2022-01-01', '2022-03-30');
+VALUES('winter2022','2022-01-01', '2022-03-30'),
+('spring2022','2022-07-01', '2022-11-30');
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
 VALUES ('Week 1', '2022-02-02', '2022-02-09', 'winter2022'),
-('Week 2', '2022-02-09', '2022-02-16', 'winter2022');
+('Week 2', '2022-02-09', '2022-02-16', 'winter2022'),
+('Week 7', '2022-03-21', '2022-03-30', 'winter2022'),
+('Week 40', '2022-10-09', '2022-10-16', 'spring2022');
 
 INSERT INTO Cabins
 VALUES('Utsikten', TRUE),
