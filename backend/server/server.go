@@ -95,9 +95,9 @@ func setRouter(r repo) *gin.Engine {
 		userapi.GET("/get", r.GetUser)
 		userapi.GET("/getall", r.GetAllUsers)
 		userapi.POST("/post", r.PostUser)
+		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
-		//login
-		//sign up
+		userapi.GET("/signin", r.SignIn)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
