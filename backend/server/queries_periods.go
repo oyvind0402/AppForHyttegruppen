@@ -26,7 +26,7 @@ import (
 	add(&end) -> creates a pointer
 */
 
-//TODO change period start and endt types to pointers
+//TODO change period start and endt types to pointers like in season
 
 // retrieves one peried by id (receives int)
 func (r repo) getPeriodById(ctx *gin.Context, periodId int) (data.Period, error) {
@@ -137,7 +137,7 @@ func (r repo) PostPeriod(ctx *gin.Context) {
 	}
 	ctx.JSON(200, resId)
 }
-//FIXME return 
+
 func (r repo) PostManyPeriods(ctx *gin.Context) {
 	st := `INSERT INTO Periods(period_name, season_name, starting, ending) VALUES  `
 
@@ -186,20 +186,22 @@ func (r repo) UpdatePeriod(ctx *gin.Context) {
 	period := new(data.Period)
 	err = ctx.BindJSON(period)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()+ " error after bindJS"})
+		return
 	}
 
 	res, err := tx.Exec(
-		`UPDATE Period SET name = $1 season = $2, start= $3, end = $4,  WHERE period_id = $4`,
-		period.Name, period.Season, period.Start, period.End, period.Id,
+		`UPDATE Periods SET period_name = $1, season_name = $2, starting = $3, ending = $4  WHERE period_id = $5;`,
+		period.Name, period.Season.Name, period.Start, period.End, period.Id,
 	)
+
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": fmt.Sprintf("error: %s; ending: %s: start: %s",err.Error(), period.End, period.Start)})
 		return
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()+ "error after rows affected"})
 		return
 	}
 
@@ -207,9 +209,33 @@ func (r repo) UpdatePeriod(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
+	fmt.Println(rowsAffected)
 	ctx.JSON(200, rowsAffected)
 }
 
-// delete
 
-//delete many
+// delete one period
+func (r repo )DeletePeriod(ctx *gin.Context){
+	periodID := new(int)
+	if err := ctx.BindJSON(periodID); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	res, err := r.sqlDb.Exec(`DELETE FROM Periods WHERE period_id = $1`, periodID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	rowsAffected, err := res.RowsAffected()
+		if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	ctx.JSON(200, rowsAffected)
+
+}
+//TODO create many
+//delete periods that belongs to one period
+
