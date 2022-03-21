@@ -38,7 +38,8 @@ db.createCollection(
                 "features": {
                     "bsonType": "object",
                     "required": [
-                        "countableFeatures"
+                        "countableFeatures",
+                        "uncountableFeatures",
                     ],
                     "properties": {
                         "countableFeatures": {
