@@ -29,9 +29,10 @@ CREATE TABLE Cabins (
 
 CREATE TABLE Users(
     user_id INT PRIMARY KEY NOT NULL,
-    user_email varchar(40) UNIQUE NOT NULL,
-    user_name varchar(25) NOT NULL, 
-    user_password varchar(20) NOT NULL, /*deal with hash */
+    email varchar(40) UNIQUE NOT NULL,
+    passwd varchar(20) NOT NULL, /*deal with hash */
+    firstname varchar(25) NOT NULL, 
+    lastname varchar(25) NOT NULL, 
     admin_access boolean NOT NULL
 );
 
@@ -83,7 +84,7 @@ VALUES('Utsikten', TRUE),
 ('Fanitullen', TRUE);
 
 INSERT INTO Users 
-VALUES('981279386', 'test@teter.com','Test', 'password123', FALSE);
+VALUES('981279386', 'test@teter.com','password123', 'test', 'tester', FALSE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, period_id, winner)
 VALUES('981279386','123', 'private', '1',  '1', FALSE);

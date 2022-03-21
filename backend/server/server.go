@@ -47,7 +47,10 @@ func setRouter(r repo) *gin.Engine {
 		seasonapi.POST("/post")
 		seasonapi.PUT("/update")
 		seasonapi.DELETE("/delete")
-		seasonapi.DELETE("/deletemany")
+		seasonapi.DELETE("/deletemany") //older than a date
+
+		//Add application period open/closed to season
+		// if a season is open, start and end date
 	}
 
 	featureapi := router.Group("/feature")
@@ -80,16 +83,20 @@ func setRouter(r repo) *gin.Engine {
 		applicationapi.DELETE("/delete", r.DeleteApplication)
 		applicationapi.DELETE("/deletelosing", r.DeleteLosingApplications)
 		applicationapi.DELETE("/deletemanybyid", r.DeleteApplicationsById)
+		//get by user id
+		//get by user id future active trips
+		//get by user id awaiting answer
+		//get by user id past winning applications
 	}
 
 	userapi := router.Group("/user")
 	{
-		userapi.GET("/get")
-		userapi.GET("/getall")
-		userapi.POST("/post")
-		userapi.PUT("/update")
-		userapi.DELETE("/delete")
-		userapi.DELETE("/deletemany")
+		userapi.GET("/get", r.GetUser)
+		userapi.GET("/getall", r.GetAllUsers)
+		userapi.POST("/post", r.PostUser)
+		userapi.DELETE("/delete", r.DeleteUser)
+		//login
+		//sign up
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
