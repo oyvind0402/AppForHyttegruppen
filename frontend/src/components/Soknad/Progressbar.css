@@ -1,0 +1,78 @@
+.progressbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 10vw;
+}
+
+.progress-step {
+  padding: 5px 10px;
+  font-weight: 750;
+  width: 100px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.activeProgress {
+  color: white;
+  background-color: #bc01ff;
+}
+
+.passedProgress {
+  color: black;
+  background-color: #eaddff;
+}
+
+.passedProgress:hover {
+  cursor: pointer;
+  color: white;
+  background-color: #bc01ff;
+}
+
+.not-activeProgress {
+  color: black;
+  background-color: #e5e5e5;
+}
+
+.progress-line {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 3px solid black;
+  padding: 0;
+  width: 175px;
+  margin: 0;
+}
+
+@media only screen and (max-width: 1200px) {
+  .progress-line {
+    width: 100px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .progress-line {
+    width: 50px;
+  }
+
+  .progress-step {
+    padding: 5px 5px;
+    width: 85px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .progress-line {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .progressbar {
+    flex-direction: column;
+  }
+
+  .progress-step {
+    margin: 5px 0;
+  }
+}

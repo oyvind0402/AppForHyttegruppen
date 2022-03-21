@@ -41,6 +41,19 @@
   margin: 25px auto 25px auto;
 }
 
+.btn-nonActive {
+  background-color: #eaddff;
+  color: black;
+  border: 0;
+  border: 3px solid #eaddff;
+}
+
+.btn-nonActive:hover {
+  background-color: #bd00ff;
+  color: white;
+  border: 3px solid #bd00ff;
+}
+
 @media only screen and (max-width: 500px) {
   .btn {
     padding: 15px 10px;
