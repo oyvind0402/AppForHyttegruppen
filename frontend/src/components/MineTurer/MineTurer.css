@@ -10,7 +10,7 @@
 
 .trip-row-wrapper {
   display: grid;
-  grid-template-columns: 600px 600px;
+  grid-template-columns: 40% 40%;
   grid-gap: 10%;
   justify-content: center;
   margin-bottom: 5rem;
@@ -24,11 +24,28 @@
 .mintur-link {
   text-decoration: none;
   color: black;
-  width: 600px;
-  height: 266px;
+  width: auto;
 }
 
 hr {
   margin-left: 10%;
   margin-right: 10%;
+}
+
+@media only screen and (max-width: 1220px) {
+  .trip-row-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .mytrip-title {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 395px) {
+  .mytrip-title {
+    font-size: 1.5rem;
+  }
 }

@@ -73,7 +73,7 @@ const MineTurer = () => {
         </div>
         <hr />
         <div className="mytrip-card-wrapper">
-          <p className="mytrip-title">Dine fremtidige turer:</p>
+          <p className="mytrip-title">Dine godkjente turer:</p>
           <div className="trip-row-wrapper">
             <TripCardActive data={data.applications[2]} />
           </div>

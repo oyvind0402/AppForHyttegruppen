@@ -1,12 +1,12 @@
 .mytrip-card-container {
-  width: 100%;
-  height: 266px;
-  margin-bottom: 2.25rem;
+  width: auto;
+  height: fit-content;
   display: grid;
-  grid-template-columns: 256.99px 171.5px 171.5px;
+  grid-template-columns: 40% 30% 30%;
   border-radius: 0.3125rem;
   box-shadow: 0px 0px 2px 2px #e5e5e5;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .mytrip-card-container:hover {
@@ -14,12 +14,15 @@
 }
 
 .mytrip-picture {
-  object-fit: cover;
+  object-fit: fill;
+  height: fit-content;
+  width: 100%;
 }
 
 .mytrip-picture-blur {
-  object-fit: cover;
-  filter: blur(2px);
+  object-fit: fill;
+  height: auto;
+  width: 100%;
 }
 
 .card-info {
@@ -57,10 +60,15 @@
     'd'
     'e'
     'f';
-  height: 266px;
+  height: 100%;
   align-items: flex-end;
   justify-content: end;
   padding-right: 10%;
+}
+
+.warning {
+  text-align: center;
+  grid-area: f;
 }
 
 .warning-icon {
@@ -73,12 +81,13 @@
 
 .warning-text {
   margin: 0;
-  grid-area: f;
+  margin-bottom: 10%;
   align-self: center;
 }
 
 .cancel-box {
   display: grid;
+  height: 100%;
   grid-template-areas:
     'a'
     'b'
@@ -124,4 +133,282 @@
 .cancel-text {
   font-weight: 700;
   text-decoration: underline;
+}
+
+@media only screen and (max-width: 1795px) {
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-season {
+    font-size: 0.8rem;
+  }
+
+  .card-date {
+    font-size: 0.8rem;
+  }
+
+  .pending-text {
+    font-size: 0.8rem;
+  }
+
+  .pending-date {
+    font-size: 0.8rem;
+  }
+
+  .cancel-text {
+    font-size: 0.8rem;
+  }
+
+  .cancel-icon {
+    font-size: 1.5rem;
+  }
+
+  .card-info {
+    width: 225px;
+  }
+
+  .warning-text {
+    font-size: 0.8rem;
+  }
+
+  .warning-icon {
+    width: 2rem;
+  }
+
+  .pending-icon {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 1220px) {
+  .card-title {
+    font-size: 2.5rem;
+  }
+
+  .card-season {
+    font-size: 2rem;
+  }
+
+  .card-date {
+    font-size: 2rem;
+  }
+
+  .pending-text {
+    font-size: 2rem;
+  }
+
+  .pending-date {
+    font-size: 2rem;
+  }
+
+  .cancel-text {
+    font-size: 2rem;
+  }
+
+  .cancel-icon {
+    font-size: 2.5rem;
+  }
+
+  .card-info {
+    width: 350px;
+  }
+
+  .warning-text {
+    font-size: 1.5rem;
+  }
+
+  .warning-icon {
+    width: 2.5rem;
+  }
+
+  .pending-icon {
+    font-size: 2.5rem;
+  }
+}
+
+@media only screen and (max-width: 990px) {
+  .card-title {
+    font-size: 2rem;
+  }
+
+  .card-season {
+    font-size: 1.5rem;
+  }
+
+  .card-date {
+    font-size: 1.5rem;
+  }
+
+  .pending-text {
+    font-size: 1.5rem;
+  }
+
+  .pending-date {
+    font-size: 1.5rem;
+  }
+
+  .cancel-text {
+    font-size: 1.5rem;
+  }
+
+  .cancel-icon {
+    font-size: 2rem;
+  }
+
+  .card-info {
+    width: 250px;
+  }
+
+  .warning-text {
+    font-size: 1.5rem;
+  }
+
+  .warning-icon {
+    width: 2rem;
+  }
+
+  .pending-icon {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .card-title {
+    font-size: 1.5rem;
+  }
+
+  .card-season {
+    font-size: 1rem;
+  }
+
+  .card-date {
+    font-size: 1rem;
+  }
+
+  .pending-text {
+    font-size: 1rem;
+  }
+
+  .pending-date {
+    font-size: 1rem;
+  }
+
+  .cancel-text {
+    font-size: 1rem;
+  }
+
+  .cancel-icon {
+    font-size: 2rem;
+  }
+
+  .card-info {
+    width: 250px;
+  }
+
+  .warning-text {
+    font-size: 1rem;
+  }
+
+  .warning-icon {
+    width: 2rem;
+  }
+
+  .pending-icon {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 525px) {
+  .card-season {
+    font-size: 0.8rem;
+  }
+
+  .card-date {
+    font-size: 0.8rem;
+  }
+
+  .pending-text {
+    font-size: 0.8rem;
+  }
+
+  .pending-date {
+    font-size: 0.8rem;
+  }
+
+  .cancel-text {
+    font-size: 0.8rem;
+  }
+
+  .cancel-icon {
+    font-size: 1.5rem;
+  }
+
+  .card-info {
+    width: 250px;
+  }
+
+  .warning-text {
+    font-size: 0.8rem;
+  }
+
+  .warning-icon {
+    width: 1.5rem;
+  }
+
+  .pending-icon {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 490px) {
+  .card-info {
+    width: 150px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 395px) {
+  .card-season {
+    font-size: 0.5rem;
+  }
+
+  .card-date {
+    font-size: 0.5rem;
+  }
+
+  .pending-text {
+    font-size: 0.5rem;
+  }
+
+  .pending-date {
+    font-size: 0.5rem;
+  }
+
+  .cancel-text {
+    font-size: 0.5rem;
+  }
+
+  .cancel-icon {
+    font-size: 1rem;
+  }
+
+  .card-info {
+    width: 150px;
+  }
+
+  .warning-text {
+    font-size: 0.5rem;
+  }
+
+  .warning-icon {
+    width: 1rem;
+  }
+
+  .pending-icon {
+    font-size: 1rem;
+  }
 }
