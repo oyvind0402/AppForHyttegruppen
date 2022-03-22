@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
-import { BsFillKeyFill } from 'react-icons/bs';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import SmallButton from '../01-Reusable/Buttons/SmallButton';
+import { BsFillKeyFill, BsHourglassSplit } from 'react-icons/bs';
+import { FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa';
 import { AiFillCar } from 'react-icons/ai';
 import { BiWalk } from 'react-icons/bi';
 import { BiBed } from 'react-icons/bi';
@@ -12,6 +13,7 @@ import { Md4GMobiledata } from 'react-icons/md';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 import { MdShower } from 'react-icons/md';
 import './MinTur.css';
+import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
 
 const MinTur = () => {
   const loginContext = useContext(LoginContext);
@@ -213,6 +215,14 @@ const MinTur = () => {
               alt="cabin"
             />
           </div>
+          <div className="pending-trip-container">
+            <p className="pending-trip-text">Svar forventes</p>
+          </div>
+          <div className="calendar-container">
+            <BsHourglassSplit className="pending-trip-icon" />
+            <p>12.13.2023</p>
+          </div>
+          <SmallButton name="Avbestill" />
         </div>
       </>
     );
@@ -229,22 +239,26 @@ const MinTur = () => {
               alt="cabin"
             />
           </div>
+          <FeedbackForm />
           <div className="secondrow-wrapper">
             <div className="info-container">
               <p className="info-title">Reise informasjon</p>
               <div className="travelinfo-wrapper">
                 <div className="checkin-info">
-                  <p>Innsjekking</p>
+                  <p className="checkin-text">Innsjekking</p>
                   <p>{data.applications[index].date}</p>
                   <p>17:00</p>
                 </div>
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
-                  alt="picture indicating travel"
-                  className="travel-icon"
-                />
+                <div>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
+                    alt="picture indicating travel"
+                    className="travel-icon"
+                  />
+                </div>
+
                 <div className="checkout-info">
-                  <p>Utsjekking</p>
+                  <p className="checkin-text">Utsjekking</p>
                   <p>{data.applications[index].endDate}</p>
                   <p>12:00</p>
                 </div>
