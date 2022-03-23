@@ -6,6 +6,22 @@ import './Steps.css';
 import './Step3.css';
 
 const Step3 = (props) => {
+  console.log(props.formData);
+
+  useEffect(() => {
+    document.querySelector('input[id="numberOfHytter"]').value =
+      props.formData.NumberOfCabins;
+
+    const assigment = props.formData.Assigment;
+    if (assigment === 'pickSelf') {
+      document.querySelector('input[id="pickSelf"]').checked = true;
+    } else {
+      document.querySelector('input[id="random"]').checked = true;
+    }
+
+    //Cabin checked wait until we have the abin structure
+  });
+
   return (
     <>
       <div className="step-soknad">

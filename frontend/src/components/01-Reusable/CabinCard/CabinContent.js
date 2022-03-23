@@ -3,7 +3,6 @@ import { BiBed } from 'react-icons/bi';
 import { BiBath } from 'react-icons/bi';
 
 const CabinContent = (props) => {
-  console.log(props);
   return (
     <>
       <img

@@ -5,8 +5,9 @@ import './Step1.css';
 import { useEffect, useState } from 'react';
 
 const Step1 = (props) => {
+  console.log(props.formData);
+
   useEffect(() => {
-    console.log(props.formData);
     document.querySelector('input[id="name"]').value = props.formData.UserID;
     document.querySelector('input[id="EnterpriseID"]').value =
       props.formData.AccentureId;
@@ -51,7 +52,7 @@ const Step1 = (props) => {
               id="privat"
               name="purpose-trip"
               value="privat"
-              checked
+              onChange={(e) => e.target}
             />
             <label className="soknad-radio-text" for="privat">
               <RiSuitcase2Line className="soknad-step1-icon" />
@@ -65,6 +66,7 @@ const Step1 = (props) => {
               id="prosjekt"
               name="purpose-trip"
               value="prosjekt"
+              onChange={(e) => e.target}
             />
             <label className="soknad-radio-text" for="prosjekt">
               <RiSuitcaseLine className="soknad-step1-icon" /> Prosjekt

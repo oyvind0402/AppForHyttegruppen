@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsQuestionCircle } from 'react-icons/bs';
 import './Steps.css';
 import './Step2.css';
 
 const Step2 = (props) => {
+  console.log(props.formData);
+
   const perioder = [
     {
       id: 1,
@@ -56,8 +58,17 @@ const Step2 = (props) => {
     },
   ];
 
-  const [muligePerioder, setMuligePerioder] = useState(perioder);
-  const [valgtePerioder, setValgtePerioder] = useState([]);
+  //Removing prev picked periods from possible periods
+  const newMuligePerioder = perioder.filter((period) => {
+    let match = false;
+    for (let i = 0; i < props.formData.Period.length; i++) {
+      if (props.formData.Period[i].id === period.id) match = true;
+    }
+    if (!match) return period;
+  });
+
+  const [muligePerioder, setMuligePerioder] = useState(newMuligePerioder);
+  const [valgtePerioder, setValgtePerioder] = useState(props.formData.Period);
 
   const addPerioder = () => {
     const newMuligePeridoer = [];
@@ -74,7 +85,7 @@ const Step2 = (props) => {
 
     setMuligePerioder(newMuligePeridoer);
     setValgtePerioder(newValgtePerioder);
-    uncheckAllBoxes();
+    uncheckAllBoxes(); //Some boxes remain checked after switching of the periods
   };
 
   const removePerioder = () => {
@@ -97,8 +108,11 @@ const Step2 = (props) => {
 
   const uncheckAllBoxes = () => {
     let checkedboxes = document.querySelectorAll('input:checked');
-
     checkedboxes.forEach((checkbox) => (checkbox.checked = false));
+  };
+
+  const submitStep2 = () => {
+    props.nextPage(valgtePerioder);
   };
 
   return (
@@ -167,7 +181,7 @@ const Step2 = (props) => {
         >
           Forrige
         </button>
-        <button className="btn small" onClick={props.nextPage}>
+        <button className="btn small" onClick={submitStep2}>
           Neste
         </button>
       </div>

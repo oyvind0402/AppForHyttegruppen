@@ -17,12 +17,14 @@ const Soknad = () => {
     TripPurpose: '',
     Period: [],
     NumberOfCabins: 0,
+    Assigment: '',
     Cabins: [],
     CabinsWons: '',
     Winner: false,
   });
 
   const nextPage = (data) => {
+    console.log(data);
     if (page === 1) {
       setFormData({
         ...formData,
@@ -33,19 +35,21 @@ const Soknad = () => {
     }
 
     if (page === 2) {
-      setFormData({
-        ...formData,
-        Period: data.Period,
-      });
+      if (data.length != 0) {
+        console.log('if approved');
+        console.log(data.length);
+        setFormData({
+          ...formData,
+          Period: data,
+        });
+      }
     }
 
     if (page < 3) setPage(page + 1);
-    console.log(formData);
   };
 
   function previousPage() {
     if (page != 1) setPage(page - 1);
-    console.log(formData);
   }
 
   const clickOnProgressbar = (newPage) => {
@@ -57,7 +61,7 @@ const Soknad = () => {
       UserID: '',
       AccentureId: '',
       TripPurpose: '',
-      Period: [],
+      Period: [''],
       NumberOfCabins: 0,
       Cabins: [],
       CabinsWons: '',
@@ -80,10 +84,18 @@ const Soknad = () => {
           />
         )}
         {page === 2 && (
-          <Step2 nextPage={nextPage} previousPage={previousPage} />
+          <Step2
+            nextPage={nextPage}
+            previousPage={previousPage}
+            formData={formData}
+          />
         )}
         {page === 3 && (
-          <Step3 completeForm={completeForm} previousPage={previousPage} />
+          <Step3
+            completeForm={completeForm}
+            previousPage={previousPage}
+            formData={formData}
+          />
         )}
       </div>
     </>
