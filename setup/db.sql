@@ -41,7 +41,7 @@ CREATE TABLE Users(
 CREATE TABLE Applications(
     application_id INT GENERATED ALWAYS AS IDENTITY,
     user_id int NOT NULL,
-    employee_id int NOT NULL,
+    employee_id varchar(40) NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
     period_id int NOT NULL,
@@ -92,7 +92,7 @@ INSERT INTO Users
 VALUES('981279386', 'test@teter.com','password123', 'test', 'tester', FALSE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, period_id, winner)
-VALUES('981279386','123', 'private', '1',  '1', FALSE);
+VALUES('981279386','my.id', 'private', '1',  '1', FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', FALSE),
