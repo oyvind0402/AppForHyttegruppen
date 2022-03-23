@@ -1,17 +1,19 @@
 package data
 
 type Cabin struct {
-	Name             string   `json:"name"`
-	Active           bool     `json:"active"`
-	ShortDescription string   `json:"shortDescription"`
-	LongDescription  string   `json:"longDescription"`
-	Address          string   `json:"address"`
-	Directions       string   `json:"directions"`
-	Bedrooms         int      `json:"bedrooms"`
-	Bathrooms        int      `json:"bathrooms"`
-	SleepingSlots    int      `json:"sleepingSlots"`
-	Price            int      `json:"price"`
-	CleaningPrice    int      `json:"cleaningPrice"`
-	Features         Features `json:"features"`
-	Comments         string   `json:"comments"`
+	Name             string     `json:"name" bson:"_id"` // cabinNames
+	Active           bool       `json:"active" bson:"active"`
+	ShortDescription string     `json:"shortDescription" bson:"shortDescription"`
+	LongDescription  string     `json:"longDescription" bson:"longDescription"`
+	Address          string     `json:"address" bson:"address"`
+	Directions       string     `json:"directions" bson:"directions"`
+	Price            int        `json:"price" bson:"price"`
+	CleaningPrice    int        `json:"cleaningPrice" bson:"cleaningPrice"`
+	Features         []Features `json:"features" bson:"features"`
+	Comments         string     `json:"comments" bson:"comments"`
+}
+
+type CabinShort struct {
+	Name   string `json:"cabin_name"`
+	Active bool   `json:"active,omitempty"`
 }
