@@ -62,8 +62,9 @@ func startNoSqlDB() *mongo.Client {
 	mdbURI := fmt.Sprintf("mongodb://%s:%s@%s:%d/?authSource=%s", username, passwd, host, port, authSource)
 	db, err := mongo.NewClient(options.Client().ApplyURI(mdbURI))
 	utils.Panicker(err, "Could not authenticate into MongoDB (client)")
-//FIXME handle the timeout
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 	err = db.Connect(ctx)
 	utils.Panicker(err, "Could not connect to MongoDB")
 
