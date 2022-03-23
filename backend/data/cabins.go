@@ -1,16 +1,16 @@
 package data
 
 type Cabin struct {
-	Name             string   `bson:"_id"`
-	Active           bool     `bson:"active"`
-	ShortDescription string   `bson:"shortDescription"`
-	LongDescription  string   `bson:"longDescription"`
-	Address          string   `bson:"address"`
-	Directions       string   `bson:"directions"`
-	Price            int      `bson:"price"`
-	CleaningPrice    int      `bson:"cleaningPrice"`
-	Features         Features `bson:"features"`
-	Comments         string   `bson:"comments"`
+	Name             string     `json:"name" bson:"_id"` // cabinNames
+	Active           bool       `json:"active" bson:"active"`
+	ShortDescription string     `json:"shortDescription" bson:"shortDescription"`
+	LongDescription  string     `json:"longDescription" bson:"longDescription"`
+	Address          string     `json:"address" bson:"address"`
+	Directions       string     `json:"directions" bson:"directions"`
+	Price            int        `json:"price" bson:"price"`
+	CleaningPrice    int        `json:"cleaningPrice" bson:"cleaningPrice"`
+	Features         []Features `json:"features" bson:"features"`
+	Comments         string     `json:"comments" bson:"comments"`
 }
 
 type CabinShort struct {

@@ -7,65 +7,111 @@ import (
 	"net/http"
 
 	"bachelorprosjekt/backend/data"
-	"bachelorprosjekt/backend/utils"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+//TODO C:\Program Files\MongoDB\Server\5.0\bin  to connect to mongodb
+//TODO delete util.abbort...
+
 //cabins
-func (r repo) PostCabin(ctx *gin.Context) {
-	// UNCOMMENT IF YOU WANT TO TEST POSTCABIN (will delete Utsikten)
-	// coll := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
-	// _, error := coll.DeleteOne(
-	// 	context.Background(),
-	// 	bson.M{"_id": "Utsikten"})
-	// utils.AbortWithStatus(error, *ctx)
 
-	// TODO Uncomment when getting from front-end
-	// cabin := new(data.Cabin)
-	// err := ctx.Bind(cabin)
-	// utils.AbortWithStatus(err)
+//get one cabin by name
+func (r repo) GetCabin (ctx *gin.Context){
 
-	cabin := data.Cabin{
-		Name:             "Utsikten",
-		Active:           true,
-		ShortDescription: "The cabin with the most beautiful view",
-		LongDescription:  "Throughout the years, Utsikten has been described as the one with the most beautiful view. It has been favoured by projects and privates alike",
-		Address:          "Hemsedal",
-		Directions:       "Drive to Hemsedal",
-		Price:            1200,
-		CleaningPrice:    1200,
-		Features: data.Features{
-			Countable: data.CountableFeatures{
-				Bathrooms:     2,
-				Bedrooms:      4,
-				SleepingSlots: 4,
-				Other: &map[string]int{
-					"cats": 2,
-					"dogs": 1,
-				},
-			},
-			Uncountable: data.UncountableFeatures{
-				Wifi:     false,
-				Features: &map[string]bool{},
-			},
-		},
-		Comments: "It's beautiful!",
+	//binding cabin name from context
+	name := new(string)
+	err := ctx.BindJSON(name)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
 	}
 
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	
+	//filter out the name of the cabin
+	filterCursor, err := collection.Find(ctx, bson.M{"_id": name })
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	//stores the filtered cabin in var 
+	 var cabinsFiltered bson.M
+	 if err = filterCursor.All(ctx, &cabinsFiltered); err != nil{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	 }
+	
+	ctx.JSON(200, cabinsFiltered)
+}
+
+func (r repo) GetActiveCabinNames(ctx *gin.Context) {
+	rows, err := r.sqlDb.Query(`SELECT cabinName FROM Cabins WHERE active = TRUE`)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+	
+
+	var cabins []string
+
+	for rows.Next() {
+		var cabinName string
+		err = rows.Scan(&cabinName)
+		if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+		cabins = append(cabins, cabinName)
+	}
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, cabins)
+}
+
+func (r repo) GetAllCabins(ctx *gin.Context) {
+	var cabins []bson.M
+	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins") //collectio = table
+	cursor, err := collection.Find(
+		context.Background(),
+		bson.D{},
+	)
+	cursor.All(context.Background(), &cabins)
+
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, cabins)
+}
+
+func (r repo) PostCabin(ctx *gin.Context) {
+	
+	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	cabin := new(data.Cabin)
+	err := ctx.BindJSON(cabin)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err":  err.Error()+ " /*error in binding JSon*/"})
+		return
+	}
 	res, err := collection.InsertOne(
 		context.Background(),
 		cabin)
 	// If there is an error, stop here
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err":  err.Error()+ " /*error in inserting cabin*/"})
 		return
 	}
 	resId := res.InsertedID
 
-	st := `INSERT INTO Cabins("cabinname", "active") values($1, $2)`
+	st := `INSERT INTO Cabins("cabinName", "active") values($1, $2)`
 	_, err = r.sqlDb.Exec(st, resId, cabin.Active)
 	// If there is an error, delete entry from MongoDB and stop
 	if err != nil {
@@ -75,42 +121,10 @@ func (r repo) PostCabin(ctx *gin.Context) {
 			context.Background(),
 			bson.M{"_id": resId})
 		if err != nil {
-			utils.Panicker(err, "Repeated database failures: could not add to Postgres, and could not delete from MongoDB when handling error")
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		}
 		return
 	}
 
 	ctx.JSON(200, res)
-}
-
-func (r repo) GetActiveCabinNames(ctx *gin.Context) {
-	rows, err := r.sqlDb.Query(`SELECT cabinName FROM Cabins WHERE active = TRUE`)
-	defer rows.Close()
-	utils.AbortWithStatus(err, *ctx)
-
-	var cabins []string
-
-	for rows.Next() {
-		var cabinName string
-		err = rows.Scan(&cabinName)
-		utils.AbortWithStatus(err, *ctx)
-		cabins = append(cabins, cabinName)
-	}
-	utils.AbortWithStatus(err, *ctx)
-
-	ctx.JSON(200, cabins)
-}
-
-func (r repo) GetAllCabins(ctx *gin.Context) {
-	var cabins []bson.M
-	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
-	cursor, err := collection.Find(
-		context.Background(),
-		bson.D{},
-	)
-	cursor.All(context.Background(), &cabins)
-
-	utils.Panicker(err, "Could not get all cabins")
-
-	ctx.JSON(200, cabins)
 }

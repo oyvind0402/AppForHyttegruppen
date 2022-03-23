@@ -2,9 +2,9 @@ package data
 
 // If feature is countable (ex: bedrooms)
 type CountableFeatures struct {
-	Bathrooms     int `bson:"bathrooms"`
-	Bedrooms      int `bson:"bedrooms"`
-	SleepingSlots int `bson:"sleepingSlots"`
+	Bathrooms     int `json:"bathrooms" bson:"bathrooms"`
+	Bedrooms      int `json:"bedrooms" bson:"bedrooms"`
+	SleepingSlots int `json:"sleepingSlots" bson:"sleepingSlots"`
 	Other         *map[string]int
 }
 
@@ -14,6 +14,6 @@ type UncountableFeatures struct {
 }
 
 type Features struct {
-	Countable   CountableFeatures   `bson:"countableFeatures"`
-	Uncountable UncountableFeatures `bson:"uncountableFeatures"`
+	Countable   CountableFeatures   `json:"countableFeatures" bson:"countableFeatures"`
+	Uncountable UncountableFeatures `json:"uncountableFeatures" bson:"uncountableFeatures"`
 }
