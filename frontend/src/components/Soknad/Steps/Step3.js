@@ -12,8 +12,8 @@ const Step3 = (props) => {
     document.querySelector('input[id="numberOfHytter"]').value =
       props.formData.NumberOfCabins;
 
-    const assigment = props.formData.Assigment;
-    if (assigment === 'pickSelf') {
+    const cabinAssigment = props.formData.cabinAssigment;
+    if (cabinAssigment === 'pickSelf') {
       document.querySelector('input[id="pickSelf"]').checked = true;
     } else {
       document.querySelector('input[id="random"]').checked = true;

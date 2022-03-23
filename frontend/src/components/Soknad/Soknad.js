@@ -17,7 +17,7 @@ const Soknad = () => {
     TripPurpose: '',
     Period: [],
     NumberOfCabins: 0,
-    Assigment: '',
+    cabinAssigment: '',
     Cabins: [],
     CabinsWons: '',
     Winner: false,
