@@ -135,10 +135,7 @@ const FeedbackForm = () => {
                 Forrige
               </button>
             )}
-            <button
-              className={question == 1 ? 'btn small' : 'btn small'}
-              onClick={nextQuestion}
-            >
+            <button className="btn small" onClick={nextQuestion}>
               {question == 5 ? 'Fullfør' : 'Neste'}
             </button>
           </div>
