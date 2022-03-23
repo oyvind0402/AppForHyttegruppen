@@ -34,6 +34,7 @@ func (r repo) getPeriodById(ctx *gin.Context, periodId int) (data.Period, error)
 	return period, err
 }
 
+// Parse many *sql.Rows into []Period
 func (r repo) getPeriodsFromRows(ctx *gin.Context, rows *sql.Rows) ([]data.Period, error) {
 	var periods []data.Period
 	var err error
@@ -152,7 +153,7 @@ func (r repo) PostPeriod(ctx *gin.Context) {
 	ctx.JSON(200, resId)
 }
 
-// Post many periods (receive []Period; returns rows_affected: int)
+// Post many periods (receive []Period; returns rowsAffected: int)
 func (r repo) PostManyPeriods(ctx *gin.Context) {
 	// Retrieve periods from context
 	periods := new([]data.Period)
@@ -194,7 +195,7 @@ func (r repo) PostManyPeriods(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Update one period (receives Period; returns rows_affected: int)
+// Update one period (receives Period; returns rowsAffected: int)
 func (r repo) UpdatePeriod(ctx *gin.Context) {
 	// Retrieve period from context
 	period := new(data.Period)
@@ -226,7 +227,7 @@ func (r repo) UpdatePeriod(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete one period by id (receives periodId: int; returns rows_affected: int)
+// Delete one period by id (receives periodId: int; returns rowsAffected: int)
 func (r repo) DeletePeriod(ctx *gin.Context) {
 	// Retrieve id from context
 	periodID := new(int)
@@ -252,7 +253,7 @@ func (r repo) DeletePeriod(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete many periods by id (receives []int; returns rows_affected: int)
+// Delete many periods by id (receives []int; returns rowsAffected: int)
 func (r repo) DeleteManyPeriods(ctx *gin.Context) {
 	// Retrieve id from context
 	periodIDs := new([]int)

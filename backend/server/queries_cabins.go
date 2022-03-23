@@ -18,7 +18,7 @@ import (
 //cabins
 
 //get one cabin by name
-func (r repo) GetCabin (ctx *gin.Context){
+func (r repo) GetCabin(ctx *gin.Context) {
 
 	//binding cabin name from context
 	name := new(string)
@@ -29,32 +29,31 @@ func (r repo) GetCabin (ctx *gin.Context){
 	}
 
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
-	
+
 	//filter out the name of the cabin
-	filterCursor, err := collection.Find(ctx, bson.M{"_id": name })
+	filterCursor, err := collection.Find(ctx, bson.M{"_id": name})
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
-	//stores the filtered cabin in var 
-	 var cabinsFiltered bson.M
-	 if err = filterCursor.All(ctx, &cabinsFiltered); err != nil{
+	//stores the filtered cabin in var
+	var cabinsFiltered bson.M
+	if err = filterCursor.All(ctx, &cabinsFiltered); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
-	 }
-	
+	}
+
 	ctx.JSON(200, cabinsFiltered)
 }
 
 func (r repo) GetActiveCabinNames(ctx *gin.Context) {
-	rows, err := r.sqlDb.Query(`SELECT cabinName FROM Cabins WHERE active = TRUE`)
+	rows, err := r.sqlDb.Query(`SELECT cabin_name FROM Cabins WHERE active = TRUE`)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 	defer rows.Close()
-	
 
 	var cabins []string
 
@@ -62,9 +61,9 @@ func (r repo) GetActiveCabinNames(ctx *gin.Context) {
 		var cabinName string
 		err = rows.Scan(&cabinName)
 		if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
+		}
 		cabins = append(cabins, cabinName)
 	}
 	if err != nil {
@@ -93,12 +92,12 @@ func (r repo) GetAllCabins(ctx *gin.Context) {
 }
 
 func (r repo) PostCabin(ctx *gin.Context) {
-	
+
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	cabin := new(data.Cabin)
 	err := ctx.BindJSON(cabin)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err":  err.Error()+ " /*error in binding JSon*/"})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error() + " /*error in binding JSon*/"})
 		return
 	}
 	res, err := collection.InsertOne(
@@ -106,12 +105,12 @@ func (r repo) PostCabin(ctx *gin.Context) {
 		cabin)
 	// If there is an error, stop here
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err":  err.Error()+ " /*error in inserting cabin*/"})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error() + " /*error in inserting cabin*/"})
 		return
 	}
 	resId := res.InsertedID
 
-	st := `INSERT INTO Cabins("cabinName", "active") values($1, $2)`
+	st := `INSERT INTO Cabins("cabin_name", "active") values($1, $2)`
 	_, err = r.sqlDb.Exec(st, resId, cabin.Active)
 	// If there is an error, delete entry from MongoDB and stop
 	if err != nil {

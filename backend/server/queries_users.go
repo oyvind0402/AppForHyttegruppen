@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Process one sql.Row into one User
 func getUser(ctx *gin.Context, row *sql.Row) (data.User, int, error) {
 	var user data.User
 	var err error
@@ -28,7 +29,7 @@ func getUser(ctx *gin.Context, row *sql.Row) (data.User, int, error) {
 	return user, http.StatusOK, err
 }
 
-// Retrieve one user by ID (receives int)
+// Retrieve one user by ID (receives int; returns User)
 func (r repo) GetUser(ctx *gin.Context) {
 	// curl -X GET -v -d "1" localhost:8080/user/get
 
@@ -52,7 +53,7 @@ func (r repo) GetUser(ctx *gin.Context) {
 	ctx.JSON(response, user)
 }
 
-// Retrieve all users in database (receives NOTHING)
+// Retrieve all users in database (receives NOTHING; returns []User)
 func (r repo) GetAllUsers(ctx *gin.Context) {
 	// Get all users from database
 	rows, err := r.sqlDb.Query(`SELECT * FROM Users`)
@@ -89,7 +90,7 @@ func (r repo) GetAllUsers(ctx *gin.Context) {
 	ctx.JSON(200, users)
 }
 
-// Post one user (receives User)
+// Post one user (receives User; returns rowsAffected: int)
 func (r repo) PostUser(ctx *gin.Context) {
 	// Retrieve User
 	user := new(data.User)
@@ -125,7 +126,7 @@ func (r repo) PostUser(ctx *gin.Context) {
 	ctx.JSON(200, resId)
 }
 
-// Delete one user with specified ID (receives int)
+// Delete one user with specified ID (receives userId: int; returns rowsAffected: int)
 func (r repo) DeleteUser(ctx *gin.Context) {
 	// curl -X DELETE -v -d "1" localhost:8080/user/delete
 
@@ -159,6 +160,7 @@ func (r repo) DeleteUser(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
+// Sign in (receives {email: string, password: string}; returns {msg: string, jwt: string})
 func (r repo) SignIn(ctx *gin.Context) {
 	type signin struct {
 		Email    string `json:"email"`
@@ -195,5 +197,4 @@ func (r repo) SignIn(ctx *gin.Context) {
 	} else {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"err": "Duplicate user found."})
 	}
-
 }

@@ -107,6 +107,7 @@ func (r repo) GetAllSeasons(ctx *gin.Context) {
 	ctx.JSON(200, seasons)
 }
 
+// Post one season (receives Season; returns rowsAffected: int)
 func (r repo) PostSeason(ctx *gin.Context) {
 	// Get Season from context
 	season := new(data.Season)
@@ -145,7 +146,7 @@ func (r repo) PostSeason(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Update season (receives Season; returns rows_affected: int)
+// Update season (receives Season; returns rowsAffected: int)
 func (r repo) UpdateSeason(ctx *gin.Context) {
 	// Get Season from context
 	season := new(data.Season)
@@ -181,7 +182,7 @@ func (r repo) UpdateSeason(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete season by name (receives season_name: string; returns rows_affected: int)
+// Delete season by name (receives season_name: string; returns rowsAffected: int)
 func (r repo) DeleteSeason(ctx *gin.Context) {
 	// Get season name/id from context
 	seasonId := new(string)
@@ -208,7 +209,7 @@ func (r repo) DeleteSeason(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete seasons (receives date Time "2006-01-02T00:00:00Z" OR "2006-01-02"; returns rows_affected: int)
+// Delete seasons (receives date Time "2006-01-02T00:00:00Z" OR "2006-01-02"; returns rowsAffected: int)
 func (r repo) DeleteOlderSeasons(ctx *gin.Context) {
 	// Retrieve date from context
 	input := new(string)
