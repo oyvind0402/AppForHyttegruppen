@@ -11,21 +11,59 @@ const Soknad = () => {
   const loginContext = useContext(LoginContext);
   const loggedIn = loginContext.loggedIn;
   const [page, setPage] = useState(1);
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({
+    UserID: '',
+    AccentureId: '',
+    TripPurpose: '',
+    Period: [],
+    NumberOfCabins: 0,
+    Cabins: [],
+    CabinsWons: '',
+    Winner: false,
+  });
 
-  function nextPage() {
+  const nextPage = (data) => {
+    if (page === 1) {
+      setFormData({
+        ...formData,
+        UserID: data.UserId,
+        AccentureId: data.AccentureId,
+        TripPurpose: data.TripPurpose,
+      });
+    }
+
+    if (page === 2) {
+      setFormData({
+        ...formData,
+        Period: data.Period,
+      });
+    }
+
     if (page < 3) setPage(page + 1);
-  }
+    console.log(formData);
+  };
 
   function previousPage() {
     if (page != 1) setPage(page - 1);
+    console.log(formData);
   }
 
   const clickOnProgressbar = (newPage) => {
     setPage(newPage);
   };
 
-  function nullstillForm() {}
+  function nullstillForm() {
+    setFormData({
+      UserID: '',
+      AccentureId: '',
+      TripPurpose: '',
+      Period: [],
+      NumberOfCabins: 0,
+      Cabins: [],
+      CabinsWons: '',
+      Winner: false,
+    });
+  }
 
   function completeForm() {}
 
@@ -35,7 +73,11 @@ const Soknad = () => {
       <Progressbar page={page} clickOnProgressbar={clickOnProgressbar} />
       <div className="content-soknad">
         {page === 1 && (
-          <Step1 nextPage={nextPage} nullstillForm={nullstillForm} />
+          <Step1
+            nextPage={nextPage}
+            nullstillForm={nullstillForm}
+            formData={formData}
+          />
         )}
         {page === 2 && (
           <Step2 nextPage={nextPage} previousPage={previousPage} />

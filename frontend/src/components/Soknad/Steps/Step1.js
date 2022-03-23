@@ -2,8 +2,39 @@ import { BsQuestionCircle } from 'react-icons/bs';
 import { RiSuitcase2Line, RiSuitcaseLine } from 'react-icons/ri';
 import './Steps.css';
 import './Step1.css';
+import { useEffect, useState } from 'react';
 
 const Step1 = (props) => {
+  useEffect(() => {
+    console.log(props.formData);
+    document.querySelector('input[id="name"]').value = props.formData.UserID;
+    document.querySelector('input[id="EnterpriseID"]').value =
+      props.formData.AccentureId;
+
+    const TripPurpose = props.formData.TripPurpose;
+    if (TripPurpose === 'prosjekt') {
+      document.querySelector('input[id="prosjekt"]').checked = true;
+    } else {
+      document.querySelector('input[id="privat"]').checked = true;
+    }
+  });
+
+  const submitStep1 = () => {
+    const newUserId = document.getElementById('name').value;
+    const newAccentureId = document.getElementById('EnterpriseID').value;
+    const newTripPurpose = document.querySelector(
+      'input[name="purpose-trip"]:checked'
+    ).value;
+
+    const step1Data = {
+      UserId: newUserId,
+      AccentureId: newAccentureId,
+      TripPurpose: newTripPurpose,
+    };
+
+    props.nextPage(step1Data);
+  };
+
   return (
     <>
       <div className="step-soknad">
@@ -20,6 +51,7 @@ const Step1 = (props) => {
               id="privat"
               name="purpose-trip"
               value="privat"
+              checked
             />
             <label className="soknad-radio-text" for="privat">
               <RiSuitcase2Line className="soknad-step1-icon" />
@@ -65,7 +97,7 @@ const Step1 = (props) => {
           Avbryt
         </button>
 
-        <button className="btn small" onClick={props.nextPage}>
+        <button className="btn small" onClick={submitStep1}>
           Neste
         </button>
       </div>
