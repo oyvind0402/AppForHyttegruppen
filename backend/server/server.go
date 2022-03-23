@@ -11,10 +11,12 @@ import (
 )
 
 func Start() {
+	// Handle databases
 	r := startDB()
 	defer r.sqlDb.Close()
 	defer r.noSqlDb.Disconnect(context.Background())
 	router := setRouter(r)
+
 	// Start listening and serving requests
 	router.Run(":8080")
 }
@@ -31,26 +33,24 @@ func setRouter(r repo) *gin.Engine {
 	periodapi := router.Group("/period")
 	{
 		periodapi.GET("/get", r.GetPeriod)
-		periodapi.GET("/getallinseason")
+		periodapi.GET("/getallinseason", r.GetAllPeriodsInSeason)
 		periodapi.GET("/getall", r.GetAllPeriods)
 		periodapi.POST("/post", r.PostPeriod)
 		periodapi.POST("/postmany", r.PostManyPeriods)
 		periodapi.PUT("/update", r.UpdatePeriod)
 		periodapi.DELETE("/delete", r.DeletePeriod)
-		periodapi.DELETE("/deletemany")
+		periodapi.DELETE("/deletemany", r.DeleteManyPeriods)
 	}
 
 	seasonapi := router.Group("/season")
 	{
-		seasonapi.GET("/get")
-		seasonapi.GET("/getall")
-		seasonapi.POST("/post")
-		seasonapi.PUT("/update")
-		seasonapi.DELETE("/delete")
-		seasonapi.DELETE("/deletemany") //older than a date
-
-		//Add application period open/closed to season
-		// if a season is open, start and end date
+		seasonapi.GET("/get", r.GetSeason)
+		seasonapi.GET("/getcurrentopen", r.GetCurrentOpenSeason)
+		seasonapi.GET("/getall", r.GetAllSeasons)
+		seasonapi.POST("/post", r.PostSeason)
+		seasonapi.PUT("/update", r.UpdateSeason)
+		seasonapi.DELETE("/delete", r.DeleteSeason)
+		seasonapi.DELETE("/deleteolder", r.DeleteOlderSeasons)
 	}
 
 	featureapi := router.Group("/feature")
@@ -88,10 +88,6 @@ func setRouter(r repo) *gin.Engine {
 		applicationapi.DELETE("/delete", r.DeleteApplication)
 		applicationapi.DELETE("/deletelosing", r.DeleteLosingApplications)
 		applicationapi.DELETE("/deletemanybyid", r.DeleteApplicationsById)
-		//get by user id
-		//get by user id future active trips
-		//get by user id awaiting answer
-		//get by user id past winning applications
 	}
 
 	userapi := router.Group("/user")
@@ -99,9 +95,9 @@ func setRouter(r repo) *gin.Engine {
 		userapi.GET("/get", r.GetUser)
 		userapi.GET("/getall", r.GetAllUsers)
 		userapi.POST("/post", r.PostUser)
+		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
-		//login
-		//sign up
+		userapi.GET("/signin", r.SignIn)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })

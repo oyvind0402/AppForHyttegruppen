@@ -5,7 +5,9 @@ CREATE DATABASE hyttegruppen;
 CREATE TABLE Seasons (
     season_name varchar(20) PRIMARY KEY,
     first_day timestamp UNIQUE NOT NULL,
-    last_day timestamp UNIQUE NOT NULL
+    last_day timestamp UNIQUE NOT NULL,
+    apply_from timestamp NOT NULL,
+    apply_until timestamp NOT NULL
 );
 
 CREATE TABLE Periods (
@@ -20,7 +22,7 @@ CREATE TABLE Periods (
         FOREIGN KEY(season_name)
             REFERENCES Seasons(season_name)
             ON DELETE CASCADE
-);
+        );
 
 CREATE TABLE Cabins (
     cabin_name varchar(20) PRIMARY KEY,
@@ -39,9 +41,10 @@ CREATE TABLE Users(
 CREATE TABLE Applications(
     application_id INT GENERATED ALWAYS AS IDENTITY,
     user_id int NOT NULL,
-    employee_id int NOT NULL,
+    employee_id varchar(40) NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
+    cabin_assignment varchar(10) NOT NULL,
     period_id int NOT NULL,
     winner boolean NOT NULL,
 
@@ -72,9 +75,9 @@ CREATE TABLE ApplicationCabins(
     PRIMARY KEY(application_id, cabin_name)
 );
 
-INSERT INTO Seasons (season_name, first_day, last_day)
-VALUES('winter2022','2022-01-01', '2022-03-30'),
-('spring2022','2022-07-01', '2022-11-30');
+INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
+VALUES('winter2022','2022-01-01', '2022-03-30', '2021-10-01', '2021-12-31'),
+('spring2022','2022-07-01', '2022-11-30', '2022-02-01', '2022-05-30');
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
 VALUES ('Week 1', '2022-02-02', '2022-02-09', 'winter2022'),
@@ -89,8 +92,8 @@ VALUES('Utsikten', TRUE),
 INSERT INTO Users 
 VALUES('981279386', 'test@teter.com','password123', 'test', 'tester', FALSE);
 
-INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, period_id, winner)
-VALUES('981279386','123', 'private', '1',  '1', FALSE);
+INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
+VALUES('981279386','my.id', 'private', '1', 'random', '1', FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', FALSE),

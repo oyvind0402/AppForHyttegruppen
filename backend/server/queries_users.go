@@ -9,6 +9,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func getUser(ctx *gin.Context, row *sql.Row) (data.User, int, error) {
+	var user data.User
+	var err error
+
+	// Map columns to User fields
+	if err = row.Scan(
+		&user.Id,
+		&user.Email,
+		&user.Password,
+		&user.FirstName,
+		&user.LastName,
+		&user.AdminAccess); err != nil && err != sql.ErrNoRows {
+		return user, http.StatusBadRequest, err
+	} else if err == sql.ErrNoRows {
+		return user, http.StatusNotFound, err
+	}
+	return user, http.StatusOK, err
+}
+
 // Retrieve one user by ID (receives int)
 func (r repo) GetUser(ctx *gin.Context) {
 	// curl -X GET -v -d "1" localhost:8080/user/get
@@ -23,26 +42,14 @@ func (r repo) GetUser(ctx *gin.Context) {
 	// Select user from database
 	row := r.sqlDb.QueryRow(`SELECT * FROM Users WHERE user_id = $1 LIMIT 1`, *userId)
 
-	// Create User
-	var user data.User
-
-	// Map columns to User fields
-	if err := row.Scan(
-		&user.Id,
-		&user.Email,
-		&user.Password,
-		&user.FirstName,
-		&user.LastName,
-		&user.AdminAccess); err != nil && err != sql.ErrNoRows {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	} else if err == sql.ErrNoRows {
-		ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"err": err.Error()})
+	user, response, err := getUser(ctx, row)
+	if err != nil {
+		ctx.AbortWithStatusJSON(response, gin.H{"err": err.Error()})
 		return
 	}
 
 	// Return success and one user
-	ctx.JSON(200, user)
+	ctx.JSON(response, user)
 }
 
 // Retrieve all users in database (receives NOTHING)
@@ -150,4 +157,43 @@ func (r repo) DeleteUser(ctx *gin.Context) {
 
 	// Return number of rows deleted
 	ctx.JSON(200, rowsAffected)
+}
+
+func (r repo) SignIn(ctx *gin.Context) {
+	type signin struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	// Retriieve credentials from front-end
+	credentials := new(signin)
+	err := ctx.BindJSON(credentials)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Search for match on database
+	row := r.sqlDb.QueryRow(`SELECT COUNT(*) FROM Users WHERE email = $1 AND passwd = $2`, credentials.Email, credentials.Password)
+
+	// Retrieve number of matches
+	res := new(int)
+	row.Scan(&res)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Successfully sign in if 1 match, fail if 0 or more than one
+	if *res == 1 {
+		ctx.JSON(http.StatusOK, gin.H{
+			"msg": "Signed up successfully.",
+			"jwt": "123456789",
+		})
+	} else if *res == 0 {
+		ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"err": "Your e-mail or password is incorrect"})
+	} else {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"err": "Duplicate user found."})
+	}
+
 }

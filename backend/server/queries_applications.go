@@ -90,6 +90,7 @@ func (r repo) getApplications(ctx *gin.Context, rows *sql.Rows) ([]data.Applicat
 			&application.AccentureId,
 			&application.TripPurpose,
 			&application.NumberOfCabins,
+			&application.CabinAssignment,
 			&periodId,
 			&application.Winner); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -116,7 +117,7 @@ func (r repo) getApplications(ctx *gin.Context, rows *sql.Rows) ([]data.Applicat
 	return applications, err
 }
 
-// Retrieve one application by ID (receives int, returns Application)
+// Retrieve one application by ID (receives int; returns Application)
 func (r repo) GetApplication(ctx *gin.Context) {
 	// curl -X GET -v -d "1" localhost:8080/application/get
 
@@ -143,6 +144,7 @@ func (r repo) GetApplication(ctx *gin.Context) {
 		&application.AccentureId,
 		&application.TripPurpose,
 		&application.NumberOfCabins,
+		&application.CabinAssignment,
 		&periodId,
 		&application.Winner); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -167,7 +169,7 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	ctx.JSON(200, application)
 }
 
-// Retrieve all applications for a userid (receives int, returns []Application)
+// Retrieve all applications for a userid (receives int; returns []Application)
 func (r repo) GetUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
 	userId := new(int)
@@ -194,7 +196,7 @@ func (r repo) GetUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve applications for a userid where winner=true and end_date < today (receives int, returns []Application)
+// Retrieve applications for a userid where winner=true and end_date < today (receives int; returns []Application)
 func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
 	userId := new(int)
@@ -233,7 +235,7 @@ func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve applications for a userid where winner=false and start_date > today (receives int, returns []Application)
+// Retrieve applications for a userid where winner=false and start_date > today (receives int; returns []Application)
 func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
 	userId := new(int)
@@ -272,7 +274,7 @@ func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve applications for a userid where winner=true and start_date < today < end_date (receives int, returns []Application)
+// Retrieve applications for a userid where winner=true and start_date < today < end_date (receives int; returns []Application)
 func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
 	userId := new(int)
@@ -311,7 +313,7 @@ func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve applications for a userid where winner=true and start_date > today (receives int, returns []Application)
+// Retrieve applications for a userid where winner=true and start_date > today (receives int; returns []Application)
 func (r repo) GetFutureTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
 	userId := new(int)
@@ -350,7 +352,7 @@ func (r repo) GetFutureTripsUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve all applications in database (receives NOTHING, returns []Application)
+// Retrieve all applications in database (receives NOTHING; returns []Application)
 func (r repo) GetAllApplications(ctx *gin.Context) {
 	// Get all applications from database
 	rows, err := r.sqlDb.Query(`SELECT * FROM Applications`)
@@ -370,7 +372,7 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Post one cabin (receives Application, returns application_id: int)
+// Post one cabin (receives Application; returns application_id: int)
 func (r repo) PostApplication(ctx *gin.Context) {
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
@@ -391,11 +393,12 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
 	if err = tx.QueryRow(
-		`INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, period_id, winner) VALUES($1, $2, $3, $4, $5, $6) RETURNING application_id`,
+		`INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING application_id`,
 		application.UserId,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
+		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
 	).Scan(&resId); err != nil {
@@ -420,7 +423,7 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	ctx.JSON(200, resId)
 }
 
-// Update application (ALL fields) (receives Application, returns rows_affected: int)
+// Update application (ALL fields) (receives Application; returns rowsAffected: int)
 func (r repo) UpdateApplication(ctx *gin.Context) {
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
@@ -440,12 +443,13 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	// Update all application fields
 	res, err := tx.Exec(
 		`UPDATE Applications
-		SET user_id = $1, employee_id = $2, trip_purpose = $3, number_of_cabins = $4, period_id = $5, winner = $6
-		WHERE application_id = $7`,
+		SET user_id = $1, employee_id = $2, trip_purpose = $3, number_of_cabins = $4, cabin_assignment = $5, period_id = $6, winner = $7
+		WHERE application_id = $8`,
 		application.UserId,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
+		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
 		application.ApplicationId,
@@ -486,7 +490,7 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Update application, defining it as a winning application AND specifying cabins that were won (receives Application, requires only Id, Winner and CabinsWon; returns rows_affected: int)
+// Update application, defining it as a winning application AND specifying cabins that were won (receives Application, requires only Id, Winner and CabinsWon; returns rowsAffected: int)
 func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
@@ -557,7 +561,7 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete one application with specified ID (receives int, returns rows_affected: int)
+// Delete one application with specified ID (receives int; returns rowsAffected: int)
 func (r repo) DeleteApplication(ctx *gin.Context) {
 	// curl -X DELETE -v -d "1" localhost:8080/application/delete
 
@@ -586,7 +590,7 @@ func (r repo) DeleteApplication(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete all losing applications of a specified season (receives string, returns rows_affected: int)
+// Delete all losing applications of a specified season (receives string; returns rowsAffected: int)
 func (r repo) DeleteLosingApplications(ctx *gin.Context) {
 	// curl -X DELETE -v -d "\"winter2022\"" localhost:8080/application/deletelosing
 
@@ -622,7 +626,7 @@ func (r repo) DeleteLosingApplications(ctx *gin.Context) {
 	ctx.JSON(200, rowsAffected)
 }
 
-// Delete multiple applications by ID (receives []int, returns rows_affected: int)
+// Delete multiple applications by ID (receives []int; returns rowsAffected: int)
 func (r repo) DeleteApplicationsById(ctx *gin.Context) {
 	// curl -X DELETE -v -d "[1, 2]" localhost:8080/application/deletemanybyid
 
