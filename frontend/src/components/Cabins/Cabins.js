@@ -10,6 +10,8 @@ const Cabins = () => {
   const loginContext = useContext(LoginContext);
   const loggedIn = loginContext.loggedIn;
 
+  const color = `hsl(271, 76%, 53%)`;
+
   const hytte = {
     Utsikten: {
       Name: 'Utsikten',
@@ -50,11 +52,13 @@ const Cabins = () => {
           <Marker
             width={50}
             anchor={hytte.Utsikten.coordinates}
+            color={color}
             onClick={() => setCabinCard(hytte.Utsikten)}
           />
           <Marker
             width={50}
             anchor={hytte.Hytte3.coordinates}
+            color={color}
             onClick={() => setCabinCard(hytte.Hytte3)}
           />
           <CabinCardMap cabin={cabincard} />

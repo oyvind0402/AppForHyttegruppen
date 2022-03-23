@@ -11,6 +11,7 @@ const Soknad = () => {
   const loginContext = useContext(LoginContext);
   const loggedIn = loginContext.loggedIn;
   const [page, setPage] = useState(1);
+  const [formData, setFormData] = useState();
 
   function nextPage() {
     if (page < 3) setPage(page + 1);
@@ -33,33 +34,15 @@ const Soknad = () => {
       <HeroBanner name="Søknad om hytte" />
       <Progressbar page={page} clickOnProgressbar={clickOnProgressbar} />
       <div className="content-soknad">
-        <div className="step-soknad">
-          {page === 1 && <Step1 />}
-          {page === 2 && <Step2 />}
-          {page === 3 && <Step3 />}
-        </div>
-
-        <div className="soknad-btn">
-          {page === 1 ? (
-            <button className="btn small btn-nonActive" onClick={nullstillForm}>
-              Avbryt
-            </button>
-          ) : (
-            <button className="btn small btn-nonActive" onClick={previousPage}>
-              Forrige
-            </button>
-          )}
-
-          {page === 3 ? (
-            <button className="btn small" onClick={completeForm}>
-              Fullfør
-            </button>
-          ) : (
-            <button className="btn small" onClick={nextPage}>
-              Neste
-            </button>
-          )}
-        </div>
+        {page === 1 && (
+          <Step1 nextPage={nextPage} nullstillForm={nullstillForm} />
+        )}
+        {page === 2 && (
+          <Step2 nextPage={nextPage} previousPage={previousPage} />
+        )}
+        {page === 3 && (
+          <Step3 completeForm={completeForm} previousPage={previousPage} />
+        )}
       </div>
     </>
   );

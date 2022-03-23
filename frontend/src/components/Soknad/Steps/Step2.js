@@ -3,7 +3,7 @@ import { BsQuestionCircle } from 'react-icons/bs';
 import './Steps.css';
 import './Step2.css';
 
-const Step2 = () => {
+const Step2 = (props) => {
   const perioder = [
     {
       id: 1,
@@ -103,60 +103,73 @@ const Step2 = () => {
 
   return (
     <>
-      <div className="stepQuestion">
-        <BsQuestionCircle className="soknad-question-icon" />
-        <p className="soknad-question-text">Velg perioder du vil søke på</p>
+      <div className="step-soknad">
+        <div className="stepQuestion">
+          <BsQuestionCircle className="soknad-question-icon" />
+          <p className="soknad-question-text">Velg perioder du vil søke på</p>
+        </div>
+
+        <div>
+          <div>
+            <h3 className="input-header">Perioder</h3>
+            <div className="perioder-input">
+              {muligePerioder.map((period, index) => (
+                <div className="soknad-step2-period" key={index}>
+                  <input
+                    className="soknad-step2-checkbox add-checkbox"
+                    type="checkbox"
+                    id={period.id}
+                    name={period.id}
+                  />
+                  <label className="soknad-step2-label" for={period.id}>
+                    {period.Name} ({period.Start} - {period.End})
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="soknad-step2-btns">
+            <button className="btn small step2-btn-add" onClick={addPerioder}>
+              Legg til
+            </button>
+            <button
+              className="btn small step2-btn-remove btn-nonActive"
+              onClick={removePerioder}
+            >
+              Fjern
+            </button>
+          </div>
+
+          <div>
+            <h3 className="input-header">Valgte perioder</h3>
+            <div className="perioder-input">
+              {valgtePerioder.map((period, index) => (
+                <div className="soknad-step2-period" key={period.id}>
+                  <input
+                    className="soknad-step2-checkbox remove-checkbox"
+                    type="checkbox"
+                    id={period.id}
+                    name={period.id}
+                  />
+                  <label className="soknad-step2-label" for={period.id}>
+                    {period.Name} ({period.Start} - {period.End})
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div>
-        <div>
-          <h3 className="input-header">Perioder</h3>
-          <div className="perioder-input">
-            {muligePerioder.map((period, index) => (
-              <div className="soknad-step2-period" key={index}>
-                <input
-                  className="soknad-step2-checkbox add-checkbox"
-                  type="checkbox"
-                  id={period.id}
-                  name={period.id}
-                />
-                <label className="soknad-step2-label" for={period.id}>
-                  {period.Name} ({period.Start} - {period.End})
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="soknad-step2-btns">
-          <button className="btn small step2-btn-add" onClick={addPerioder}>
-            Legg til
-          </button>
-          <button
-            className="btn small step2-btn-remove btn-nonActive"
-            onClick={removePerioder}
-          >
-            Fjern
-          </button>
-        </div>
-
-        <div>
-          <h3 className="input-header">Valgte perioder</h3>
-          <div className="perioder-input">
-            {valgtePerioder.map((period, index) => (
-              <div className="soknad-step2-period" key={period.id}>
-                <input
-                  className="soknad-step2-checkbox remove-checkbox"
-                  type="checkbox"
-                  id={period.id}
-                  name={period.id}
-                />
-                <label className="soknad-step2-label" for={period.id}>
-                  {period.Name} ({period.Start} - {period.End})
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="soknad-btn">
+        <button
+          className="btn small btn-nonActive"
+          onClick={props.previousPage}
+        >
+          Forrige
+        </button>
+        <button className="btn small" onClick={props.nextPage}>
+          Neste
+        </button>
       </div>
     </>
   );

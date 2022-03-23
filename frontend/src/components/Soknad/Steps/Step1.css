@@ -30,6 +30,8 @@
 
 .soknad-radio-text:hover {
   cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 0 2px 2px black;
 }
 
 .soknad-radio:checked ~ .soknad-radio-text {
