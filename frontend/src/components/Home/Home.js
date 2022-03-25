@@ -4,10 +4,7 @@ import HomeImage from '../01-Reusable/HomeImage/HomeImage';
 import { FaRegUserCircle, FaQuestionCircle } from 'react-icons/fa';
 import './Home.css';
 import { useState, useEffect } from 'react';
-<link
-  href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-  rel="stylesheet"
-/>;
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [soknadOpen, setSoknadOpen] = useState(true);
@@ -54,21 +51,27 @@ const Home = () => {
           imageLink="cabin-cosy.jpg"
           imageAlt="Something"
           buttonText="Vis hyttene"
+          link="/hytter"
         />
         <div className="home-buttons">
-          <button className="btn big mine-turer">
-            <FaRegUserCircle className="icon" />
-            <p className="btn-text-home">Mine turer</p>
-          </button>
-          <button className="btn big faq">
-            <FaQuestionCircle className="icon" />
-            <p className="btn-text-home">FAQ</p>
-          </button>
+          <Link className="link" to="/mineturer">
+            <button className="btn big mine-turer">
+              <FaRegUserCircle className="icon" />
+              <p className="btn-text-home">Mine turer</p>
+            </button>
+          </Link>
+          <Link className="link" to="/faq">
+            <button className="btn big faq">
+              <FaQuestionCircle className="icon" />
+              <p className="btn-text-home">FAQ</p>
+            </button>
+          </Link>
         </div>
         <HomeImage
           imageLink="mountain-dog.jpg"
           imageAlt="Something"
           buttonText="Utforsk Hemsedal"
+          link="/hytteomraade"
         />
       </div>
     </>

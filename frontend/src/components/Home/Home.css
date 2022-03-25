@@ -51,6 +51,10 @@
   min-width: 12rem;
 }
 
+.link {
+  text-decoration: none;
+}
+
 @media only screen and (max-width: 1600px) {
   .home-display {
     width: 80%;

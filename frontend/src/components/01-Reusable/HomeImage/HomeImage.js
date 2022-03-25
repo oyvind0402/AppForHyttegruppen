@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './HomeImage.css';
 
 const HomeImage = (props) => {
@@ -9,7 +10,9 @@ const HomeImage = (props) => {
           src={`${process.env.PUBLIC_URL}/assets/pictures/${props.imageLink}`}
           alt={props.imageAlt}
         />
-        <button className="home-picture-btn">{props.buttonText}</button>
+        <Link className="link" to={props.link}>
+          <button className="home-picture-btn">{props.buttonText}</button>{' '}
+        </Link>
       </div>
     </>
   );

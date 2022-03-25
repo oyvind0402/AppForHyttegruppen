@@ -14,12 +14,16 @@ import MinTurPage from './pages/MinTurPage';
 import FAQPage from './pages/FAQPage';
 import HytteomraadePage from './pages/HytteomraadePage';
 import MineTurerPage from './pages/MineTurerPage';
+import Cabin from './components/Cabin/Cabin';
+import Cabins from './components/Cabins/Cabins';
+import ScrollToTop from './ScrollToTop';
 
 function App() {
   const loginContext = useContext(LoginContext);
 
   return (
     <Layout>
+      <ScrollToTop />
       <Switch>
         <Route path="/" exact>
           <HomePage />
