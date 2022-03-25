@@ -5,21 +5,21 @@ import './Step1.css';
 import { useEffect, useState } from 'react';
 
 const Step1 = (props) => {
-  console.log(props.formData);
-
+  //Setting values based on props
   useEffect(() => {
-    document.querySelector('input[id="name"]').value = props.formData.UserID;
+    document.querySelector('input[id="name"]').value = props.formData.userID;
     document.querySelector('input[id="EnterpriseID"]').value =
-      props.formData.AccentureId;
+      props.formData.accentureId;
 
-    const TripPurpose = props.formData.TripPurpose;
-    if (TripPurpose === 'prosjekt') {
+    const tripPurpose = props.formData.tripPurpose;
+    if (tripPurpose === 'prosjekt') {
       document.querySelector('input[id="prosjekt"]').checked = true;
     } else {
       document.querySelector('input[id="privat"]').checked = true;
     }
   });
 
+  //Submitting data to parent
   const submitStep1 = () => {
     const newUserId = document.getElementById('name').value;
     const newAccentureId = document.getElementById('EnterpriseID').value;
@@ -28,9 +28,9 @@ const Step1 = (props) => {
     ).value;
 
     const step1Data = {
-      UserId: newUserId,
-      AccentureId: newAccentureId,
-      TripPurpose: newTripPurpose,
+      userId: newUserId,
+      accentureId: newAccentureId,
+      tripPurpose: newTripPurpose,
     };
 
     props.nextPage(step1Data);
@@ -96,7 +96,7 @@ const Step1 = (props) => {
           className="btn small btn-nonActive"
           onClick={props.nullstillForm}
         >
-          Avbryt
+          Nullstil
         </button>
 
         <button className="btn small" onClick={submitStep1}>

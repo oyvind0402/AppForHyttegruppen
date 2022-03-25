@@ -6,11 +6,10 @@ import './Steps.css';
 import './Step3.css';
 
 const Step3 = (props) => {
-  console.log(props.formData);
-
+  //Loading values based on props
   useEffect(() => {
     document.querySelector('input[id="numberOfHytter"]').value =
-      props.formData.NumberOfCabins;
+      props.formData.numberOfCabins;
 
     const cabinAssigment = props.formData.cabinAssigment;
     if (cabinAssigment === 'pickSelf') {
@@ -19,8 +18,44 @@ const Step3 = (props) => {
       document.querySelector('input[id="random"]').checked = true;
     }
 
-    //Cabin checked wait until we have the abin structure
+    //Cabin checked wait until we have the cabin structure
   });
+
+  //Getting current input data
+  const getCurrentData = () => {
+    const numberOfHytter = parseInt(
+      document.getElementById('numberOfHytter').value
+    );
+    const cabinChoice = document.querySelector(
+      'input[name="cabinChoice"]:checked'
+    ).value;
+
+    let valgteCabins = [];
+
+    if (cabinChoice === 'random') {
+      //Add all cabins
+    } else {
+      //Add checked cabins
+    }
+
+    const step3Data = {
+      numberOfCabins: numberOfHytter,
+      cabinAssigment: cabinChoice,
+      cabins: valgteCabins,
+    };
+
+    return step3Data;
+  };
+
+  const previousPage = () => {
+    const step3Data = getCurrentData();
+    props.previousPage(step3Data);
+  };
+
+  const sendInApplication = () => {
+    const step3Data = getCurrentData();
+    props.completeForm(step3Data);
+  };
 
   return (
     <>
@@ -69,13 +104,10 @@ const Step3 = (props) => {
         </div>
       </div>
       <div className="soknad-btn">
-        <button
-          className="btn small btn-nonActive"
-          onClick={props.previousPage}
-        >
+        <button className="btn small btn-nonActive" onClick={previousPage}>
           Forrige
         </button>
-        <button className="btn small" onClick={props.completeForm}>
+        <button className="btn small" onClick={sendInApplication}>
           Fullfør
         </button>
       </div>

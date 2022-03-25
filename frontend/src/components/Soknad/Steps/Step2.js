@@ -4,79 +4,37 @@ import './Steps.css';
 import './Step2.css';
 
 const Step2 = (props) => {
-  console.log(props.formData);
+  const [perioder, setPerioder] = useState([]);
+  let newMuligePerioder = [];
+  const [muligePerioder, setMuligePerioder] = useState([]);
+  const [valgtePerioder, setValgtePerioder] = useState(props.formData.period);
 
+  //Fetching
   useEffect(async () => {
     fetch('http://localhost:8080/period/getall')
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => setPerioder(data))
       .catch((error) => console.log(error));
-  });
+  }, []);
 
-  const perioder = [
-    {
-      id: 1,
-      Name: 'Uke 12',
-      Season: 'winter',
-      Start: '21-03-2022',
-      End: '28-03-2022',
-    },
-    {
-      id: 2,
-      Name: 'Uke 13',
-      Season: 'winter',
-      Start: '28-03-2022',
-      End: '04-04-2022',
-    },
-    {
-      id: 3,
-      Name: 'Uke 14',
-      Season: 'winter',
-      Start: '04-04-2022',
-      End: '11-04-2022',
-    },
-    {
-      id: 4,
-      Name: 'Uke 15',
-      Season: 'winter',
-      Start: '11-04-2022',
-      End: '18-04-2022',
-    },
-    {
-      id: 5,
-      Name: 'Uke 16',
-      Season: 'winter',
-      Start: '11-04-2022',
-      End: '18-04-2022',
-    },
-    {
-      id: 6,
-      Name: 'Uke 17',
-      Season: 'winter',
-      Start: '11-04-2022',
-      End: '18-04-2022',
-    },
-    {
-      id: 7,
-      Name: 'Uke 18',
-      Season: 'winter',
-      Start: '11-04-2022',
-      End: '18-04-2022',
-    },
-  ];
+  //Everytime perioder updates we run leggTilPerioder
+  useEffect(() => {
+    if (perioder != []) removePerioderBasedOnProps();
+  }, [perioder]);
 
-  //Removing prev picked periods from possible periods
-  const newMuligePerioder = perioder.filter((period) => {
-    let match = false;
-    for (let i = 0; i < props.formData.Period.length; i++) {
-      if (props.formData.Period[i].id === period.id) match = true;
-    }
-    if (!match) return period;
-  });
+  //Divides periods based on previously saved preferenses
+  const removePerioderBasedOnProps = () => {
+    newMuligePerioder = perioder.filter((period) => {
+      let match = false;
+      for (let i = 0; i < props.formData.period.length; i++) {
+        if (props.formData.period[i].id === period.id) match = true;
+      }
+      if (!match) return period;
+    });
+    setMuligePerioder(newMuligePerioder);
+  };
 
-  const [muligePerioder, setMuligePerioder] = useState(newMuligePerioder);
-  const [valgtePerioder, setValgtePerioder] = useState(props.formData.Period);
-
+  //Add periods to 'Valgete perioder' box and removes them from 'Perioder'
   const addPerioder = () => {
     const newMuligePeridoer = [];
     const newValgtePerioder = valgtePerioder;
@@ -95,11 +53,11 @@ const Step2 = (props) => {
     uncheckAllBoxes(); //Some boxes remain checked after switching of the periods
   };
 
+  //Removes periods from 'Valgte perioder' and adds them to Perioder
   const removePerioder = () => {
     let newMuligePerioderRemove = muligePerioder;
     let newValgtePerioderRemove = [];
     let checkboxes = document.querySelectorAll('.remove-checkbox');
-    console.log(checkboxes);
 
     for (let i = 0; i < valgtePerioder.length; i++) {
       if (checkboxes[i].checked) {
@@ -113,6 +71,8 @@ const Step2 = (props) => {
     uncheckAllBoxes();
   };
 
+  //Uncheck checkboxes
+  //When a period is added the check class is transferd to the next in line which should be removed
   const uncheckAllBoxes = () => {
     let checkedboxes = document.querySelectorAll('input:checked');
     checkedboxes.forEach((checkbox) => (checkbox.checked = false));
@@ -120,6 +80,15 @@ const Step2 = (props) => {
 
   const submitStep2 = () => {
     props.nextPage(valgtePerioder);
+  };
+
+  //Converts the dates received from the backend to day.month.year
+  const changeDate = (date) => {
+    if (typeof date !== 'undefined') {
+      date = date.replace('T00:00:00Z', '');
+      const dates = date.split('-');
+      return dates[2] + '.' + dates[1] + '.' + dates[0];
+    }
   };
 
   return (
@@ -143,7 +112,8 @@ const Step2 = (props) => {
                     name={period.id}
                   />
                   <label className="soknad-step2-label" for={period.id}>
-                    {period.Name} ({period.Start} - {period.End})
+                    {period.name} ({changeDate(period.start)} -{' '}
+                    {changeDate(period.end)})
                   </label>
                 </div>
               ))}
@@ -173,7 +143,8 @@ const Step2 = (props) => {
                     name={period.id}
                   />
                   <label className="soknad-step2-label" for={period.id}>
-                    {period.Name} ({period.Start} - {period.End})
+                    {period.name} ({changeDate(period.start)} -{' '}
+                    {changeDate(period.end)})
                   </label>
                 </div>
               ))}
@@ -197,4 +168,3 @@ const Step2 = (props) => {
 };
 
 export default Step2;
-//<Period period={period} key={index} />

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import Progressbar from './Progressbar';
@@ -11,36 +11,85 @@ const Soknad = () => {
   const loginContext = useContext(LoginContext);
   const loggedIn = loginContext.loggedIn;
   const [page, setPage] = useState(1);
+  const [formCompleted, setFormCompleted] = useState(false);
   const [formData, setFormData] = useState({
-    UserID: '',
-    AccentureId: '',
-    TripPurpose: '',
-    Period: [],
-    NumberOfCabins: 0,
+    userID: '',
+    accentureId: '',
+    tripPurpose: '',
+    period: [],
+    numberOfCabins: 1,
     cabinAssigment: '',
-    Cabins: [],
-    CabinsWons: '',
-    Winner: false,
+    cabins: [
+      {
+        cabinName: 'Fanitullen',
+      },
+    ],
+    winner: false,
   });
 
+  useEffect(async () => {
+    if (formCompleted) {
+      console.log(formData);
+
+      formData.period.forEach((period) => {
+        let JsonBody = {
+          userId: 981279386, //This needs to be replaced after testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          accentureId: formData.accentureId,
+          tripPurpose: formData.tripPurpose,
+          period: period,
+          numberOfCabins: formData.numberOfCabins,
+          cabinAssignment: formData.cabinAssigment,
+          cabins: formData.cabins,
+          winner: false,
+        };
+
+        fetch('http://localhost:8080/application/post', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(JsonBody),
+        })
+          .then((response) => console.log(response))
+          .catch((error) => console.log(error));
+      });
+    }
+
+    /*let JsonBody = {
+        userId: 981279386,
+        accentureId: 'my.id',
+        tripPurpose: 'private',
+        period: {
+          id: 1,
+          /*name: 'Week 1',
+            season: { seasonName: 'winter2022' },
+            start: '2022-02-02T00:00:00Z',
+            end: '2022-02-09T00:00:00Z',
+        },
+        numberOfCabins: 1,
+        cabinAssignment: 'random',
+        cabins: [{ cabinName: 'Utsikten' }, { cabinName: 'Fanitullen' }],
+        winner: false,
+      };*/
+  }, [formData]);
+
   const nextPage = (data) => {
-    console.log(data);
     if (page === 1) {
       setFormData({
         ...formData,
-        UserID: data.UserId,
-        AccentureId: data.AccentureId,
-        TripPurpose: data.TripPurpose,
+        userId: data.userId,
+        accentureId: data.accentureId,
+        tripPurpose: data.tripPurpose,
       });
     }
 
     if (page === 2) {
       if (data.length != 0) {
-        console.log('if approved');
-        console.log(data.length);
         setFormData({
           ...formData,
-          Period: data,
+          period: data,
         });
       }
     }
@@ -48,7 +97,16 @@ const Soknad = () => {
     if (page < 3) setPage(page + 1);
   };
 
-  function previousPage() {
+  function previousPage(data) {
+    if (page === 3) {
+      setFormCompleted(false);
+      setFormData({
+        ...formData,
+        numberOfCabins: data.numberOfCabins,
+        cabinAssigment: data.cabinAssigment,
+        //cabins: data.cabins,
+      });
+    }
     if (page != 1) setPage(page - 1);
   }
 
@@ -58,18 +116,32 @@ const Soknad = () => {
 
   function nullstillForm() {
     setFormData({
-      UserID: '',
-      AccentureId: '',
-      TripPurpose: '',
-      Period: [''],
-      NumberOfCabins: 0,
-      Cabins: [],
-      CabinsWons: '',
-      Winner: false,
+      userId: '',
+      accentureId: '',
+      tripPurpose: '',
+      period: [],
+      numberOfCabins: 1,
+      cabinAssigment: '',
+      cabins: [
+        {
+          cabin_name: 'Fanitullen',
+        },
+      ],
+      winner: false,
     });
   }
 
-  function completeForm() {}
+  const completeForm = (data) => {
+    if (data.length != 0) {
+      setFormCompleted(true);
+      setFormData({
+        ...formData,
+        numberOfCabins: data.numberOfCabins,
+        cabinAssigment: data.cabinAssigment,
+        //cabins: data.cabins,
+      });
+    }
+  };
 
   return (
     <>
