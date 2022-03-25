@@ -28,6 +28,7 @@ func setRouter(r repo) *gin.Engine {
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
 	//config.AllowedOrigins = []string{"http://localhost:3000"}
+	//config.AllowedMethods = []string{"GET", "POST"}
 	router.Use(cors.New(config))
 
 	// Enables automatic redirection if the current route can't be matched but a
