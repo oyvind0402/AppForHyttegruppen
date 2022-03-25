@@ -91,6 +91,7 @@ const Step1 = (props) => {
           />
         </div>
       </div>
+
       <div className="soknad-btn">
         <button
           className="btn small btn-nonActive"

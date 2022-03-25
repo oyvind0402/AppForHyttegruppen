@@ -3,7 +3,7 @@ import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
 import HomeImage from '../01-Reusable/HomeImage/HomeImage';
 import { FaRegUserCircle, FaQuestionCircle } from 'react-icons/fa';
 import './Home.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 <link
   href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
   rel="stylesheet"
@@ -11,8 +11,22 @@ import { useState } from 'react';
 
 const Home = () => {
   const [soknadOpen, setSoknadOpen] = useState(true);
+  const [soknadEndDate, setsoknadEndDate] = useState('');
 
-  const soknadStenger = 'Søknadsperioden stenger 12.13.2023';
+  useEffect(async () => {
+    fetch('http://localhost:8080/season/getcurrentopen')
+      .then((response) => response.json())
+      .then((data) => {
+        setSoknadOpen(data.isOpen);
+
+        console.log(data.seasons[0].lastDay);
+        let date;
+        date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
+        const dates = date.split('-');
+        setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>
@@ -29,7 +43,9 @@ const Home = () => {
             ''
           )}
           {soknadOpen ? (
-            <p className="home-soknad-closes">{soknadStenger}</p>
+            <p className="home-soknad-closes">
+              Søknadsperioden stenger {soknadEndDate}
+            </p>
           ) : (
             ''
           )}
