@@ -104,6 +104,15 @@ func setRouter(r repo) *gin.Engine {
 		userapi.POST("/signin", r.SignIn)
 	}
 
+	faqapi := router.Group("/faq")
+	{
+		faqapi.GET("/get", r.GetOneFAQ)
+		faqapi.GET("/getall", r.GetAllFAQs)
+		faqapi.POST("/post", r.PostFAQ)
+		faqapi.PUT("/update", r.UpdateFAQ)
+		faqapi.DELETE("/delete", r.DeleteFAQ)
+	}
+
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
 
 	return router
