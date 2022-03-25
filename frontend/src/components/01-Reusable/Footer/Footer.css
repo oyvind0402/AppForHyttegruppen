@@ -1,35 +1,14 @@
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
 .footer-container {
-  margin-top: auto;
+  padding: 1rem 0;
   background-color: black;
-}
-.link-container {
-  margin: calc(1rem + 2vw);
-}
-.link-row-container {
-  display: flex;
-
-  margin: auto;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.25rem;
 }
 
-.footer-links {
-  display: inline-block;
-  margin: auto;
-  color: white;
-}
-.copyright_container {
-  display: flex;
-  align-items: center;
-}
-.footer-container p {
-  color: white;
-  opacity: 0.7;
-}
-.copyright {
-  margin-left: auto;
-  opacity: 0.7;
+@media only screen and (max-width: 400px) {
+  .footer-container {
+    font-size: 1rem;
+  }
 }
