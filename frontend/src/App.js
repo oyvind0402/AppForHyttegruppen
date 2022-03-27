@@ -15,6 +15,7 @@ import FAQPage from './pages/FAQPage';
 import HytteomraadePage from './pages/HytteomraadePage';
 import MineTurerPage from './pages/MineTurerPage';
 import ScrollToTop from './ScrollToTop';
+import EditCabin from './components/Admin/EditCabin';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -37,8 +38,12 @@ function App() {
           </Route>
         )}
         <Route path="/admin">
-          {loginContext.loggedIn && <AdminPage />}
-          {!loginContext.loggedIn && <Redirect to="/login" />}
+          {loginContext.adminAccess && <AdminPage />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/editcabin">
+          {loginContext.adminAccess && <EditCabin />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/hytter">
           <HytterPage />

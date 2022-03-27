@@ -32,7 +32,7 @@ const LoginForm = () => {
       if (!response.ok) {
         alert('Something went wrong!');
       } else {
-        loginContext.login(data.jwt);
+        loginContext.login(data.jwt, true);
         history.replace('/');
       }
     } catch (error) {

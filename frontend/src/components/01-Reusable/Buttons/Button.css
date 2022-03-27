@@ -54,6 +54,33 @@
   border: 3px solid #bd00ff;
 }
 
+.admin-edit-btn {
+  background-color: #bd00ff;
+  border-radius: 5px;
+  border: 0;
+  text-align: center;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 5px;
+  font-size: 1rem;
+  color: white;
+  font-weight: 750;
+  cursor: pointer;
+  border: 3px solid #bd00ff;
+}
+
+.admin-edit-btn:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+  color: black;
+}
+
+.admin-edit-btn a {
+  text-decoration: none;
+  color: white;
+}
+
 @media only screen and (max-width: 500px) {
   .btn {
     padding: 15px 10px;

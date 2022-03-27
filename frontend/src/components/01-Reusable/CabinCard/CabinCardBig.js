@@ -2,11 +2,14 @@ import './CabinCard.css';
 import { BiBed } from 'react-icons/bi';
 import { BiBath } from 'react-icons/bi';
 import { GiTakeMyMoney } from 'react-icons/gi';
+import { Link } from 'react-router-dom';
+import LoginContext from '../../../LoginContext/login-context';
+import { useContext } from 'react';
 
 const card = {
   picture: [
     {
-      Name: 'UtsiktenTEST',
+      Name: 'Utsikten',
       Address: 'Grøndalsvegen 764',
       Bedrooms: '5',
       SleepingSlots: '10',
@@ -20,6 +23,8 @@ const card = {
 };
 
 const CabinCardBig = (props) => {
+  const loginContext = useContext(LoginContext);
+
   return (
     <>
       <button className="card">
@@ -28,6 +33,11 @@ const CabinCardBig = (props) => {
           src={`${process.env.PUBLIC_URL}/assets/pictures/cabin-main.jpg`}
           alt={card.picture[0].alt}
         />
+        {loginContext.adminAccess && (
+          <Link to={'/editcabin/' + card.picture[0].Name}>
+            <button className="admin-edit-btn">Endre</button>
+          </Link>
+        )}
 
         <div className="card-content">
           <h2 className="card-title">{card.picture[0].Name}</h2>
