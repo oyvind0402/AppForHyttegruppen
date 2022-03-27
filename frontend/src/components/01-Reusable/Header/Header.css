@@ -60,19 +60,7 @@
   transition: background 0.3s linear;
 }
 
-.active {
-  color: #8900c5;
-  text-decoration: underline;
-  font-weight: 700;
-}
-
-.active:hover {
-  background-size: 100% 3px;
-  background-image: linear-gradient(#8900c5, #8900c5);
-  text-decoration: none;
-}
-
-.nav-list-item:hover {
+.nav-list-admin:hover {
   background-size: 100% 3px;
 }
 
@@ -89,6 +77,35 @@
 }
 
 .nav-list-logout:hover {
+  background-size: 100% 3px;
+}
+
+.nav-list-admin {
+  text-decoration: none;
+  font-size: 1.5rem;
+  color: black;
+  transition: border 500s ease-in;
+  background-size: 0% 3px;
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(black, black);
+  transition: background 0.3s linear;
+  margin-left: 5%;
+}
+
+.active {
+  color: #8900c5;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.active:hover {
+  background-size: 100% 3px;
+  background-image: linear-gradient(#8900c5, #8900c5);
+  text-decoration: none;
+}
+
+.nav-list-item:hover {
   background-size: 100% 3px;
 }
 
@@ -128,7 +145,8 @@
 
 @media only screen and (max-width: 1135px) {
   .nav-list-logout,
-  .nav-list-item {
+  .nav-list-item,
+  .nav-list-admin {
     font-size: 1rem;
   }
 
@@ -147,7 +165,7 @@
   }
 }
 
-@media only screen and (max-width: 730px) {
+@media only screen and (max-width: 835px) {
   .nav-list {
     display: none;
   }

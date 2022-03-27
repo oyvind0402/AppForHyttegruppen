@@ -16,10 +16,12 @@ const Header = () => {
   );
 
   const loggedIn = loginContext.loggedIn;
+  const adminAccess = loginContext.adminAccess;
 
   const [defaultLocale, setDefaultLocale] = useState(true);
 
   const logoutHandler = () => {
+    handleClick();
     loginContext.logout();
     history.replace('/');
   };
@@ -130,6 +132,11 @@ const Header = () => {
               Logg inn
             </Link>
           )}
+          {adminAccess && (
+            <NavLink className="nav-list-admin" to="/admin">
+              Admin
+            </NavLink>
+          )}
           <img
             className="language-nor"
             onClick={changeLanguage}
@@ -157,6 +164,7 @@ const Header = () => {
             exact={true}
             activeClassName="active"
             className="nav-list-mobile-item"
+            onClick={handleClick}
             to="/"
           >
             Hjem
@@ -164,6 +172,7 @@ const Header = () => {
           <NavLink
             activeClassName="active"
             className="nav-list-mobile-item"
+            onClick={handleClick}
             to="/mineturer"
           >
             Mine Turer
@@ -171,6 +180,7 @@ const Header = () => {
           <NavLink
             activeClassName="active"
             className="nav-list-mobile-item"
+            onClick={handleClick}
             to="/soknad"
           >
             Søknad
@@ -178,6 +188,7 @@ const Header = () => {
           <NavLink
             activeClassName="active"
             className="nav-list-mobile-item"
+            onClick={handleClick}
             to="/hytter"
           >
             Hytter
@@ -185,6 +196,7 @@ const Header = () => {
           <NavLink
             activeClassName="active"
             className="nav-list-mobile-item"
+            onClick={handleClick}
             to="/hytteomraade"
           >
             Hemsedal
@@ -192,10 +204,35 @@ const Header = () => {
           <NavLink
             activeClassName="active"
             className="nav-list-mobile-item"
+            onClick={handleClick}
             to="/faq"
           >
             FAQ
           </NavLink>
+          {adminAccess && (
+            <NavLink
+              activeClassName="active"
+              className="nav-list-mobile-item"
+              onClick={handleClick}
+              to="/admin"
+            >
+              Admin
+            </NavLink>
+          )}
+          {loggedIn && (
+            <Link className="nav-list-mobile-item" onClick={logoutHandler}>
+              Logg ut
+            </Link>
+          )}
+          {!loggedIn && (
+            <Link
+              className="nav-list-mobile-item"
+              to="/login"
+              onClick={handleClick}
+            >
+              Logg inn
+            </Link>
+          )}
         </div>
       )}
       {click && <div className="blur-overlay" onClick={handleClick}></div>}
