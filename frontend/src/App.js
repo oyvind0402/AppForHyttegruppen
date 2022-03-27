@@ -14,8 +14,6 @@ import MinTurPage from './pages/MinTurPage';
 import FAQPage from './pages/FAQPage';
 import HytteomraadePage from './pages/HytteomraadePage';
 import MineTurerPage from './pages/MineTurerPage';
-import Cabin from './components/Cabin/Cabin';
-import Cabins from './components/Cabins/Cabins';
 import ScrollToTop from './ScrollToTop';
 
 function App() {
@@ -28,16 +26,16 @@ function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        {/* {!loginContext.loggedIn && (
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-          )}
+        {!loginContext.loggedIn && (
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+        )}
         {!loginContext.loggedIn && (
           <Route path="/signup">
             <SignupPage />
           </Route>
-        )} */}
+        )}
         <Route path="/admin">
           {loginContext.loggedIn && <AdminPage />}
           {!loginContext.loggedIn && <Redirect to="/login" />}
