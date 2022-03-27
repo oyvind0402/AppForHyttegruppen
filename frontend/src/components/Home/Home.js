@@ -11,7 +11,7 @@ const Home = () => {
   const [soknadEndDate, setsoknadEndDate] = useState('');
 
   useEffect(async () => {
-    fetch('http://localhost:8080/season/getcurrentopen')
+    fetch('/season/getcurrentopen')
       .then((response) => response.json())
       .then((data) => {
         setSoknadOpen(data.isOpen);

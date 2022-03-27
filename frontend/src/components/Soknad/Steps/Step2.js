@@ -11,7 +11,7 @@ const Step2 = (props) => {
 
   //Fetching
   useEffect(async () => {
-    fetch('http://localhost:8080/period/getall')
+    fetch('/period/getall')
       .then((response) => response.json())
       .then((data) => setPerioder(data))
       .catch((error) => console.log(error));

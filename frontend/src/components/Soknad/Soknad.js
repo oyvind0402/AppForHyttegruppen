@@ -33,7 +33,7 @@ const Soknad = () => {
 
       formData.period.forEach((period) => {
         let JsonBody = {
-          userId: 981279386, //This needs to be replaced after testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          userId: 0, //This needs to be replaced after testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           accentureId: formData.accentureId,
           tripPurpose: formData.tripPurpose,
           period: period,
@@ -43,13 +43,8 @@ const Soknad = () => {
           winner: false,
         };
 
-        fetch('http://localhost:8080/application/post', {
+        fetch('/application/post', {
           method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
           body: JSON.stringify(JsonBody),
         })
           .then((response) => console.log(response))
