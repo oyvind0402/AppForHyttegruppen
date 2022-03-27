@@ -1,0 +1,31 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.login-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form-group label {
+  font-weight: 750;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.login-form-group input {
+  width: 400px;
+  height: 40px;
+  padding-left: 10px;
+}
+
+.login-buttons {
+  text-align: center;
+}
+
+.login-buttons a {
+  text-decoration: underline;
+  color: black;
+}
