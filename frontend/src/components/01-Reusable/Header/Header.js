@@ -9,6 +9,11 @@ const Header = () => {
   const history = useHistory();
   const loginContext = useContext(LoginContext);
   const [click, setClick] = useState(false);
+  const [visible, setVisible] = useState(true);
+
+  const prevScrollPos = useRef(
+    typeof window !== 'undefined' && window.pageYOffset
+  );
 
   const loggedIn = loginContext.loggedIn;
 
@@ -27,9 +32,26 @@ const Header = () => {
     setClick(!click);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos =
+        window.pageYOffset || document.documentElement.scrollTop;
+      if (prevScrollPos.current > currentScrollPos) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+      prevScrollPos.current = currentScrollPos;
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <nav className="nav-container">
+      <nav className={visible ? 'nav-container' : 'nav-hide'}>
         <div className="left-side">
           <div className="home-icon">
             <Link to="/">
@@ -98,12 +120,16 @@ const Header = () => {
           </p>
         </div>
         <div className="right-side">
-          <a
-            className="nav-list-logout"
-            href="http://www.nooooooooooooooo.com/"
-          >
-            Logg ut
-          </a>
+          {loggedIn && (
+            <Link className="nav-list-logout" onClick={logoutHandler}>
+              Logg ut
+            </Link>
+          )}
+          {!loggedIn && (
+            <Link className="nav-list-logout" to="/login">
+              Logg inn
+            </Link>
+          )}
           <img
             className="language-nor"
             onClick={changeLanguage}
