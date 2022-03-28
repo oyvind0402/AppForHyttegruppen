@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './FAQ_Question.css';
 
 const FAQ_Question = (props) => {
@@ -9,7 +8,7 @@ const FAQ_Question = (props) => {
         onClick={() => props.toggleFAQ(props.index)}
       >
         <div className="FAQ-question">{props.faq.question}</div>
-        <div className="FAQ-answer">{props.faq.anwser}</div>
+        <div className="FAQ-answer">{props.faq.answer}</div>
       </div>
     </>
   );

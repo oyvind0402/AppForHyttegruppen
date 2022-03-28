@@ -1,10 +1,6 @@
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState, useEffect } from 'react';
 import './FAQ.css';
 import LoginContext from '../../LoginContext/login-context';
-import BigButton from '../01-Reusable/Buttons/BigButton';
-import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
-import SmallButton from '../01-Reusable/Buttons/SmallButton';
 import FAQ_Question from '../01-Reusable/FAQ_Question/FAQ_Question';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 
@@ -15,45 +11,18 @@ const FAQ = () => {
   const [FAQElements, setFAQElements] = useState([
     {
       question: 'I am a question',
-      anwser: 'i am an anwser',
-      open: false,
-    },
-    {
-      question: 'I am also a question',
-      anwser: 'i am also an anwser',
-      open: false,
-    },
-    {
-      question: 'I am a question',
-      anwser: 'i am an anwser',
-      open: false,
-    },
-    {
-      question: 'I am also a question',
-      anwser: 'i am also an anwser',
-      open: false,
-    },
-    {
-      question: 'I am a question',
-      anwser: 'i am an anwser',
-      open: false,
-    },
-    {
-      question: 'I am also a question',
-      anwser: 'i am also an anwser',
-      open: false,
-    },
-    {
-      question: 'I am a question',
-      anwser: 'i am an anwser',
-      open: false,
-    },
-    {
-      question: 'I am also a question',
-      anwser: 'i am also an anwser',
+      answer: 'i am an anwser',
       open: false,
     },
   ]);
+
+  //Fetching
+  useEffect(async () => {
+    fetch('/faq/getall')
+      .then((response) => response.json())
+      .then((data) => setFAQElements(data))
+      .catch((error) => console.log(error));
+  }, []);
 
   //If you press one of the questions the one that is already open will close
   const toggleFAQ = (index) => {
