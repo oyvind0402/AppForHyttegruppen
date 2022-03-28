@@ -1,0 +1,11 @@
+.admin-container {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  margin-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.admin-container img {
+  margin-top: 2rem;
+}

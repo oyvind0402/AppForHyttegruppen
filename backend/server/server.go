@@ -6,8 +6,6 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/gin-gonic/contrib/cors"
-
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
@@ -25,11 +23,11 @@ func Start() {
 func setRouter(r repo) *gin.Engine {
 	// Creates default gin router with Logger and Recovery middleware already attached
 	router := gin.Default()
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
+	//config := cors.DefaultConfig()
+	//config.AllowAllOrigins = true
 	//config.AllowedOrigins = []string{"http://localhost:3000"}
 	//config.AllowedMethods = []string{"GET", "POST"}
-	router.Use(cors.New(config))
+	//router.Use(cors.New(config))
 
 	// Enables automatic redirection if the current route can't be matched but a
 	// handler for the path with (without) the trailing slash exists.
@@ -103,7 +101,7 @@ func setRouter(r repo) *gin.Engine {
 		userapi.POST("/post", r.PostUser)
 		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
-		userapi.GET("/signin", r.SignIn)
+		userapi.POST("/signin", r.SignIn)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
