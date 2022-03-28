@@ -6,6 +6,13 @@ import './Step2.css';
 const Step2 = (props) => {
   console.log(props.formData);
 
+  useEffect(async () => {
+    fetch('http://localhost:8080/period/getall')
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  });
+
   const perioder = [
     {
       id: 1,

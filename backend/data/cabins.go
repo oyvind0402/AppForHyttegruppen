@@ -14,6 +14,6 @@ type Cabin struct {
 }
 
 type CabinShort struct {
-	Name   string `json:"cabin_name"`
+	Name   string `json:"cabinName"`
 	Active bool   `json:"active,omitempty"`
 }

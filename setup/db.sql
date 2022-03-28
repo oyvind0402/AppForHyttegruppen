@@ -90,7 +90,8 @@ VALUES('Utsikten', TRUE),
 ('Fanitullen', TRUE);
 
 INSERT INTO Users 
-VALUES('981279386', 'test@teter.com','password123', 'test', 'tester', FALSE);
+VALUES('981279386', 'test@teter.com','password123', 'test', 'tester', FALSE),
+('123456789', 'admin@adminr.com','admin', 'Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
 VALUES('981279386','my.id', 'private', '1', 'random', '1', FALSE);
