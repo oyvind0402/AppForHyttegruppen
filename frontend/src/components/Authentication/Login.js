@@ -27,13 +27,23 @@ const LoginForm = () => {
           password: passwordValue,
         }),
       });
-      console.log(response);
       const data = await response.json();
       if (!response.ok) {
         alert('Something went wrong!');
       } else {
-        loginContext.login(data.jwt, true);
-        history.replace('/');
+        const userResponse = await fetch('/user/get', {
+          method: 'POST',
+          body: JSON.stringify(data.userId),
+        });
+        const datum = await userResponse.json();
+
+        if (!userResponse.ok) {
+          alert('Something went wrong!');
+        } else {
+          loginContext.login(data.jwt, datum.adminAccess);
+          localStorage.setItem('userID', data.userId);
+          history.replace('/');
+        }
       }
     } catch (error) {
       console.log(error);

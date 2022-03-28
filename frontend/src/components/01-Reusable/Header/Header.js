@@ -21,7 +21,10 @@ const Header = () => {
   const [defaultLocale, setDefaultLocale] = useState(true);
 
   const logoutHandler = () => {
-    handleClick();
+    if (click) {
+      handleClick();
+    }
+
     loginContext.logout();
     history.replace('/');
   };
@@ -123,9 +126,9 @@ const Header = () => {
         </div>
         <div className="right-side">
           {loggedIn && (
-            <Link className="nav-list-logout" onClick={logoutHandler}>
+            <a className="nav-list-logout" onClick={logoutHandler}>
               Logg ut
-            </Link>
+            </a>
           )}
           {!loggedIn && (
             <Link className="nav-list-logout" to="/login">

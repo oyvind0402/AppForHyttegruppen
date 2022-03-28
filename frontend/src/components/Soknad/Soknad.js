@@ -34,7 +34,7 @@ const Soknad = () => {
     if (formCompleted) {
       formData.period.forEach((period) => {
         let JsonBody = {
-          userId: 0, //This needs to be replaced after testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          userId: localStorage.getItem('userID'),
           accentureId: formData.accentureId,
           tripPurpose: formData.tripPurpose,
           period: period,
@@ -47,7 +47,9 @@ const Soknad = () => {
         fetch('/application/post', {
           method: 'POST',
           body: JSON.stringify(JsonBody),
-        }).catch((error) => console.log(error));
+        })
+          .then((response) => console.log(response))
+          .catch((error) => console.log(error));
       });
       setFormCompleted(false);
       setPage(1);
