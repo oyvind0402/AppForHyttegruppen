@@ -163,10 +163,52 @@ func (r repo) UpdateCabinField(ctx *gin.Context){
 }
 
 func (r repo) UpdateCabin(ctx *gin.Context){
+	type fieldSelection struct{
+		CabinName  string `json:"name"`
+		ChangedField  map[string]interface{} `json:"changedField"` 
+	}
+A
+	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	result, err := coll.UpdateOne(
+	context.Background(),
+	bson.D{
+		{"item", "paper"},
+	},
+	bson.D{
+		{"$set", bson.D{
+			{"size.uom", "cm"},
+			{"status", "P"},
+		}},
+		{"$currentDate", bson.D{
+			{"lastModified", true},
+		}},
+	},
+)
 
+
+
+	for key, val := range selectedField.ChangedField {
+		res, err := collection.UpdateOne(
+			context.Background(),
+			bson.D{
+				{"_id" , selectedField.CabinName},
+			},
+			bson.D{
+					{"$set", bson.D{
+						{key,val},
+					}},
+					{"$currentDate", bson.D{
+						{"lastModified", true},
+					}},
+		})
+		if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
 	
 }
 
+//delete one by name
 func (r repo) DeleteCabin(ctx *gin.Context){
 
 	cabinName := new(string)
