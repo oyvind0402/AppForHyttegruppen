@@ -51,7 +51,10 @@ func removeCabins(tx *sql.Tx, application data.Application) (*sql.Tx, error) {
 // Add/Update application cabins from a list
 func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, applicationId int, won bool) (*sql.Tx, error, int) {
 	var err error
+	fmt.Println(cabins)
+
 	for _, cabin := range cabins {
+		fmt.Println(cabin.Name)
 		_, err = tx.Exec(
 			`INSERT INTO ApplicationCabins 
 			VALUES($1, $2, $3)
@@ -385,6 +388,8 @@ func (r repo) PostApplication(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
+
+	fmt.Println(application)
 
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
