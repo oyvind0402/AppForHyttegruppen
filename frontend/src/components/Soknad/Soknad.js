@@ -58,6 +58,7 @@ const Soknad = () => {
   useEffect(() => {
     if (formCompleted) {
       setPopupResponse(formData.period);
+      window.scrollTo(0, 0);
     }
   }, [formCompleted]);
 
