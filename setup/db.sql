@@ -75,6 +75,12 @@ CREATE TABLE ApplicationCabins(
     PRIMARY KEY(application_id, cabin_name)
 );
 
+CREATE TABLE Faq(
+    faq_id INT GENERATED ALWAYS AS IDENTITY,
+    question text NOT NULL,
+    answer text NOT NULL
+);
+
 INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
 VALUES('winter2022','2022-01-01', '2022-03-30', '2021-10-01', '2021-12-31'),
 ('spring2022','2022-07-01', '2022-11-30', '2022-02-01', '2022-05-30');
