@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import PopupApplication from '../01-Reusable/PopUp/PopupApplication';
 import Progressbar from './Progressbar';
 import Step1 from './Steps/Step1';
 import Step2 from './Steps/Step2';
@@ -11,6 +12,8 @@ const Soknad = () => {
   const loginContext = useContext(LoginContext);
   const loggedIn = loginContext.loggedIn;
   const [page, setPage] = useState(1);
+  const [popup, setPopup] = useState(false);
+  const [popupResponse, setPopupResponse] = useState('');
   const [formCompleted, setFormCompleted] = useState(false);
   const [formData, setFormData] = useState({
     userID: '',
@@ -29,8 +32,6 @@ const Soknad = () => {
 
   useEffect(async () => {
     if (formCompleted) {
-      console.log(formData);
-
       formData.period.forEach((period) => {
         let JsonBody = {
           userId: 981279386, //This needs to be replaced after testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -51,29 +52,23 @@ const Soknad = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(JsonBody),
-        })
-          .then((response) => console.log(response))
-          .catch((error) => console.log(error));
+        }).catch((error) => console.log(error));
       });
+      setFormCompleted(false);
+      setPage(1);
+      nullstillForm();
     }
-
-    /*let JsonBody = {
-        userId: 981279386,
-        accentureId: 'my.id',
-        tripPurpose: 'private',
-        period: {
-          id: 1,
-          /*name: 'Week 1',
-            season: { seasonName: 'winter2022' },
-            start: '2022-02-02T00:00:00Z',
-            end: '2022-02-09T00:00:00Z',
-        },
-        numberOfCabins: 1,
-        cabinAssignment: 'random',
-        cabins: [{ cabinName: 'Utsikten' }, { cabinName: 'Fanitullen' }],
-        winner: false,
-      };*/
   }, [formData]);
+
+  useEffect(() => {
+    if (formCompleted) {
+      setPopupResponse(formData.period);
+    }
+  }, [formCompleted]);
+
+  useEffect(() => {
+    if (popupResponse != '') setPopup(true);
+  }, [popupResponse]);
 
   const nextPage = (data) => {
     if (page === 1) {
@@ -170,6 +165,7 @@ const Soknad = () => {
           />
         )}
       </div>
+      {popup === true && <PopupApplication periodArray={popupResponse} />}
     </>
   );
 };

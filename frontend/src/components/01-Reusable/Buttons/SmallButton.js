@@ -1,10 +1,9 @@
 import './Button.css';
-import { Link } from 'react-router-dom';
 
 const SmallButton = (props) => {
   return (
     <>
-      <button className="btn small">{props.name}</button>
+      <button className={`btn small ${props.className}`}>{props.name}</button>
     </>
   );
 };

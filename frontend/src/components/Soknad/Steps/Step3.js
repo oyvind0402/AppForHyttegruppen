@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { BsQuestionCircle } from 'react-icons/bs';
 import CabinCardSmall from './../../01-Reusable/CabinCard/CabinCardSmall';
 
@@ -65,7 +65,7 @@ const Step3 = (props) => {
           <p className="soknad-question-text">Velg hytter</p>
         </div>
         <div className="soknad-step3-antall">
-          <label className="soknad-label" for="numberOfHytter">
+          <label className="soknad-label" htmlFor="numberOfHytter">
             Ønsket antall hytter
           </label>
 
@@ -83,7 +83,7 @@ const Step3 = (props) => {
         <div className="soknad-step3-antall">
           <div>
             <input type="radio" id="random" name="cabinChoice" value="random" />
-            <label for="random">Jeg ønsker tilfeldig tildeling</label>
+            <label htmlFor="random">Jeg ønsker tilfeldig tildeling</label>
           </div>
           <div>
             <input
@@ -92,7 +92,7 @@ const Step3 = (props) => {
               name="cabinChoice"
               value="pickSelf"
             />
-            <label for="pickSelf">Jeg ønsker å velge hytte(ne)</label>
+            <label htmlFor="pickSelf">Jeg ønsker å velge hytte(ne)</label>
             <p className="soknad-step3-next">{'>'}</p>
           </div>
         </div>

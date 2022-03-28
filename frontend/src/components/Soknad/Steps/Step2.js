@@ -111,7 +111,7 @@ const Step2 = (props) => {
                     id={period.id}
                     name={period.id}
                   />
-                  <label className="soknad-step2-label" for={period.id}>
+                  <label className="soknad-step2-label" htmlFor={period.id}>
                     {period.name} ({changeDate(period.start)} -{' '}
                     {changeDate(period.end)})
                   </label>
@@ -142,7 +142,7 @@ const Step2 = (props) => {
                     id={period.id}
                     name={period.id}
                   />
-                  <label className="soknad-step2-label" for={period.id}>
+                  <label className="soknad-step2-label" htmlFor={period.id}>
                     {period.name} ({changeDate(period.start)} -{' '}
                     {changeDate(period.end)})
                   </label>

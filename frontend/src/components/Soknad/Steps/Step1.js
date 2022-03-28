@@ -2,7 +2,7 @@ import { BsQuestionCircle } from 'react-icons/bs';
 import { RiSuitcase2Line, RiSuitcaseLine } from 'react-icons/ri';
 import './Steps.css';
 import './Step1.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const Step1 = (props) => {
   //Setting values based on props
@@ -54,7 +54,7 @@ const Step1 = (props) => {
               value="privat"
               onChange={(e) => e.target}
             />
-            <label className="soknad-radio-text" for="privat">
+            <label className="soknad-radio-text" htmlFor="privat">
               <RiSuitcase2Line className="soknad-step1-icon" />
               Privat
             </label>
@@ -68,19 +68,19 @@ const Step1 = (props) => {
               value="prosjekt"
               onChange={(e) => e.target}
             />
-            <label className="soknad-radio-text" for="prosjekt">
+            <label className="soknad-radio-text" htmlFor="prosjekt">
               <RiSuitcaseLine className="soknad-step1-icon" /> Prosjekt
             </label>
           </div>
         </div>
 
         <div className="step1-input">
-          <label className="soknad-label" for="name">
+          <label className="soknad-label" htmlFor="name">
             Navn:
           </label>
           <input className="soknad-input" type="text" id="name" name="name" />
 
-          <label className="soknad-label" for="EnterpriseID">
+          <label className="soknad-label" htmlFor="EnterpriseID">
             Enterprise ID:
           </label>
           <input

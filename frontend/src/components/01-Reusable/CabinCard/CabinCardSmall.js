@@ -1,8 +1,5 @@
 import './CabinCardSmall.css';
-import { BiBed } from 'react-icons/bi';
-import { BiBath } from 'react-icons/bi';
-import { GiTakeMyMoney } from 'react-icons/gi';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CabinContent from './CabinContent';
 
 const CabinCardSmall = (props) => {
