@@ -33,9 +33,55 @@
   padding: 1rem;
 }
 
+.edit-cabin-input-short {
+  margin-bottom: 1rem;
+  height: 125px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.edit-cabin-input-long {
+  margin-bottom: 1rem;
+  height: 225px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
 .edit-cabin-checkbox {
   margin: 0;
   margin-left: 1rem;
   height: 30px;
   width: 30px;
+}
+
+.edit-funcs-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  padding-bottom: 2rem;
+}
+
+.funcs-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.input-funcs {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-function {
+  display: flex;
+  align-items: center;
+  padding: 0.2rem;
+}
+
+.func-label {
+  padding-left: 1rem;
 }
