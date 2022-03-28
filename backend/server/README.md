@@ -1,3 +1,5 @@
+#TODO Delete after writing report
+
 # Server Package Documentation
 
 ## server.go
