@@ -11,13 +11,12 @@ CREATE TABLE Seasons (
 );
 
 CREATE TABLE Periods (
-    period_id INT GENERATED ALWAYS AS IDENTITY,
+    period_id SERIAL PRIMARY KEY,
     period_name VARCHAR(20),
     season_name VARCHAR(20),
     starting timestamp NOT NULL,
     ending timestamp NOT NULL,
     
-    PRIMARY KEY (period_id),
     CONSTRAINT fk_season
         FOREIGN KEY(season_name)
             REFERENCES Seasons(season_name)
@@ -30,7 +29,7 @@ CREATE TABLE Cabins (
 );
 
 CREATE TABLE Users(
-    user_id INT PRIMARY KEY NOT NULL,
+    user_id char(22) PRIMARY KEY NOT NULL,
     email varchar(40) UNIQUE NOT NULL,
     passwd varchar(20) NOT NULL, /*deal with hash */
     firstname varchar(25) NOT NULL, 
@@ -39,8 +38,8 @@ CREATE TABLE Users(
 );
 
 CREATE TABLE Applications(
-    application_id INT GENERATED ALWAYS AS IDENTITY,
-    user_id int NOT NULL,
+    application_id SERIAL PRIMARY KEY,
+    user_id char(22) NOT NULL,
     employee_id varchar(40) NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
@@ -48,7 +47,6 @@ CREATE TABLE Applications(
     period_id int NOT NULL,
     winner boolean NOT NULL,
 
-    PRIMARY KEY(application_id),
     CONSTRAINT fk_user
         FOREIGN KEY(user_id)
             REFERENCES Users(user_id)
@@ -76,7 +74,7 @@ CREATE TABLE ApplicationCabins(
 );
 
 CREATE TABLE Faq(
-    faq_id INT GENERATED ALWAYS AS IDENTITY,
+    faq_id SMALLSERIAL PRIMARY KEY,
     question text NOT NULL,
     answer text NOT NULL
 );
@@ -96,11 +94,11 @@ VALUES('Utsikten', TRUE),
 ('Fanitullen', TRUE);
 
 INSERT INTO Users 
-VALUES('981279386', 'test@teter.com','password123', 'test', 'tester', FALSE),
-('123456789', 'admin@adminr.com','admin', 'Admin', 'Adminer', TRUE);
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com','password123', 'test', 'tester', FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com','admin', 'Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
-VALUES('981279386','my.id', 'private', '1', 'random', '1', FALSE);
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA','my.id', 'private', '1', 'random', '1', FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', FALSE),
