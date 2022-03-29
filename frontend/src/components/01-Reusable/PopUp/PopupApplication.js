@@ -26,13 +26,10 @@ const PopupApplication = (props) => {
         textContentPopup += '\n';
       }
     }
-    console.log(textContentPopup);
     let newTextContentPopup = textContentPopup.substring(
       0,
       textContentPopup.length - 2
     );
-    console.log(newTextContentPopup);
-
     contentPopup = <p>{newTextContentPopup}</p>;
   }
 
