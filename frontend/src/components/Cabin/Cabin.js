@@ -4,7 +4,6 @@ import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 
 const Cabin = () => {
   const loginContext = useContext(LoginContext);
-
   const loggedIn = loginContext.loggedIn;
 
   return (

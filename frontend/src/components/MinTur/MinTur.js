@@ -3,7 +3,7 @@ import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import SmallButton from '../01-Reusable/Buttons/SmallButton';
 import { BsFillKeyFill, BsHourglassSplit } from 'react-icons/bs';
-import { FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 import { AiFillCar } from 'react-icons/ai';
 import { BiWalk } from 'react-icons/bi';
 import { BiBed } from 'react-icons/bi';
@@ -18,7 +18,7 @@ import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
 const MinTur = () => {
   const loginContext = useContext(LoginContext);
 
-  const loggedIn = loginContext.loggedIn;
+  //const loggedIn = loginContext.loggedIn;
 
   const link = window.location.href;
 
@@ -77,11 +77,11 @@ const MinTur = () => {
   };
 
   useEffect(() => {
-    if (data.applications[index].approved == 'approved') {
+    if (data.applications[index].approved === 'approved') {
       setApproved(true);
       setPending(false);
     }
-    if (data.applications[index].approved == 'pending') {
+    if (data.applications[index].approved === 'pending') {
       setPending(true);
       setApproved(false);
     }

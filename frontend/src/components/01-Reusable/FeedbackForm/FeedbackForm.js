@@ -22,23 +22,23 @@ const FeedbackForm = () => {
       return;
     }
     if (question < 5) {
-      if (question == 1) {
+      if (question === 1) {
         setQ1Value(document.getElementById('reply-value').value);
         localStorage.setItem(
           'q1Value',
           document.getElementById('reply-value').value
         );
-      } else if (question == 2) {
+      } else if (question === 2) {
         setQ2Value(document.getElementById('reply-value').value);
-      } else if (question == 3) {
+      } else if (question === 3) {
         setQ3Value(document.getElementById('reply-value').value);
-      } else if (question == 4) {
+      } else if (question === 4) {
         setQ4Value(document.getElementById('reply-value').value);
       }
       setQuestion(question + 1);
     }
 
-    if (question == 5) {
+    if (question === 5) {
       setQ5Value(document.getElementById('reply-value').value);
     }
     document.getElementById('q1yesbtn').style.backgroundColor = '#bd00ff';
@@ -52,13 +52,13 @@ const FeedbackForm = () => {
 
   const prevQuestion = () => {
     if (question !== 1) {
-      if (question == 2) {
+      if (question === 2) {
         document.getElementById('reply-value').value = q1Value;
-      } else if (question == 3) {
+      } else if (question === 3) {
         document.getElementById('reply-value').value = q2Value;
-      } else if (question == 4) {
+      } else if (question === 4) {
         document.getElementById('reply-value').value = q3Value;
-      } else if (question == 5) {
+      } else if (question === 5) {
         document.getElementById('reply-value').value = q4Value;
       }
       setQuestion(question - 1);
@@ -110,11 +110,11 @@ const FeedbackForm = () => {
       <div className="feedback-container">
         <p className="feedback-title">Sjekkliste før du reiser hjem</p>
         <div className="feedback-form-container">
-          {question == 1 && <Question1 />}
-          {question == 2 && <Question2 />}
-          {question == 3 && <Question3 />}
-          {question == 4 && <Question4 />}
-          {question == 5 && <Question5 />}
+          {question === 1 && <Question1 />}
+          {question === 2 && <Question2 />}
+          {question === 3 && <Question3 />}
+          {question === 4 && <Question4 />}
+          {question === 5 && <Question5 />}
 
           <div className="question-buttons">
             <button onClick={removeReply} id="q1yesbtn" className="btn small">
@@ -129,14 +129,14 @@ const FeedbackForm = () => {
             id="reply-value"
             className={replyVisibility ? 'question-reply' : 'no-reply'}
           />
-          <div className={question == 1 ? 'onebutton-form' : 'twobutton-form'}>
-            {question == 1 ? null : (
+          <div className={question === 1 ? 'onebutton-form' : 'twobutton-form'}>
+            {question === 1 ? null : (
               <button className="btn small" onClick={prevQuestion}>
                 Forrige
               </button>
             )}
             <button className="btn small" onClick={nextQuestion}>
-              {question == 5 ? 'Fullfør' : 'Neste'}
+              {question === 5 ? 'Fullfør' : 'Neste'}
             </button>
           </div>
         </div>

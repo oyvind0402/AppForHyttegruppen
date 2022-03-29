@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './Questions.css';
 
 const Question1 = (props) => {

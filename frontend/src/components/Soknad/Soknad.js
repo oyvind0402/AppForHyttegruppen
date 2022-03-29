@@ -71,7 +71,7 @@ const Soknad = () => {
 
   //Popup will be showing here
   useEffect(() => {
-    if (popupResponse != '') setPopup(true);
+    if (popupResponse !== '') setPopup(true);
   }, [popupResponse]);
 
   const nextPage = (data) => {
@@ -85,7 +85,7 @@ const Soknad = () => {
     }
 
     if (page === 2) {
-      if (data.length != 0) {
+      if (data.length !== 0) {
         setFormData({
           ...formData,
           period: data,
@@ -106,7 +106,7 @@ const Soknad = () => {
         //cabins: data.cabins,
       });
     }
-    if (page != 1) setPage(page - 1);
+    if (page !== 1) setPage(page - 1);
   }
 
   const clickOnProgressbar = (newPage) => {
@@ -131,7 +131,7 @@ const Soknad = () => {
   }
 
   const completeForm = (data) => {
-    if (data.length != 0) {
+    if (data.length !== 0) {
       setFormCompleted(true);
       setFormData({
         ...formData,

@@ -11,15 +11,18 @@ const Step2 = (props) => {
 
   //Fetching
   useEffect(async () => {
-    fetch('/period/getall')
-      .then((response) => response.json())
-      .then((data) => setPerioder(data))
-      .catch((error) => console.log(error));
+    async function fetchData() {
+      fetch('/period/getall')
+        .then((response) => response.json())
+        .then((data) => setPerioder(data))
+        .catch((error) => console.log(error));
+    }
+    fetchData();
   }, []);
 
   //Everytime perioder updates we run leggTilPerioder
   useEffect(() => {
-    if (perioder != []) removePerioderBasedOnProps();
+    if (perioder !== []) removePerioderBasedOnProps();
   }, [perioder]);
 
   //Divides periods based on previously saved preferenses

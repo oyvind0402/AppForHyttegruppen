@@ -11,16 +11,19 @@ const Home = () => {
   const [soknadEndDate, setsoknadEndDate] = useState('');
 
   useEffect(async () => {
-    fetch('/season/getcurrentopen')
-      .then((response) => response.json())
-      .then((data) => {
-        setSoknadOpen(data.isOpen);
-        let date;
-        date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
-        const dates = date.split('-');
-        setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
-      })
-      .catch((error) => console.log(error));
+    async function fetchData() {
+      fetch('/season/getcurrentopen')
+        .then((response) => response.json())
+        .then((data) => {
+          setSoknadOpen(data.isOpen);
+          let date;
+          date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
+          const dates = date.split('-');
+          setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
+        })
+        .catch((error) => console.log(error));
+    }
+    fetchData();
   }, []);
 
   return (

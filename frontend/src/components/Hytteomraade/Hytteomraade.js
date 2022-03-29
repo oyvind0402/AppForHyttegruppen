@@ -1,8 +1,7 @@
 import { useContext } from 'react';
 import LoginContext from '../../LoginContext/login-context';
 import { ReactComponent as HemsedalLogo } from './hemsedal-logo.svg';
-import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
-import { FaSkiing, FaHorse, FaDog, FaSpa, FaWalking } from 'react-icons/fa';
+import { FaSkiing, FaDog, FaSpa } from 'react-icons/fa';
 import { MdSledding } from 'react-icons/md';
 import { GiMountainClimbing, GiHorseshoe, GiFishingPole } from 'react-icons/gi';
 import { IoIosBicycle } from 'react-icons/io';

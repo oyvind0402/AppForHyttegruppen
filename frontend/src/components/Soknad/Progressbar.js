@@ -1,4 +1,3 @@
-import { useContext, useEffect, useState } from 'react';
 import './Progressbar.css';
 
 const Progressbar = (props) => {
