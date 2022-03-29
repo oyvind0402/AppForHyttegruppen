@@ -30,6 +30,7 @@ const Soknad = () => {
     winner: false,
   });
 
+  //Posting application per period
   useEffect(async () => {
     if (formCompleted) {
       formData.period.forEach((period) => {
@@ -52,12 +53,15 @@ const Soknad = () => {
           .then((response) => console.log(response))
           .catch((error) => console.log(error));
       });
+      //Everything is set back to the initial start position
       setFormCompleted(false);
       setPage(1);
       nullstillForm();
     }
   }, [formData]);
 
+  //Popuprepsone is being set
+  //Force scroll up for the popup to show
   useEffect(() => {
     if (formCompleted) {
       setPopupResponse(formData.period);
@@ -65,6 +69,7 @@ const Soknad = () => {
     }
   }, [formCompleted]);
 
+  //Popup will be showing here
   useEffect(() => {
     if (popupResponse != '') setPopup(true);
   }, [popupResponse]);

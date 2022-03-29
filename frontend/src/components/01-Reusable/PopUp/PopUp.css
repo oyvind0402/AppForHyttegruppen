@@ -31,6 +31,10 @@
   border: 3px solid #787878;
 }
 
+.popup-content p {
+  white-space: pre-wrap;
+}
+
 .popupBtn {
   width: auto;
   padding: 10px 20px;

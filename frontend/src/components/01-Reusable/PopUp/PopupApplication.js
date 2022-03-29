@@ -11,6 +11,31 @@ const PopupApplication = (props) => {
     }
   }, [visible]);
 
+  let contentPopup;
+  if (props.periodArray.length < 5) {
+    contentPopup = props.periodArray.map((pickedPeriod, index) => {
+      return <p key={index}>{pickedPeriod.name}</p>;
+    });
+  } else {
+    let textContentPopup = '';
+
+    for (let i = 0; i < props.periodArray.length; i++) {
+      console.log(props.periodArray[i]);
+      textContentPopup += props.periodArray[i].name + ', ';
+      if ((i + 1) % 5 === 0) {
+        textContentPopup += '\n';
+      }
+    }
+    console.log(textContentPopup);
+    let newTextContentPopup = textContentPopup.substring(
+      0,
+      textContentPopup.length - 2
+    );
+    console.log(newTextContentPopup);
+
+    contentPopup = <p>{newTextContentPopup}</p>;
+  }
+
   const closePopUp = () => {
     setVisible(false);
   };
@@ -20,10 +45,8 @@ const PopupApplication = (props) => {
       <div className="popup" id="popup">
         <div className="popUp-overlay"></div>
         <div className="popup-content">
-          <p>Følgende periode er registrert:</p>
-          {props.periodArray.map((pickedPeriod, index) => {
-            return <p key={index}>{pickedPeriod.name}</p>;
-          })}
+          <p>Følgende periode(r) ble registrert:</p>
+          {contentPopup}
           <button className="btn small popupBtn" onClick={closePopUp}>
             Ok
           </button>
