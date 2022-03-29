@@ -159,6 +159,7 @@ const MinTur = () => {
                   <p>
                     <a
                       target="_blank"
+                      rel="noreferrer"
                       className="omhytta-text roaddesc-link"
                       href="https://www.google.com/maps/dir/Oslo+gate+7,+Oslo/3560+Hemsedal/@59.9260916,10.695873,11z/data=!4m14!4m13!1m5!1m1!1s0x46416ef682dc4cd5:0x515b4a96821c140f!2m2!1d10.7677413!2d59.9069394!1m5!1m1!1s0x463fe896e25bc07b:0xfdd68f22ff1ebba0!2m2!1d8.552376!2d60.8630648!3e0"
                     >
