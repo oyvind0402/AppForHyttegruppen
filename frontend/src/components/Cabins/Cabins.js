@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import LoginContext from '../../LoginContext/login-context';
 import CabinCardBig from '../01-Reusable/CabinCard/CabinCardBig';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
@@ -8,7 +8,7 @@ import CabinCardMap from '../01-Reusable/CabinCard/CabinCardMap';
 
 const Cabins = () => {
   const loginContext = useContext(LoginContext);
-  const loggedIn = loginContext.loggedIn;
+  //const loggedIn = loginContext.loggedIn;
 
   const color = `hsl(271, 76%, 53%)`;
 

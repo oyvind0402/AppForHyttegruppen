@@ -84,10 +84,25 @@ VALUES('winter2022','2022-01-01', '2022-03-30', '2021-10-01', '2021-12-31'),
 ('spring2022','2022-07-01', '2022-11-30', '2022-02-01', '2022-05-30');
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
-VALUES ('Week 1', '2022-02-02', '2022-02-09', 'winter2022'),
-('Week 2', '2022-02-09', '2022-02-16', 'winter2022'),
-('Week 7', '2022-03-21', '2022-03-30', 'winter2022'),
+VALUES ('Week 1', '2022-01-03', '2022-01-10', 'winter2022'),
+('Week 2', '2022-01-10', '2022-01-17', 'winter2022'),
+('Week 3', '2022-01-17', '2022-01-24', 'winter2022'),
+('Week 4', '2022-01-24', '2022-01-31', 'winter2022'),
+('Week 5', '2022-01-31', '2022-02-07', 'winter2022'),
+('Week 6', '2022-02-07', '2022-02-14', 'winter2022'),
+('Week 7', '2022-02-14', '2022-02-21', 'winter2022'),
+('Week 8', '2022-02-21', '2022-02-28', 'winter2022'),
+('Week 9', '2022-02-28', '2022-03-07', 'winter2022'),
+('Week 10', '2022-03-07', '2022-03-14', 'winter2022'),
+('Week 11', '2022-03-14', '2022-03-21', 'winter2022'),
+('Week 12', '2022-03-21', '2022-03-28', 'winter2022'),
+('Week 13', '2022-03-28', '2022-04-04', 'winter2022'),
+('Week 14', '2022-04-04', '2022-04-11', 'winter2022'),
+('Week 15', '2022-04-11', '2022-04-18', 'winter2022'),
+('Week 16', '2022-04-18', '2022-04-25', 'winter2022'),
+('Week 17', '2022-04-25', '2022-05-02', 'winter2022'),
 ('Week 40', '2022-10-09', '2022-10-16', 'spring2022');
+
 
 INSERT INTO Cabins
 VALUES('Utsikten', TRUE),
@@ -103,3 +118,8 @@ VALUES('Z5CBgnCHiFsYXMmNdBYmKA','my.id', 'private', '1', 'random', '1', FALSE);
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', FALSE),
 ('1', 'Fanitullen', FALSE);
+
+INSERT INTO Faq (question, answer) 
+VALUES ('Question 1?', 'Hello i am an answer'),
+('Hvor mye koster en hytte?', 'En hytte koster 1200 NOK per uke men pga corona blir det 1200 NOK i tilleg for at hytta skal vaskes.'),
+('Question 2', 'Enda et svar');

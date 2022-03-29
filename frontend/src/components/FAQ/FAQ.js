@@ -6,15 +6,8 @@ import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 
 const FAQ = () => {
   const loginContext = useContext(LoginContext);
-  const loggedIn = loginContext.loggedIn;
-
-  const [FAQElements, setFAQElements] = useState([
-    {
-      question: 'I am a question',
-      answer: 'i am an anwser',
-      open: false,
-    },
-  ]);
+  //const loggedIn = loginContext.loggedIn;
+  const [FAQElements, setFAQElements] = useState([]);
 
   //Fetching
   useEffect(async () => {

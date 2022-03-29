@@ -15,8 +15,6 @@ const Home = () => {
       .then((response) => response.json())
       .then((data) => {
         setSoknadOpen(data.isOpen);
-
-        console.log(data.seasons[0].lastDay);
         let date;
         date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
         const dates = date.split('-');

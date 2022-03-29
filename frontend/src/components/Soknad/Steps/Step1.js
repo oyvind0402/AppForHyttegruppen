@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const Step1 = (props) => {
   //Setting values based on props
   useEffect(() => {
-    document.querySelector('input[id="name"]').value = props.formData.userID;
+    document.querySelector('input[id="name"]').value = props.formData.userId;
     document.querySelector('input[id="EnterpriseID"]').value =
       props.formData.accentureId;
 

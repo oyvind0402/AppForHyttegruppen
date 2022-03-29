@@ -16,7 +16,7 @@ const Soknad = () => {
   const [popupResponse, setPopupResponse] = useState('');
   const [formCompleted, setFormCompleted] = useState(false);
   const [formData, setFormData] = useState({
-    userID: '',
+    userId: '',
     accentureId: '',
     tripPurpose: '',
     period: [],
@@ -34,7 +34,8 @@ const Soknad = () => {
     if (formCompleted) {
       formData.period.forEach((period) => {
         let JsonBody = {
-          userId: localStorage.getItem('userID'),
+          //userId: localStorage.getItem('userID'),
+          userId: formData.userId,
           accentureId: formData.accentureId,
           tripPurpose: formData.tripPurpose,
           period: period,
