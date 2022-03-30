@@ -28,17 +28,18 @@ db.cabins.insertMany([
       },
       { uncountableFeatures: [{ wifi: false }] },
     ],
-    comments: "comments",
-    bringYourself: [
-      "Sovepose eller sengetøy",
-      "Håndklær",
-      "Stearinlys",
-      "Tørkehåndkle/oppvaskklut",
-      "Toalettpapir",
-      "Tørkerull",
-    ],
-    garbageCollector:
-      "Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken, ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere straks etter krysset. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
+    other: {
+      bringYourself: [
+        "Sovepose eller sengetøy",
+        "Håndklær",
+        "Stearinlys",
+        "Tørkehåndkle/oppvaskklut",
+        "Toalettpapir",
+        "Tørkerull",
+      ],
+      trashBins:
+        "Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken, ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere straks etter krysset. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
+    }
   },
 
   {
@@ -64,17 +65,18 @@ db.cabins.insertMany([
       },
       { uncountableFeatures: [{ wifi: true }] },
     ],
-    comments: "comments",
-    bringYourself: [
-      "Sovepose eller sengetøy",
-      "Håndklær",
-      "Stearinlys",
-      "Tørkehåndkle/oppvaskklut",
-      "Toalettpapir",
-      "Tørkerull",
-    ],
-    garbageCollector:
-      "Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken, ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere straks etter krysset. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
+    other: {
+      bringYourself: [
+        "Sovepose eller sengetøy",
+        "Håndklær",
+        "Stearinlys",
+        "Tørkehåndkle/oppvaskklut",
+        "Toalettpapir",
+        "Tørkerull",
+      ],
+      trashBins:
+        "Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken, ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere straks etter krysset. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
+    }
   },
 
   {
@@ -100,17 +102,18 @@ db.cabins.insertMany([
       },
       { uncountableFeatures: [{ wifi: true }] },
     ],
-    comments: "comments",
-    bringYourself: [
-      "Sovepose eller sengetøy",
-      "Håndklær",
-      "Stearinlys",
-      "Tørkehåndkle/oppvaskklut",
-      "Toalettpapir",
-      "Tørkerull",
-    ],
-    garbageCollector:
-      "Søppelcontainer finnes på høyre siden av veien ca. 1 km etter at du har passert “Solheisen” på vei til Tuv. Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken; ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere rett før bomveien. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
+    other: {
+      bringYourself: [
+        "Sovepose eller sengetøy",
+        "Håndklær",
+        "Stearinlys",
+        "Tørkehåndkle/oppvaskklut",
+        "Toalettpapir",
+        "Tørkerull",
+      ],
+      trashBins:
+        "Søppelcontainer finnes på høyre siden av veien ca. 1 km etter at du har passert “Solheisen” på vei til Tuv. Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken; ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere rett før bomveien. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
+    }
   },
 
   {
@@ -136,16 +139,17 @@ db.cabins.insertMany([
       },
       { uncountableFeatures: [{ wifi: true }] },
     ],
-    comments: "comments",
-    bringYourself: [
-      "Sovepose eller sengetøy",
-      "Håndklær",
-      "Stearinlys",
-      "Tørkehåndkle/oppvaskklut",
-      "Toalettpapir",
-      "Tørkerull",
-    ],
-    garbageCollector:
-      "Søppelcontainer finnes på høyre siden av veien ca. 1 km etter at du har passert “Solheisen” på vei til Tuv. Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken; ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere rett før bomveien. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
+    other: {
+      bringYourself: [
+        "Sovepose eller sengetøy",
+        "Håndklær",
+        "Stearinlys",
+        "Tørkehåndkle/oppvaskklut",
+        "Toalettpapir",
+        "Tørkerull",
+      ],
+      trashBins:
+        "Søppelcontainer finnes på høyre siden av veien ca. 1 km etter at du har passert “Solheisen” på vei til Tuv. Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken; ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere rett før bomveien. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
+    }
   },
 ]);
