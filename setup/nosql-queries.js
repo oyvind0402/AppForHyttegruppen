@@ -18,11 +18,11 @@ db.createCollection(
                 "shortDescription",
                 "longDescription",
                 "address",
+                "coordinates",
                 "directions",
                 "price",
                 "cleaningPrice",
-                "features",
-                "comments"
+                "features"
             ],
             "properties": {
                 "_id": { "bsonType": "string" },
@@ -30,6 +30,18 @@ db.createCollection(
                 "shortDescription": { "bsonType": "string" },
                 "longDescription": { "bsonType": "string" },
                 "address": { "bsonType": "string" },
+                "coordinates": {
+                    "bsonType": "object",
+                    "required": [
+                        "latitude",
+                        "longitude",
+                    ],
+                    "properties": {
+                        "latitude": {"bsonType": "number"},
+                        "longitude": {"bsonType": "number"}
+                    },
+                    "additionalProperties": false
+                },
                 "directions": { "bsonType": "string" },
                 "price": {
                     "bsonType": "number",
@@ -84,9 +96,9 @@ db.createCollection(
                     },
                     "additionalProperties": false
                 },
-                "comments": { "bsonType": "string" }
+                "other": { "bsonType": "object" }
             },
-            "additionalProperties": true
+            "additionalProperties": false
             }
         }
     }
