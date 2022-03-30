@@ -61,20 +61,20 @@ db.createCollection(
                         "countableFeatures": {
                             "bsonType": "object",
                             "required": [
-                                "bathrooms",
-                                "bedrooms",
-                                "sleepingSlots"
+                                "bad",
+                                "soverom",
+                                "sengeplasser"
                             ],
                             "properties": {
-                                "bathrooms": {
+                                "bad": {
                                     "bsonType": "number",
                                     "minimum": 0
                                 },
-                                "sleepingSlots": {
+                                "sengeplasser": {
                                     "bsonType": "number",
                                     "minimum": 0
                                 },
-                                "bedrooms": {
+                                "soverom": {
                                     "bsonType": "number",
                                     "minimum": 0
                                 },
