@@ -17,9 +17,29 @@ db.cabins.insertMany([
       "Når du kommer til Hemsedal får du Saga Apartments (den gamle Coop-butikken) på høyre hand. Ta av til høyre rett før, inn Trøimvegen. Følg Trøimvegen ca. 200 meter oppover bakken og noen svinger Ta til høyre inn Tunvegen og følg den ca. 100 m. Kjør inn på tunet til gården (gult hus og rød låve – det er her hytteeier bor!) Ta av til venstre med én gang (mellom en liten brun hytte som du får på venstre hånd og et stabbur som du får på høyre hånd). Følg veien ca. 300 m, og du er framme ved hytta. Veien går bare til hytta og stopper der. Hytta er den eneste bygningen etter at du har kjørt gjennom tunet, og hytta er brun med hvite vinduskarmer. Kjør opp på baksiden av hytta, der er det godt med parkeringsplasser og der er hyttas hovedinngang. Adressen er Tunvegen 11.",
     price: 1200,
     cleaningPrice: 1200,
-    features: [],
+    features: [
+      {
+        countableFeatures: [
+          { bathrooms: 2 },
+          { bedrooms: 5 },
+          { sleepingSlots: 10 },
+        ],
+      },
+      { uncountableFeatures: [{ wifi: false }] },
+    ],
     comments: "comments",
+    bringYourself: [
+      "Sovepose eller sengetøy",
+      "Håndklær",
+      "Stearinlys",
+      "Tørkehåndkle/oppvaskklut",
+      "Toalettpapir",
+      "Tørkerull",
+    ],
+    garbageCollector:
+      "Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken, ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere straks etter krysset. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
   },
+
   {
     _id: "Fanitullen",
     active: true,
@@ -32,9 +52,29 @@ db.cabins.insertMany([
       "Kjør til Hemsedal sentrum og ta av til venstre etter at du har passert Hemsedal Cafe’ og Fanitullen Hotell (venstre hånd). Kjør over broen (du har Apoteket på høyre side i det du skal passere broen) og følg Fanitullvegen ca. 800 meter sørøst ned mot Gol. Hytta ligger på vestre side; det er 3 hytter som ligger ca. 15 meter fra hverandre vi har den som ligger nærmest Gol (den siste du kommer til). Hytta er gulbrun. Det står Accenture på vindu ved døren. Adresse: Torsetvegen 494",
     price: 1200,
     cleaningPrice: 1200,
-    features: [],
+    features: [
+      {
+        countableFeatures: [
+          { bathrooms: 2 },
+          { bedrooms: 4 },
+          { sleepingSlots: 8 },
+        ],
+      },
+      { uncountableFeatures: [{ wifi: true }] },
+    ],
     comments: "comments",
+    bringYourself: [
+      "Sovepose eller sengetøy",
+      "Håndklær",
+      "Stearinlys",
+      "Tørkehåndkle/oppvaskklut",
+      "Toalettpapir",
+      "Tørkerull",
+    ],
+    garbageCollector:
+      "Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken, ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere straks etter krysset. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
   },
+
   {
     _id: "Knausen",
     active: true,
@@ -47,9 +87,29 @@ db.cabins.insertMany([
       "Kjør gjennom Hemsedal sentrum. Fortsett ca. 5 km etter Riksvei 52 til du kommer til Tuv; her tar du av til høyre ved skilt “til Grøndalen”. Etter ca. 6 km innover dalen kommer du til stort opplyst skilt med “Solheisen», ”Solsiden Hyttegrend” og ”Solstua”. Fortsett videre innover Grøndalen. Golfbanen passeres på venstre side av veien, og etter ca. 1,5 km, der gatelysene på høyre side av veien skifter over til venstre side, er det ca. 100 meter til hytta.  Du passerer den siste gården på høyre side av veien, med 2 røde låver og et stort 2-etasjers hvitt hus (Arild Grøndalen sin gård). Her er det ca. 100 meter til avkjøring på høyre side. Sving av veien opp til høyre ved den siste gatelysstolpen. Hytta er helt på toppen av bakken, ca. 100 meter opp, (det er bilvei helt frem). Adresse: Grøndalsvegen 764. På vinterstid anbefaler vi «kjetting på boks» evt. spesiell avfetting for å ta vekk alt saltet på dekkene, før dere kjører opp bakken.",
     price: 1200,
     cleaningPrice: 1200,
-    features: [],
+    features: [
+      {
+        countableFeatures: [
+          { bathrooms: 1 },
+          { bedrooms: 4 },
+          { sleepingSlots: 8 },
+        ],
+      },
+      { uncountableFeatures: [{ wifi: true }] },
+    ],
     comments: "comments",
+    bringYourself: [
+      "Sovepose eller sengetøy",
+      "Håndklær",
+      "Stearinlys",
+      "Tørkehåndkle/oppvaskklut",
+      "Toalettpapir",
+      "Tørkerull",
+    ],
+    garbageCollector:
+      "Søppelcontainer finnes på høyre siden av veien ca. 1 km etter at du har passert “Solheisen” på vei til Tuv. Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken; ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere rett før bomveien. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
   },
+
   {
     _id: "Store Grøndalen",
     active: true,
@@ -73,60 +133,15 @@ db.cabins.insertMany([
       { uncountableFeatures: [{ wifi: true }] },
     ],
     comments: "comments",
+    bringYourself: [
+      "Sovepose eller sengetøy",
+      "Håndklær",
+      "Stearinlys",
+      "Tørkehåndkle/oppvaskklut",
+      "Toalettpapir",
+      "Tørkerull",
+    ],
+    garbageCollector:
+      "Søppelcontainer finnes på høyre siden av veien ca. 1 km etter at du har passert “Solheisen” på vei til Tuv. Det er kildesortering ved Hemsedal Skisenter. Sving av fra hovedveien mot bakken; ta første vei til høyre etter å ha kjørt over broen i retning Skarsnuten. Containere rett før bomveien. Her har også Røde Kors Hjelpekorps egen container for panteflasker.",
   },
 ]);
-
-/*
-"title": "cabin",
-                "features": {
-                    "bsonType": "object",
-                    "required": [
-                        "countableFeatures",
-                        "uncountableFeatures",
-                    ],
-                    "properties": {
-                        "countableFeatures": {
-                            "bsonType": "object",
-                            "required": [
-                                "bathrooms",
-                                "bedrooms",
-                                "sleepingSlots"
-                            ],
-                            "properties": {
-                                "bathrooms": {
-                                    "bsonType": "number",
-                                    "minimum": 0
-                                },
-                                "sleepingSlots": {
-                                    "bsonType": "number",
-                                    "minimum": 0
-                                },
-                                "bedrooms": {
-                                    "bsonType": "number",
-                                    "minimum": 0
-                                },
-                            },
-                            "additionalProperties": true
-                        },
-                        "uncountableFeatures" : {
-                            "bsonType": "object",
-                            "required": [
-                                "wifi",
-                            ],
-                            "properties": {
-                                "wifi": {
-                                    "bsonType": "bool",
-                                },
-                            },
-                            "additionalProperties": true
-                        }
-                    },
-                    "additionalProperties": false
-                },
-                "comments": { "bsonType": "string" }
-            },
-            "additionalProperties": true
-            }
-        }
-    }
-*/
