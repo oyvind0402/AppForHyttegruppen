@@ -29,7 +29,7 @@ func (r repo) GetCabin(ctx *gin.Context) {
 	var cabin []bson.M
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	cursor, err := collection.Find(
-		context.Background(), 
+		context.Background(),
 		bson.D{{"_id", cabinName}},
 	)
 	cursor.All(context.Background(), &cabin)
@@ -68,13 +68,17 @@ func (r repo) GetActiveCabinNames(ctx *gin.Context) {
 }
 
 func (r repo) GetAllCabins(ctx *gin.Context) {
-	var cabins []bson.M
+	var cabins []data.Cabin
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins") //collectio = table
 	cursor, err := collection.Find(
 		context.Background(),
 		bson.D{},
 	)
-	cursor.All(context.Background(), &cabins)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	err = cursor.All(context.Background(), &cabins)
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -83,7 +87,6 @@ func (r repo) GetAllCabins(ctx *gin.Context) {
 
 	ctx.JSON(200, cabins)
 }
-
 
 func (r repo) PostCabin(ctx *gin.Context) {
 
@@ -122,13 +125,12 @@ func (r repo) PostCabin(ctx *gin.Context) {
 	ctx.JSON(200, res)
 }
 
-
 //send in [cabin name, selected field, input]; return updated cabin
-func (r repo) UpdateCabinField(ctx *gin.Context){
-	
-	type fieldSelection struct{
-		CabinName  string `json:"name"`
-		ChangedField  map[string]interface{} `json:"changedField"` 
+func (r repo) UpdateCabinField(ctx *gin.Context) {
+
+	type fieldSelection struct {
+		CabinName    string                 `json:"name"`
+		ChangedField map[string]interface{} `json:"changedField"`
 	}
 
 	selectedField := new(fieldSelection) //key and the value
@@ -143,31 +145,30 @@ func (r repo) UpdateCabinField(ctx *gin.Context){
 		res, err := collection.UpdateOne(
 			context.Background(),
 			bson.D{
-				{"_id" , selectedField.CabinName},
+				{"_id", selectedField.CabinName},
 			},
 			bson.D{
-					{"$set", bson.D{
-						{key,val},
-					}},
-					{"$currentDate", bson.D{
-						{"lastModified", true},
-					}},
-		})
+				{"$set", bson.D{
+					{key, val},
+				}},
+				{"$currentDate", bson.D{
+					{"lastModified", true},
+				}},
+			})
 		if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+			return
+		}
+		ctx.JSON(200, res)
 	}
-	ctx.JSON(200, res)
-	}
-	
+
 }
 
-func (r repo) UpdateCabin(ctx *gin.Context){
+func (r repo) UpdateCabin(ctx *gin.Context) {
 
-	
 }
 
-func (r repo) DeleteCabin(ctx *gin.Context){
+func (r repo) DeleteCabin(ctx *gin.Context) {
 
 	cabinName := new(string)
 	err := ctx.BindJSON(cabinName)
@@ -176,10 +177,9 @@ func (r repo) DeleteCabin(ctx *gin.Context){
 		return
 	}
 
-
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	res, err := collection.DeleteOne(
-		context.Background(), 
+		context.Background(),
 		bson.D{{"_id", cabinName}},
 	)
 	if err != nil {
@@ -191,6 +191,6 @@ func (r repo) DeleteCabin(ctx *gin.Context){
 	ctx.JSON(200, res)
 }
 
-func (r repo) DeleteManyCabins(ctx *gin.Context){
-	
+func (r repo) DeleteManyCabins(ctx *gin.Context) {
+
 }
