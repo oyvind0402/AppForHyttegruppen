@@ -139,7 +139,6 @@
   font-weight: 700;
   align-items: center;
   justify-content: center;
-  width: 20%;
   margin: auto;
 }
 
@@ -152,4 +151,144 @@
   font-weight: 700;
   font-size: 2rem;
   text-align: center;
+}
+
+@media only screen and (max-width: 1250px) {
+  .omhytta-container {
+    width: 100%;
+    margin: auto;
+  }
+
+  .titlepic-wrapper {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .titlepic-wrapper img {
+    width: 100%;
+    place-self: center;
+  }
+
+  .secondrow-wrapper {
+    grid-gap: 2rem;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .travelinfo-wrapper,
+  .checklist-wrapper {
+    font-size: 0.8rem;
+  }
+
+  .checklist-wrapper {
+    justify-content: center;
+  }
+
+  .checklist-item {
+    margin-top: 0;
+    padding: 0.65rem;
+  }
+
+  .pending-trip-icon {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  .info-title,
+  .checklist-title,
+  .omhytta-title {
+    font-size: 1.5rem;
+  }
+
+  .secondrow-wrapper {
+    grid-gap: 0.5rem;
+  }
+}
+
+@media only screen and (max-width: 635px) {
+  .secondrow-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .info-title,
+  .checklist-title,
+  .omhytta-title {
+    font-size: 2rem;
+  }
+
+  .travelinfo-wrapper,
+  .checklist-wrapper {
+    font-size: 1rem;
+  }
+
+  .checklist,
+  .travelinfo-wrapper {
+    padding: 2rem;
+  }
+}
+
+@media only screen and (max-width: 635px) {
+  .omhytta-text {
+    font-size: 0.8rem;
+  }
+
+  .info-icon {
+    font-size: 2.5rem;
+  }
+
+  .info-title,
+  .checklist-title,
+  .omhytta-title {
+    font-size: 1.5rem;
+  }
+
+  .travelinfo-wrapper,
+  .checklist-wrapper {
+    font-size: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 410px) {
+  .checklist,
+  .travelinfo-wrapper {
+    padding: 1rem;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .checklist,
+  .travelinfo-wrapper {
+    padding: 0.5rem;
+    height: 115px;
+  }
+
+  .checklist-item {
+    padding: 0.5rem;
+  }
+
+  .mintur-title {
+    font-size: 2rem;
+  }
+
+  .pending-trip-text {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 325px) {
+  .omhytta-text {
+    font-size: 0.7rem;
+  }
+
+  .info-icon {
+    font-size: 2rem;
+  }
+
+  .travelinfo-wrapper,
+  .checklist-wrapper {
+    font-size: 0.7em;
+  }
 }

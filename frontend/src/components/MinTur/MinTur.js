@@ -1,7 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import LoginContext from '../../LoginContext/login-context';
+import { useEffect, useState } from 'react';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
-import SmallButton from '../01-Reusable/Buttons/SmallButton';
 import { BsFillKeyFill, BsHourglassSplit } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { AiFillCar } from 'react-icons/ai';
@@ -16,86 +14,77 @@ import './MinTur.css';
 import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
 
 const MinTur = () => {
-  const loginContext = useContext(LoginContext);
-
-  //const loggedIn = loginContext.loggedIn;
-
   const link = window.location.href;
+  const pageID = parseInt(link.split('/')[4]);
+  const [trip, setTrip] = useState({
+    winner: false,
+    cabins: [{ cabinName: 'Fanitullen' }],
+    period: {
+      start: '00.00.0000',
+      end: '00.00.0000',
+    },
+  });
 
-  const pageID = link.split('/')[4];
-
-  //This is just here for now, before we have api calls
-  //where we would fetch the cabin application with ID = pageID
-  const index = pageID - 1;
-
-  const [approved, setApproved] = useState(false);
+  const [future, setFuture] = useState(false);
   const [pending, setPending] = useState(false);
+  const [current, setCurrent] = useState(false);
+  const [former, setFormer] = useState(false);
+  const [end, setEnd] = useState(new Date());
+  const [start, setStart] = useState(new Date());
 
-  const data = {
-    applications: [
-      {
-        id: 1,
-        cabinName: 'Utsikten',
-        season: 'Uke 52',
-        date: '27.12.2022',
-        endDate: '01.01.2023',
-        approved: 'approved',
-        active: false,
-        picture: `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`,
-      },
-      {
-        id: 2,
-        cabinName: 'Knausen',
-        season: 'Uke 12',
-        date: '12.04.2023',
-        endDate: '19.04.2023',
-        approved: 'pending',
-        active: false,
-        picture: `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`,
-      },
-      {
-        id: 3,
-        cabinName: 'Fanitullen',
-        season: 'Uke 2',
-        date: '14.01.2023',
-        endDate: '21.01.2023',
-        approved: 'approved',
-        active: true,
-        picture: `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`,
-      },
-      {
-        id: 4,
-        cabinName: 'Store Grøndalen',
-        season: 'Uke 13',
-        date: '19.04.2023',
-        endDate: '26.04.2023',
-        approved: 'pending',
-        active: false,
-        picture: `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`,
-      },
-    ],
-  };
+  async function getTrip() {
+    const response = await fetch('/application/get', {
+      method: 'POST',
+      body: JSON.stringify(pageID),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      setTrip(data);
+
+      const start = new Date(data.period.start);
+      const end = new Date(data.period.end);
+      setEnd(end);
+      setStart(start);
+
+      if (start > Date.now() && !data.winner) {
+        setPending(true);
+        setFuture(false);
+        setCurrent(false);
+        setFormer(false);
+      } else if (start < Date.now() && end > Date.now() && data.winner) {
+        setCurrent(true);
+        setFuture(false);
+        setPending(false);
+        setFormer(false);
+      } else if (end < Date.now() && data.winner) {
+        setFormer(true);
+        setCurrent(false);
+        setPending(false);
+        setFuture(false);
+      } else if (start > Date.now() && data.winner) {
+        setFuture(true);
+        setCurrent(false);
+        setPending(false);
+        setFormer(false);
+      }
+    }
+  }
 
   useEffect(() => {
-    if (data.applications[index].approved === 'approved') {
-      setApproved(true);
-      setPending(false);
-    }
-    if (data.applications[index].approved === 'pending') {
-      setPending(true);
-      setApproved(false);
-    }
+    getTrip();
   }, []);
 
-  if (approved && data.applications[index].active) {
+  if (future && trip.winner) {
     return (
       <>
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
-            <p className="mintur-title">{data.applications[index].cabinName}</p>
+            <p className="mintur-title">{trip.cabins[0].cabinName}</p>
+
             <img
-              src={data.applications[index].picture}
+              src={`${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`}
               className="mintur-picture"
               alt="cabin"
             />
@@ -106,17 +95,29 @@ const MinTur = () => {
               <div className="travelinfo-wrapper">
                 <div className="checkin-info">
                   <p>Innsjekking</p>
-                  <p>{data.applications[index].date}</p>
+                  <p>
+                    {start.getDate() +
+                      '/' +
+                      start.getMonth() +
+                      '/' +
+                      start.getFullYear()}
+                  </p>
                   <p>17:00</p>
                 </div>
                 <img
                   src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
-                  alt="picture indicating travel"
+                  alt="indicating travel"
                   className="travel-icon"
                 />
                 <div className="checkout-info">
                   <p>Utsjekking</p>
-                  <p>{data.applications[index].endDate}</p>
+                  <p>
+                    {end.getDate() +
+                      '/' +
+                      end.getMonth() +
+                      '/' +
+                      end.getFullYear()}
+                  </p>
                   <p>12:00</p>
                 </div>
               </div>
@@ -203,15 +204,19 @@ const MinTur = () => {
         </div>
       </>
     );
-  } else if (pending && !data.applications[index].active) {
+  } else if (pending && !trip.winner) {
     return (
       <>
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
-            <p className="mintur-title">{data.applications[index].cabinName}</p>
+            {trip.cabins.map((cabin) => (
+              <p className="mintur-title" key={cabin.cabinName}>
+                {cabin.cabinName}
+              </p>
+            ))}
             <img
-              src={data.applications[index].picture}
+              src={`${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`}
               className="mintur-picture"
               alt="cabin"
             />
@@ -221,21 +226,28 @@ const MinTur = () => {
           </div>
           <div className="calendar-container">
             <BsHourglassSplit className="pending-trip-icon" />
-            <p>12.13.2023</p>
+            <p>
+              {start.getDate() -
+                7 +
+                '/' +
+                start.getMonth() +
+                '/' +
+                start.getFullYear()}
+            </p>
           </div>
-          <SmallButton name="Avbestill" />
+          <button className="btn small">Avbestill</button>
         </div>
       </>
     );
-  } else {
+  } else if (current && trip.winner) {
     return (
       <>
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
-            <p className="mintur-title">{data.applications[index].cabinName}</p>
+            <p className="mintur-title">{trip.cabins[0].cabinName}</p>
             <img
-              src={data.applications[index].picture}
+              src={`${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`}
               className="mintur-picture"
               alt="cabin"
             />
@@ -247,7 +259,13 @@ const MinTur = () => {
               <div className="travelinfo-wrapper">
                 <div className="checkin-info">
                   <p className="checkin-text">Innsjekking</p>
-                  <p>{data.applications[index].date}</p>
+                  <p>
+                    {start.getDate() +
+                      '/' +
+                      start.getMonth() +
+                      '/' +
+                      start.getFullYear()}
+                  </p>
                   <p>17:00</p>
                 </div>
                 <div>
@@ -260,7 +278,13 @@ const MinTur = () => {
 
                 <div className="checkout-info">
                   <p className="checkin-text">Utsjekking</p>
-                  <p>{data.applications[index].endDate}</p>
+                  <p>
+                    {end.getDate() +
+                      '/' +
+                      end.getMonth() +
+                      '/' +
+                      end.getFullYear()}
+                  </p>
                   <p>12:00</p>
                 </div>
               </div>
@@ -346,6 +370,25 @@ const MinTur = () => {
         </div>
       </>
     );
+  } else if (former && trip.winner) {
+    return (
+      <>
+        <HeroBanner name="Min tur" />
+        <div className="mintur-container">
+          <div className="titlepic-wrapper">
+            <p className="mintur-title">{trip.cabins[0].cabinName}</p>
+            <img
+              src={`${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`}
+              className="mintur-picture"
+              alt="cabin"
+            />
+          </div>
+          <FeedbackForm />
+        </div>
+      </>
+    );
+  } else {
+    return <></>;
   }
 };
 
