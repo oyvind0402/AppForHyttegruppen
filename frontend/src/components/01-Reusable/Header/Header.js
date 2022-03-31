@@ -26,6 +26,7 @@ const Header = () => {
     }
 
     loginContext.logout();
+    localStorage.removeItem('userID');
     history.replace('/');
   };
 

@@ -271,7 +271,7 @@ const MinTur = () => {
                 <div>
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
-                    alt="picture indicating travel"
+                    alt="indicating travel"
                     className="travel-icon"
                   />
                 </div>

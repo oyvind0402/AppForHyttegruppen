@@ -58,7 +58,11 @@ hr {
 
 @media only screen and (max-width: 500px) {
   .mytrip-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .mytrip-title-empty {
+    font-size: 1.5rem;
   }
 }
 
