@@ -17,11 +17,18 @@
   flex-direction: row;
   align-items: center;
   width: 50%;
+  margin-bottom: 1rem;
 }
 
 .edit-cabin-label {
   font-weight: 700;
   font-size: 1.5rem;
+}
+
+.edit-cabin-label2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: capitalize;
 }
 
 .edit-cabin-input {
@@ -79,9 +86,21 @@
 .input-function {
   display: flex;
   align-items: center;
-  padding: 0.2rem;
+  margin-bottom: 1rem;
 }
 
 .func-label {
   padding-left: 1rem;
+}
+
+.add-remove-item {
+  font-size: 4rem;
+  align-self: center;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 760px) {
+  .edit-cabin-container {
+    width: 75%;
+  }
 }

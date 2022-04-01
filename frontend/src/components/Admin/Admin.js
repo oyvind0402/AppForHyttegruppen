@@ -9,7 +9,7 @@ const Admin = () => {
       <HeroBanner name="Admin" />
       <div className="admin-container">
         <BigButtonLink name="Åpne søknadsperiode" link="/startsoknad" />
-        <BigButtonLink name="Endre innhold på siden" link="/hytter" />
+        <BigButtonLink name="Endre innhold på siden" link="/endringer" />
         <HomeImage
           imageLink="TripHistory.svg"
           imageAlt="A history of trips"
