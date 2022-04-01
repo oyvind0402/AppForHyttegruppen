@@ -70,6 +70,12 @@
   text-decoration: underline;
 }
 
+.pigeon-overlays > div:nth-child(1) > div:not(.pigeon-click-block) {
+  background: #bd00ff !important;
+  border-color: #eaddff !important;
+  color: white;
+}
+
 @media only screen and (max-width: 700px) {
   .card-map {
     right: 0;

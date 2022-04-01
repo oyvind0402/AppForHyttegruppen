@@ -23,6 +23,7 @@ const card = {
 };
 
 const CabinCardBig = (props) => {
+  console.log(props);
   const loginContext = useContext(LoginContext);
 
   return (
@@ -34,33 +35,29 @@ const CabinCardBig = (props) => {
           alt={card.picture[0].alt}
         />
         {loginContext.adminAccess && (
-          <Link to={'/editcabin/' + card.picture[0].Name}>
+          <Link to={'/editcabin/' + props.cabin.name}>
             <button className="admin-edit-btn">Endre</button>
           </Link>
         )}
 
         <div className="card-content">
-          <h2 className="card-title">{card.picture[0].Name}</h2>
-          <p className="card-address">{card.picture[0].Address}</p>
+          <h2 className="card-title">{props.cabin.name}</h2>
+          <p className="card-address">{props.cabin.address}</p>
 
           <div className="card-features">
             <BiBed className="card-icon bed" />
             <p className="card-text bedrooms">
-              {card.picture[0].Bedrooms} soverom
+              {props.cabin.features.soverom} soverom
             </p>
             <p className="card-text sleepingslots">
-              {card.picture[0].SleepingSlots} sengeplasser
+              {props.cabin.features.sengeplasser} sengeplasser
             </p>
 
             <BiBath className="card-icon bath" />
-            <p className="card-text badrooms">
-              {card.picture[0].Bathrooms} Bad
-            </p>
+            <p className="card-text badrooms">{props.cabin.features.bad} Bad</p>
 
             <GiTakeMyMoney className="card-icon money" />
-            <p className="card-text moneyText">
-              {card.picture[0].Price} Kroner
-            </p>
+            <p className="card-text moneyText">{props.cabin.price} Kroner</p>
           </div>
         </div>
       </button>

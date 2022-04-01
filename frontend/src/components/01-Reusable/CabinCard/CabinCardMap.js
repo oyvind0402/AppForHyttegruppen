@@ -4,27 +4,58 @@ import { BiBed } from 'react-icons/bi';
 import { BiBath } from 'react-icons/bi';
 
 const CabinCardMap = (props) => {
-  return (
-    <>
+  if (typeof props.cabin.features !== 'undefined') {
+    return (
+      <>
+        <div className="card-map">
+          <h2 className="card-map-title">{props.cabin.name}</h2>
+          <p className="card-map-address">{props.cabin.address}</p>
+
+          <div className="card-map-features">
+            <BiBed className="card-icon bed" />
+            <p className="card-map-text bedrooms">
+              {props.cabin.features.soverom} soverom /{' '}
+              {props.cabin.features.sengeplasser} sengeplasser
+            </p>
+
+            <BiBath className="card-icon bath" />
+            <p className="card-map-text badrooms">
+              {props.cabin.features.bad} Bad
+            </p>
+
+            <button className="card-map-btn">Se mer</button>
+          </div>
+        </div>
+      </>
+    );
+  } else {
+    return (
       <div className="card-map">
-        <h2 className="card-map-title">{props.cabin.Name}</h2>
-        <p className="card-map-address">{props.cabin.Address}</p>
+        <h2 className="card-map-title">Velg en hytte</h2>
+      </div>
+    );
+  }
+};
+
+export default CabinCardMap;
+
+/*<div className="card-map">
+        <h2 className="card-map-title">{props.cabin.name}</h2>
+        <p className="card-map-address">{props.cabin.address}</p>
 
         <div className="card-map-features">
           <BiBed className="card-icon bed" />
           <p className="card-map-text bedrooms">
-            {props.cabin.Bedrooms} soverom / {props.cabin.SleepingSlots}{' '}
-            sengeplasser
+            {props.cabin.features.soverom soverom /{' '}
+            {props.cabin.features.sengeplasser} sengeplasser
           </p>
 
           <BiBath className="card-icon bath" />
-          <p className="card-map-text badrooms">{props.cabin.Bathrooms} Bad</p>
+          <p className="card-map-text badrooms">
+            {props.cabin.features.bad} Bad
+          </p>
 
           <button className="card-map-btn">Se mer</button>
         </div>
       </div>
-    </>
-  );
-};
-
-export default CabinCardMap;
+*/
