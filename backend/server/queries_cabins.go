@@ -165,12 +165,15 @@ func (r repo) UpdateCabinField(ctx *gin.Context) {
 			bson.D{
 				primitive.E{Key: "$set", Value: bson.D{
 					primitive.E{Key: key, Value: val},
-				{"_id", selectedField.CabinName},
-				{"$currentDate", bson.D{
-					{"lastModified", true},
-				}},
+					primitive.E{Key: "_id", Value: selectedField.CabinName},
+					primitive.E{Key: "$currentDate", Value: bson.D{
+						primitive.E{Key: "lastModified", Value: true},
+					},
+					},
+				},
+				},
 			},
-			)
+		)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return
@@ -212,7 +215,7 @@ func (r repo) UpdateCabin(ctx *gin.Context) {
 		primitive.E{Key: "features", Value: bson.A{
 			primitive.E{Key: "features", Value: cabin.Features},
 		}},
-		primitive.E{Key: "comments", Value: cabin.Comments},
+		//primitive.E{Key: "comments", Value: cabin.Comments},
 	}
 
 	res, err := collection.ReplaceOne(
