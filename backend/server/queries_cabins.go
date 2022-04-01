@@ -176,7 +176,7 @@ func (r repo) UpdateCabinField(ctx *gin.Context) {
 	var updateable bson.D
 	for key, val := range updateData.ChangedField {
 		field := utils.ObjToPrimitive(key, val)
-		updateable = append(updateable, field)
+		updateable = append(updateable, field...)
 	}
 
 	res, err := collection.UpdateOne(
