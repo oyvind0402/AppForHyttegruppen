@@ -76,15 +76,18 @@ func (r repo) GetActiveCabinNames(ctx *gin.Context) {
 
 //Retrieves all cabins
 func (r repo) GetAllCabins(ctx *gin.Context) {
-	var cabins []bson.M
+	var cabins []data.Cabin
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins") //collectio = table
 	//gets documents that exist in the collectiom
 	cursor, err := collection.Find(
 		context.Background(),
 		bson.D{},
 	)
-	//itterates through the documents and adds names to the list
-	cursor.All(context.Background(), &cabins)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	err = cursor.All(context.Background(), &cabins)
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -162,8 +165,12 @@ func (r repo) UpdateCabinField(ctx *gin.Context) {
 			bson.D{
 				primitive.E{Key: "$set", Value: bson.D{
 					primitive.E{Key: key, Value: val},
+				{"_id", selectedField.CabinName},
+				{"$currentDate", bson.D{
+					{"lastModified", true},
 				}},
-			})
+			},
+			)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return

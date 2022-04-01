@@ -11,12 +11,11 @@ import (
 )
 
 // Get cabins for a given ID (returns: []cabins, []cabinsWon, err)
-func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cabinsWon []data.CabinShort, err error) {
+func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cabinsWon []data.CabinShort, err error, requestStatus int) {
 	// Execute query to fetch cabins and won information
 	cabinRows, err := r.sqlDb.Query(`SELECT cabin_name, cabin_won FROM ApplicationCabins WHERE application_id = $1`, id)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return cabins, cabinsWon, err
+		return cabins, cabinsWon, err, http.StatusBadRequest
 	}
 	defer cabinRows.Close()
 
@@ -28,8 +27,7 @@ func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cab
 
 		// Map column to Cabin.Name
 		if err = cabinRows.Scan(&cabin.Name, &cabinWon); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return cabins, cabinsWon, err
+			return cabins, cabinsWon, err, http.StatusBadRequest
 		}
 
 		// Append Cabin to Application.Cabins array
@@ -40,7 +38,7 @@ func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cab
 			cabinsWon = append(cabinsWon, cabin)
 		}
 	}
-	return cabins, cabinsWon, err
+	return cabins, cabinsWon, err, http.StatusOK
 }
 
 // Remove from DB all Cabins associated to an Application
@@ -51,9 +49,12 @@ func removeCabins(tx *sql.Tx, application data.Application) (*sql.Tx, error) {
 }
 
 // Add/Update application cabins from a list
-func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, applicationId int, won bool) (*sql.Tx, error) {
+func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, applicationId int, won bool) (*sql.Tx, error, int) {
 	var err error
+	fmt.Println(cabins)
+
 	for _, cabin := range cabins {
+		fmt.Println(cabin.Name)
 		_, err = tx.Exec(
 			`INSERT INTO ApplicationCabins 
 			VALUES($1, $2, $3)
@@ -64,15 +65,14 @@ func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, a
 			won,
 		)
 		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return tx, err
+			return tx, err, http.StatusBadRequest
 		}
 	}
-	return tx, err
+	return tx, err, http.StatusOK
 }
 
 // Get applications from Query
-func (r repo) getApplications(ctx *gin.Context, rows *sql.Rows) ([]data.Application, error) {
+func (r repo) getApplications(ctx *gin.Context, rows *sql.Rows) ([]data.Application, error, int) {
 	var err error
 
 	// Create Application array
@@ -93,28 +93,26 @@ func (r repo) getApplications(ctx *gin.Context, rows *sql.Rows) ([]data.Applicat
 			&application.CabinAssignment,
 			&periodId,
 			&application.Winner); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return applications, err
+			return applications, err, http.StatusBadRequest
 		}
 
 		// Get period
 		application.Period, err = r.getPeriodById(ctx, periodId)
 		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return applications, err
+			return applications, err, http.StatusBadRequest
 		}
 
+		var status int
 		// Get cabins
-		application.Cabins, application.CabinsWon, err = r.getCabins(ctx, application.ApplicationId)
+		application.Cabins, application.CabinsWon, err, status = r.getCabins(ctx, application.ApplicationId)
 		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-			return applications, err
+			return applications, err, status
 		}
 
 		// Append Application to Applications array
 		applications = append(applications, application)
 	}
-	return applications, err
+	return applications, err, http.StatusOK
 }
 
 // Retrieve one application by ID (receives int; returns Application)
@@ -159,9 +157,10 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	}
 
 	// Get cabins
-	application.Cabins, application.CabinsWon, err = r.getCabins(ctx, *applicationId)
+	var status int
+	application.Cabins, application.CabinsWon, err, status = r.getCabins(ctx, *applicationId)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -169,10 +168,10 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	ctx.JSON(200, application)
 }
 
-// Retrieve all applications for a userid (receives int; returns []Application)
+// Retrieve all applications for a userid (receives userId: string; returns []Application)
 func (r repo) GetUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(int)
+	userId := new(string)
 	if err := ctx.BindJSON(userId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -186,9 +185,9 @@ func (r repo) GetUserApplications(ctx *gin.Context) {
 	}
 	defer rows.Close()
 
-	applications, err := r.getApplications(ctx, rows)
+	applications, err, status := r.getApplications(ctx, rows)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -196,10 +195,10 @@ func (r repo) GetUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve applications for a userid where winner=true and end_date < today (receives int; returns []Application)
+// Retrieve applications for a userid where winner=true and end_date < today (receives userId: string; returns []Application)
 func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(int)
+	userId := new(string)
 	if err := ctx.BindJSON(userId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -225,9 +224,9 @@ func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 	}
 	defer rows.Close()
 
-	applications, err := r.getApplications(ctx, rows)
+	applications, err, status := r.getApplications(ctx, rows)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -235,10 +234,10 @@ func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve applications for a userid where winner=false and start_date > today (receives int; returns []Application)
+// Retrieve applications for a userid where winner=false and start_date > today (receives userId: string; returns []Application)
 func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(int)
+	userId := new(string)
 	if err := ctx.BindJSON(userId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -264,9 +263,9 @@ func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 	}
 	defer rows.Close()
 
-	applications, err := r.getApplications(ctx, rows)
+	applications, err, status := r.getApplications(ctx, rows)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -274,10 +273,10 @@ func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve applications for a userid where winner=true and start_date < today < end_date (receives int; returns []Application)
+// Retrieve applications for a userid where winner=true and start_date < today < end_date (receives userId: string; returns []Application)
 func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(int)
+	userId := new(string)
 	if err := ctx.BindJSON(userId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -303,9 +302,9 @@ func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	}
 	defer rows.Close()
 
-	applications, err := r.getApplications(ctx, rows)
+	applications, err, status := r.getApplications(ctx, rows)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -313,10 +312,10 @@ func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve applications for a userid where winner=true and start_date > today (receives int; returns []Application)
+// Retrieve applications for a userid where winner=true and start_date > today (receives userId: string; returns []Application)
 func (r repo) GetFutureTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(int)
+	userId := new(string)
 	if err := ctx.BindJSON(userId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -342,9 +341,9 @@ func (r repo) GetFutureTripsUserApplications(ctx *gin.Context) {
 	}
 	defer rows.Close()
 
-	applications, err := r.getApplications(ctx, rows)
+	applications, err, status := r.getApplications(ctx, rows)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -362,9 +361,9 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 	}
 	defer rows.Close()
 
-	applications, err := r.getApplications(ctx, rows)
+	applications, err, status := r.getApplications(ctx, rows)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -390,6 +389,8 @@ func (r repo) PostApplication(ctx *gin.Context) {
 		return
 	}
 
+	fmt.Println(application)
+
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
 	if err = tx.QueryRow(
@@ -407,9 +408,9 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	}
 
 	// Add cabins for Application
-	tx, err = addOrUpdateCabins(ctx, tx, application.Cabins, resId, false)
+	tx, err, status := addOrUpdateCabins(ctx, tx, application.Cabins, resId, false)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -474,9 +475,9 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	}
 
 	// Add cabins from Application
-	tx, err = addOrUpdateCabins(ctx, tx, application.Cabins, application.ApplicationId, false)
+	tx, err, status := addOrUpdateCabins(ctx, tx, application.Cabins, application.ApplicationId, false)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 
@@ -545,9 +546,9 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	}
 
 	// Set ONLY cabins passed through WinnerApplication.CabinsWon as "won"
-	tx, err = addOrUpdateCabins(ctx, tx, application.CabinsWon, application.ApplicationId, true)
+	tx, err, status := addOrUpdateCabins(ctx, tx, application.CabinsWon, application.ApplicationId, true)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
 	}
 

@@ -8,6 +8,8 @@ require (
 	go.mongodb.org/mongo-driver v1.8.4
 )
 
+require github.com/google/uuid v1.3.0 // indirect
+
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19
@@ -24,6 +26,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/renstrom/shortuuid v3.0.0+incompatible
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.0.2 // indirect
