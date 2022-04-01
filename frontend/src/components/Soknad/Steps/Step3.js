@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BsQuestionCircle } from 'react-icons/bs';
 import CabinCardSmall from './../../01-Reusable/CabinCard/CabinCardSmall';
 
@@ -6,6 +6,18 @@ import './Steps.css';
 import './Step3.css';
 
 const Step3 = (props) => {
+  const [cabins, setCabins] = useState([]);
+  //Fetching
+  useEffect(() => {
+    async function fetchData() {
+      fetch('/cabin/getall')
+        .then((response) => response.json())
+        .then((data) => setCabins(data))
+        .catch((error) => console.log(error));
+    }
+    fetchData();
+  }, []);
+
   //Loading values based on props
   useEffect(() => {
     document.querySelector('input[id="numberOfHytter"]').value =
@@ -97,10 +109,10 @@ const Step3 = (props) => {
           </div>
         </div>
         <div className="soknad-step3-cabins">
-          <CabinCardSmall />
-          <CabinCardSmall />
-          <CabinCardSmall />
-          <CabinCardSmall />
+          {cabins[0] !== '' &&
+            cabins.map((cabin, index) => {
+              return <CabinCardSmall key={index} cabin={cabin} />;
+            })}
         </div>
       </div>
       <div className="soknad-btn">

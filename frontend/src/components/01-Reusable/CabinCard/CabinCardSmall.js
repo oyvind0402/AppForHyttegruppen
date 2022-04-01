@@ -5,22 +5,6 @@ import CabinContent from './CabinContent';
 const CabinCardSmall = (props) => {
   const [active, setActive] = useState(false);
 
-  const card = {
-    picture: [
-      {
-        Name: 'Utsikten',
-        Address: 'Grøndalsvegen 764',
-        Bedrooms: '5',
-        SleepingSlots: '10',
-        Bathrooms: '1',
-        Price: '1200',
-        CleaningPrice: '1200',
-        src: './cabin-main.jpg',
-        alt: 'Picture of utsikten',
-      },
-    ],
-  };
-
   return (
     <>
       {active === true ? (
@@ -28,11 +12,11 @@ const CabinCardSmall = (props) => {
           className="card-small card-small-active"
           onClick={() => setActive(false)}
         >
-          <CabinContent cabin={card} />
+          <CabinContent cabin={props.cabin} />
         </button>
       ) : (
         <button className="card-small" onClick={() => setActive(true)}>
-          <CabinContent cabin={card} />
+          <CabinContent cabin={props.cabin} />
         </button>
       )}
     </>
