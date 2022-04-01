@@ -106,6 +106,8 @@ VALUES ('Week 1', '2022-01-03', '2022-01-10', 'winter2022'),
 
 INSERT INTO Cabins
 VALUES('Utsikten', TRUE),
+('Store Grøndalen', TRUE),
+('Knausen', TRUE),
 ('Fanitullen', TRUE);
 
 INSERT INTO Users 

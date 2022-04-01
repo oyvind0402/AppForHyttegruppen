@@ -7,6 +7,7 @@ import './Step3.css';
 
 const Step3 = (props) => {
   const [cabins, setCabins] = useState([]);
+  let pickedCabins = [];
   //Fetching
   useEffect(() => {
     async function fetchData() {
@@ -17,6 +18,12 @@ const Step3 = (props) => {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    cabins.map((cabin) => {
+      pickedCabins.push(false);
+    });
+  }, [cabins]);
 
   //Loading values based on props
   useEffect(() => {
@@ -33,6 +40,11 @@ const Step3 = (props) => {
     //Cabin checked wait until we have the cabin structure
   });
 
+  function setPickedCabin(picked, index) {
+    pickedCabins[index] = picked;
+    console.log(pickedCabins);
+  }
+
   //Getting current input data
   const getCurrentData = () => {
     const numberOfHytter = parseInt(
@@ -45,10 +57,17 @@ const Step3 = (props) => {
     let valgteCabins = [];
 
     if (cabinChoice === 'random') {
-      //Add all cabins
+      valgteCabins = cabins.map((cabin) => {
+        return { cabinName: cabin.name };
+      });
     } else {
-      //Add checked cabins
+      valgteCabins = cabins.filter((cabin, index) => {
+        if (pickedCabins[index]) {
+          return { cabinName: cabin.name };
+        }
+      });
     }
+    console.log(valgteCabins);
 
     const step3Data = {
       numberOfCabins: numberOfHytter,
@@ -111,7 +130,14 @@ const Step3 = (props) => {
         <div className="soknad-step3-cabins">
           {cabins[0] !== '' &&
             cabins.map((cabin, index) => {
-              return <CabinCardSmall key={index} cabin={cabin} />;
+              return (
+                <CabinCardSmall
+                  key={cabin.name}
+                  index={index}
+                  cabin={cabin}
+                  setPicked={setPickedCabin}
+                />
+              );
             })}
         </div>
       </div>

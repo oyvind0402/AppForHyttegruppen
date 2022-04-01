@@ -22,11 +22,7 @@ const Soknad = () => {
     period: [],
     numberOfCabins: 1,
     cabinAssigment: '',
-    cabins: [
-      {
-        cabinName: 'Fanitullen',
-      },
-    ],
+    cabins: [],
     winner: false,
   });
 
@@ -103,7 +99,7 @@ const Soknad = () => {
         ...formData,
         numberOfCabins: data.numberOfCabins,
         cabinAssigment: data.cabinAssigment,
-        //cabins: data.cabins,
+        cabins: data.cabins,
       });
     }
     if (page !== 1) setPage(page - 1);
@@ -121,11 +117,7 @@ const Soknad = () => {
       period: [],
       numberOfCabins: 1,
       cabinAssigment: '',
-      cabins: [
-        {
-          cabin_name: 'Fanitullen',
-        },
-      ],
+      cabins: [],
       winner: false,
     });
   }
@@ -137,7 +129,7 @@ const Soknad = () => {
         ...formData,
         numberOfCabins: data.numberOfCabins,
         cabinAssigment: data.cabinAssigment,
-        //cabins: data.cabins,
+        cabins: data.cabins,
       });
     }
   };

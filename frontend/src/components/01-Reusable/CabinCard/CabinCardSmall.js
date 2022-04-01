@@ -1,5 +1,5 @@
 import './CabinCardSmall.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CabinContent from './CabinContent';
 
 const CabinCardSmall = (props) => {
@@ -10,12 +10,21 @@ const CabinCardSmall = (props) => {
       {active === true ? (
         <button
           className="card-small card-small-active"
-          onClick={() => setActive(false)}
+          onClick={() => {
+            setActive(false);
+            props.setPicked(false, props.index);
+          }}
         >
           <CabinContent cabin={props.cabin} />
         </button>
       ) : (
-        <button className="card-small" onClick={() => setActive(true)}>
+        <button
+          className="card-small"
+          onClick={() => {
+            setActive(true);
+            props.setPicked(true, props.index);
+          }}
+        >
           <CabinContent cabin={props.cabin} />
         </button>
       )}
