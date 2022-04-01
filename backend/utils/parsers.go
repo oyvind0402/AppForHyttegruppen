@@ -42,11 +42,15 @@ func NormaliseTime(inTime string) (time.Time, error) {
 	return date, err
 }
 
-func ObjToPrimitive(initkey string, obj interface{}) primitive.E {
+func ObjToPrimitive(initkey string, obj interface{}) []primitive.E {
+	array := make([]primitive.E, 0, 1)
 	if reflect.ValueOf(obj).Kind() == reflect.Map {
 		for k, v := range obj.(map[string]interface{}) {
-			return ObjToPrimitive(fmt.Sprintf("%s.%s", initkey, k), v)
+			array = append(array, ObjToPrimitive(fmt.Sprintf("%s.%s", initkey, k), v)...)
 		}
+		return array
 	}
-	return primitive.E{Key: initkey, Value: obj}
+	return []primitive.E{
+		{Key: initkey, Value: obj},
+	}
 }
