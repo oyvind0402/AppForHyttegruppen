@@ -35,13 +35,13 @@ const CabinCardBig = (props) => {
           alt={card.picture[0].alt}
         />
         {loginContext.adminAccess && (
-          <Link to={'/editcabin/' + props.cabin.name}>
-            <button className="admin-edit-btn">Endre</button>
+          <Link to={'/endrehytte/' + props.cabin._id}>
+            <span className="admin-edit-btn">Endre</span>
           </Link>
         )}
 
         <div className="card-content">
-          <h2 className="card-title">{props.cabin.name}</h2>
+          <h2 className="card-title">{props.cabin._id}</h2>
           <p className="card-address">{props.cabin.address}</p>
 
           <div className="card-features">

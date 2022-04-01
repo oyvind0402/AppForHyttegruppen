@@ -16,6 +16,8 @@ import HytteomraadePage from './pages/HytteomraadePage';
 import MineTurerPage from './pages/MineTurerPage';
 import ScrollToTop from './ScrollToTop';
 import EditCabin from './components/Admin/EditCabin';
+import EditSite from './components/Admin/EditSite';
+import EditCabins from './components/Admin/EditCabins';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -41,7 +43,15 @@ function App() {
           {loginContext.adminAccess && <AdminPage />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/editcabin">
+        <Route path="/endringer">
+          {loginContext.adminAccess && <EditSite />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/endrehytter">
+          {loginContext.adminAccess && <EditCabins />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/endrehytte">
           {loginContext.adminAccess && <EditCabin />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
