@@ -71,12 +71,12 @@ func setRouter(r repo) *gin.Engine {
 	{
 		cabinsapi.GET("/get", r.GetCabin)
 		cabinsapi.GET("/getactivenames", r.GetActiveCabinNames)
+		cabinsapi.GET("/getactive", r.GetActiveCabins)
 		cabinsapi.GET("/getall", r.GetAllCabins)
 		cabinsapi.POST("/post", r.PostCabin)
 		cabinsapi.PATCH("/updatefield", r.UpdateCabinField)
-		cabinsapi.PUT("/update")
+		cabinsapi.PUT("/update", r.UpdateCabin)
 		cabinsapi.DELETE("/delete", r.DeleteCabin)
-		cabinsapi.DELETE("/deletemany")
 	}
 
 	applicationapi := router.Group("/application")
