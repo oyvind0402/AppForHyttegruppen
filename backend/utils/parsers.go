@@ -2,8 +2,12 @@ package utils
 
 import (
 	"errors"
+	"fmt"
+	"reflect"
 	"regexp"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func NormaliseTime(inTime string) (time.Time, error) {
@@ -36,4 +40,17 @@ func NormaliseTime(inTime string) (time.Time, error) {
 
 	err = errors.New("string does not match time format 2006-01-02T00:00:00Z or 2006-01-02")
 	return date, err
+}
+
+func ObjToPrimitive(initkey string, obj interface{}) []primitive.E {
+	array := make([]primitive.E, 0, 1)
+	if reflect.ValueOf(obj).Kind() == reflect.Map {
+		for k, v := range obj.(map[string]interface{}) {
+			array = append(array, ObjToPrimitive(fmt.Sprintf("%s.%s", initkey, k), v)...)
+		}
+		return array
+	}
+	return []primitive.E{
+		{Key: initkey, Value: obj},
+	}
 }
