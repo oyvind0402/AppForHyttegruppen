@@ -1,5 +1,5 @@
 DROP DATABASE hyttegruppen;
-CREATE DATABASE hyttegruppen;
+CREATE DATABASE hyttegruppen ENCODING 'SQL_ASCII' TEMPLATE template0 LC_COLLATE 'en_US.UTF-8' LC_CTYPE 'en_US.UTF-8';
 \c hyttegruppen;
 
 CREATE TABLE Seasons (
