@@ -6,8 +6,8 @@ const BackButton = (props) => {
     <>
       <Link className="link" to={'/' + props.link}>
         <button className="back-btn">
-          <span className="link-admin-arrow">{'❮ '}</span>
-          <span className="link-admin">{props.name}</span>
+          <span className="backbtn-arrow">{'❮ '}</span>
+          <span className="backbtn-title">{props.name}</span>
         </button>
       </Link>
     </>
