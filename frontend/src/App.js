@@ -18,6 +18,7 @@ import ScrollToTop from './ScrollToTop';
 import EditCabin from './components/Admin/EditCabin';
 import EditSite from './components/Admin/EditSite';
 import EditCabins from './components/Admin/EditCabins';
+import TripHistory from './components/Admin/TripHistory';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -41,6 +42,10 @@ function App() {
         )}
         <Route path="/admin">
           {loginContext.adminAccess && <AdminPage />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/historikk">
+          {loginContext.adminAccess && <TripHistory />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/endringer">
