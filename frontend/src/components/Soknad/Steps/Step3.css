@@ -1,0 +1,37 @@
+.soknad-step3-antall {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.soknad-step3-next {
+  width: fit-content;
+  font-weight: 1000;
+  font-size: 4rem;
+  color: #bd00ff;
+  margin: 0 auto;
+  transform: rotate(90deg);
+  border-radius: 10px;
+}
+
+.soknad-step3-cabins {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  margin: 2rem;
+}
+
+@media only screen and (max-width: 1300px) {
+  .soknad-step3-cabins {
+    grid-template-columns: auto auto;
+    margin: 2rem;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .soknad-step3-cabins {
+    margin: 0;
+  }
+}

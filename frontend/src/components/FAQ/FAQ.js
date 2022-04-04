@@ -1,28 +1,24 @@
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { useContext, useState, useEffect } from 'react';
+import './FAQ.css';
 import LoginContext from '../../LoginContext/login-context';
-import BigButton from '../Reusable/Buttons/BigButton';
-import BigButtonLink from '../Reusable/Buttons/BigButtonLink';
-import SmallButton from '../Reusable/Buttons/SmallButton';
-import FAQ_Question from '../Reusable/FAQ_Question/FAQ_Question';
+import FAQ_QUESTION from '../01-Reusable/FAQ_Question/FAQ_Question';
+import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 
 const FAQ = () => {
   const loginContext = useContext(LoginContext);
-  const loggedIn = loginContext.loggedIn;
+  //const loggedIn = loginContext.loggedIn;
+  const [FAQElements, setFAQElements] = useState([]);
 
-  const [FAQElements, setFAQElements] = useState([
-    {
-      question: 'I am a question',
-      anwser: 'i am an anwser',
-      open: false,
-    },
-    {
-      question: 'I am also a question',
-      anwser: 'i am also an anwser',
-      open: false,
-    },
-  ]);
+  //Fetching
+  useEffect(() => {
+    async function fetchData() {
+      fetch('/faq/getall')
+        .then((response) => response.json())
+        .then((data) => setFAQElements(data))
+        .catch((error) => console.log(error));
+    }
+    fetchData();
+  }, []);
 
   //If you press one of the questions the one that is already open will close
   const toggleFAQ = (index) => {
@@ -40,10 +36,10 @@ const FAQ = () => {
 
   return (
     <>
-      <h1>FAQ info :D</h1>
+      <HeroBanner name="faq" />
       <div className="FAQs">
         {FAQElements.map((faq, index) => (
-          <FAQ_Question
+          <FAQ_QUESTION
             key={index}
             faq={faq}
             index={index}
@@ -51,9 +47,6 @@ const FAQ = () => {
           />
         ))}
       </div>
-      <BigButtonLink name="To Home Weeee" link="/" />
-      <BigButton name="To Home Weeee" />
-      <SmallButton name="Forrige" />
     </>
   );
 };

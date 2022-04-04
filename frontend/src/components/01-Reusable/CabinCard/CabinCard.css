@@ -1,0 +1,133 @@
+.card {
+  position: relative;
+  height: 400px;
+  width: 300px;
+  margin: 20px auto;
+  padding: 5px;
+  text-align: left;
+
+  border-radius: 5px;
+  border: 0;
+  box-shadow: 0px 0px 2px 2px #e5e5e5;
+  background-color: white;
+  overflow: hidden;
+}
+
+.card:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+}
+
+.card-picture {
+  object-fit: cover;
+  height: 50%;
+  width: 100%;
+  border: 0;
+  margin: 0;
+  border-radius: 5px 5px 0 0;
+}
+
+.card-content {
+  height: 50%;
+  width: 100%;
+  padding-left: 2px;
+  vertical-align: baseline;
+}
+
+.card-content .card-title {
+  font-size: 24px;
+  color: #8900c5;
+  font-weight: 750;
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+
+.card-content .card-address {
+  font-size: 12px;
+  margin-top: 0px;
+  font-weight: 50;
+}
+
+.bed {
+  grid-area: bedIcon;
+}
+.bath {
+  grid-area: bathIcon;
+}
+.money {
+  grid-area: moneyIcon;
+}
+.bedrooms {
+  grid-area: textBedroom;
+}
+.sleepingslots {
+  grid-area: textSleeping;
+}
+.badrooms {
+  grid-area: textBath;
+}
+.moneyText {
+  grid-area: textMoney;
+}
+
+.card-content .card-features {
+  display: grid;
+  grid-template-areas:
+    'bedIcon textBedroom'
+    'bedIcon textSleeping'
+    'bathIcon textBath'
+    'moneyIcon textMoney';
+  grid-template-columns: auto 1fr;
+}
+
+.card-features p {
+  font-size: 14px;
+  margin: auto 0;
+  height: auto;
+}
+
+.card-icon {
+  height: 25px;
+  width: 25px;
+  margin: 7px 20px 7px 0;
+}
+
+@media only screen and (max-width: 900px) {
+  .card {
+    height: 300px;
+    width: 200px;
+  }
+
+  .card-content .card-title {
+    font-size: 20px;
+    color: #8900c5;
+  }
+
+  .card-content .card-address {
+    font-size: 11px;
+  }
+
+  .card-features p {
+    font-size: 13px;
+  }
+
+  .card-icon {
+    height: 20px;
+    width: 20px;
+    margin: 4px 20px 4px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .card {
+    height: 300px;
+    width: 150px;
+    margin: 10px auto;
+  }
+
+  .card-icon {
+    height: 20px;
+    width: 20px;
+    margin: 4px 10px 4px 0;
+  }
+}

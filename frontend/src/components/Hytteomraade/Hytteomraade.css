@@ -1,0 +1,115 @@
+.omraade-hero {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  position: relative;
+}
+
+.omraade-picture {
+  z-index: 1;
+  height: 500px;
+  width: 50vw;
+  max-width: 50%;
+  object-fit: cover;
+}
+
+.omraade-logo {
+  position: absolute;
+  top: 150px;
+  z-index: 2;
+  width: 50vw;
+  max-width: 700px;
+  background-color: white;
+  opacity: 0.85;
+  border-radius: 5px;
+}
+
+.season {
+  display: flex;
+  max-width: 100%;
+}
+
+.season-icons {
+  width: 50vw;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-row {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.season-picture {
+  z-index: 1;
+  height: 500px;
+  width: 50vw;
+  max-width: 50%;
+  object-fit: cover;
+}
+
+.season-icon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 2rem 1rem 0;
+}
+
+.icon-winter {
+  color: #073292;
+}
+
+.icon-summer {
+  color: #dfb700;
+}
+
+.omraade-btn {
+  margin: 150px auto;
+}
+
+@media only screen and (max-width: 800px) {
+  .omraade-picture {
+    height: 300px;
+  }
+
+  .omraade-logo {
+    top: 75px;
+    width: 75vw;
+  }
+
+  .icon-row {
+    width: 75%;
+  }
+
+  .season-icon {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 1.5rem 0.5rem 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .icon-row {
+    width: 100%;
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .icon-row p {
+    margin: 5px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .omraade-picture {
+    height: 150px;
+  }
+
+  .omraade-logo {
+    top: 50px;
+    width: 75vw;
+  }
+}

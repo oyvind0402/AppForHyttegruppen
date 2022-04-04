@@ -1,0 +1,16 @@
+.FAQs {
+  width: 60%;
+  margin: 50px auto 100px auto;
+}
+
+@media only screen and (max-width: 1500px) {
+  .FAQs {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .FAQs {
+    width: 90%;
+  }
+}

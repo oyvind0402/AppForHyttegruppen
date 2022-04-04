@@ -5,6 +5,9 @@ import (
 )
 
 type Period struct {
-	Start time.Time `json:"start"`
-	End   time.Time `json:"end"`
+	Id     int        `json:"id"`
+	Name   string     `json:"name"`
+	Season Season     `json:"season"`
+	Start  *time.Time `json:"start"`
+	End    *time.Time `json:"end"`
 }

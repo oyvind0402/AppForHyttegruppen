@@ -1,0 +1,17 @@
+.feedback-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-self: center;
+  width: 1115px;
+}
+
+.feedback-form-container {
+  border: solid red 0.5px;
+  text-align: center;
+}
+
+.feedback-title {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 0;
+}

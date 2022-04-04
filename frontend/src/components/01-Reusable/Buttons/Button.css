@@ -1,0 +1,119 @@
+.btn {
+  display: block;
+  padding: 20px;
+
+  background-color: #bd00ff;
+  border-radius: 5px;
+  border: 0;
+
+  font-size: 23px;
+  text-align: center;
+  color: white;
+  font-weight: 750;
+
+  border: 3px solid #bd00ff;
+}
+
+.btn-link {
+  color: white;
+  text-decoration: none;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+  color: black;
+}
+
+.btn:hover .btn-link {
+  color: black;
+}
+
+.big {
+  max-width: 400px;
+  width: 50%;
+  margin: 25px auto 25px auto;
+}
+
+.small {
+  max-width: 200px;
+  width: 30%;
+  margin: 25px auto 25px auto;
+}
+
+.btn-nonActive {
+  background-color: #eaddff;
+  color: black;
+  border: 0;
+  border: 3px solid #eaddff;
+}
+
+.btn-nonActive:hover {
+  background-color: #bd00ff;
+  color: white;
+  border: 3px solid #bd00ff;
+}
+
+.admin-edit-btn {
+  background-color: #bd00ff;
+  border-radius: 5px;
+  border: 0;
+  text-align: center;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 5px;
+  font-size: 1rem;
+  color: white;
+  font-weight: 750;
+  cursor: pointer;
+  border: 3px solid #bd00ff;
+}
+
+.admin-edit-btn:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+  color: black;
+}
+
+.admin-edit-btn a {
+  text-decoration: none;
+  color: white;
+}
+
+.back-btn {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+  text-align: center;
+  background-color: #eaddff;
+  font-weight: 700;
+  border: 0;
+  padding: 0;
+  font-size: 1.5rem;
+}
+
+.link-admin {
+  color: black;
+}
+
+.link-admin-arrow {
+  padding-left: 2.5rem;
+  text-align: left;
+  color: black;
+}
+
+@media only screen and (max-width: 500px) {
+  .btn {
+    padding: 15px 10px;
+    font-size: 18px;
+  }
+
+  .back-btn {
+    height: 4rem;
+  }
+}

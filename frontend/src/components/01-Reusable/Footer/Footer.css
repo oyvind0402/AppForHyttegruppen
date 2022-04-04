@@ -1,0 +1,15 @@
+.footer-container {
+  padding: 1rem 0;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.25rem;
+  margin-top: auto;
+}
+
+@media only screen and (max-width: 400px) {
+  .footer-container {
+    font-size: 1rem;
+  }
+}

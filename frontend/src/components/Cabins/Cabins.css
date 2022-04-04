@@ -1,0 +1,32 @@
+.cabins-display {
+  width: 60%;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.map {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1600px) {
+  .cabins-display {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .cabins-display {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .cabins-display {
+    grid-template-columns: auto;
+  }
+}

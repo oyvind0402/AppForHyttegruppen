@@ -1,19 +1,24 @@
-import { useContext } from 'react';
+import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
+import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import HomeImage from '../01-Reusable/HomeImage/HomeImage';
+import './Admin.css';
 
-import LoginContext from '../../LoginContext/login-context';
-
-const Post = () => {
-  const loginContext = useContext(LoginContext);
-
-  const loggedIn = loginContext.loggedIn;
-
+const Admin = () => {
   return (
-    <section>
-      <h1>Ye olde Admin Page yarr</h1>
-      <h1>Ye olde Admin Page yarr</h1>
-      <h1>Ye olde Admin Page yarr</h1>
-    </section>
+    <>
+      <HeroBanner name="Admin" />
+      <div className="admin-container">
+        <BigButtonLink name="Åpne søknadsperiode" link="/startsoknad" />
+        <BigButtonLink name="Endre innhold på siden" link="/endringer" />
+        <HomeImage
+          imageLink="TripHistory.svg"
+          imageAlt="A history of trips"
+          buttonText="Se Turhistorikk"
+          link="/historikk"
+        />
+      </div>
+    </>
   );
 };
 
-export default Post;
+export default Admin;

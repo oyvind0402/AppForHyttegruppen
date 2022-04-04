@@ -1,0 +1,73 @@
+.mytrip-container {
+  margin-bottom: 3rem;
+}
+
+.mytrip-title {
+  font-weight: bold;
+  font-size: 2.25rem;
+  margin-top: 1rem;
+}
+
+.trip-row-wrapper {
+  display: grid;
+  grid-template-columns: 40% 40%;
+  grid-gap: 60px;
+  justify-content: center;
+  margin-bottom: 5rem;
+}
+
+.mytrip-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.mintur-link {
+  text-decoration: none;
+  color: black;
+  width: auto;
+}
+
+hr {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.empty-trip {
+  margin: 0;
+  margin-bottom: 1.5rem;
+}
+
+.mytrip-title-empty {
+  font-weight: bold;
+  font-size: 2.25rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.no-show {
+  display: none;
+}
+
+@media only screen and (max-width: 1220px) {
+  .trip-row-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .mytrip-title {
+    font-size: 1.5rem;
+  }
+
+  .mytrip-title-empty {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 395px) {
+  .mytrip-title {
+    font-size: 1.5rem;
+  }
+}

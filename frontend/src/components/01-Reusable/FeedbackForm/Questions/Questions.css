@@ -1,0 +1,34 @@
+.question-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.question-text {
+  font-size: 1.25rem;
+}
+
+.question-buttons {
+  display: flex;
+  flex-direction: row;
+  width: 42%;
+  margin: auto;
+}
+
+.question-reply {
+  height: 300px;
+  width: 40%;
+  margin: auto;
+  padding: 15px;
+}
+
+.no-reply {
+  display: none;
+}
+
+.twobutton-form {
+  display: flex;
+  flex-direction: row;
+  width: 42%;
+  margin: auto;
+}

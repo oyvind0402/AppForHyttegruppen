@@ -10,33 +10,50 @@ import SignupPage from './pages/SignupPage';
 import HytterPage from './pages/HytterPage';
 import HyttePage from './pages/HyttePage';
 import SoknadPage from './pages/SoknadPage';
-import MinSidePage from './pages/MinSidePage';
 import MinTurPage from './pages/MinTurPage';
 import FAQPage from './pages/FAQPage';
 import HytteomraadePage from './pages/HytteomraadePage';
+import MineTurerPage from './pages/MineTurerPage';
+import ScrollToTop from './ScrollToTop';
+import EditCabin from './components/Admin/EditCabin';
+import EditSite from './components/Admin/EditSite';
+import EditCabins from './components/Admin/EditCabins';
 
 function App() {
   const loginContext = useContext(LoginContext);
 
   return (
     <Layout>
+      <ScrollToTop />
       <Switch>
         <Route path="/" exact>
           <HomePage />
         </Route>
-          {/* {!loginContext.loggedIn && (
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-          )}
+        {!loginContext.loggedIn && (
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+        )}
         {!loginContext.loggedIn && (
           <Route path="/signup">
             <SignupPage />
           </Route>
-        )} */}
+        )}
         <Route path="/admin">
-          {loginContext.loggedIn && <AdminPage />}
-          {!loginContext.loggedIn && <Redirect to="/login" />}
+          {loginContext.adminAccess && <AdminPage />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/endringer">
+          {loginContext.adminAccess && <EditSite />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/endrehytter">
+          {loginContext.adminAccess && <EditCabins />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/endrehytte">
+          {loginContext.adminAccess && <EditCabin />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/hytter">
           <HytterPage />
@@ -50,8 +67,8 @@ function App() {
         <Route path="/soknad">
           <SoknadPage />
         </Route>
-        <Route path="/minside">
-          <MinSidePage />
+        <Route path="/mineturer">
+          <MineTurerPage />
         </Route>
         <Route path="/mintur">
           <MinTurPage />

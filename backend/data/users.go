@@ -1,7 +1,10 @@
 package data
 
 type User struct {
-	Username    string `json:"username"`
-	Password    string `json:"password"`
-	AdminAccess bool   `json:"adminAccess"`
+	Id          *string `json:"userId,omitempty"`
+	Email       string  `json:"email"`
+	Password    string  `json:"password"`
+	FirstName   string  `json:"firstname"`
+	LastName    string  `json:"lastname"`
+	AdminAccess bool    `json:"adminAccess"`
 }
