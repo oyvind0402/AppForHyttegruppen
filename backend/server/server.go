@@ -61,7 +61,7 @@ func setRouter(r repo) *gin.Engine {
 
 	featureapi := router.Group("/feature")
 	{
-		featureapi.GET("/getall")
+		featureapi.GET("/all")
 		featureapi.PUT("/update")
 		featureapi.DELETE("/delete")
 		featureapi.DELETE("/deletemany")
@@ -69,10 +69,10 @@ func setRouter(r repo) *gin.Engine {
 
 	cabinsapi := router.Group("/cabin")
 	{
-		cabinsapi.GET("/get", r.GetCabin)
-		cabinsapi.GET("/getactivenames", r.GetActiveCabinNames)
-		cabinsapi.GET("/getactive", r.GetActiveCabins)
-		cabinsapi.GET("/getall", r.GetAllCabins)
+		cabinsapi.GET("/:name", r.GetCabin)
+		cabinsapi.GET("/active/names", r.GetActiveCabinNames)
+		cabinsapi.GET("/active", r.GetActiveCabins)
+		cabinsapi.GET("/all", r.GetAllCabins)
 		cabinsapi.POST("/post", r.PostCabin)
 		cabinsapi.PATCH("/updatefield", r.UpdateCabinField)
 		cabinsapi.PUT("/update", r.UpdateCabin)
@@ -87,7 +87,7 @@ func setRouter(r repo) *gin.Engine {
 		applicationapi.GET("/byuser/:userid/pending", r.GetPendingUserApplications)
 		applicationapi.GET("/byuser/:userid/current", r.GetCurrentTripsUserApplications)
 		applicationapi.GET("/byuser/:userid/future", r.GetFutureTripsUserApplications)
-		applicationapi.GET("/getall", r.GetAllApplications)
+		applicationapi.GET("/all", r.GetAllApplications)
 		applicationapi.POST("/post", r.PostApplication)
 		applicationapi.PUT("/update", r.UpdateApplication)
 		applicationapi.PATCH("/setwinner", r.UpdateApplicationWinner)
@@ -109,7 +109,7 @@ func setRouter(r repo) *gin.Engine {
 	faqapi := router.Group("/faq")
 	{
 		faqapi.GET("/:id", r.GetOneFAQ)
-		faqapi.GET("/getall", r.GetAllFAQs)
+		faqapi.GET("/all", r.GetAllFAQs)
 		faqapi.POST("/post", r.PostFAQ)
 		faqapi.PUT("/update", r.UpdateFAQ)
 		faqapi.DELETE("/delete", r.DeleteFAQ)
