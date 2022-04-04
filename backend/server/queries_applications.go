@@ -438,9 +438,9 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	//TODO call the send email function
 	//FIXME server.SendEmail(userID int)(userEmail String) make a helper function to get the user email by ID
 	// Return success and ID of added cabin
-
+	r.sendEmailToUser(application.UserId)
 	ctx.JSON(200, resId)
-	sendEmailToUser(application.UserId)
+
 }
 
 // Update application (ALL fields) (receives Application; returns rowsAffected: int)
