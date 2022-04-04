@@ -13,15 +13,10 @@ import (
 // Retrieves one season by season name (receives season_name: string; returns Seasons)
 func (r repo) GetSeason(ctx *gin.Context) {
 	// Retrieve season name/id from context
-	seasonName := new(string)
-	err := ctx.BindJSON(seasonName)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	seasonName := ctx.Param("name")
 
 	// Run select query
-	row := r.sqlDb.QueryRow(`SELECT * FROM Seasons WHERE season_name = $1`, *seasonName)
+	row := r.sqlDb.QueryRow(`SELECT * FROM Seasons WHERE season_name = $1`, seasonName)
 
 	// Read values into object
 	var season data.Season
