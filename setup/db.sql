@@ -106,9 +106,9 @@ VALUES ('Week 1', '2022-01-03', '2022-01-10', 'winter2022'),
 
 INSERT INTO Cabins
 VALUES('Utsikten', TRUE),
-('Store Grøndalen', TRUE),
+('Fanitullen', TRUE),
 ('Knausen', TRUE),
-('Fanitullen', TRUE);
+('Store Grøndalen', TRUE);
 
 INSERT INTO Users 
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com','password123', 'test', 'tester', FALSE),
