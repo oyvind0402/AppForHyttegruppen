@@ -12,7 +12,7 @@ const FAQ = () => {
   //Fetching
   useEffect(() => {
     async function fetchData() {
-      fetch('/faq/getall')
+      fetch('/faq/all')
         .then((response) => response.json())
         .then((data) => setFAQElements(data))
         .catch((error) => console.log(error));

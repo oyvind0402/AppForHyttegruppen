@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(async () => {
     async function fetchData() {
-      fetch('/season/getcurrentopen')
+      fetch('/season/open')
         .then((response) => response.json())
         .then((data) => {
           setSoknadOpen(data.isOpen);

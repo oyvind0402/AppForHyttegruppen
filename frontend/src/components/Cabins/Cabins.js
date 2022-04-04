@@ -20,7 +20,7 @@ const Cabins = () => {
   //Fetching
   useEffect(() => {
     async function fetchData() {
-      fetch('/cabin/getall')
+      fetch('/cabin/all')
         .then((response) => response.json())
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));
