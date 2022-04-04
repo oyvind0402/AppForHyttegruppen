@@ -98,8 +98,8 @@ func setRouter(r repo) *gin.Engine {
 
 	userapi := router.Group("/user")
 	{
-		userapi.GET("/get", r.GetUser)
-		userapi.GET("/getall", r.GetAllUsers)
+		userapi.GET("/:id", r.GetUser)
+		userapi.GET("/all", r.GetAllUsers)
 		userapi.POST("/post", r.PostUser)
 		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
