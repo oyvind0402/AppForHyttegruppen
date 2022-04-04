@@ -50,9 +50,9 @@ func setRouter(r repo) *gin.Engine {
 
 	seasonapi := router.Group("/season")
 	{
-		seasonapi.GET("/get", r.GetSeason)
-		seasonapi.GET("/getcurrentopen", r.GetCurrentOpenSeason)
-		seasonapi.GET("/getall", r.GetAllSeasons)
+		seasonapi.GET("/:name", r.GetSeason)
+		seasonapi.GET("/open", r.GetCurrentOpenSeason)
+		seasonapi.GET("/all", r.GetAllSeasons)
 		seasonapi.POST("/post", r.PostSeason)
 		seasonapi.PUT("/update", r.UpdateSeason)
 		seasonapi.DELETE("/delete", r.DeleteSeason)
