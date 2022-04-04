@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import BackButton from '../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './TripHistory.css';
 
@@ -33,12 +34,18 @@ const TripHistory = () => {
     return day + '/' + month + '/' + year;
   }
 
+  const setUserToTrip = (userId) => {
+    localStorage.setItem('tripUser', userId);
+  };
+
   useEffect(() => {
+    localStorage.removeItem('tripUser');
     fetchApplications();
   }, []);
 
   return (
     <>
+      <BackButton name="Tilbake til admin" link="admin" />
       <HeroBanner name="Alle søknader" />
       <p className="application-title">Alle søknader ({trips.length})</p>
       <div className="application-container">
@@ -84,7 +91,11 @@ const TripHistory = () => {
                   <p> {item.winner.toString() === 'false' ? 'Nei' : 'Ja'}</p>
                 </div>
               </div>
-              <Link to={'/tur/' + item.applicationId} className="link btn big">
+              <Link
+                to={'/tur/' + item.applicationId}
+                className="link btn big"
+                onClick={() => setUserToTrip(item.userId)}
+              >
                 Endre søknad
               </Link>
             </div>

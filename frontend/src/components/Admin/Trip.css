@@ -1,0 +1,77 @@
+.edit-trip-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 40%;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+
+.edit-trip-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.edit-trip-wrapper2 {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.edit-trip-cbwrapper {
+  display: flex;
+  flex-direction: row;
+
+  margin-bottom: 1rem;
+}
+
+.edit-trip-input {
+  height: 1.875rem;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.edit-trip-input-checkbox {
+  height: 1.875rem;
+  width: 1.875rem;
+}
+
+.edit-trip-input-checkbox2 {
+  height: 1.875rem;
+  width: 1.875rem;
+  margin: 0;
+  padding: 0;
+  align-self: center;
+  margin-right: 0.2rem;
+}
+
+.edit-trip-input-radio {
+  margin-bottom: 1rem;
+}
+
+.edit-trip-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.edit-trip-label2 {
+  font-size: 1rem;
+}
+
+.edit-trip-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.trip-user-text {
+  margin: 0;
+}
+
+.trip-user-wrapper {
+  margin-bottom: 1rem;
+}
