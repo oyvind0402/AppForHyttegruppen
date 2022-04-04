@@ -81,12 +81,12 @@ func setRouter(r repo) *gin.Engine {
 
 	applicationapi := router.Group("/application")
 	{
-		applicationapi.GET("/get", r.GetApplication)
-		applicationapi.GET("/getbyuser", r.GetUserApplications)
-		applicationapi.GET("/getbyuserwon", r.GetPastTripsUserApplications)
-		applicationapi.GET("/getbyuserpending", r.GetPendingUserApplications)
-		applicationapi.GET("/getbyusercurrent", r.GetCurrentTripsUserApplications)
-		applicationapi.GET("/getbyuserfuture", r.GetFutureTripsUserApplications)
+		applicationapi.GET("/:id", r.GetApplication)
+		applicationapi.GET("/byuser/:userid", r.GetUserApplications)
+		applicationapi.GET("/byuser/:userid/past", r.GetPastTripsUserApplications)
+		applicationapi.GET("/byuser/:userid/pending", r.GetPendingUserApplications)
+		applicationapi.GET("/byuser/:userid/current", r.GetCurrentTripsUserApplications)
+		applicationapi.GET("/byuser/:userid/future", r.GetFutureTripsUserApplications)
 		applicationapi.GET("/getall", r.GetAllApplications)
 		applicationapi.POST("/post", r.PostApplication)
 		applicationapi.PUT("/update", r.UpdateApplication)
@@ -103,7 +103,7 @@ func setRouter(r repo) *gin.Engine {
 		userapi.POST("/post", r.PostUser)
 		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
-		userapi.GET("/signin", r.SignIn)
+		userapi.POST("/signin", r.SignIn)
 	}
 
 	faqapi := router.Group("/faq")
