@@ -12,7 +12,7 @@ const Step2 = (props) => {
   //Fetching
   useEffect(async () => {
     async function fetchData() {
-      fetch('/period/getall')
+      fetch('/period/all')
         .then((response) => response.json())
         .then((data) => setPerioder(data))
         .catch((error) => console.log(error));
