@@ -41,7 +41,9 @@ func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
 	return smtpClient
 }
 
-func SendEmail() {
+//create endpoint
+
+func SendEmail(userEmail string) {
 	//reads email credentials from a file e-creds
 	username, passwd := utils.GetCreds("backend/e-creds")
 
@@ -50,7 +52,7 @@ func SendEmail() {
 	//ceate email
 	email := mail.NewMSG()
 	email.SetFrom("From Odeta <odetapenikaite@gmail.com>")
-	email.AddTo("slipkknottt@gmail.com")
+	email.AddTo(userEmail)
 	email.SetSubject("testing sending email")
 
 	email.SetBody(mail.TextHTML, htmlBody)

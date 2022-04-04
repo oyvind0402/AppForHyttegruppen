@@ -10,6 +10,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func (r repo)sendEmailToUser(id string)( string, error){
+	var userEmail = new(string)
+	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, id)
+	err := row.Scan(
+		&userEmail,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return *userEmail, err
+	}
+	fmt.Println(userEmail)
+
+	server.SendEmail()
+	return *userEmail, err
+}
+
 // Get cabins for a given ID (returns: []cabins, []cabinsWon, err)
 func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cabinsWon []data.CabinShort, err error, requestStatus int) {
 	// Execute query to fetch cabins and won information
@@ -420,8 +436,12 @@ func (r repo) PostApplication(ctx *gin.Context) {
 		return
 	}
 
+	//TODO call the send email function
+	//FIXME server.SendEmail(userID int)(userEmail String) make a helper function to get the user email by ID
 	// Return success and ID of added cabin
+	
 	ctx.JSON(200, resId)
+	sendEmailToUser(application.UserId)
 }
 
 // Update application (ALL fields) (receives Application; returns rowsAffected: int)
