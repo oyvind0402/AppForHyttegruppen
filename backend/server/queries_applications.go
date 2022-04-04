@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -120,16 +121,16 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	// curl -X GET -v -d "1" localhost:8080/application/get
 
 	// Retrieve parameter ID
-	applicationId := new(int)
-	if err := ctx.BindJSON(applicationId); err != nil {
+	rec := ctx.Param("id")
+
+	applicationId, err := strconv.Atoi(rec)
+	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
 	// Select application from database
-	row := r.sqlDb.QueryRow(`SELECT * FROM Applications WHERE application_id = $1`, *applicationId)
-
-	var err error
+	row := r.sqlDb.QueryRow(`SELECT * FROM Applications WHERE application_id = $1`, applicationId)
 
 	// Create Application
 	var application data.Application
@@ -158,7 +159,7 @@ func (r repo) GetApplication(ctx *gin.Context) {
 
 	// Get cabins
 	var status int
-	application.Cabins, application.CabinsWon, err, status = r.getCabins(ctx, *applicationId)
+	application.Cabins, application.CabinsWon, err, status = r.getCabins(ctx, applicationId)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -171,14 +172,10 @@ func (r repo) GetApplication(ctx *gin.Context) {
 // Retrieve all applications for a userid (receives userId: string; returns []Application)
 func (r repo) GetUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(string)
-	if err := ctx.BindJSON(userId); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	userId := ctx.Param("userid")
 
 	// Get all applications from database
-	rows, err := r.sqlDb.Query(`SELECT * FROM Applications WHERE user_id = $1`, *userId)
+	rows, err := r.sqlDb.Query(`SELECT * FROM Applications WHERE user_id = $1`, userId)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -198,11 +195,7 @@ func (r repo) GetUserApplications(ctx *gin.Context) {
 // Retrieve applications for a userid where winner=true and end_date < today (receives userId: string; returns []Application)
 func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(string)
-	if err := ctx.BindJSON(userId); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	userId := ctx.Param("userid")
 
 	curdate := time.Now()
 
@@ -216,7 +209,7 @@ func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 			FROM Periods
 			WHERE ending < $2
 		) `,
-		*userId,
+		userId,
 		curdate)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -237,11 +230,7 @@ func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 // Retrieve applications for a userid where winner=false and start_date > today (receives userId: string; returns []Application)
 func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(string)
-	if err := ctx.BindJSON(userId); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	userId := ctx.Param("userid")
 
 	curdate := time.Now()
 
@@ -255,7 +244,7 @@ func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 			FROM Periods
 			WHERE starting > $2
 		) `,
-		*userId,
+		userId,
 		curdate)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -277,7 +266,7 @@ func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
 	userId := new(string)
-	if err := ctx.BindJSON(userId); err != nil {
+	if err := ctx.Bind(userId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
@@ -315,11 +304,7 @@ func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 // Retrieve applications for a userid where winner=true and start_date > today (receives userId: string; returns []Application)
 func (r repo) GetFutureTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(string)
-	if err := ctx.BindJSON(userId); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	userId := ctx.Param("userid")
 
 	curdate := time.Now()
 
@@ -333,7 +318,7 @@ func (r repo) GetFutureTripsUserApplications(ctx *gin.Context) {
 			FROM Periods
 			WHERE starting > $2
 		) `,
-		*userId,
+		userId,
 		curdate)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})

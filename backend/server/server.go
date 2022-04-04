@@ -36,9 +36,9 @@ func setRouter(r repo) *gin.Engine {
 	// Create API route groups
 	periodapi := router.Group("/period")
 	{
-		periodapi.POST("/get", r.GetPeriod)
-		periodapi.POST("/getallinseason", r.GetAllPeriodsInSeason)
-		periodapi.GET("/getall", r.GetAllPeriods)
+		periodapi.GET("/:id", r.GetPeriod)
+		periodapi.GET("/inseason/:season", r.GetAllPeriodsInSeason)
+		periodapi.GET("/all", r.GetAllPeriods)
 		periodapi.POST("/post", r.PostPeriod)
 		periodapi.POST("/postmany", r.PostManyPeriods)
 		periodapi.PUT("/update", r.UpdatePeriod)
@@ -48,9 +48,9 @@ func setRouter(r repo) *gin.Engine {
 
 	seasonapi := router.Group("/season")
 	{
-		seasonapi.POST("/get", r.GetSeason)
-		seasonapi.GET("/getcurrentopen", r.GetCurrentOpenSeason)
-		seasonapi.GET("/getall", r.GetAllSeasons)
+		seasonapi.GET("/:name", r.GetSeason)
+		seasonapi.GET("/open", r.GetCurrentOpenSeason)
+		seasonapi.GET("/all", r.GetAllSeasons)
 		seasonapi.POST("/post", r.PostSeason)
 		seasonapi.PUT("/update", r.UpdateSeason)
 		seasonapi.DELETE("/delete", r.DeleteSeason)
@@ -59,7 +59,7 @@ func setRouter(r repo) *gin.Engine {
 
 	featureapi := router.Group("/feature")
 	{
-		featureapi.GET("/getall")
+		featureapi.GET("/all")
 		featureapi.PUT("/update")
 		featureapi.DELETE("/delete")
 		featureapi.DELETE("/deletemany")
@@ -67,10 +67,10 @@ func setRouter(r repo) *gin.Engine {
 
 	cabinsapi := router.Group("/cabin")
 	{
-		cabinsapi.POST("/get", r.GetCabin)
-		cabinsapi.GET("/getactivenames", r.GetActiveCabinNames)
-		cabinsapi.GET("/getactive", r.GetActiveCabins)
-		cabinsapi.GET("/getall", r.GetAllCabins)
+		cabinsapi.GET("/:name", r.GetCabin)
+		cabinsapi.GET("/active/names", r.GetActiveCabinNames)
+		cabinsapi.GET("/active", r.GetActiveCabins)
+		cabinsapi.GET("/all", r.GetAllCabins)
 		cabinsapi.POST("/post", r.PostCabin)
 		cabinsapi.PATCH("/updatefield", r.UpdateCabinField)
 		cabinsapi.PUT("/update", r.UpdateCabin)
@@ -79,13 +79,13 @@ func setRouter(r repo) *gin.Engine {
 
 	applicationapi := router.Group("/application")
 	{
-		applicationapi.POST("/get", r.GetApplication)
-		applicationapi.POST("/getbyuser", r.GetUserApplications)
-		applicationapi.POST("/getbyuserwon", r.GetPastTripsUserApplications)
-		applicationapi.POST("/getbyuserpending", r.GetPendingUserApplications)
-		applicationapi.POST("/getbyusercurrent", r.GetCurrentTripsUserApplications)
-		applicationapi.POST("/getbyuserfuture", r.GetFutureTripsUserApplications)
-		applicationapi.GET("/getall", r.GetAllApplications)
+		applicationapi.GET("/:id", r.GetApplication)
+		applicationapi.GET("/byuser/:userid", r.GetUserApplications)
+		applicationapi.GET("/byuser/:userid/past", r.GetPastTripsUserApplications)
+		applicationapi.GET("/byuser/:userid/pending", r.GetPendingUserApplications)
+		applicationapi.GET("/byuser/:userid/current", r.GetCurrentTripsUserApplications)
+		applicationapi.GET("/byuser/:userid/future", r.GetFutureTripsUserApplications)
+		applicationapi.GET("/all", r.GetAllApplications)
 		applicationapi.POST("/post", r.PostApplication)
 		applicationapi.PUT("/update", r.UpdateApplication)
 		applicationapi.PATCH("/setwinner", r.UpdateApplicationWinner)
@@ -96,8 +96,8 @@ func setRouter(r repo) *gin.Engine {
 
 	userapi := router.Group("/user")
 	{
-		userapi.POST("/get", r.GetUser)
-		userapi.GET("/getall", r.GetAllUsers)
+		userapi.GET("/:id", r.GetUser)
+		userapi.GET("/all", r.GetAllUsers)
 		userapi.POST("/post", r.PostUser)
 		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
@@ -106,8 +106,8 @@ func setRouter(r repo) *gin.Engine {
 
 	faqapi := router.Group("/faq")
 	{
-		faqapi.POST("/get", r.GetOneFAQ)
-		faqapi.GET("/getall", r.GetAllFAQs)
+		faqapi.GET("/:id", r.GetOneFAQ)
+		faqapi.GET("/all", r.GetAllFAQs)
 		faqapi.POST("/post", r.PostFAQ)
 		faqapi.PUT("/update", r.UpdateFAQ)
 		faqapi.DELETE("/delete", r.DeleteFAQ)

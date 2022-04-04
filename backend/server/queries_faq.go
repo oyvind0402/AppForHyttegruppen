@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,14 +13,16 @@ import (
 // Retrieve one faq by ID (receives faqId: int; returns FAQ)
 func (r repo) GetOneFAQ(ctx *gin.Context) {
 	// Retrieve parameter ID
-	faqId := new(int)
-	if err := ctx.BindJSON(faqId); err != nil {
+	rec := ctx.Param("id")
+
+	faqId, err := strconv.Atoi(rec)
+	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
 	// Select user from database
-	row := r.sqlDb.QueryRow(`SELECT * FROM Faq WHERE faq_id = $1 LIMIT 1`, *faqId)
+	row := r.sqlDb.QueryRow(`SELECT * FROM Faq WHERE faq_id = $1 LIMIT 1`, faqId)
 
 	// Map columns to FAQ fields
 	var faq data.FAQ

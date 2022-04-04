@@ -15,8 +15,8 @@ type Cabin struct {
 }
 
 type CabinShort struct {
-	Name   string `json:"cabinName"`
-	Active bool   `json:"active,omitempty"`
+	Name   string `json:"cabinName" bson:"_id"`
+	Active bool   `json:"active,omitempty" bson:"active"`
 }
 
 type Coordinates struct {
