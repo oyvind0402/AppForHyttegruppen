@@ -1,5 +1,5 @@
 DROP DATABASE hyttegruppen;
-CREATE DATABASE hyttegruppen;
+CREATE DATABASE hyttegruppen ENCODING 'SQL_ASCII' TEMPLATE template0 LC_COLLATE 'en_US.UTF-8' LC_CTYPE 'en_US.UTF-8';
 \c hyttegruppen;
 
 CREATE TABLE Seasons (
@@ -92,8 +92,8 @@ VALUES ('Week 1', '2022-02-02', '2022-02-09', 'winter2022'),
 INSERT INTO Cabins
 VALUES('Utsikten', TRUE),
 ('Fanitullen', TRUE),
-('Store Grøndalen', TRUE),
-('Knausen', TRUE);
+('Knausen', TRUE),
+('Store Grøndalen', TRUE);
 
 INSERT INTO Users 
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com','password123', 'test', 'tester', FALSE),
