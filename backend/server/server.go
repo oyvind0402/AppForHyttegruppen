@@ -108,7 +108,7 @@ func setRouter(r repo) *gin.Engine {
 
 	faqapi := router.Group("/faq")
 	{
-		faqapi.GET("/get", r.GetOneFAQ)
+		faqapi.GET("/:id", r.GetOneFAQ)
 		faqapi.GET("/getall", r.GetAllFAQs)
 		faqapi.POST("/post", r.PostFAQ)
 		faqapi.PUT("/update", r.UpdateFAQ)
