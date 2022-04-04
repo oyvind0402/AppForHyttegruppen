@@ -38,9 +38,9 @@ func setRouter(r repo) *gin.Engine {
 	// Create API route groups
 	periodapi := router.Group("/period")
 	{
-		periodapi.GET("/get", r.GetPeriod)
-		periodapi.GET("/getallinseason", r.GetAllPeriodsInSeason)
-		periodapi.GET("/getall", r.GetAllPeriods)
+		periodapi.GET("/:id", r.GetPeriod)
+		periodapi.GET("/inseason/:season", r.GetAllPeriodsInSeason)
+		periodapi.GET("/all", r.GetAllPeriods)
 		periodapi.POST("/post", r.PostPeriod)
 		periodapi.POST("/postmany", r.PostManyPeriods)
 		periodapi.PUT("/update", r.UpdatePeriod)

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"bachelorprosjekt/backend/data"
@@ -60,15 +61,16 @@ func (r repo) getPeriodsFromRows(ctx *gin.Context, rows *sql.Rows) ([]data.Perio
 // Retrieve one period (receives id: int; returns Period)
 func (r repo) GetPeriod(ctx *gin.Context) {
 	// Get ID from context
-	id := new(int)
-	err := ctx.BindJSON(id)
+	rec := ctx.Param("id")
+
+	id, err := strconv.Atoi(rec)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
 	// Query for period
-	period, err := r.getPeriodById(ctx, *id)
+	period, err := r.getPeriodById(ctx, id)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -80,12 +82,7 @@ func (r repo) GetPeriod(ctx *gin.Context) {
 // Retrieve periods in season (receives seasonName: string; returns []Periods)
 func (r repo) GetAllPeriodsInSeason(ctx *gin.Context) {
 	// Get season name from context
-	seasonName := new(string)
-	err := ctx.BindJSON(seasonName)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	seasonName := ctx.Param("season")
 
 	// Query for Periods with specified season name
 	rows, err := r.sqlDb.Query(`SELECT * FROM Periods WHERE season_name = $1 ORDER BY starting ASC`, seasonName)
