@@ -91,7 +91,7 @@ const Application = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til turhistorikk" link="historikk" />
+      <BackButton name="Tilbake til endre søknader" link="endresoknader" />
       <HeroBanner name="Endre søknad" />
       <div className="edit-trip-container">
         <div className="edit-trip-wrapper">
