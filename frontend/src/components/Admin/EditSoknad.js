@@ -1,27 +1,44 @@
 import { useEffect, useState } from 'react';
 import BackButton from '../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
-import './Trip.css';
+import './EditSoknad.css';
 
-const Trip = () => {
+const Application = () => {
   const link = window.location.href;
   const tripID = link.split('/')[4];
   let selectedCabins = [];
 
   const [trip, setTrip] = useState({});
   const [cabins, setCabins] = useState([]);
+  const [periods, setPeriods] = useState([]);
+  const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
 
   const [checked, setChecked] = useState(true);
-  const [random, setRandom] = useState(true);
+  const [purpose, setPurpose] = useState(true);
 
   const handleChange = () => {
     setChecked((checked) => !checked);
   };
 
-  const handleRandom = () => {
-    setRandom((random) => !random);
+  const handlePurpose = () => {
+    setPurpose((purpose) => !purpose);
   };
+
+  function getFormattedDate(inDate) {
+    let date = new Date(inDate);
+    let year = date.getFullYear();
+
+    let month = (1 + date.getMonth()).toString();
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    let day = date.getDate().toString();
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+    return day + '/' + month + '/' + year;
+  }
 
   const getTrip = async () => {
     const response = await fetch('/application/' + tripID);
@@ -29,6 +46,12 @@ const Trip = () => {
     if (response.ok) {
       setTrip(data);
     }
+  };
+
+  const getUsers = () => {
+    fetch('/user/all')
+      .then((response) => response.json())
+      .then((data) => setUsers(data));
   };
 
   const getUser = () => {
@@ -45,17 +68,31 @@ const Trip = () => {
     }
   };
 
+  const getPeriods = async () => {
+    const response = await fetch('/period/all');
+    const data = await response.json();
+
+    if (response.ok) {
+      setPeriods(data);
+    }
+  };
+
   useEffect(() => {
     getCabinNames();
     getTrip();
+
+    getUsers();
     getUser();
+    getPeriods();
     console.log(trip);
+    console.log(periods);
+    console.log(users);
   }, []);
 
   return (
     <>
       <BackButton name="Tilbake til turhistorikk" link="historikk" />
-      <HeroBanner name="Endre tur" />
+      <HeroBanner name="Endre søknad" />
       <div className="edit-trip-container">
         <div className="edit-trip-wrapper">
           <label className="edit-trip-label" htmlFor="edit-accentureid">
@@ -70,15 +107,36 @@ const Trip = () => {
         </div>
         <div className="trip-user-wrapper">
           <p className="edit-trip-title">Bruker:</p>
-          {Object.entries(user)?.map(([key, value, i]) => {
-            if (key !== 'password') {
-              return (
-                <p className="trip-user-text" key={i}>
-                  {key + ': ' + value}
-                </p>
-              );
-            }
-          })}
+          <select name="users" id="users">
+            {users?.map((_user, index) => {
+              if (_user.userId === user.userId) {
+                return (
+                  <option
+                    key={index}
+                    className="edit-trip-option"
+                    selected
+                    value={index}
+                  >
+                    {_user.firstname +
+                      ' ' +
+                      _user.lastname +
+                      ' - ' +
+                      _user.email}
+                  </option>
+                );
+              } else {
+                return (
+                  <option className="edit-trip-option" value={index}>
+                    {_user.firstname +
+                      ' ' +
+                      _user.lastname +
+                      ' - ' +
+                      _user.email}
+                  </option>
+                );
+              }
+            })}
+          </select>
         </div>
         <div className="edit-trip-wrapper">
           <label className="edit-trip-label" htmlFor="edit-numberofcabins">
@@ -95,23 +153,23 @@ const Trip = () => {
         </div>
         <div>
           <p className="edit-trip-title">Hyttevalg</p>
-          <label className="edit-trip-label2" htmlFor="edit-randomassignment">
+          <label className="edit-trip-label2" htmlFor="edit-purposeassignment">
             Tilfeldig
           </label>
           <input
             className="edit-trip-input-radio"
-            checked={trip.cabinAssignment === 'random' ? random : !random}
-            onChange={handleRandom}
+            checked={trip.cabinAssignment === 'random' ? purpose : !purpose}
+            onChange={handlePurpose}
             type="radio"
-            id="edit-randomassignment"
+            id="edit-purposeassignment"
           />
           <label className="edit-trip-label2" htmlFor="edit-specificassignment">
             Spesifikk
           </label>
           <input
             className="edit-trip-input-radio"
-            checked={trip.cabinAssignment === 'specific' ? random : !random}
-            onChange={handleRandom}
+            checked={trip.cabinAssignment === 'specific' ? purpose : !purpose}
+            onChange={handlePurpose}
             type="radio"
             id="edit-specificassignment"
           />
@@ -178,7 +236,11 @@ const Trip = () => {
           </label>
           <input
             className="edit-trip-input-radio"
-            checked={trip.tripPurpose === 'private' ? checked : !checked}
+            checked={
+              trip.tripPurpose === 'privat' || trip.tripPurpose === 'private'
+                ? checked
+                : !checked
+            }
             onChange={handleChange}
             type="radio"
             id="edit-privatetrip"
@@ -193,6 +255,40 @@ const Trip = () => {
             type="radio"
             id="edit-projecttrip"
           />
+        </div>
+        <div className="edit-trip-wrapper">
+          <p className="edit-trip-title">Periode</p>
+          <select
+            name="periods"
+            id="periods"
+            className="edit-trip-selectperiod"
+          >
+            {periods?.map((period, index) => {
+              if (period.id === trip.period.id) {
+                return (
+                  <option selected key={index} value={period}>
+                    {getFormattedDate(period.start) +
+                      ' - ' +
+                      getFormattedDate(period.end) +
+                      ' (' +
+                      period.name +
+                      ')'}
+                  </option>
+                );
+              } else {
+                return (
+                  <option key={index} value={period}>
+                    {getFormattedDate(period.start) +
+                      ' - ' +
+                      getFormattedDate(period.end) +
+                      ' (' +
+                      period.name +
+                      ')'}
+                  </option>
+                );
+              }
+            })}
+          </select>
         </div>
         <div className="edit-trip-cbwrapper">
           <label className="edit-trip-label" htmlFor="edit-winner">
@@ -212,4 +308,4 @@ const Trip = () => {
   );
 };
 
-export default Trip;
+export default Application;

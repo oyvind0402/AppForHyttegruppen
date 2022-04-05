@@ -18,8 +18,8 @@ import ScrollToTop from './ScrollToTop';
 import EditCabin from './components/Admin/EditCabin';
 import EditSite from './components/Admin/EditSite';
 import EditCabins from './components/Admin/EditCabins';
-import TripHistory from './components/Admin/TripHistory';
-import Trip from './components/Admin/Trip';
+import Applications from './components/Admin/EditSoknader';
+import Application from './components/Admin/EditSoknad';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -45,8 +45,12 @@ function App() {
           {loginContext.adminAccess && <AdminPage />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/historikk">
-          {loginContext.adminAccess && <TripHistory />}
+        <Route path="/endresoknader">
+          {loginContext.adminAccess && <Applications />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/endresoknad">
+          {loginContext.adminAccess && <Application />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/endringer">
@@ -61,10 +65,7 @@ function App() {
           {loginContext.adminAccess && <EditCabin />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/tur">
-          {loginContext.adminAccess && <Trip />}
-          {!loginContext.adminAccess && <Redirect to="/login" />}
-        </Route>
+
         <Route path="/hytter">
           <HytterPage />
         </Route>

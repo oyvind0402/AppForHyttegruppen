@@ -13,6 +13,10 @@ const EditSite = () => {
         Endre hytter
       </Link>
 
+      <Link className="btn-link btn big" to="/endresoknader">
+        Endre søknader
+      </Link>
+
       <Link className="btn-link btn big" to="/endreperioder">
         Endre perioder
       </Link>

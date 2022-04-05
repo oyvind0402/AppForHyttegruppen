@@ -75,3 +75,19 @@
 .trip-user-wrapper {
   margin-bottom: 1rem;
 }
+
+#users {
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid gray;
+}
+
+#periods {
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid gray;
+}
+
+.edit-trip-selectperiod {
+  margin-bottom: 1rem;
+}

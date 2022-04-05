@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
-import './TripHistory.css';
+import './EditSoknader.css';
 
-const TripHistory = () => {
+const Applications = () => {
   const [trips, setTrips] = useState([]);
   let cabins = '';
 
@@ -92,7 +92,7 @@ const TripHistory = () => {
                 </div>
               </div>
               <Link
-                to={'/tur/' + item.applicationId}
+                to={'/endresoknad/' + item.applicationId}
                 className="link btn big"
                 onClick={() => setUserToTrip(item.userId)}
               >
@@ -106,4 +106,4 @@ const TripHistory = () => {
   );
 };
 
-export default TripHistory;
+export default Applications;
