@@ -69,7 +69,7 @@ function App() {
         <Route path="/hytter">
           <HytterPage />
         </Route>
-        <Route path="/hytte">
+        <Route path="/hytte/*">
           <HyttePage />
         </Route>
         <Route path="/hytteomraade">
