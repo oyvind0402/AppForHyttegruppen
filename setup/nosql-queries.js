@@ -102,7 +102,7 @@ db.cabins.insertMany([
     longDescription:
       "Utsikten er Accentures nyeste hytte, og den er bygget/modernisert 2004/2005. Hytta har høy standard, og består av stort kjøkken, stue, 5 soverom (2 med dobbeltseng og 3 med køyesenger/twinsenger) = 10 sengeplasser totalt, 2 bad, badstue og veranda. Hytta består av en opprinnelig gammel tømmerhytte (som utgjør stue og kjøkken) og en helt ny del hvor gang, soverom, bad osv. ligger. Hytta ligger i 10 minutters gangavstand til sentrum (ca. like langt fra sentrum som Fanitullhytta), på høyre side av hovedveien når du kommer til Hemsedal østfra. Bilvei helt fram. Hytta har ikke trådløst nett, men det er god 4G-dekning.",
     pictures: {
-      main: { filename: "Utsikten-Main.JPEG", altText: "Main Utsikten" },
+      mainPicture: { filename: "Utsikten-Main.JPEG", altText: "Main Utsikten" },
       otherPictures: [
         { filename: "Utsikten-utsikt1.JPEG", altText: "Utsikten utsikt" },
         { filename: "Utsikten-utsikt2.JPEG", altText: "Utsikten utsikt" },
@@ -146,7 +146,7 @@ db.cabins.insertMany([
     longDescription:
       "Fanitullhytta ligger sentrumsnært i Hemsedal og er bygget i 1997. Hytta har god standard og består av stue, spisestua med kjøkken, 4 soverom (2 med dobbeltseng, 2 med køyeseng), 8 sengeplasser totalt, 2 bad, badstue og bod. Det er trådløst nett på hytta, info om pålogging finner du i gangen.",
     pictures: {
-      main: { filename: "cabin-main.jpg", altText: "Cabin Main" },
+      mainPicture: { filename: "cabin-main.jpg", altText: "Cabin Main" },
       otherPictures: [
         { filename: "cabin-main.jpg", altText: "Cabin Main" },
         { filename: "cabin-main.jpg", altText: "Cabin Main" },
@@ -191,7 +191,7 @@ db.cabins.insertMany([
     longDescription:
       "Hytta har god standard, bygget i 1991; 4 soverom: 2 m/dobbeltsenger, 1 m/køyer med bred underkøye, 1 m/ køyeseng. Fjærmadrasser, dyner og puter. Stort åpent allrom med stue m/natursteinspeis, TV/parabol, langbord med plass til 10, kjøkken i furu m/komfyr, mikro, kjøl/frys, oppvaskmaskin, kaffetrakter mm. Utstyrt til 10 personer. 1 bad m dusj, badstu, og WC. 1 WC-rom. Entré. God skapplass på alle rommene. Innvendig bodrom. Veranda med utgang fra stua. Alle rom er oppvarmet med gulvvarme. Keramiske fliser på alle rom, eks. soverom. Innvendig panel, og med villmarkspanel i allrommet. Hytta er oppgradert med ny salong og spisestue. Hytta har nå trådløst nett (fiber) og lader til El-bil.",
     pictures: {
-      main: { filename: "cabin-main.jpg", altText: "Cabin Main" },
+      mainPicture: { filename: "cabin-main.jpg", altText: "Cabin Main" },
       otherPictures: [
         { filename: "cabin-main.jpg", altText: "Cabin Main" },
         { filename: "cabin-main.jpg", altText: "Cabin Main" },
@@ -228,7 +228,7 @@ db.cabins.insertMany([
     longDescription:
       "«Randen» ligger fint i Grøndalen i Hemsedal. Hytta ble modernisert i 2008 og har god standard. Hytta består av stue, spisestua med kjøkkenR, 4 soverom (2 med dobbeltseng, 1 med køyeseng og 1 med familiekøye) - 8 sengeplasser totalt, 2 bad, badstue og veranda. Hytta har nå trådløst nett (fiber) og lader til El-bil.",
     pictures: {
-      main: { filename: "cabin-main.jpg", altText: "Cabin Main" },
+      mainPicture: { filename: "cabin-main.jpg", altText: "Cabin Main" },
       otherPictures: [
         { filename: "cabin-main.jpg", altText: "Cabin Main" },
         { filename: "cabin-main.jpg", altText: "Cabin Main" },
