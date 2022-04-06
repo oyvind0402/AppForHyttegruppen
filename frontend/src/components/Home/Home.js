@@ -25,9 +25,37 @@ const Home = () => {
     }
     fetchData();
   }, []);
+  useEffect(() => {
+    document.querySelector('#file').addEventListener('change', (event) => {
+      handleImageUpload(event);
+    });
+  });
+
+  const handleImageUpload = (event) => {
+    const files = event.target.files;
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    const cabinName = document.getElementById('cabinName').value;
+    console.log(cabinName);
+    formData.append('cabinName', cabinName);
+
+    fetch('/pictures/one', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <>
+      <input type="text" id="cabinName" name="cabinName" />
+      <input type="file" id="file" name="file" accept=".jpg,.png" />
       <HeroBanner />
       <div className="home-display">
         <div className="home-application">

@@ -113,6 +113,12 @@ func setRouter(r repo) *gin.Engine {
 		faqapi.DELETE("/delete", r.DeleteFAQ)
 	}
 
+	picturesapi := router.Group("/pictures")
+	{
+		picturesapi.POST("/one", r.PostOnePicture)
+		picturesapi.POST("/many", r.PostManyPictures)
+	}
+
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
 
 	return router
