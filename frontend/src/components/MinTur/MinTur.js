@@ -33,10 +33,7 @@ const MinTur = () => {
   const [start, setStart] = useState(new Date());
 
   async function getTrip() {
-    const response = await fetch('/application/get', {
-      method: 'POST',
-      body: JSON.stringify(pageID),
-    });
+    const response = await fetch('/application/' + pageID);
 
     const data = await response.json();
     if (response.ok) {
