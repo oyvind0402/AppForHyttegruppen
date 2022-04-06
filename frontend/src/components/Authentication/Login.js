@@ -31,10 +31,7 @@ const LoginForm = () => {
       if (!response.ok) {
         alert('Something went wrong!');
       } else {
-        const userResponse = await fetch('/user/get', {
-          method: 'POST',
-          body: JSON.stringify(data.userId),
-        });
+        const userResponse = await fetch('/user/' + data.userId);
         const datum = await userResponse.json();
 
         if (!userResponse.ok) {

@@ -37,8 +37,7 @@ const SignupForm = () => {
       if (!response.ok) {
         alert(response.statusText);
       } else {
-        loginContext.login(data.jwt);
-        history.replace('/');
+        alert('Bruker registrert!');
       }
     } catch (error) {
       alert(error);
