@@ -86,6 +86,8 @@ func setRouter(r repo) *gin.Engine {
 		applicationapi.GET("/byuser/:userid/current", r.GetCurrentTripsUserApplications)
 		applicationapi.GET("/byuser/:userid/future", r.GetFutureTripsUserApplications)
 		applicationapi.GET("/all", r.GetAllApplications)
+		applicationapi.GET("/winners/past", r.GetPastWinnerApplications)
+		applicationapi.GET("/winners/future", r.GetFutureWinnerApplications)
 		applicationapi.POST("/post", r.PostApplication)
 		applicationapi.PUT("/update", r.UpdateApplication)
 		applicationapi.PATCH("/setwinner", r.UpdateApplicationWinner)

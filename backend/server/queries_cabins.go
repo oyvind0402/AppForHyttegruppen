@@ -101,19 +101,24 @@ func (r repo) GetCabin(ctx *gin.Context) {
 	//Gets cabin name
 	cabinName := ctx.Param("name")
 
-	var cabin []bson.M
+	var cabins []data.Cabin
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	//finds the document with the right cabin name
 	cursor, err := collection.Find(
 		context.Background(),
 		bson.D{primitive.E{Key: "_id", Value: primitive.Regex{Pattern: fmt.Sprintf("^%s$", cabinName), Options: "i"}}},
 	)
-	cursor.All(context.Background(), &cabin)
+	cursor.All(context.Background(), &cabins)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
-	ctx.JSON(200, cabin)
+
+	if len(cabins) == 1 {
+		ctx.JSON(http.StatusOK, cabins[0])
+	} else {
+		ctx.JSON(http.StatusNoContent, nil)
+	}
 }
 
 //Retrieve cabins that are set to be active, (returns list of cabin names)
