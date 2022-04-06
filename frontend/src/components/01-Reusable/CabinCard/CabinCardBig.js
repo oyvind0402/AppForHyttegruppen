@@ -23,7 +23,7 @@ const card = {
 };
 
 const CabinCardBig = (props) => {
-  console.log(props);
+  console.log(props.cabin.pictures.mainPicture.filename);
   const loginContext = useContext(LoginContext);
 
   return (
@@ -31,8 +31,8 @@ const CabinCardBig = (props) => {
       <button className="card">
         <img
           className="card-picture"
-          src={`${process.env.PUBLIC_URL}/assets/pictures/cabin-main.jpg`}
-          alt={card.picture[0].alt}
+          src={`${process.env.PUBLIC_URL}/assets/pictures/${props.cabin.pictures.mainPicture.filename}`}
+          alt={props.cabin.pictures.mainPicture.altText}
         />
         {loginContext.adminAccess && (
           <Link to={'/endrehytte/' + props.cabin.name}>

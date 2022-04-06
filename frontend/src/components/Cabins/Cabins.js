@@ -14,7 +14,7 @@ const Cabins = () => {
   //Color of the markers
   const color = `hsl(271, 76%, 53%)`;
 
-  const [cabins, setCabins] = useState(['']);
+  const [cabins, setCabins] = useState([]);
   const [cabincard, setCabinCard] = useState({});
 
   //Fetching
@@ -30,10 +30,9 @@ const Cabins = () => {
 
   return (
     <>
-      {console.log(cabins[0])}
       <HeroBanner name="Hytter" />
       <div className="cabins-display">
-        {cabins[0] !== '' &&
+        {typeof cabins !== null &&
           cabins.map((cabin, index) => {
             return <CabinCardBig key={index} cabin={cabin} />;
           })}

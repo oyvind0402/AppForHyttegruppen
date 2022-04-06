@@ -11,7 +11,7 @@ const Step3 = (props) => {
   //Fetching
   useEffect(() => {
     async function fetchData() {
-      fetch('/cabin/getall')
+      fetch('/cabin/all')
         .then((response) => response.json())
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));
@@ -128,17 +128,16 @@ const Step3 = (props) => {
           </div>
         </div>
         <div className="soknad-step3-cabins">
-          {cabins[0] !== '' &&
-            cabins.map((cabin, index) => {
-              return (
-                <CabinCardSmall
-                  key={cabin.name}
-                  index={index}
-                  cabin={cabin}
-                  setPicked={setPickedCabin}
-                />
-              );
-            })}
+          {cabins.map((cabin, index) => {
+            return (
+              <CabinCardSmall
+                key={cabin.name}
+                index={index}
+                cabin={cabin}
+                setPicked={setPickedCabin}
+              />
+            );
+          })}
         </div>
       </div>
       <div className="soknad-btn">

@@ -141,7 +141,7 @@ const Header = () => {
               Admin
             </NavLink>
           )}
-          <img
+          {/*<img
             className="language-nor"
             onClick={changeLanguage}
             src={
@@ -150,7 +150,7 @@ const Header = () => {
                 : `${process.env.PUBLIC_URL}/assets/pictures/English.svg`
             }
             alt="Hjemmeikon"
-          />
+          />*/}
         </div>
         <div className="mobile-menu">
           <span className="menu-icon">
