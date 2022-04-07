@@ -10,18 +10,19 @@ const Home = () => {
   const [soknadOpen, setSoknadOpen] = useState(true);
   const [soknadEndDate, setsoknadEndDate] = useState('');
 
-  useEffect(async () => {
+  useEffect(() => {
     async function fetchData() {
-      fetch('/season/open')
-        .then((response) => response.json())
-        .then((data) => {
-          setSoknadOpen(data.isOpen);
-          let date;
-          date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
-          const dates = date.split('-');
-          setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
-        })
-        .catch((error) => console.log(error));
+      const response = await fetch('/season/open');
+      const data = await response.json();
+      if (response.ok) {
+        setSoknadOpen(data.isOpen);
+        let date;
+        date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
+        const dates = date.split('-');
+        setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
+      } else {
+        console.log(response);
+      }
     }
     fetchData();
   }, []);

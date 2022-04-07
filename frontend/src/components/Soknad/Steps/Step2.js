@@ -11,7 +11,7 @@ const Step2 = (props) => {
   const [showFeedBack, setShowFeedBack] = useState(false);
 
   //Fetching
-  useEffect(async () => {
+  useEffect(() => {
     async function fetchData() {
       fetch('/period/all')
         .then((response) => response.json())
