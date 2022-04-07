@@ -43,7 +43,7 @@ export const LoginContextProvider = (props) => {
   const contextValues = {
     token: token,
     loggedIn: loggedIn,
-    adminAccess: admin,
+    adminAccess: adminAccess,
     login: login,
     logout: logout,
   };
