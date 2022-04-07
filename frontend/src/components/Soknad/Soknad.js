@@ -20,8 +20,8 @@ const Soknad = () => {
     accentureId: '',
     tripPurpose: '',
     period: [],
-    numberOfCabins: 1,
-    cabinAssigment: '',
+    numberOfCabins: 0,
+    cabinAssigment: 'random',
     cabins: [],
     winner: false,
   });
@@ -88,6 +88,16 @@ const Soknad = () => {
         });
       }
     }
+
+    if (page === 3) {
+      setFormCompleted(false);
+      setFormData({
+        ...formData,
+        numberOfCabins: parseInt(data.numberOfCabins),
+        cabinAssigment: data.cabinAssigment,
+        cabins: data.cabins,
+      });
+    }
   };
 
   const nextPage = () => {
@@ -95,15 +105,6 @@ const Soknad = () => {
   };
 
   function previousPage(data) {
-    if (page === 3) {
-      setFormCompleted(false);
-      setFormData({
-        ...formData,
-        numberOfCabins: data.numberOfCabins,
-        cabinAssigment: data.cabinAssigment,
-        cabins: data.cabins,
-      });
-    }
     if (page !== 1) setPage(page - 1);
   }
 
@@ -125,11 +126,12 @@ const Soknad = () => {
   }
 
   const completeForm = (data) => {
+    console.log(data);
     if (data.length !== 0) {
       setFormCompleted(true);
       setFormData({
         ...formData,
-        numberOfCabins: data.numberOfCabins,
+        numberOfCabins: parseInt(data.numberOfCabins),
         cabinAssigment: data.cabinAssigment,
         cabins: data.cabins,
       });

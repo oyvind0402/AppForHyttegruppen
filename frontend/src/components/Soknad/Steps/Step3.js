@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { BsQuestionCircle } from 'react-icons/bs';
 import CabinCardSmall from './../../01-Reusable/CabinCard/CabinCardSmall';
-
 import './Steps.css';
 import './Step3.css';
 
 const Step3 = (props) => {
+  const [numberOfCabins, setNumberOfCabins] = useState(
+    props.formData.numberOfCabins
+  );
+  const [cabinAssigment, setCabinAssigment] = useState(
+    props.formData.cabinAssigment
+  );
+
   const [cabins, setCabins] = useState([]);
   let pickedCabins = [];
   //Fetching
@@ -19,68 +25,48 @@ const Step3 = (props) => {
     fetchData();
   }, []);
 
+  //No cabin is picked yet
   useEffect(() => {
     cabins.map((cabin) => {
       pickedCabins.push(false);
     });
   }, [cabins]);
 
-  //Loading values based on props
-  useEffect(() => {
-    document.querySelector('input[id="numberOfHytter"]').value =
-      props.formData.numberOfCabins;
-
-    const cabinAssigment = props.formData.cabinAssigment;
-    if (cabinAssigment === 'pickSelf') {
-      document.querySelector('input[id="pickSelf"]').checked = true;
-    } else {
-      document.querySelector('input[id="random"]').checked = true;
-    }
-
-    //Cabin checked wait until we have the cabin structure
-  });
-
   function setPickedCabin(picked, index) {
     pickedCabins[index] = picked;
-    console.log(pickedCabins);
   }
 
   //Getting current input data
   const getCurrentData = () => {
-    const numberOfHytter = parseInt(
-      document.getElementById('numberOfHytter').value
-    );
-    const cabinChoice = document.querySelector(
-      'input[name="cabinChoice"]:checked'
-    ).value;
-
     let valgteCabins = [];
 
-    if (cabinChoice === 'random') {
+    if (cabinAssigment === 'random') {
       valgteCabins = cabins.map((cabin) => {
         return { cabinName: cabin.name };
       });
     } else {
-      valgteCabins = cabins.filter((cabin, index) => {
+      let filteredCabins = cabins.filter((cabin, index) => {
         if (pickedCabins[index]) {
           return { cabinName: cabin.name };
         }
       });
+      valgteCabins = filteredCabins.map((cabin) => {
+        return { cabinName: cabin.name };
+      });
     }
-    console.log(valgteCabins);
 
     const step3Data = {
-      numberOfCabins: numberOfHytter,
-      cabinAssigment: cabinChoice,
+      numberOfCabins: numberOfCabins,
+      cabinAssigment: cabinAssigment,
       cabins: valgteCabins,
     };
-
     return step3Data;
   };
 
   const previousPage = () => {
     const step3Data = getCurrentData();
-    props.previousPage(step3Data);
+    props.updateForm(step3Data);
+    props.previousPage();
   };
 
   const sendInApplication = () => {
@@ -104,41 +90,55 @@ const Step3 = (props) => {
             className="soknad-input"
             type="number"
             id="numberOfHytter"
+            value={numberOfCabins}
             name="numberOfHytter"
-            min="1"
+            min="0"
             max="4"
+            onChange={(event) => setNumberOfCabins(event.target.value)}
           />
+        </div>
 
-          <p className="soknad-step3-next">{'>'}</p>
-        </div>
-        <div className="soknad-step3-antall">
-          <div>
-            <input type="radio" id="random" name="cabinChoice" value="random" />
-            <label htmlFor="random">Jeg ønsker tilfeldig tildeling</label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="pickSelf"
-              name="cabinChoice"
-              value="pickSelf"
-            />
-            <label htmlFor="pickSelf">Jeg ønsker å velge hytte(ne)</label>
-            <p className="soknad-step3-next">{'>'}</p>
-          </div>
-        </div>
-        <div className="soknad-step3-cabins">
-          {cabins.map((cabin, index) => {
-            return (
-              <CabinCardSmall
-                key={cabin.name}
-                index={index}
-                cabin={cabin}
-                setPicked={setPickedCabin}
+        {numberOfCabins > 0 && (
+          <div className="soknad-step3-antall step3-radio">
+            <div>
+              <input
+                type="radio"
+                id="random"
+                name="cabinChoice"
+                value="random"
+                checked={cabinAssigment === 'random' ? true : false}
+                onChange={(event) => setCabinAssigment(event.target.value)}
               />
-            );
-          })}
-        </div>
+              <label htmlFor="random">Jeg ønsker tilfeldig tildeling</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="pickSelf"
+                name="cabinChoice"
+                value="pickSelf"
+                checked={cabinAssigment === 'pickSelf' ? true : false}
+                onChange={(event) => setCabinAssigment(event.target.value)}
+              />
+              <label htmlFor="pickSelf">Jeg ønsker å velge hytte(ne)</label>
+            </div>
+          </div>
+        )}
+
+        {numberOfCabins > 0 && cabinAssigment === 'pickSelf' && (
+          <div className="soknad-step3-cabins">
+            {cabins.map((cabin, index) => {
+              return (
+                <CabinCardSmall
+                  key={cabin.name}
+                  index={index}
+                  cabin={cabin}
+                  setPicked={setPickedCabin}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
       <div className="soknad-btn">
         <button className="btn small btn-nonActive" onClick={previousPage}>

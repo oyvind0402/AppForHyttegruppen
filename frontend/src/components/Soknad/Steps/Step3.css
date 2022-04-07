@@ -4,7 +4,11 @@
   flex-wrap: wrap;
   align-content: center;
   width: 80%;
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
+}
+
+.step3-radio {
+  margin-bottom: 4.75rem;
 }
 
 .soknad-step3-next {
