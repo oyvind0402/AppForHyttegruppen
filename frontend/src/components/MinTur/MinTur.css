@@ -153,6 +153,15 @@
   text-align: center;
 }
 
+.pending-applied {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.pending-applied-cabin {
+  text-align: center;
+  margin: 0;
+}
+
 @media only screen and (max-width: 1250px) {
   .omhytta-container {
     width: 100%;
