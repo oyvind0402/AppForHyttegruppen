@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BsQuestionCircle } from 'react-icons/bs';
+import { BsQuestionCircle, BsExclamationTriangle } from 'react-icons/bs';
 import CabinCardSmall from './../../01-Reusable/CabinCard/CabinCardSmall';
 import './Steps.css';
 import './Step3.css';
@@ -11,6 +11,7 @@ const Step3 = (props) => {
   const [cabinAssigment, setCabinAssigment] = useState(
     props.formData.cabinAssigment
   );
+  const [showFeedBackNumber, setShowFeedBackNumber] = useState(false);
 
   const [cabins, setCabins] = useState([]);
   let pickedCabins = [];
@@ -70,6 +71,10 @@ const Step3 = (props) => {
   };
 
   const sendInApplication = () => {
+    if (numberOfCabins === 0) {
+      setShowFeedBackNumber(true);
+      return;
+    }
     const step3Data = getCurrentData();
     props.completeForm(step3Data);
   };
@@ -94,8 +99,16 @@ const Step3 = (props) => {
             name="numberOfHytter"
             min="0"
             max="4"
-            onChange={(event) => setNumberOfCabins(event.target.value)}
+            onChange={(event) => {
+              setNumberOfCabins(event.target.value);
+              setShowFeedBackNumber(false);
+            }}
           />
+          {showFeedBackNumber && (
+            <p className="soknad-error step3-error">
+              <BsExclamationTriangle /> Husk å legge til antall hytter!
+            </p>
+          )}
         </div>
 
         {numberOfCabins > 0 && (
@@ -120,7 +133,9 @@ const Step3 = (props) => {
                 checked={cabinAssigment === 'pickSelf' ? true : false}
                 onChange={(event) => setCabinAssigment(event.target.value)}
               />
-              <label htmlFor="pickSelf">Jeg ønsker å velge hytte(ne)</label>
+              <label htmlFor="pickSelf">
+                Jeg ønsker å velge mulige hytte(ne)
+              </label>
             </div>
           </div>
         )}

@@ -7,6 +7,10 @@
   margin: 0 auto 3rem auto;
 }
 
+.step3-error {
+  margin: -1.5rem 0 0 0;
+}
+
 .step3-radio {
   margin-bottom: 4.75rem;
 }
