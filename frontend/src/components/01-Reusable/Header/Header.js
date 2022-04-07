@@ -18,7 +18,7 @@ const Header = () => {
   const loggedIn = loginContext.loggedIn;
   const adminAccess = loginContext.adminAccess;
 
-  const [defaultLocale, setDefaultLocale] = useState(true);
+  //const [defaultLocale, setDefaultLocale] = useState(true);
 
   const logoutHandler = () => {
     if (click) {
@@ -30,9 +30,9 @@ const Header = () => {
     history.replace('/');
   };
 
-  const changeLanguage = () => {
+  /*const changeLanguage = () => {
     setDefaultLocale(!defaultLocale);
-  };
+  };*/
 
   const handleClick = () => {
     setClick(!click);

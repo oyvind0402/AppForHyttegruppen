@@ -6,22 +6,6 @@ import { Link } from 'react-router-dom';
 import LoginContext from '../../../LoginContext/login-context';
 import { useContext } from 'react';
 
-const card = {
-  picture: [
-    {
-      Name: 'Utsikten',
-      Address: 'Grøndalsvegen 764',
-      Bedrooms: '5',
-      SleepingSlots: '10',
-      Bathrooms: '1',
-      Price: '1200',
-      CleaningPrice: '1200',
-      src: './cabin-main.jpg',
-      alt: 'Picture of utsikten',
-    },
-  ],
-};
-
 const CabinCardBig = (props) => {
   console.log(props.cabin.pictures.mainPicture.filename);
   const loginContext = useContext(LoginContext);
