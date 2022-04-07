@@ -70,7 +70,7 @@ const Soknad = () => {
     if (popupResponse !== '') setPopup(true);
   }, [popupResponse]);
 
-  const nextPage = (data) => {
+  const updateForm = (data) => {
     if (page === 1) {
       setFormData({
         ...formData,
@@ -88,7 +88,9 @@ const Soknad = () => {
         });
       }
     }
+  };
 
+  const nextPage = () => {
     if (page < 3) setPage(page + 1);
   };
 
@@ -141,6 +143,7 @@ const Soknad = () => {
       <div className="content-soknad">
         {page === 1 && (
           <Step1
+            updateForm={updateForm}
             nextPage={nextPage}
             nullstillForm={nullstillForm}
             formData={formData}
@@ -148,6 +151,7 @@ const Soknad = () => {
         )}
         {page === 2 && (
           <Step2
+            updateForm={updateForm}
             nextPage={nextPage}
             previousPage={previousPage}
             formData={formData}
@@ -155,6 +159,7 @@ const Soknad = () => {
         )}
         {page === 3 && (
           <Step3
+            updateForm={updateForm}
             completeForm={completeForm}
             previousPage={previousPage}
             formData={formData}

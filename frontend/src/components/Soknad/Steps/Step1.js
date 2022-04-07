@@ -1,10 +1,13 @@
-import { BsQuestionCircle } from 'react-icons/bs';
+import { BsQuestionCircle, BsExclamationTriangle } from 'react-icons/bs';
 import { RiSuitcase2Line, RiSuitcaseLine } from 'react-icons/ri';
 import './Steps.css';
 import './Step1.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Step1 = (props) => {
+  const [showUserFeedback, setShowUserFeedback] = useState(false);
+  const [showaccentureFeedback, setShowAccentureFeedback] = useState(false);
+
   //Setting values based on props
   useEffect(() => {
     document.querySelector('input[id="name"]').value = props.formData.userId;
@@ -21,19 +24,26 @@ const Step1 = (props) => {
 
   //Submitting data to parent
   const submitStep1 = () => {
+    setShowUserFeedback(false);
+    setShowAccentureFeedback(false);
     const newUserId = document.getElementById('name').value;
     const newAccentureId = document.getElementById('EnterpriseID').value;
     const newTripPurpose = document.querySelector(
       'input[name="purpose-trip"]:checked'
     ).value;
 
+    if (newUserId === '') setShowUserFeedback(true);
+    if (newAccentureId === '') setShowAccentureFeedback(true);
     const step1Data = {
       userId: newUserId,
       accentureId: newAccentureId,
       tripPurpose: newTripPurpose,
     };
 
-    props.nextPage(step1Data);
+    props.updateForm(step1Data);
+    if (newUserId !== '' && newAccentureId !== '') {
+      props.nextPage();
+    }
   };
 
   return (
@@ -79,6 +89,11 @@ const Step1 = (props) => {
             Navn:
           </label>
           <input className="soknad-input" type="text" id="name" name="name" />
+          {showUserFeedback && (
+            <p className="soknad-error step1-error">
+              <BsExclamationTriangle /> Dette feltet må fylles ut!
+            </p>
+          )}
 
           <label className="soknad-label" htmlFor="EnterpriseID">
             Enterprise ID:
@@ -89,6 +104,11 @@ const Step1 = (props) => {
             id="EnterpriseID"
             name="EnterpriseID"
           />
+          {showaccentureFeedback && (
+            <p className="soknad-error step1-error">
+              <BsExclamationTriangle /> Dette feltet må fylles ut!
+            </p>
+          )}
         </div>
       </div>
 
