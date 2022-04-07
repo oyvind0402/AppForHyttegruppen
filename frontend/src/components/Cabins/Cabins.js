@@ -1,15 +1,14 @@
-import { useContext, useState, useEffect } from 'react';
-import LoginContext from '../../LoginContext/login-context';
+import { useState, useEffect } from 'react';
+//import LoginContext from '../../LoginContext/login-context';
 import CabinCardBig from '../01-Reusable/CabinCard/CabinCardBig';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './Cabins.css';
 import { Map, Marker } from 'pigeon-maps';
 import Cluster from 'pigeon-cluster';
 import CabinCardMap from '../01-Reusable/CabinCard/CabinCardMap';
-import { GiConsoleController } from 'react-icons/gi';
 
 const Cabins = () => {
-  const loginContext = useContext(LoginContext);
+  //const loginContext = useContext(LoginContext);
   //const loggedIn = loginContext.loggedIn;
   //Color of the markers
   const color = `hsl(271, 76%, 53%)`;
@@ -32,7 +31,7 @@ const Cabins = () => {
     <>
       <HeroBanner name="Hytter" />
       <div className="cabins-display">
-        {typeof cabins !== null &&
+        {cabins !== null &&
           cabins.map((cabin, index) => {
             return <CabinCardBig key={index} cabin={cabin} />;
           })}
@@ -40,7 +39,7 @@ const Cabins = () => {
       <div className="map">
         <Map
           height={500}
-          width={'80vw'}
+          width={`80%`}
           defaultCenter={[60.89923, 8.574017]}
           defaultZoom={10}
         >
