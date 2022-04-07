@@ -30,6 +30,7 @@ const Step3 = (props) => {
   useEffect(() => {
     cabins.map((cabin) => {
       pickedCabins.push(false);
+      return '';
     });
   }, [cabins]);
 
@@ -50,6 +51,7 @@ const Step3 = (props) => {
         if (pickedCabins[index]) {
           return { cabinName: cabin.name };
         }
+        return '';
       });
       valgteCabins = filteredCabins.map((cabin) => {
         return { cabinName: cabin.name };

@@ -1,11 +1,11 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './FAQ.css';
-import LoginContext from '../../LoginContext/login-context';
+//import LoginContext from '../../LoginContext/login-context';
 import FAQ_QUESTION from '../01-Reusable/FAQ_Question/FAQ_Question';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 
 const FAQ = () => {
-  const loginContext = useContext(LoginContext);
+  //const loginContext = useContext(LoginContext);
   //const loggedIn = loginContext.loggedIn;
   const [FAQElements, setFAQElements] = useState([]);
 

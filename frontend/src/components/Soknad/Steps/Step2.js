@@ -34,6 +34,7 @@ const Step2 = (props) => {
         if (props.formData.period[i].id === period.id) match = true;
       }
       if (!match) return period;
+      return '';
     });
     setMuligePerioder(newMuligePerioder);
   };
