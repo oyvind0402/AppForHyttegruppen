@@ -7,7 +7,6 @@ import LoginContext from '../../../LoginContext/login-context';
 import { useContext } from 'react';
 
 const CabinCardBig = (props) => {
-  console.log(props.cabin.pictures.mainPicture.filename);
   const loginContext = useContext(LoginContext);
 
   return (

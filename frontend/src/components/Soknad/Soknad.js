@@ -126,7 +126,6 @@ const Soknad = () => {
   }
 
   const completeForm = (data) => {
-    console.log(data);
     if (data.length !== 0) {
       setFormCompleted(true);
       setFormData({
