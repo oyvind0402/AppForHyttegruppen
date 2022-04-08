@@ -20,6 +20,7 @@ import EditSite from './components/Admin/EditSite';
 import EditCabins from './components/Admin/EditCabins';
 import Applications from './components/Admin/EditSoknader';
 import Application from './components/Admin/EditSoknad';
+import OpenPeriod from './components/Admin/OpenPeriod';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -43,6 +44,10 @@ function App() {
         )}
         <Route path="/admin">
           {loginContext.adminAccess && <AdminPage />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/startsoknad">
+          {loginContext.adminAccess && <OpenPeriod />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/endresoknader">
