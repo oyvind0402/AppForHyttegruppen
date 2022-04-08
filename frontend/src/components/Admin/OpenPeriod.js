@@ -88,6 +88,11 @@ const OpenPeriod = () => {
       return;
     }
 
+    if (seasonName.length < 1) {
+      alert('Du skrev ikke inn et navn på perioden!');
+      return;
+    }
+
     //First period of the season is set to the next monday
     let firstPeriodStart = new Date(seasonStartDate);
     firstPeriodStart.setDate(
@@ -144,7 +149,7 @@ const OpenPeriod = () => {
 
     //Creating period objects out of the previous values
     //Adding them to the new array
-    initialPeriods.map((period, index) => {
+    initialPeriods.forEach((period, index) => {
       if (index % 2 === 0) {
         let name = 'Uke ' + getWeekNumber(period);
         let objPeriod = {

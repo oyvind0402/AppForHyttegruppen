@@ -68,7 +68,7 @@ const Applications = () => {
                   </p>
                   <h4>Valgte hytter:</h4>
                   <div className="application-cabins-wrapper">
-                    {item.cabins.map((cabin) => {
+                    {item.cabins.forEach((cabin) => {
                       cabins += cabin.cabinName += ' ';
                     })}
                     <p>{cabins}</p>

@@ -178,7 +178,7 @@ const Application = () => {
           <p className="edit-trip-title">Valgte hytter</p>
 
           {cabins?.map((cabin, i) => {
-            trip.cabins?.map((chosenCabin) => {
+            trip.cabins?.forEach((chosenCabin) => {
               if (cabin === chosenCabin.cabinName) {
                 selectedCabins.push(cabin);
               }
