@@ -1,0 +1,10 @@
+.features{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.features-item{
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    align-items: center;
+}

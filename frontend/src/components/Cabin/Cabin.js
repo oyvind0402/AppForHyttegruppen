@@ -1,10 +1,12 @@
 import { useContext, useState, useEffect } from 'react';
 import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import Carousel from '../01-Reusable/ImageCarousel/Carousel';
 import './Cabin.css';
+import Features from './Parts/Features';
+import { Map, Marker } from 'pigeon-maps';
+import Cluster from 'pigeon-cluster';
+import CabinCardMap from '../01-Reusable/CabinCard/CabinCardMap';
 
 const Cabin = () => {
   const loginContext = useContext(LoginContext);
@@ -29,32 +31,55 @@ const Cabin = () => {
   const [cabinData, setCabinData] = useState({});
   console.log(cabinData);
 
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  const [cabins, setCabins] = useState([]);
+  const [cabincard, setCabinCard] = useState({});
+  const color = `hsl(271, 76%, 53%)`;
+
+  //Fetching
+  useEffect(() => {
+    async function fetchData() {
+      fetch('/cabin/all')
+        .then((response) => response.json())
+        .then((data) => setCabins(data))
+        .catch((error) => console.log(error));
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
       <HeroBanner name={cabinData.name} />
       <div className="cabin-display">
-        <Slider {...settings}>
-          {typeof cabinData !== null &&
-            cabinData.pictures !== undefined &&
-            cabinData.pictures.otherPictures.map((file) => {
-              return (
-                <div className="slick-slide-item">
-                  <img
-                    src={`${process.env.PUBLIC_URL}/assets/pictures/${file.filename}`}
-                    alt={file.filename}
-                  />
-                </div>
-              );
-            })}
-        </Slider>
+        <Carousel cabinData={cabinData} />
+        <Features cabinData={cabinData} />
+        <div className="map">
+          <Map
+            height={500}
+            width={`80%`}
+            defaultCenter={[60.89923, 8.574017]}
+            defaultZoom={10}
+          >
+            {cabins[0] !== '' && (
+              <Cluster>
+                {cabins.map((cabin, index) => {
+                  return (
+                    <Marker
+                      key={index}
+                      width={50}
+                      anchor={[
+                        cabin.coordinates.latitude,
+                        cabin.coordinates.longitude,
+                      ]}
+                      color={color}
+                      onClick={() => setCabinCard(cabin)}
+                    />
+                  );
+                })}
+              </Cluster>
+            )}
+            <CabinCardMap cabin={cabincard} />
+          </Map>
+        </div>
       </div>
     </>
   );
