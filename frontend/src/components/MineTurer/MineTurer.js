@@ -74,8 +74,8 @@ const MineTurer = () => {
           <div className="mytrip-card-wrapper">
             <p className="mytrip-title">Krever handling:</p>
             <div className="trip-row-wrapper">
-              {currentTrips.map((trip) => (
-                <TripCardActionReq data={trip} />
+              {currentTrips.map((trip, index) => (
+                <TripCardActionReq key={index} data={trip} />
               ))}
             </div>
           </div>
@@ -85,8 +85,8 @@ const MineTurer = () => {
           <div className="mytrip-card-wrapper">
             <p className="mytrip-title">Venter på godkjenning:</p>
             <div className="trip-row-wrapper">
-              {pendingTrips.map((trip) => (
-                <TripCardPending data={trip} />
+              {pendingTrips.map((trip, index) => (
+                <TripCardPending key={index} data={trip} />
               ))}
             </div>
           </div>
@@ -102,8 +102,8 @@ const MineTurer = () => {
           <div className="mytrip-card-wrapper">
             <p className="mytrip-title-empty">Dine godkjente turer:</p>
             <div className="trip-row-wrapper">
-              {futureTrips.map((trip) => (
-                <TripCardActive data={trip} />
+              {futureTrips.map((trip, index) => (
+                <TripCardActive key={index} data={trip} />
               ))}
             </div>
           </div>
@@ -119,8 +119,8 @@ const MineTurer = () => {
           <div className="mytrip-card-wrapper">
             <p className="mytrip-title-empty">Dine tidligere turer:</p>
             <div className="trip-row-wrapper">
-              {pastTrips.map((trip) => (
-                <TripCardActive data={trip} />
+              {pastTrips.map((trip, index) => (
+                <TripCardActive key={index} data={trip} />
               ))}
             </div>
           </div>
