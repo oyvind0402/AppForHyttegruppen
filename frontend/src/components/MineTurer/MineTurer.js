@@ -13,37 +13,45 @@ const MineTurer = () => {
   const [visibleTrips, setVisibleTrips] = useState(false);
 
   const getApplications = async () => {
-    const response = await fetch('/application/getbyuserpending', {
-      method: 'POST',
-      body: JSON.stringify(localStorage.getItem('userID')),
-    });
+    const response = await fetch(
+      '/application/byuser/' + localStorage.getItem('userID') + '/pending',
+      {
+        method: 'GET',
+      }
+    );
     const data = await response.json();
     if (response.ok) {
       setPendingTrips(data);
     }
 
-    const response2 = await fetch('/application/getbyuserwon', {
-      method: 'POST',
-      body: JSON.stringify(localStorage.getItem('userID')),
-    });
+    const response2 = await fetch(
+      '/application/byuser/' + localStorage.getItem('userID') + '/past',
+      {
+        method: 'GET',
+      }
+    );
     const data2 = await response2.json();
     if (response2.ok) {
       setPastTrips(data2);
     }
 
-    const response3 = await fetch('/application/getbyusercurrent', {
-      method: 'POST',
-      body: JSON.stringify(localStorage.getItem('userID')),
-    });
+    const response3 = await fetch(
+      '/application/byuser/' + localStorage.getItem('userID') + '/current',
+      {
+        method: 'GET',
+      }
+    );
     const data3 = await response3.json();
     if (response3.ok) {
       setCurrentTrips(data3);
     }
 
-    const response4 = await fetch('/application/getbyuserfuture', {
-      method: 'POST',
-      body: JSON.stringify(localStorage.getItem('userID')),
-    });
+    const response4 = await fetch(
+      '/application/byuser/' + localStorage.getItem('userID') + '/future',
+      {
+        method: 'GET',
+      }
+    );
     const data4 = await response4.json();
     if (response4.ok) {
       setFutureTrips(data4);

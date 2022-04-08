@@ -1,5 +1,5 @@
 import './CabinCardSmall.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CabinContent from './CabinContent';
 
 const CabinCardSmall = (props) => {

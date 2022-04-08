@@ -54,3 +54,10 @@ func ObjToPrimitive(initkey string, obj interface{}) []primitive.E {
 		{Key: initkey, Value: obj},
 	}
 }
+
+func CheckFilename(filename string) (string, error) {
+	if match, _ := regexp.MatchString("[/\\?%*:|\"<>;=]", filename); match {
+		return "", errors.New("Invalid file name. Must not contain / \\ ? % * : | \" < > ; =")
+	}
+	return filename, nil
+}

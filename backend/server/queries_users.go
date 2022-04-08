@@ -32,17 +32,11 @@ func getUser(ctx *gin.Context, row *sql.Row) (data.User, int, error) {
 
 // Retrieve one user by ID (receives userId: string; returns User)
 func (r repo) GetUser(ctx *gin.Context) {
-	// curl -X GET -v -d "1" localhost:8080/user/get
-
 	// Retrieve parameter ID
-	userId := new(string)
-	if err := ctx.BindJSON(userId); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	userId := ctx.Param("id")
 
 	// Select user from database
-	row := r.sqlDb.QueryRow(`SELECT * FROM Users WHERE user_id = $1 LIMIT 1`, *userId)
+	row := r.sqlDb.QueryRow(`SELECT * FROM Users WHERE user_id = $1 LIMIT 1`, userId)
 
 	user, response, err := getUser(ctx, row)
 	if err != nil {

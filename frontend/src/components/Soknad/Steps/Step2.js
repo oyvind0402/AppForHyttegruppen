@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BsQuestionCircle } from 'react-icons/bs';
+import { BsQuestionCircle, BsExclamationTriangle } from 'react-icons/bs';
 import './Steps.css';
 import './Step2.css';
 
@@ -8,11 +8,12 @@ const Step2 = (props) => {
   let newMuligePerioder = [];
   const [muligePerioder, setMuligePerioder] = useState([]);
   const [valgtePerioder, setValgtePerioder] = useState(props.formData.period);
+  const [showFeedBack, setShowFeedBack] = useState(false);
 
   //Fetching
-  useEffect(async () => {
+  useEffect(() => {
     async function fetchData() {
-      fetch('/period/getall')
+      fetch('/period/all')
         .then((response) => response.json())
         .then((data) => setPerioder(data))
         .catch((error) => console.log(error));
@@ -33,6 +34,7 @@ const Step2 = (props) => {
         if (props.formData.period[i].id === period.id) match = true;
       }
       if (!match) return period;
+      return '';
     });
     setMuligePerioder(newMuligePerioder);
   };
@@ -82,7 +84,13 @@ const Step2 = (props) => {
   };
 
   const submitStep2 = () => {
-    props.nextPage(valgtePerioder);
+    setShowFeedBack(false);
+    props.updateForm(valgtePerioder);
+    if (valgtePerioder.length === 0) {
+      setShowFeedBack(true);
+      return;
+    }
+    props.nextPage();
   };
 
   //Converts the dates received from the backend to day.month.year
@@ -136,6 +144,11 @@ const Step2 = (props) => {
 
           <div>
             <h3 className="input-header">Valgte perioder</h3>
+            {showFeedBack && (
+              <p className="soknad-error step2-error">
+                <BsExclamationTriangle /> Husk å legge til perioder!
+              </p>
+            )}
             <div className="perioder-input">
               {valgtePerioder.map((period, index) => (
                 <div className="soknad-step2-period" key={period.id}>

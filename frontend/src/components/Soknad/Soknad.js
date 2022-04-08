@@ -20,8 +20,8 @@ const Soknad = () => {
     accentureId: '',
     tripPurpose: '',
     period: [],
-    numberOfCabins: 1,
-    cabinAssigment: '',
+    numberOfCabins: 0,
+    cabinAssigment: 'random',
     cabins: [],
     winner: false,
   });
@@ -70,7 +70,7 @@ const Soknad = () => {
     if (popupResponse !== '') setPopup(true);
   }, [popupResponse]);
 
-  const nextPage = (data) => {
+  const updateForm = (data) => {
     if (page === 1) {
       setFormData({
         ...formData,
@@ -89,19 +89,22 @@ const Soknad = () => {
       }
     }
 
-    if (page < 3) setPage(page + 1);
-  };
-
-  function previousPage(data) {
     if (page === 3) {
       setFormCompleted(false);
       setFormData({
         ...formData,
-        numberOfCabins: data.numberOfCabins,
+        numberOfCabins: parseInt(data.numberOfCabins),
         cabinAssigment: data.cabinAssigment,
         cabins: data.cabins,
       });
     }
+  };
+
+  const nextPage = () => {
+    if (page < 3) setPage(page + 1);
+  };
+
+  function previousPage(data) {
     if (page !== 1) setPage(page - 1);
   }
 
@@ -127,7 +130,7 @@ const Soknad = () => {
       setFormCompleted(true);
       setFormData({
         ...formData,
-        numberOfCabins: data.numberOfCabins,
+        numberOfCabins: parseInt(data.numberOfCabins),
         cabinAssigment: data.cabinAssigment,
         cabins: data.cabins,
       });
@@ -141,6 +144,7 @@ const Soknad = () => {
       <div className="content-soknad">
         {page === 1 && (
           <Step1
+            updateForm={updateForm}
             nextPage={nextPage}
             nullstillForm={nullstillForm}
             formData={formData}
@@ -148,6 +152,7 @@ const Soknad = () => {
         )}
         {page === 2 && (
           <Step2
+            updateForm={updateForm}
             nextPage={nextPage}
             previousPage={previousPage}
             formData={formData}
@@ -155,6 +160,7 @@ const Soknad = () => {
         )}
         {page === 3 && (
           <Step3
+            updateForm={updateForm}
             completeForm={completeForm}
             previousPage={previousPage}
             formData={formData}

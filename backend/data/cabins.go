@@ -5,6 +5,7 @@ type Cabin struct {
 	Active           bool                   `json:"active" bson:"active"`
 	ShortDescription string                 `json:"shortDescription" bson:"shortDescription"`
 	LongDescription  string                 `json:"longDescription" bson:"longDescription"`
+	Pictures         Pictures               `json:"pictures" bson:"pictures"`
 	Address          string                 `json:"address" bson:"address"`
 	Coordinates      Coordinates            `json:"coordinates" bson:"coordinates"`
 	Directions       string                 `json:"directions" bson:"directions"`
@@ -15,8 +16,8 @@ type Cabin struct {
 }
 
 type CabinShort struct {
-	Name   string `json:"cabinName"`
-	Active bool   `json:"active,omitempty"`
+	Name   string `json:"cabinName" bson:"_id"`
+	Active bool   `json:"active,omitempty" bson:"active"`
 }
 
 type Coordinates struct {

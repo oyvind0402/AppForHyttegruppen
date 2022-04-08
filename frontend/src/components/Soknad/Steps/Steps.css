@@ -14,6 +14,33 @@
   font-size: 1.75rem;
 }
 
+.soknad-error {
+  color: red;
+  animation-name: error;
+  animation-duration: 0.25s;
+}
+
+@keyframes error {
+  0% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  60% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  100% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .soknad-question-icon {
     width: 20px;

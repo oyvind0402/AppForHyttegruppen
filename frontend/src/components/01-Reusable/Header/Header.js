@@ -18,7 +18,7 @@ const Header = () => {
   const loggedIn = loginContext.loggedIn;
   const adminAccess = loginContext.adminAccess;
 
-  const [defaultLocale, setDefaultLocale] = useState(true);
+  //const [defaultLocale, setDefaultLocale] = useState(true);
 
   const logoutHandler = () => {
     if (click) {
@@ -30,9 +30,9 @@ const Header = () => {
     history.replace('/');
   };
 
-  const changeLanguage = () => {
+  /*const changeLanguage = () => {
     setDefaultLocale(!defaultLocale);
-  };
+  };*/
 
   const handleClick = () => {
     setClick(!click);
@@ -127,7 +127,11 @@ const Header = () => {
         </div>
         <div className="right-side">
           {loggedIn && (
-            <a className="nav-list-logout" onClick={logoutHandler}>
+            <a
+              className="nav-list-logout"
+              onClick={logoutHandler}
+              href="/login"
+            >
               Logg ut
             </a>
           )}
@@ -141,7 +145,7 @@ const Header = () => {
               Admin
             </NavLink>
           )}
-          <img
+          {/*<img
             className="language-nor"
             onClick={changeLanguage}
             src={
@@ -150,7 +154,7 @@ const Header = () => {
                 : `${process.env.PUBLIC_URL}/assets/pictures/English.svg`
             }
             alt="Hjemmeikon"
-          />
+          />*/}
         </div>
         <div className="mobile-menu">
           <span className="menu-icon">

@@ -1,0 +1,42 @@
+.application-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  grid-gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.application-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.application-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.5rem;
+}
+
+.application-cabins-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.application-container h2 {
+  margin-top: 0;
+}
+
+.application-half h4 {
+  margin-bottom: 0;
+}
+
+.application-half p {
+  margin-top: 0;
+}
+
+.application {
+  padding: 1rem;
+  margin-bottom: 2rem;
+}

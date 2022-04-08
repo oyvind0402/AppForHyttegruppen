@@ -10,24 +10,53 @@ const Home = () => {
   const [soknadOpen, setSoknadOpen] = useState(true);
   const [soknadEndDate, setsoknadEndDate] = useState('');
 
-  useEffect(async () => {
+  useEffect(() => {
     async function fetchData() {
-      fetch('/season/getcurrentopen')
-        .then((response) => response.json())
-        .then((data) => {
-          setSoknadOpen(data.isOpen);
-          let date;
-          date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
-          const dates = date.split('-');
-          setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
-        })
-        .catch((error) => console.log(error));
+      const response = await fetch('/season/open');
+      const data = await response.json();
+      if (response.ok) {
+        setSoknadOpen(data.isOpen);
+        let date;
+        date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
+        const dates = date.split('-');
+        setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
+      } else {
+        console.log(response);
+      }
     }
     fetchData();
   }, []);
+  useEffect(() => {
+    document.querySelector('#file').addEventListener('change', (event) => {
+      handleImageUpload(event);
+    });
+  });
+
+  const handleImageUpload = (event) => {
+    const files = event.target.files;
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    const cabinName = document.getElementById('cabinName').value;
+    console.log(cabinName);
+    formData.append('cabinName', cabinName);
+
+    fetch('/pictures/one', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <>
+      <input type="text" id="cabinName" name="cabinName" />
+      <input type="file" id="file" name="file" accept=".jpg,.png" />
       <HeroBanner />
       <div className="home-display">
         <div className="home-application">

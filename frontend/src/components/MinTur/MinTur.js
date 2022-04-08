@@ -33,10 +33,7 @@ const MinTur = () => {
   const [start, setStart] = useState(new Date());
 
   async function getTrip() {
-    const response = await fetch('/application/get', {
-      method: 'POST',
-      body: JSON.stringify(pageID),
-    });
+    const response = await fetch('/application/' + pageID);
 
     const data = await response.json();
     if (response.ok) {
@@ -210,11 +207,7 @@ const MinTur = () => {
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
-            {trip.cabins.map((cabin) => (
-              <p className="mintur-title" key={cabin.cabinName}>
-                {cabin.cabinName}
-              </p>
-            ))}
+            <p className="mintur-title">Venter på godkjenning</p>
             <img
               src={`${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`}
               className="mintur-picture"
@@ -235,6 +228,15 @@ const MinTur = () => {
                 start.getFullYear()}
             </p>
           </div>
+          <div className="pending-trip-container">
+            <p className="pending-trip-text pending-applied">Søkt på:</p>
+            {trip.cabins.map((cabin) => (
+              <p className="pending-applied-cabin" key={cabin.cabinName}>
+                {cabin.cabinName}
+              </p>
+            ))}
+          </div>
+
           <button className="btn small">Avbestill</button>
         </div>
       </>

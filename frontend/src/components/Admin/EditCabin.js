@@ -16,9 +16,8 @@ const EditCabin = () => {
   }
 
   const fetchCabin = async () => {
-    const response = await fetch('/cabin/get', {
-      method: 'POST',
-      body: JSON.stringify(cabinName),
+    const response = await fetch('/cabin/' + cabinName, {
+      method: 'GET',
     });
 
     const data = await response.json();
