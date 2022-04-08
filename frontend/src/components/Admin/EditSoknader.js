@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';

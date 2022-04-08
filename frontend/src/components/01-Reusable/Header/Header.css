@@ -112,7 +112,7 @@
 
 .right-side {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   padding-right: 1.875rem;
 }
@@ -244,7 +244,7 @@
     font-size: 3rem;
     color: #bd00ff;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .active:hover {

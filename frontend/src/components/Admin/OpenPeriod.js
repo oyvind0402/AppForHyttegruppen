@@ -175,15 +175,15 @@ const OpenPeriod = () => {
     const data = response.json();
     if (response.ok) {
       console.log(data);
-      periods.map((period) => {
+      periods.map((period) =>
         fetch('/period/post', {
           method: 'POST',
           body: JSON.stringify(period),
         })
           .then((response) => response.json())
           .then((data) => console.log(data))
-          .catch((error) => console.log(error));
-      });
+          .catch((error) => console.log(error))
+      );
     }
   };
 

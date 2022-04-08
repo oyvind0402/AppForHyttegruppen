@@ -41,7 +41,7 @@
 .season-date-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   grid-gap: 0.625rem;
 }
@@ -62,7 +62,7 @@
     'f';
   height: 100%;
   align-items: flex-end;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 10%;
 }
 
@@ -93,8 +93,8 @@
     'b'
     'c'
     'd';
-  justify-content: end;
-  align-items: end;
+  justify-content: flex-end;
+  align-items: flex-end;
   padding-right: 10%;
 }
 
@@ -110,7 +110,7 @@
 .pending-container {
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .pending-icon {

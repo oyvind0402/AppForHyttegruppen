@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
-import { Link } from 'react-router-dom';
 import BackButton from '../01-Reusable/Buttons/BackButton';
 import './EditCabin.css';
 
@@ -34,15 +32,10 @@ const EditCabin = () => {
   const [active, setActive] = useState(
     cabin.length !== 0 ? cabin[0].active : true
   );
-  const [checked, setChecked] = useState(
-    cabin.length !== 0 ? cabin[0].features.wifi : false
-  );
 
   const onActiveChange = () => {
     setActive(!active);
   };
-
-  const handleCheckedFeatures = () => {};
 
   const handleAddItem = () => {
     const node = document.createElement('input');
