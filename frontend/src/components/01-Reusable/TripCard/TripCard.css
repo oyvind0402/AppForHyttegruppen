@@ -120,9 +120,10 @@
 .cancel-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   grid-area: d;
+  margin-bottom: 1rem;
+  z-index: 100;
 }
 
 .cancel-icon {
@@ -132,7 +133,15 @@
 
 .cancel-text {
   font-weight: 700;
+  margin: 0;
+  line-height: 1rem;
+  font-size: 1rem;
+  height: 1rem;
+}
+
+.cancel-container:hover {
   text-decoration: underline;
+  color: red;
 }
 
 @media only screen and (max-width: 1795px) {
