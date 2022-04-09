@@ -126,11 +126,12 @@ func (r repo) PostSeason(ctx *gin.Context) {
 	for rows.Next() {
 		// Create Season
 		var season data.Season
-		err = rows.Scan(&season.Name,
+		rows.Scan(&season.Name,
 			&season.FirstDay,
 			&season.LastDay,
 			&season.ApplyFrom,
 			&season.ApplyUntil)
+
 		seasons = append(seasons, season)
 	}
 
