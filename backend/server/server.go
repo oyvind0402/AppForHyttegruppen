@@ -75,7 +75,6 @@ func setRouter(r repo) *gin.Engine {
 		cabinsapi.PATCH("/updatefield", r.UpdateCabinField)
 		cabinsapi.PUT("/update", r.UpdateCabin)
 		cabinsapi.DELETE("/delete", r.DeleteCabin)
-		cabinsapi.GET("/admin/:name", r.GetCabin2)
 	}
 
 	applicationapi := router.Group("/application")

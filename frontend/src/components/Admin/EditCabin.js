@@ -14,13 +14,15 @@ const EditCabin = () => {
   }
 
   const fetchCabin = async () => {
-    const response = await fetch('/cabin/admin/' + cabinName, {
+    const response = await fetch('/cabin/' + cabinName, {
       method: 'GET',
     });
 
     const data = await response.json();
     if (response.ok) {
-      setCabin(data);
+      let copy = [];
+      copy.push(data);
+      setCabin(copy);
     }
   };
 
