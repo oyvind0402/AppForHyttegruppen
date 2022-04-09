@@ -205,7 +205,7 @@ const OpenPeriod = () => {
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
-      <HeroBanner name="Åpne søknadsperiode" />
+      <HeroBanner name="Åpne søknads periode" />
       <div className="open-period-container">
         <p className="open-period-title">
           Velg start og sluttdato for søknadsperioden
@@ -244,7 +244,7 @@ const OpenPeriod = () => {
           startdato til sluttdato.
         </p>
 
-        <button onClick={generatePeriods} className="btn big">
+        <button onClick={generatePeriods} className="btn big soknadbtn">
           Generer perioder
         </button>
         {showPeriods && periods.length !== 0 ? (
@@ -314,7 +314,7 @@ const OpenPeriod = () => {
           </>
         ) : null}
         {showPeriods && periods.length !== 0 ? (
-          <button className="btn big" onClick={saveSeasonAndPeriods}>
+          <button className="btn big soknadbtn" onClick={saveSeasonAndPeriods}>
             Åpne søknadsperioden
           </button>
         ) : null}

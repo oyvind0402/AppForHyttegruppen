@@ -27,7 +27,7 @@ const PeriodCard = (props) => {
         {props.children[2]}
         {props.children[3]}
         {props.children[4]}
-        <div className="justify-end">
+        <div className="justify-end-expanded">
           <RiArrowUpSLine
             className="gen-period-arrow-up"
             onClick={handleExpanded}
