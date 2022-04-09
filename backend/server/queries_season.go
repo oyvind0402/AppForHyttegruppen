@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -109,6 +110,38 @@ func (r repo) PostSeason(ctx *gin.Context) {
 	err := ctx.BindJSON(season)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	//Getting seasons that have a start day or end day in the middle of the posted period
+	gtseason := `SELECT * FROM seasons WHERE (first_day >= $1 AND first_day < $2) OR (last_day > $1 AND last_day <= $2)`
+
+	rows, err := r.sqlDb.Query(gtseason, season.FirstDay, season.LastDay)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	var seasons []data.Season
+	for rows.Next() {
+		// Create Season
+		var season data.Season
+		err = rows.Scan(&season.Name,
+			&season.FirstDay,
+			&season.LastDay,
+			&season.ApplyFrom,
+			&season.ApplyUntil)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		seasons = append(seasons, season)
+	}
+
+	//If the array is not empty we abort, since there is already an active season
+	if len(seasons) != 0 {
+		fmt.Println("Det er en sesong på den datoen")
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "A season is already active during that timeperiod"})
 		return
 	}
 
