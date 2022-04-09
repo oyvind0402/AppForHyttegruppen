@@ -45,7 +45,7 @@ const Applications = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til admin" link="admin" />
+      <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <HeroBanner name="Alle søknader" />
       <p className="application-title">Alle søknader ({trips.length})</p>
       <div className="application-container">
