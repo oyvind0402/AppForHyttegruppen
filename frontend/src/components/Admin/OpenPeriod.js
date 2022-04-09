@@ -272,7 +272,7 @@ const OpenPeriod = () => {
                       <input
                         type="text"
                         className="gen-period-input"
-                        defaultValue={period.name}
+                        value={period.name}
                         onChange={(e) => {
                           period.name = e.target.value;
                           setPeriods([...periods]);
@@ -286,7 +286,7 @@ const OpenPeriod = () => {
                       <input
                         type="date"
                         id="gen-period-startdate"
-                        defaultValue={setDefaultDateValue(period.start)}
+                        value={setDefaultDateValue(period.start)}
                         onChange={(e) => {
                           period.start = setDateObject(e.target.value);
                           setPeriods([...periods]);
@@ -300,7 +300,7 @@ const OpenPeriod = () => {
                         type="date"
                         id="gen-period-enddate"
                         className="gen-period-input"
-                        defaultValue={setDefaultDateValue(period.end)}
+                        value={setDefaultDateValue(period.end)}
                         onChange={(e) => {
                           period.end = setDateObject(e.target.value);
                           setPeriods([...periods]);
