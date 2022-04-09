@@ -42,31 +42,31 @@ function App() {
             <SignupPage />
           </Route>
         )}
-        <Route path="/admin">
+        <Route path="/admin" exact>
           {loginContext.adminAccess && <AdminPage />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/startsoknad">
+        <Route path="/admin/startsoknad">
           {loginContext.adminAccess && <OpenPeriod />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/endresoknader">
+        <Route path="/admin/endresoknader">
           {loginContext.adminAccess && <Applications />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/endresoknad">
+        <Route path="/admin/endresoknad">
           {loginContext.adminAccess && <Application />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/endringer">
+        <Route path="/admin/endringer">
           {loginContext.adminAccess && <EditSite />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/endrehytter">
+        <Route path="/admin/endrehytter">
           {loginContext.adminAccess && <EditCabins />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
-        <Route path="/endrehytte">
+        <Route path="/admin/endrehytte">
           {loginContext.adminAccess && <EditCabin />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>

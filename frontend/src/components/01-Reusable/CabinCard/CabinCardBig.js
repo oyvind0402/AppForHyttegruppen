@@ -18,7 +18,7 @@ const CabinCardBig = (props) => {
           alt={props.cabin.pictures.mainPicture.altText}
         />
         {loginContext.adminAccess && (
-          <Link to={'/endrehytte/' + props.cabin.name}>
+          <Link to={'/admin/endrehytte/' + props.cabin.name}>
             <span className="admin-edit-btn">Endre</span>
           </Link>
         )}

@@ -92,7 +92,7 @@ const Applications = () => {
                 </div>
               </div>
               <Link
-                to={'/endresoknad/' + item.applicationId}
+                to={'/admin/endresoknad/' + item.applicationId}
                 className="link btn big"
                 onClick={() => setUserToTrip(item.userId)}
               >
