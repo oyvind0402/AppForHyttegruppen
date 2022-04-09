@@ -121,6 +121,31 @@ func (r repo) GetCabin(ctx *gin.Context) {
 	}
 }
 
+//Retrieves one cabin for admin by given name("_id") (returns Cabin)
+func (r repo) GetCabin2(ctx *gin.Context) {
+	//Gets cabin name
+	cabinName := ctx.Param("name")
+
+	var cabins []data.Cabin
+	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	//finds the document with the right cabin name
+	cursor, err := collection.Find(
+		context.Background(),
+		bson.D{primitive.E{Key: "_id", Value: primitive.Regex{Pattern: fmt.Sprintf("^%s$", cabinName), Options: "i"}}},
+	)
+	cursor.All(context.Background(), &cabins)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	if len(cabins) == 1 {
+		ctx.JSON(http.StatusOK, cabins)
+	} else {
+		ctx.JSON(http.StatusNoContent, nil)
+	}
+}
+
 //Retrieve cabins that are set to be active, (returns list of cabin names)
 func (r repo) GetActiveCabinNames(ctx *gin.Context) {
 
