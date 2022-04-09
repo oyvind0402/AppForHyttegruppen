@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import TripCardActionReq from '../01-Reusable/TripCard/TripCardActionReq';
 import TripCardActive from '../01-Reusable/TripCard/TripCardActive';
+import TripCardPast from '../01-Reusable/TripCard/TripCardPast';
 import TripCardPending from '../01-Reusable/TripCard/TripCardPending';
 import './MineTurer.css';
 
@@ -120,7 +121,7 @@ const MineTurer = () => {
             <p className="mytrip-title-empty">Dine tidligere turer:</p>
             <div className="trip-row-wrapper">
               {pastTrips.map((trip, index) => (
-                <TripCardActive key={index} data={trip} />
+                <TripCardPast key={index} data={trip} />
               ))}
             </div>
           </div>
