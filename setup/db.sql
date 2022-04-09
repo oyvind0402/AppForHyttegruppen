@@ -115,7 +115,7 @@ VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com','password123', 'test', 'tester
 ('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com','admin', 'Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA','my.id', 'private', '1', 'random', '1', FALSE);
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '1', TRUE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', FALSE),
