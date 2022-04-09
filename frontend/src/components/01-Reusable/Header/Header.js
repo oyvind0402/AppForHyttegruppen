@@ -127,11 +127,7 @@ const Header = () => {
         </div>
         <div className="right-side">
           {loggedIn && (
-            <a
-              className="nav-list-logout"
-              onClick={logoutHandler}
-              href="/login"
-            >
+            <a className="nav-list-logout" onClick={logoutHandler}>
               Logg ut
             </a>
           )}
