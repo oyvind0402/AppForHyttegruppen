@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -132,15 +131,11 @@ func (r repo) PostSeason(ctx *gin.Context) {
 			&season.LastDay,
 			&season.ApplyFrom,
 			&season.ApplyUntil)
-		if err != nil {
-			fmt.Println(err.Error())
-		}
 		seasons = append(seasons, season)
 	}
 
 	//If the array is not empty we abort, since there is already an active season
 	if len(seasons) != 0 {
-		fmt.Println("Det er en sesong på den datoen")
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "A season is already active during that timeperiod"})
 		return
 	}
