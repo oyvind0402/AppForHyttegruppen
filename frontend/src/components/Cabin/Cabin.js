@@ -50,8 +50,7 @@ const Cabin = () => {
       <HeroBanner name={cabinData.name} />
       <div className="cabin-display">
         <Carousel cabinData={cabinData} />
-        <Features cabinData={cabinData} />
-        {console.log(cabinData)}
+        <Features cabinData={cabinData} />{' '}
         {cabinData !== '' && (
           <MapSingleCabin cabins={cabins} pickedCabin={cabinData} />
         )}
