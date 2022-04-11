@@ -7,6 +7,7 @@ import Features from './Parts/Features';
 import { Map, Marker } from 'pigeon-maps';
 import Cluster from 'pigeon-cluster';
 import CabinCardMap from '../01-Reusable/CabinCard/CabinCardMap';
+import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
 
 const Cabin = () => {
   const loginContext = useContext(LoginContext);
@@ -28,7 +29,7 @@ const Cabin = () => {
     getCabin(pageID[pageID.length - 1]);
   }, []);
 
-  const [cabinData, setCabinData] = useState({});
+  const [cabinData, setCabinData] = useState('');
   const [cabins, setCabins] = useState([]);
   const [cabincard, setCabinCard] = useState({});
   const color = `hsl(271, 76%, 53%)`;
@@ -50,34 +51,10 @@ const Cabin = () => {
       <div className="cabin-display">
         <Carousel cabinData={cabinData} />
         <Features cabinData={cabinData} />
-        <div className="map">
-          <Map
-            height={500}
-            width={`80%`}
-            defaultCenter={[60.89923, 8.574017]}
-            defaultZoom={10}
-          >
-            {cabins[0] !== '' && (
-              <Cluster>
-                {cabins.map((cabin, index) => {
-                  return (
-                    <Marker
-                      key={index}
-                      width={50}
-                      anchor={[
-                        cabin.coordinates.latitude,
-                        cabin.coordinates.longitude,
-                      ]}
-                      color={color}
-                      onClick={() => setCabinCard(cabin)}
-                    />
-                  );
-                })}
-              </Cluster>
-            )}
-            <CabinCardMap cabin={cabincard} />
-          </Map>
-        </div>
+        {console.log(cabinData)}
+        {cabinData !== '' && (
+          <MapSingleCabin cabins={cabins} pickedCabin={cabinData} />
+        )}
       </div>
     </>
   );
