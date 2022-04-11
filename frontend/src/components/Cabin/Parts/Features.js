@@ -1,4 +1,5 @@
 import { BiBath } from 'react-icons/bi';
+import { FeatureIcon } from '../../01-Reusable/FeatureIcon/FeatureIcon';
 import './Features.css';
 
 const flatten = (obj) => {
@@ -40,14 +41,15 @@ const Features = (props) => {
 const Feat = (props) => {
   return (
     <div className="features-item">
-      <div>
-        <BiBath className="card-icon bath" />
-      </div>
+      <FeatureIcon
+        feature={props.k}
+        bool={typeof props.val === 'boolean' ? props.val : undefined}
+      />
       <p>
         {typeof props.val === 'boolean'
           ? props.val
-            ? props.k
-            : ''
+            ? props.k.replace(/^\w/, (char) => char.toUpperCase())
+            : 'Ikke ' + props.k
           : props.val + ' ' + props.k}
       </p>
     </div>
