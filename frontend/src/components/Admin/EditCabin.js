@@ -66,14 +66,18 @@ const EditCabin = () => {
     for (var x = 0; x < inputliste.length; x++) {
       huskeliste.push(inputliste[x].value);
     }
-    const cabin = {
-      _id: document.getElementById('edit-name').value,
+    console.log(huskeliste);
+    const cabin2 = {
+      name: document.getElementById('edit-name').value,
       active: active,
       shortDescription: document.getElementById('edit-shortdesc').value,
       longDescription: document.getElementById('edit-longdesc').value,
       address: document.getElementById('edit-address').value,
       directions: document.getElementById('edit-directions').value,
-
+      coordinates: {
+        latitude: parseFloat(document.getElementById('edit-latitude').value),
+        longitude: parseFloat(document.getElementById('edit-longitude').value),
+      },
       price: parseInt(document.getElementById('edit-price').value),
       cleaningPrice: parseInt(
         document.getElementById('edit-cleaningprice').value
@@ -86,13 +90,46 @@ const EditCabin = () => {
         ),
         soverom: parseInt(document.getElementById('edit-soverom').value),
       },
+      pictures: cabin[0].pictures,
+
       other: {
         huskeliste: huskeliste,
         kildesortering: document.getElementById('edit-recycling').value,
       },
     };
-    console.log(cabin);
+    console.log(cabin2);
+
+    const response = await fetch('/cabin/update', {
+      method: 'PUT',
+      body: JSON.stringify(cabin2),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+    }
   }
+
+  const handleImageUpload = () => {
+    const files = document.getElementById('image').files[0];
+    const formData = new FormData();
+    formData.append('file', files);
+    const cabinName = cabin.name;
+    formData.append('cabinName', cabinName);
+    console.log(files);
+
+    // fetch('/pictures/one', {
+    //   method: 'POST',
+    //   body: formData,
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+  };
 
   return (
     <>
@@ -118,6 +155,32 @@ const EditCabin = () => {
             defaultValue={cabin.length !== 0 ? cabin[0].address : ''}
             type="text"
             id="edit-address"
+          />
+        </div>
+        <div className="edit-cabin-wrapper">
+          <label className="edit-cabin-label" htmlFor="edit-latitude">
+            Breddegrad
+          </label>
+          <input
+            className="edit-cabin-input"
+            defaultValue={
+              cabin.length !== 0 ? cabin[0].coordinates.latitude : ''
+            }
+            type="text"
+            id="edit-latitude"
+          />
+        </div>
+        <div className="edit-cabin-wrapper">
+          <label className="edit-cabin-label" htmlFor="edit-longitude">
+            Lengdegrad
+          </label>
+          <input
+            className="edit-cabin-input"
+            defaultValue={
+              cabin.length !== 0 ? cabin[0].coordinates.longitude : ''
+            }
+            type="text"
+            id="edit-longitude"
           />
         </div>
         <div className="edit-cabin-wrapper">
@@ -185,29 +248,27 @@ const EditCabin = () => {
                     </label>
                     <input
                       className="edit-cabin-input"
-                      defaultValue={value.toString()}
+                      defaultValue={value}
                       type="number"
                       id={'edit-' + key}
                     />
                   </div>
                 );
               } else {
-                if (key !== 'other') {
-                  return (
-                    <div className="input-function" key={key}>
-                      <label className="edit-cabin-label2" htmlFor={key}>
-                        {key}
-                      </label>
-                      <input
-                        className="edit-cabin-checkbox"
-                        type="checkbox"
-                        id={key}
-                        name={key}
-                        defaultChecked={value.toString()}
-                      />
-                    </div>
-                  );
-                }
+                return (
+                  <div className="input-function" key={key}>
+                    <label className="edit-cabin-label2" htmlFor={key}>
+                      {key}
+                    </label>
+                    <input
+                      className="edit-cabin-checkbox"
+                      type="checkbox"
+                      id={key}
+                      name={key}
+                      defaultChecked={value}
+                    />
+                  </div>
+                );
               }
             })
           : null}
@@ -230,7 +291,11 @@ const EditCabin = () => {
             })
           : null}
         <div className="edit-cabin-wrapper">
-          <label className="edit-cabin-label" htmlFor="edit-recycling">
+          <label
+            onClick={handleImageUpload}
+            className="edit-cabin-label"
+            htmlFor="edit-recycling"
+          >
             Kildesortering info
           </label>
           <textarea
@@ -252,6 +317,18 @@ const EditCabin = () => {
             id="edit-active"
             checked={active}
             onChange={onActiveChange}
+          />
+        </div>
+        <div className="edit-cabin-wrapper">
+          <label htmlFor="file" className="edit-cabin-label">
+            Last opp bilde
+          </label>
+          <input
+            className="edit-cabin-input-picture"
+            type="file"
+            id="image"
+            name="image"
+            accept=".jpg,.png"
           />
         </div>
         <div className="edit-cabin-wrapper" id="todolist">
