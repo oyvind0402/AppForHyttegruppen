@@ -11,7 +11,13 @@ const CabinCardBig = (props) => {
 
   return (
     <>
-      <button className="card">
+      <button
+        className="card"
+        onClick={(e) => {
+          e.preventDefault();
+          window.location.href = `/hytte/${props.cabin.name}`;
+        }}
+      >
         <img
           className="card-picture"
           src={`${process.env.PUBLIC_URL}/assets/pictures/${props.cabin.pictures.mainPicture.filename}`}
