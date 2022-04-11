@@ -7,6 +7,18 @@ import { useEffect, useState } from 'react';
 const Step1 = (props) => {
   const [showUserFeedback, setShowUserFeedback] = useState(false);
   const [showaccentureFeedback, setShowAccentureFeedback] = useState(false);
+  const [cabins, setCabins] = useState([]);
+
+  //Fetching
+  useEffect(() => {
+    async function fetchData() {
+      fetch('/cabin/all')
+        .then((response) => response.json())
+        .then((data) => setCabins(data))
+        .catch((error) => console.log(error));
+    }
+    fetchData();
+  }, []);
 
   //Setting values based on props
   useEffect(() => {
@@ -111,6 +123,23 @@ const Step1 = (props) => {
           )}
         </div>
       </div>
+
+      <table className="step1-table">
+        <tr>
+          <th>Hytte</th>
+          <th>Leie pris</th>
+          <th>Vasking</th>
+        </tr>
+        {cabins.map((cabin, index) => {
+          return (
+            <tr key={index}>
+              <td>{cabin.name}</td>
+              <td>{cabin.price} NOK</td>
+              <td>{cabin.cleaningPrice} NOK</td>
+            </tr>
+          );
+        })}
+      </table>
 
       <div className="soknad-btn">
         <button
