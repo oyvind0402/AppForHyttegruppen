@@ -38,6 +38,17 @@ const Applications = () => {
     localStorage.setItem('tripUser', userId);
   };
 
+  const handleDelete = async (id) => {
+    const response = await fetch('/application/delete', {
+      method: 'DELETE',
+      body: JSON.stringify(id),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+    }
+  };
+
   useEffect(() => {
     localStorage.removeItem('tripUser');
     fetchApplications();
@@ -47,57 +58,72 @@ const Applications = () => {
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <HeroBanner name="Alle søknader" />
-      <p className="application-title">Alle søknader ({trips.length})</p>
+      <p className="application-title">
+        Alle søknader ({trips.length !== 0 ? trips.length : 0})
+      </p>
       <div className="application-container">
-        {trips.map((item, index) => {
+        {trips?.map((item, index) => {
           cabins = '';
           return (
             <div className="application" key={index}>
               <h2>Søknads ID #{item.applicationId}</h2>
               <div className="application-wrapper">
                 <div className="application-half">
-                  <h4>Accenture ID:</h4>
-                  <p>{item.accentureId}</p>
-                  <h4>Bruker:</h4>
-                  <p>{item.userId}</p>
-                  <h4>Tilfeldig / Spesifikk hytte:</h4>
-                  <p>
-                    {item.cabinAssignment === 'random'
-                      ? 'Tilfeldig'
-                      : 'Spesifikk'}
-                  </p>
-                  <h4>Valgte hytter:</h4>
-                  <div className="application-cabins-wrapper">
-                    {item.cabins.forEach((cabin) => {
-                      cabins += cabin.cabinName += ' ';
-                    })}
-                    <p>{cabins}</p>
+                  <div>
+                    <h4>Accenture ID:</h4>
+                    <p>{item.accentureId}</p>
+                    <h4>Bruker:</h4>
+                    <p>{item.userId}</p>
+                    <h4>Tilfeldig / Spesifikk hytte:</h4>
+                    <p>
+                      {item.cabinAssignment === 'random'
+                        ? 'Tilfeldig'
+                        : 'Spesifikk'}
+                    </p>
+                    <h4>Valgte hytter:</h4>
+                    <div className="application-cabins-wrapper">
+                      {item.cabins.forEach((cabin) => {
+                        cabins += cabin.cabinName += ' ';
+                      })}
+                      <p>{cabins}</p>
+                    </div>
+                    <h4>Antall hytter ønsket:</h4>
+                    <p>{item.numberOfCabins}</p>
                   </div>
-                  <h4>Antall hytter ønsket:</h4>
-                  <p>{item.numberOfCabins}</p>
                 </div>
                 <div className="application-half">
-                  <h4>Periode informasjon:</h4>
-                  <p>ID: {item.period.id}</p>
-                  <p>Navn: {item.period.name}</p>
-                  <p>Sesong: {item.period.season.seasonName}</p>
-                  <p>Startdato: {getFormattedDate(item.period.start)}</p>
-                  <p>Sluttdato: {getFormattedDate(item.period.end)}</p>
-                  <h4>Type tur:</h4>
-                  <p>
-                    {item.tripPurpose === 'private' ? 'Privat' : 'Prosjekt'}
-                  </p>
-                  <h4>Vinner:</h4>
-                  <p> {item.winner.toString() === 'false' ? 'Nei' : 'Ja'}</p>
+                  <div>
+                    <h4>Periode informasjon:</h4>
+                    <p>ID: {item.period.id}</p>
+                    <p>Navn: {item.period.name}</p>
+                    <p>Sesong: {item.period.season.seasonName}</p>
+                    <p>Startdato: {getFormattedDate(item.period.start)}</p>
+                    <p>Sluttdato: {getFormattedDate(item.period.end)}</p>
+                    <h4>Type tur:</h4>
+                    <p>
+                      {item.tripPurpose === 'private' ? 'Privat' : 'Prosjekt'}
+                    </p>
+                    <h4>Vinner:</h4>
+                    <p> {!item.winner ? 'Nei' : 'Ja'}</p>
+                  </div>
                 </div>
               </div>
-              <Link
-                to={'/admin/endresoknad/' + item.applicationId}
-                className="link btn big"
-                onClick={() => setUserToTrip(item.userId)}
-              >
-                Endre søknad
-              </Link>
+              <div className="button-container">
+                <Link
+                  to={'/admin/endresoknad/' + item.applicationId}
+                  className="link btn-smaller"
+                  onClick={() => setUserToTrip(item.userId)}
+                >
+                  Endre søknad
+                </Link>
+                <span
+                  to={'/admin/endresoknad/' + item.applicationId}
+                  className="btn-smaller"
+                  onClick={() => handleDelete(item.applicationId)}
+                >
+                  Slett søknad
+                </span>
+              </div>
             </div>
           );
         })}

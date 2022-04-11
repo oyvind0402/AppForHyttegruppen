@@ -108,19 +108,21 @@
 }
 
 .btn-smaller {
-  color: black;
-  background-color: #eaddff;
-  max-width: 100px;
+  color: white;
+  background-color: #bd00ff;
   padding: 0.5rem;
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  font-weight: 750;
+  width: 125px;
+  text-align: center;
 }
 
 .btn-smaller:hover {
-  background-color: #bd00ff;
-  color: white;
-  outline: 3px solid #eaddff;
+  background-color: #eaddff;
+  color: black;
+  outline: 3px solid #bd00ff;
 }
 
 @media only screen and (max-width: 500px) {
