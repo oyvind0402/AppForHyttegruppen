@@ -16,7 +16,7 @@ const MapCabins = (props) => {
       <div className="map">
         <Map
           height={500}
-          width={`80%`}
+          width={`100%`}
           defaultCenter={[
             pickedCabin.coordinates.latitude,
             pickedCabin.coordinates.longitude,
