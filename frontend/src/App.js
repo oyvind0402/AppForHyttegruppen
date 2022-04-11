@@ -21,6 +21,7 @@ import EditCabins from './components/Admin/EditCabins';
 import Applications from './components/Admin/EditSoknader';
 import Application from './components/Admin/EditSoknad';
 import OpenPeriod from './components/Admin/OpenPeriod';
+import AddCabin from './components/Admin/AddCabin';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -68,6 +69,10 @@ function App() {
         </Route>
         <Route path="/admin/endrehytte">
           {loginContext.adminAccess && <EditCabin />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/leggtilhytte">
+          {loginContext.adminAccess && <AddCabin />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
 
