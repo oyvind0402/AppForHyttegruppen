@@ -51,9 +51,9 @@ func SendEmail(userEmail string) {
 
 	//ceate email
 	email := mail.NewMSG()
-	email.SetFrom("From Odeta <odetapenikaite@gmail.com>")
+	email.SetFrom("From Hytteappen <hytteappen@gmail.com>")
 	email.AddTo(userEmail)
-	email.SetSubject("testing sending email")
+	email.SetSubject("Kvitering for din søknad")
 
 	email.SetBody(mail.TextHTML, htmlBody)
 

@@ -33,6 +33,10 @@ func setRouter(r repo) *gin.Engine {
 	// handler for the path with (without) the trailing slash exists.
 	router.RedirectTrailingSlash = true
 
+	emailapi := router.Group("/email")
+	{
+		emailapi.POST("/post")
+	}
 	// Create API route groups
 	periodapi := router.Group("/period")
 	{

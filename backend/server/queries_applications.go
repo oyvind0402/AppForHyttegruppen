@@ -13,7 +13,7 @@ import (
 
 func (r repo) sendEmailToUser(id string) {
 	var userEmail = new(string)
-	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, id)
+	row := r.sqlDb.QueryRow(`SELECT email FROM User WHERE user_id = $1 LIMIT 1`, id)
 	err := row.Scan(
 		&userEmail,
 	)
@@ -22,7 +22,6 @@ func (r repo) sendEmailToUser(id string) {
 		return
 	}
 	fmt.Println(userEmail)
-
 	SendEmail(*userEmail)
 }
 
@@ -440,12 +439,9 @@ func (r repo) PostApplication(ctx *gin.Context) {
 		return
 	}
 
-	//TODO call the send email function
-	//FIXME server.SendEmail(userID int)(userEmail String) make a helper function to get the user email by ID
 	// Return success and ID of added cabin
 	r.sendEmailToUser(application.UserId)
 	ctx.JSON(200, resId)
-
 }
 
 // Update application (ALL fields) (receives Application; returns rowsAffected: int)
