@@ -1,5 +1,5 @@
 import React from 'react';
-import BigButton from '../../01-Reusable/Buttons/BigButton';
+import BigButtonLink from '../../01-Reusable/Buttons/BigButtonLink';
 import { FeatureIcon } from '../../01-Reusable/FeatureIcon/FeatureIcon';
 import './Apply.css';
 
@@ -8,7 +8,7 @@ export const Apply = (props) => {
 
   return (
     <div className="to-soknad">
-      <BigButton name={`Søk på ${cabin.name}`} />
+      <BigButtonLink name={`Søk på ${cabin.name}`} link="/soknad" />
       <div className="prices">
         <Price which="price" val={cabin.price} />
         <Price which="cleaningPrice" val={cabin.cleaningPrice} />
