@@ -5,7 +5,7 @@ import './EditSoknad.css';
 
 const Application = () => {
   const link = window.location.href;
-  const tripID = link.split('/')[4];
+  const tripID = link.split('/')[5];
   let selectedCabins = [];
 
   const [trip, setTrip] = useState({});
@@ -80,7 +80,6 @@ const Application = () => {
   useEffect(() => {
     getCabinNames();
     getTrip();
-
     getUsers();
     getUser();
     getPeriods();
@@ -91,7 +90,10 @@ const Application = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til endre søknader" link="endresoknader" />
+      <BackButton
+        name="Tilbake til endre søknader"
+        link="admin/endresoknader"
+      />
       <HeroBanner name="Endre søknad" />
       <div className="edit-trip-container">
         <div className="edit-trip-wrapper">
@@ -176,9 +178,8 @@ const Application = () => {
         </div>
         <div className="edit-trip-wrapper2">
           <p className="edit-trip-title">Valgte hytter</p>
-
           {cabins?.map((cabin, i) => {
-            trip.cabins?.map((chosenCabin) => {
+            trip.cabins?.forEach((chosenCabin) => {
               if (cabin === chosenCabin.cabinName) {
                 selectedCabins.push(cabin);
               }
@@ -301,7 +302,6 @@ const Application = () => {
             id="edit-winner"
           />
         </div>
-
         <button className="btn big">Endre</button>
       </div>
     </>

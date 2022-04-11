@@ -40,6 +40,18 @@ const TripCardPending = (props) => {
     }
   }
 
+  const cancelTrip = async () => {
+    const response = await fetch('/application/delete', {
+      method: 'DELETE',
+      body: JSON.stringify(props.data.applicationId),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+    }
+  };
+
   return (
     <>
       <Link to={'/mintur/' + props.data.applicationId} className="mintur-link">
@@ -68,7 +80,7 @@ const TripCardPending = (props) => {
             <div className="pending-container">
               <BsHourglassSplit className="pending-icon" />
             </div>
-            <div className="cancel-container">
+            <div className="cancel-container" onClick={cancelTrip}>
               <MdOutlineCancel className="cancel-icon" />
               <p className="cancel-text">Avbestill</p>
             </div>

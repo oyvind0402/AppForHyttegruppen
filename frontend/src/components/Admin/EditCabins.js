@@ -19,7 +19,7 @@ const EditCabins = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til sideinnhold" link="endringer" />
+      <BackButton name="Tilbake til sideinnhold" link="admin/endringer" />
       <HeroBanner name="Endre hytter" />
       <div className="cabins-display">
         {cabins[0] !== '' &&

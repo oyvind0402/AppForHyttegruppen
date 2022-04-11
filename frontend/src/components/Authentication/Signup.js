@@ -1,17 +1,17 @@
-import { useRef, useContext } from 'react';
-import { useHistory, Link } from 'react-router-dom';
-import LoginContext from '../../LoginContext/login-context';
+import { useRef } from 'react';
+import { Link } from 'react-router-dom';
+//import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './Authentication.css';
 
 const SignupForm = () => {
-  const history = useHistory();
+  //const history = useHistory();
   const username = useRef();
   const password = useRef();
   const firstname = useRef();
   const lastname = useRef();
 
-  const loginContext = useContext(LoginContext);
+  //const loginContext = useContext(LoginContext);
 
   const endpoint = '/user/post';
 
@@ -33,7 +33,7 @@ const SignupForm = () => {
           lastname: lastnameValue,
         }),
       });
-      const data = await response.json();
+      //const data = await response.json();
       if (!response.ok) {
         alert(response.statusText);
       } else {

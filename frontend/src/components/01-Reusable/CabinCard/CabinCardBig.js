@@ -11,14 +11,20 @@ const CabinCardBig = (props) => {
 
   return (
     <>
-      <button className="card">
+      <button
+        className="card"
+        onClick={(e) => {
+          e.preventDefault();
+          window.location.href = `/hytte/${props.cabin.name}`;
+        }}
+      >
         <img
           className="card-picture"
           src={`${process.env.PUBLIC_URL}/assets/pictures/${props.cabin.pictures.mainPicture.filename}`}
           alt={props.cabin.pictures.mainPicture.altText}
         />
         {loginContext.adminAccess && (
-          <Link to={'/endrehytte/' + props.cabin.name}>
+          <Link to={'/admin/endrehytte/' + props.cabin.name}>
             <span className="admin-edit-btn">Endre</span>
           </Link>
         )}
@@ -40,7 +46,9 @@ const CabinCardBig = (props) => {
             <p className="card-text badrooms">{props.cabin.features.bad} Bad</p>
 
             <GiTakeMyMoney className="card-icon money" />
-            <p className="card-text moneyText">{props.cabin.price} Kroner</p>
+            <p className="card-text moneyText">
+              {props.cabin.price} + {props.cabin.cleaningPrice} NOK
+            </p>
           </div>
         </div>
       </button>

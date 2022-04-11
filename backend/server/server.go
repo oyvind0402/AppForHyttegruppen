@@ -17,7 +17,7 @@ func Start() {
 	defer r.noSqlDb.Disconnect(context.Background())
 	router := setRouter(r)
 	// Start listening and serving requests
-	router.Run(":8080")
+	router.Run("127.0.0.1:8080")
 }
 
 func setRouter(r repo) *gin.Engine {
@@ -38,6 +38,7 @@ func setRouter(r repo) *gin.Engine {
 	{
 		periodapi.GET("/:id", r.GetPeriod)
 		periodapi.GET("/inseason/:season", r.GetAllPeriodsInSeason)
+		periodapi.GET("/inseason/open", r.GetAllPeriodsInOpenSeason)
 		periodapi.GET("/all", r.GetAllPeriods)
 		periodapi.POST("/post", r.PostPeriod)
 		periodapi.POST("/postmany", r.PostManyPeriods)

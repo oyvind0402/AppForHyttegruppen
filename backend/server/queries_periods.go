@@ -102,6 +102,31 @@ func (r repo) GetAllPeriodsInSeason(ctx *gin.Context) {
 	ctx.JSON(200, periods)
 }
 
+// Retrieve periods in season (receives seasonName: string; returns []Periods)
+func (r repo) GetAllPeriodsInOpenSeason(ctx *gin.Context) {
+	curdate := time.Now()
+
+	// Query for Periods with specified season name
+	rows, err := r.sqlDb.Query(`SELECT * FROM Periods WHERE season_name = 
+	(SELECT season_name
+		FROM Seasons
+		WHERE apply_from < $1 AND apply_until > $1)`, curdate)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	// Process rows into []Period
+	periods, err := r.getPeriodsFromRows(ctx, rows)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, periods)
+}
+
 // Get all periods (receives NOTHING; returns []Period)
 func (r repo) GetAllPeriods(ctx *gin.Context) {
 	// Query for periods

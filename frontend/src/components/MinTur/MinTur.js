@@ -12,8 +12,10 @@ import { AiOutlineArrowUp } from 'react-icons/ai';
 import { MdShower } from 'react-icons/md';
 import './MinTur.css';
 import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
+import { useHistory } from 'react-router-dom';
 
 const MinTur = () => {
+  const history = useHistory();
   const link = window.location.href;
   const pageID = parseInt(link.split('/')[4]);
   const [trip, setTrip] = useState({
@@ -65,8 +67,23 @@ const MinTur = () => {
         setPending(false);
         setFormer(false);
       }
+    } else {
+      history.goBack();
     }
   }
+
+  const cancelTrip = async () => {
+    const response = await fetch('/application/delete', {
+      method: 'DELETE',
+      body: JSON.stringify(pageID),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+      history.goBack();
+    }
+  };
 
   useEffect(() => {
     getTrip();
@@ -237,7 +254,9 @@ const MinTur = () => {
             ))}
           </div>
 
-          <button className="btn small">Avbestill</button>
+          <button onClick={cancelTrip} className="btn small">
+            Avbestill
+          </button>
         </div>
       </>
     );
@@ -385,7 +404,8 @@ const MinTur = () => {
               alt="cabin"
             />
           </div>
-          <FeedbackForm />
+          {/**Må legge til en funksjonalitet for å se om brukeren har sendt inn feedback eller ikke */}
+          {!trip.winner && <FeedbackForm />}
         </div>
       </>
     );

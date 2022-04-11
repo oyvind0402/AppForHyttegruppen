@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
-import LoginContext from '../../LoginContext/login-context';
+import { useEffect, useState } from 'react';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import PopupApplication from '../01-Reusable/PopUp/PopupApplication';
 import Progressbar from './Progressbar';
@@ -9,8 +8,6 @@ import Step3 from './Steps/Step3';
 import './Soknad.css';
 
 const Soknad = () => {
-  const loginContext = useContext(LoginContext);
-  const loggedIn = loginContext.loggedIn;
   const [page, setPage] = useState(1);
   const [popup, setPopup] = useState(false);
   const [popupResponse, setPopupResponse] = useState('');
