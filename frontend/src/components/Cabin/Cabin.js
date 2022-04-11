@@ -4,6 +4,7 @@ import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import Carousel from '../01-Reusable/ImageCarousel/Carousel';
 import './Cabin.css';
 import Features from './InfoParts/Features';
+import { Apply } from './InfoParts/Apply';
 import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
 
 const Cabin = () => {
@@ -47,7 +48,8 @@ const Cabin = () => {
       <HeroBanner name={cabinData.name} />
       <div className="cabin-display">
         <Carousel cabinData={cabinData} />
-        <Features cabinData={cabinData} />{' '}
+        <Features cabinData={cabinData} />
+        <Apply cabinData={cabinData} />
         {cabinData !== '' && (
           <MapSingleCabin cabins={cabins} pickedCabin={cabinData} />
         )}
