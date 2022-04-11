@@ -81,7 +81,7 @@ CREATE TABLE Faq(
 
 INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
 VALUES('winter2022','2022-01-01', '2022-01-01', '2021-03-31', '2021-03-31'),
-('autum2022','2022-08-29', '2022-03-30', '2022-01-02', '2023-08-14');
+('autum2022','2022-08-29', '2023-01-02', '2022-01-02', '2023-08-14');
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
 VALUES ('Uke 1', '2022-01-03', '2022-01-11', 'winter2022'),
