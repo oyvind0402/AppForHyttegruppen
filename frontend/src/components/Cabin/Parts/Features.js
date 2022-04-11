@@ -1,4 +1,4 @@
-import { BiBath } from 'react-icons/bi';
+import { useEffect } from 'react';
 import { FeatureIcon } from '../../01-Reusable/FeatureIcon/FeatureIcon';
 import './Features.css';
 
@@ -19,8 +19,29 @@ const flatten = (obj) => {
 };
 
 const Features = (props) => {
+  useEffect(() => {
+    const grid = document.getElementById('features');
+    if (grid !== null) {
+      let maxWidth = 0.0;
+      grid.childNodes.forEach((item) => {
+        const computed = window
+          .getComputedStyle(item, null)
+          .getPropertyValue('width');
+        const reg = /[0-9\.]*/;
+        const width = Number(reg.exec(computed)[0]);
+        if (width > maxWidth) {
+          maxWidth = width;
+        }
+      });
+
+      grid.childNodes.forEach((item) => {
+        item.style.width = maxWidth + 'px';
+      });
+    }
+  }, []);
+
   return (
-    <div className="features">
+    <div className="features" id="features">
       {typeof cabinData !== null &&
         props.cabinData.features !== undefined &&
         Object.keys(props.cabinData.features).map((key) => {

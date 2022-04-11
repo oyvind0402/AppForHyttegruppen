@@ -29,8 +29,6 @@ const Cabin = () => {
   }, []);
 
   const [cabinData, setCabinData] = useState({});
-  console.log(cabinData);
-
   const [cabins, setCabins] = useState([]);
   const [cabincard, setCabinCard] = useState({});
   const color = `hsl(271, 76%, 53%)`;
