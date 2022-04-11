@@ -1,13 +1,16 @@
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import { BsExclamationTriangle } from 'react-icons/bs';
+
 import './Authentication.css';
 
 const LoginForm = () => {
   const history = useHistory();
   const username = useRef();
   const password = useRef();
+  const [showFeedback, setShowFeedBack] = useState(false);
 
   const loginContext = useContext(LoginContext);
 
@@ -28,8 +31,9 @@ const LoginForm = () => {
         }),
       });
       const data = await response.json();
+      setShowFeedBack(false);
       if (!response.ok) {
-        alert('Something went wrong!');
+        setShowFeedBack(true);
       } else {
         const userResponse = await fetch('/user/' + data.userId);
         const datum = await userResponse.json();
@@ -75,6 +79,11 @@ const LoginForm = () => {
             />
           </div>
           <div className="login-buttons">
+            {showFeedback && (
+              <p className="login-error">
+                <BsExclamationTriangle /> Epost eller passord er feil!
+              </p>
+            )}
             <button type="submit" className="btn big">
               Logg inn
             </button>

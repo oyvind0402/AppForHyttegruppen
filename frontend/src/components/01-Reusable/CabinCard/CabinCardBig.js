@@ -46,7 +46,9 @@ const CabinCardBig = (props) => {
             <p className="card-text badrooms">{props.cabin.features.bad} Bad</p>
 
             <GiTakeMyMoney className="card-icon money" />
-            <p className="card-text moneyText">{props.cabin.price} Kroner</p>
+            <p className="card-text moneyText">
+              {props.cabin.price} + {props.cabin.cleaningPrice} NOK
+            </p>
           </div>
         </div>
       </button>
