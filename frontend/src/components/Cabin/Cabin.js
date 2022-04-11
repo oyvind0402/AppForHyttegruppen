@@ -3,10 +3,7 @@ import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import Carousel from '../01-Reusable/ImageCarousel/Carousel';
 import './Cabin.css';
-import Features from './Parts/Features';
-import { Map, Marker } from 'pigeon-maps';
-import Cluster from 'pigeon-cluster';
-import CabinCardMap from '../01-Reusable/CabinCard/CabinCardMap';
+import Features from './InfoParts/Features';
 import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
 
 const Cabin = () => {

@@ -7,8 +7,9 @@ import {
   BiXCircle,
   BiCheckCircle,
 } from 'react-icons/bi';
-import { GiTakeMyMoney, GiBroom } from 'react-icons/gi';
+import { GiBroom } from 'react-icons/gi';
 import { MdOutlineBedroomParent, MdAttachMoney } from 'react-icons/md';
+import { GrMoney } from 'react-icons/gr';
 import './FeatureIcon.css';
 
 const getIcon = (feature, bool) => {
@@ -26,7 +27,7 @@ const getIcon = (feature, bool) => {
         <BiWifiOff className="feature-icon-svg icon-nowifi" />
       );
     case 'price':
-      return <GiTakeMyMoney className="feature-icon-svg icon-price" />;
+      return <GrMoney className="feature-icon-svg icon-price" />;
     case 'cleaningPrice':
       return <GiBroom className="feature-icon-svg icon-cleaningPrice" />;
     case 'totalPrice':
