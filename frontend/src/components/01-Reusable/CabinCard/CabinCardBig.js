@@ -1,7 +1,7 @@
 import './CabinCard.css';
 import { BiBed } from 'react-icons/bi';
 import { BiBath } from 'react-icons/bi';
-import { GiTakeMyMoney } from 'react-icons/gi';
+import { GrMoney } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 import LoginContext from '../../../LoginContext/login-context';
 import { useContext } from 'react';
@@ -11,7 +11,13 @@ const CabinCardBig = (props) => {
 
   return (
     <>
-      <button className="card">
+      <button
+        className="card"
+        onClick={(e) => {
+          e.preventDefault();
+          window.location.href = `/hytte/${props.cabin.name}`;
+        }}
+      >
         <img
           className="card-picture"
           src={`${process.env.PUBLIC_URL}/assets/pictures/${props.cabin.pictures.mainPicture.filename}`}
@@ -39,8 +45,10 @@ const CabinCardBig = (props) => {
             <BiBath className="card-icon bath" />
             <p className="card-text badrooms">{props.cabin.features.bad} Bad</p>
 
-            <GiTakeMyMoney className="card-icon money" />
-            <p className="card-text moneyText">{props.cabin.price} Kroner</p>
+            <GrMoney className="card-icon money" />
+            <p className="card-text moneyText">
+              {props.cabin.price} + {props.cabin.cleaningPrice} NOK
+            </p>
           </div>
         </div>
       </button>
