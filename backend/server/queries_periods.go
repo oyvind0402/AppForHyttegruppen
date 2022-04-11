@@ -110,7 +110,7 @@ func (r repo) GetAllPeriodsInOpenSeason(ctx *gin.Context) {
 	rows, err := r.sqlDb.Query(`SELECT * FROM Periods WHERE season_name = 
 	(SELECT season_name
 		FROM Seasons
-		WHERE apply_from < $1 AND apply_until > $1)`, curdate)
+		WHERE apply_from <= $1 AND apply_until >= $1)`, curdate)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
