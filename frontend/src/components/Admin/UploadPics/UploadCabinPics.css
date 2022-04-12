@@ -1,0 +1,30 @@
+.upload-pics-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  width: 50%;
+  margin: auto;
+}
+
+.upload-pics-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.upload-pics-container .btn-smaller {
+  margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 636px) {
+  .upload-pics-container {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 418px) {
+  .upload-pics-container {
+    width: 95%;
+  }
+}

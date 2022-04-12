@@ -1,5 +1,5 @@
-import BackButton from '../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import BackButton from '../../01-Reusable/Buttons/BackButton';
+import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import './AddCabin.css';
 
@@ -33,7 +33,7 @@ const AddCabin = () => {
       huskeliste.push(inputliste[x].value);
     }
 
-    const cabin2 = {
+    const cabin = {
       name: document.getElementById('add-name').value,
       active: document.getElementById('add-active').checked,
       shortDescription: document.getElementById('add-shortdesc').value,
@@ -74,11 +74,11 @@ const AddCabin = () => {
         kildesortering: document.getElementById('add-recycling').value,
       },
     };
-    console.log(cabin2);
+    console.log(cabin);
 
     const response = await fetch('/cabin/post', {
       method: 'POST',
-      body: JSON.stringify(cabin2),
+      body: JSON.stringify(cabin),
     });
     const data = await response.json();
     if (response.ok) {

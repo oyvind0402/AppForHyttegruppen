@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import BackButton from '../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import BackButton from '../../01-Reusable/Buttons/BackButton';
+import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import './EditSoknader.css';
 
 const Applications = () => {
@@ -117,7 +117,6 @@ const Applications = () => {
                   Endre søknad
                 </Link>
                 <span
-                  to={'/admin/endresoknad/' + item.applicationId}
                   className="btn-smaller"
                   onClick={() => handleDelete(item.applicationId)}
                 >

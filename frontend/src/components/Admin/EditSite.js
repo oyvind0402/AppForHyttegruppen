@@ -25,7 +25,7 @@ const EditSite = () => {
         Alle søknader
       </Link>
 
-      <Link className="btn-link btn big" to="/admin/lastopp">
+      <Link className="btn-link btn big" to="/admin/lastoppbilder">
         Last opp bilder
       </Link>
     </>

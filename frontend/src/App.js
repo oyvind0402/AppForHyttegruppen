@@ -15,13 +15,16 @@ import FAQPage from './pages/FAQPage';
 import HytteomraadePage from './pages/HytteomraadePage';
 import MineTurerPage from './pages/MineTurerPage';
 import ScrollToTop from './ScrollToTop';
-import EditCabin from './components/Admin/EditCabin';
+import EditCabin from './components/Admin/Cabins/EditCabin';
 import EditSite from './components/Admin/EditSite';
-import EditCabins from './components/Admin/EditCabins';
-import Applications from './components/Admin/EditSoknader';
-import Application from './components/Admin/EditSoknad';
+import EditCabins from './components/Admin/Cabins/EditCabins';
+import Applications from './components/Admin/Applications/EditSoknader';
+import Application from './components/Admin/Applications/EditSoknad';
 import OpenPeriod from './components/Admin/OpenPeriod';
-import AddCabin from './components/Admin/AddCabin';
+import AddCabin from './components/Admin/Cabins/AddCabin';
+import AdminTrips from './components/Admin/AdminTrips';
+import UploadCabinPics from './components/Admin/UploadPics/UploadCabinPics';
+import UploadCabinPic from './components/Admin/UploadPics/UploadCabinPic';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -45,6 +48,18 @@ function App() {
         )}
         <Route path="/admin" exact>
           {loginContext.adminAccess && <AdminPage />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/historikk">
+          {loginContext.adminAccess && <AdminTrips />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/lastoppbilder">
+          {loginContext.adminAccess && <UploadCabinPics />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/lastoppbilde">
+          {loginContext.adminAccess && <UploadCabinPic />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/startsoknad">

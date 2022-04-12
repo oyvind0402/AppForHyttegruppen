@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
-import BackButton from '../01-Reusable/Buttons/BackButton';
+import { useHistory } from 'react-router-dom';
+import BackButton from '../../01-Reusable/Buttons/BackButton';
 import './EditCabin.css';
 
 const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
   const link = window.location.href;
+  const history = useHistory();
 
   let cabinName = link.split('/')[5];
   if (cabinName.includes('%20') || cabinName.includes('%C3%B8')) {
@@ -30,14 +32,6 @@ const EditCabin = () => {
     fetchCabin();
     console.log(cabin);
   }, []);
-
-  const [active, setActive] = useState(
-    cabin.length !== 0 ? cabin[0].active : true
-  );
-
-  const onActiveChange = () => {
-    setActive(!active);
-  };
 
   const handleAddItem = () => {
     const node = document.createElement('input');
@@ -69,7 +63,7 @@ const EditCabin = () => {
     console.log(huskeliste);
     const cabin2 = {
       name: document.getElementById('edit-name').value,
-      active: active,
+      active: document.getElementById('edit-active').checked,
       shortDescription: document.getElementById('edit-shortdesc').value,
       longDescription: document.getElementById('edit-longdesc').value,
       address: document.getElementById('edit-address').value,
@@ -107,6 +101,7 @@ const EditCabin = () => {
     const data = await response.json();
     if (response.ok) {
       console.log(data);
+      history.push('/admin/lastoppbilde/' + cabinName);
     }
   }
 
@@ -313,10 +308,8 @@ const EditCabin = () => {
           <input
             className="edit-cabin-checkbox"
             type="checkbox"
-            defaultValue={active}
             id="edit-active"
-            checked={active}
-            onChange={onActiveChange}
+            defaultChecked={cabin.length !== 0 ? cabin[0].active : null}
           />
         </div>
         <div className="edit-cabin-wrapper">

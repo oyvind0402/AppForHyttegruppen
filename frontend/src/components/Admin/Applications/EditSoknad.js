@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import BackButton from '../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import BackButton from '../../01-Reusable/Buttons/BackButton';
+import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import './EditSoknad.css';
 
 const Application = () => {
