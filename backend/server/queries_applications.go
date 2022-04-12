@@ -346,7 +346,7 @@ func (r repo) GetFutureWinnerApplications(ctx *gin.Context) {
 	AND period_id IN (
 		SELECT period_id
 		FROM Periods
-		WHERE ending < $1
+		WHERE starting > $1
 	)`
 	args := []interface{}{curdate}
 
