@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
@@ -45,7 +45,7 @@ const Applications = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til admin" link="admin" />
+      <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <HeroBanner name="Alle søknader" />
       <p className="application-title">Alle søknader ({trips.length})</p>
       <div className="application-container">
@@ -68,7 +68,7 @@ const Applications = () => {
                   </p>
                   <h4>Valgte hytter:</h4>
                   <div className="application-cabins-wrapper">
-                    {item.cabins.map((cabin) => {
+                    {item.cabins.forEach((cabin) => {
                       cabins += cabin.cabinName += ' ';
                     })}
                     <p>{cabins}</p>
@@ -92,7 +92,7 @@ const Applications = () => {
                 </div>
               </div>
               <Link
-                to={'/endresoknad/' + item.applicationId}
+                to={'/admin/endresoknad/' + item.applicationId}
                 className="link btn big"
                 onClick={() => setUserToTrip(item.userId)}
               >

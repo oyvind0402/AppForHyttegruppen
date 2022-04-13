@@ -23,7 +23,15 @@ const CabinCardMap = (props) => {
               {props.cabin.features.bad} Bad
             </p>
 
-            <button className="card-map-btn">Se mer</button>
+            <button
+              className="card-map-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = `/hytte/${props.cabin.name}`;
+              }}
+            >
+              Se mer
+            </button>
           </div>
         </div>
       </>
@@ -38,24 +46,3 @@ const CabinCardMap = (props) => {
 };
 
 export default CabinCardMap;
-
-/*<div className="card-map">
-        <h2 className="card-map-title">{props.cabin.name}</h2>
-        <p className="card-map-address">{props.cabin.address}</p>
-
-        <div className="card-map-features">
-          <BiBed className="card-icon bed" />
-          <p className="card-map-text bedrooms">
-            {props.cabin.features.soverom soverom /{' '}
-            {props.cabin.features.sengeplasser} sengeplasser
-          </p>
-
-          <BiBath className="card-icon bath" />
-          <p className="card-map-text badrooms">
-            {props.cabin.features.bad} Bad
-          </p>
-
-          <button className="card-map-btn">Se mer</button>
-        </div>
-      </div>
-*/

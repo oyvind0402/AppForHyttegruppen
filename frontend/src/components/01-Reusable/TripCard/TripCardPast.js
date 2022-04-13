@@ -2,7 +2,7 @@ import { MdOutlineCancel } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import './TripCard.css';
 
-const TripCardActive = (props) => {
+const TripCardPast = (props) => {
   if (props.data.length === 0) {
     return <></>;
   }
@@ -22,20 +22,6 @@ const TripCardActive = (props) => {
     return day + '/' + month + '/' + year;
   }
 
-  const cancelTrip = async () => {
-    //Should add a way to send an email to admins if its cancelled close to the start date
-    //Should also add a date thats the latest you can cancel a trip
-    const response = await fetch('/application/delete', {
-      method: 'DELETE',
-      body: JSON.stringify(props.data.applicationId),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      console.log(data);
-    }
-  };
-
   return (
     <>
       <Link to={'/mintur/' + props.data.applicationId} className="mintur-link">
@@ -52,16 +38,10 @@ const TripCardActive = (props) => {
               <p className="card-date">({getFormattedDate(date)})</p>
             </div>
           </div>
-          <div className="cancel-box">
-            <div className="cancel-container" onClick={cancelTrip}>
-              <MdOutlineCancel className="cancel-icon" />
-              <p className="cancel-text">Avbestill</p>
-            </div>
-          </div>
         </div>
       </Link>
     </>
   );
 };
 
-export default TripCardActive;
+export default TripCardPast;

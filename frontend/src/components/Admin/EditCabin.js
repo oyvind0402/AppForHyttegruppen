@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
-import { Link } from 'react-router-dom';
 import BackButton from '../01-Reusable/Buttons/BackButton';
 import './EditCabin.css';
 
@@ -9,7 +7,7 @@ const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
   const link = window.location.href;
 
-  let cabinName = link.split('/')[4];
+  let cabinName = link.split('/')[5];
   if (cabinName.includes('%20') || cabinName.includes('%C3%B8')) {
     let fix = cabinName.replace('%20', ' ');
     cabinName = fix.replace('%C3%B8', 'ø');
@@ -22,7 +20,9 @@ const EditCabin = () => {
 
     const data = await response.json();
     if (response.ok) {
-      setCabin(data);
+      let copy = [];
+      copy.push(data);
+      setCabin(copy);
     }
   };
 
@@ -34,15 +34,10 @@ const EditCabin = () => {
   const [active, setActive] = useState(
     cabin.length !== 0 ? cabin[0].active : true
   );
-  const [checked, setChecked] = useState(
-    cabin.length !== 0 ? cabin[0].features.wifi : false
-  );
 
   const onActiveChange = () => {
     setActive(!active);
   };
-
-  const handleCheckedFeatures = () => {};
 
   const handleAddItem = () => {
     const node = document.createElement('input');
@@ -101,7 +96,7 @@ const EditCabin = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til endre hytter" link="endrehytter" />
+      <BackButton name="Tilbake til endre hytter" link="admin/endrehytter" />
       <div className="edit-cabin-container">
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-name">
@@ -109,7 +104,7 @@ const EditCabin = () => {
           </label>
           <input
             className="edit-cabin-input"
-            defaultValue={cabin.length !== 0 ? cabin[0]._id : ''}
+            defaultValue={cabin.length !== 0 ? cabin[0].name : ''}
             type="text"
             id="edit-name"
           />

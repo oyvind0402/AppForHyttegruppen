@@ -8,10 +8,10 @@ const Admin = () => {
     <>
       <HeroBanner name="Admin" />
       <div className="admin-container">
-        <Link className="btn-link big btn" to="/startsoknad">
+        <Link className="btn-link big btn" to="/admin/startsoknad">
           Åpne søknadsperiode
         </Link>
-        <Link className="btn-link big btn" to="/endringer">
+        <Link className="btn-link big btn" to="/admin/endringer">
           Endre innhold på siden
         </Link>
         <div

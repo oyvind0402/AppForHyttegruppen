@@ -107,6 +107,22 @@
   color: black;
 }
 
+.btn-smaller {
+  color: black;
+  background-color: #eaddff;
+  max-width: 100px;
+  padding: 0.5rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-smaller:hover {
+  background-color: #bd00ff;
+  color: white;
+  outline: 3px solid #eaddff;
+}
+
 @media only screen and (max-width: 500px) {
   .btn {
     padding: 15px 10px;

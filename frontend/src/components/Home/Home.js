@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const [soknadOpen, setSoknadOpen] = useState(true);
+  const [soknadOpen, setSoknadOpen] = useState(false);
   const [soknadEndDate, setsoknadEndDate] = useState('');
 
   useEffect(() => {
@@ -16,10 +16,12 @@ const Home = () => {
       const data = await response.json();
       if (response.ok) {
         setSoknadOpen(data.isOpen);
-        let date;
-        date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
-        const dates = date.split('-');
-        setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
+        if (data.isOpen) {
+          let date;
+          date = data.seasons[0].applyUntil.replace('T00:00:00Z', '');
+          const dates = date.split('-');
+          setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
+        }
       } else {
         console.log(response);
       }

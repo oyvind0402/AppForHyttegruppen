@@ -80,28 +80,29 @@ CREATE TABLE Faq(
 );
 
 INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
-VALUES('winter2022','2022-01-01', '2022-03-30', '2021-10-01', '2021-12-31'),
-('spring2022','2022-07-01', '2022-11-30', '2022-02-01', '2022-05-30');
+VALUES('winter2022','2022-01-01', '2022-01-01', '2021-03-31', '2021-03-31'),
+('autum2022','2022-08-29', '2022-03-30', '2022-01-02', '2023-08-14');
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
-VALUES ('Week 1', '2022-01-03', '2022-01-10', 'winter2022'),
-('Week 2', '2022-01-10', '2022-01-17', 'winter2022'),
-('Week 3', '2022-01-17', '2022-01-24', 'winter2022'),
-('Week 4', '2022-01-24', '2022-01-31', 'winter2022'),
-('Week 5', '2022-01-31', '2022-02-07', 'winter2022'),
-('Week 6', '2022-02-07', '2022-02-14', 'winter2022'),
-('Week 7', '2022-02-14', '2022-02-21', 'winter2022'),
-('Week 8', '2022-02-21', '2022-02-28', 'winter2022'),
-('Week 9', '2022-02-28', '2022-03-07', 'winter2022'),
-('Week 10', '2022-03-07', '2022-03-14', 'winter2022'),
-('Week 11', '2022-03-14', '2022-03-21', 'winter2022'),
-('Week 12', '2022-03-21', '2022-03-28', 'winter2022'),
-('Week 13', '2022-03-28', '2022-04-04', 'winter2022'),
-('Week 14', '2022-04-04', '2022-04-11', 'winter2022'),
-('Week 15', '2022-04-11', '2022-04-18', 'winter2022'),
-('Week 16', '2022-04-18', '2022-04-25', 'winter2022'),
-('Week 17', '2022-04-25', '2022-05-02', 'winter2022'),
-('Week 40', '2022-10-09', '2022-10-16', 'spring2022');
+VALUES ('Uke 1', '2022-01-03', '2022-01-11', 'winter2022'),
+('Uke 35', '2022-08-29', '2022-09-05', 'autum2022'),
+('Uke 36', '2022-09-05', '2022-09-12', 'autum2022'),
+('Uke 37', '2022-09-12', '2022-09-19', 'autum2022'),
+('Uke 38', '2022-09-19', '2022-09-26', 'autum2022'),
+('Uke 39', '2022-09-26', '2022-10-03', 'autum2022'),
+('Uke 40', '2022-10-03', '2022-10-10', 'autum2022'),
+('Uke 41', '2022-10-10', '2022-10-17', 'autum2022'),
+('Uke 42', '2022-10-17', '2022-10-24', 'autum2022'),
+('Uke 43', '2022-10-24', '2022-10-31', 'autum2022'),
+('Uke 44', '2022-10-31', '2022-11-07', 'autum2022'),
+('Uke 45', '2022-11-07', '2022-11-14', 'autum2022'),
+('Uke 46', '2022-11-14', '2022-11-21', 'autum2022'),
+('Uke 47', '2022-11-21', '2022-11-28', 'autum2022'),
+('Uke 48', '2022-11-28', '2022-12-05', 'autum2022'),
+('Uke 49', '2022-12-05', '2022-12-12', 'autum2022'),
+('Uke 50', '2022-12-12', '2022-12-19', 'autum2022'),
+('Uke 51', '2022-12-19', '2022-12-26', 'autum2022'),
+('Uke 52', '2022-12-26', '2023-01-02', 'autum2022');
 
 
 INSERT INTO Cabins
@@ -115,13 +116,25 @@ VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com','password123', 'test', 'tester
 ('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com','admin', 'Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA','my.id', 'private', '1', 'random', '1', FALSE);
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '1', TRUE), /*Won in the past*/
+('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '2', TRUE),
+('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '3', FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
-VALUES ('1', 'Utsikten', FALSE),
-('1', 'Fanitullen', FALSE);
+VALUES ('1', 'Utsikten', TRUE),
+('1', 'Fanitullen', FALSE),
+('2', 'Utsikten', FALSE),
+('2', 'Fanitullen', FALSE),
+('2', 'Knausen', TRUE),
+('2', 'Store Grøndalen', FALSE),
+('3', 'Utsikten', FALSE),
+('3', 'Fanitullen', FALSE),
+('3', 'Knausen', FALSE),
+('3', 'Store Grøndalen', FALSE);
 
 INSERT INTO Faq (question, answer) 
-VALUES ('Question 1?', 'Hello i am an answer'),
+VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine turer eller ved å ta kontakt med hyttekomiten@accentur.com. Dersom man avbestiller senere en to uker før avreise blir det en ekstra kostnad på 500 NOK'),
 ('Hvor mye koster en hytte?', 'En hytte koster 1200 NOK per uke men pga corona blir det 1200 NOK i tilleg for at hytta skal vaskes.'),
-('Question 2', 'Enda et svar');
+('Hvordan betaler jeg for en hyttetur?', '1200 NOK blir trukket fra din lønnsslipp og 1200 NOK må vippses til vaksebyrået.'),
+('Noen ble ødelagt, hvordan sier jeg fra?', 'Du kan enten fylle ut et tilbakemeldingskjema under mine turer eller dersom det er litt mer krise kan du ta kontakt med: 123 456 78'),
+('Hvem kontakter jeg dersom jeg har er spørsmål?', 'Dersom du har er spørsmål kan du ta kontakt med hyttekomiten@accentur.com');
