@@ -6,6 +6,8 @@
 .admin-trips-title {
   font-weight: 700;
   font-size: 2rem;
+  text-transform: capitalize;
+  margin-bottom: 1rem;
 }
 
 .trip-info-text {

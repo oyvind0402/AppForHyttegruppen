@@ -25,6 +25,7 @@ import AddCabin from './components/Admin/Cabins/AddCabin';
 import AdminTrips from './components/Admin/AdminTrips';
 import UploadCabinPics from './components/Admin/UploadPics/UploadCabinPics';
 import UploadCabinPic from './components/Admin/UploadPics/UploadCabinPic';
+import EditPeriods from './components/Admin/Periods/EditPeriods';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -64,6 +65,10 @@ function App() {
         </Route>
         <Route path="/admin/startsoknad">
           {loginContext.adminAccess && <OpenPeriod />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/endreperioder">
+          {loginContext.adminAccess && <EditPeriods />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/endresoknader">

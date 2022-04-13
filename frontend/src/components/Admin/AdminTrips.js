@@ -8,6 +8,7 @@ const AdminTrips = () => {
   const [trips, setTrips] = useState(noTrips);
   const [futureTrips, setFutureTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
+  const [name, setName] = useState('');
   let cabins = '';
 
   const getFutureTrips = async () => {
@@ -31,10 +32,12 @@ const AdminTrips = () => {
   };
 
   const showFutureTrips = () => {
+    setName('fremtidige');
     setTrips(futureTrips);
   };
 
   const showPastTrips = () => {
+    setName('tidligere');
     setTrips(pastTrips);
   };
 
@@ -69,6 +72,7 @@ const AdminTrips = () => {
         <button onClick={showFutureTrips} className="btn big">
           Se fremtidige turer
         </button>
+        {trips.length > 0 && <p className="admin-trips-title">{name} turer:</p>}
 
         {trips ? (
           trips?.map((trip, index) => {
@@ -121,7 +125,9 @@ const AdminTrips = () => {
             );
           })
         ) : (
-          <p className="trip-info-text">Ingen turer!</p>
+          <p className="trip-info-text">
+            Ingen {name.length > 0 ? name : ''} turer!
+          </p>
         )}
       </div>
     </>
