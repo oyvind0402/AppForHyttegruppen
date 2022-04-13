@@ -107,7 +107,6 @@ const Hytteomraade = () => {
           Finn flere aktiviteter
         </Link>
       </button>
-      <ExcelConverter />
     </>
   );
 };

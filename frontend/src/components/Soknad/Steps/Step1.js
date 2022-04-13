@@ -123,22 +123,26 @@ const Step1 = (props) => {
           )}
         </div>
       </div>
-
+      <br />
       <table className="step1-table">
-        <tr>
-          <th>Hytte</th>
-          <th>Leie pris</th>
-          <th>Vasking</th>
-        </tr>
-        {cabins.map((cabin, index) => {
-          return (
-            <tr key={index}>
-              <td>{cabin.name}</td>
-              <td>{cabin.price} NOK</td>
-              <td>{cabin.cleaningPrice} NOK</td>
-            </tr>
-          );
-        })}
+        <thead>
+          <tr>
+            <th>Hytte</th>
+            <th>Leie pris</th>
+            <th>Vasking</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cabins.map((cabin, index) => {
+            return (
+              <tr key={index}>
+                <td>{cabin.name}</td>
+                <td>{cabin.price} NOK</td>
+                <td>{cabin.cleaningPrice} NOK</td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
 
       <div className="soknad-btn">
