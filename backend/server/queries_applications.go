@@ -11,19 +11,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (r repo) sendEmailToUser(id string) {
-	var userEmail = new(string)
-	row := r.sqlDb.QueryRow(`SELECT email FROM User WHERE user_id = $1 LIMIT 1`, id)
-	err := row.Scan(
-		&userEmail,
-	)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(userEmail)
-	SendEmail(*userEmail)
-}
+// func (r repo) sendEmailToUser(id string) {
+// 	var userEmail = new(string)
+// 	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, id)
+// 	err := row.Scan(
+// 		&userEmail,
+// 	)
+// 	if err != nil {
+// 		fmt.Println("from error: ")
+// 		fmt.Println(err)
+// 		return
+// 	}
+// 	fmt.Println("from send email function:  " + *userEmail)
+// 	SendEmail(*userEmail)
+// }
 
 // Get cabins for a given ID (returns: []cabins, []cabinsWon, err)
 func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cabinsWon []data.CabinShort, err error, requestStatus int) {
@@ -66,10 +67,10 @@ func removeCabins(tx *sql.Tx, application data.Application) (*sql.Tx, error) {
 // Add/Update application cabins from a list
 func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, applicationId int, won bool) (*sql.Tx, error, int) {
 	var err error
-	fmt.Println(cabins)
+	//fmt.Println(cabins)
 
 	for _, cabin := range cabins {
-		fmt.Println(cabin.Name)
+		//fmt.Println("from addOrUpdateCabins " + cabin.Name)
 		_, err = tx.Exec(
 			`INSERT INTO ApplicationCabins 
 			VALUES($1, $2, $3)
@@ -408,7 +409,8 @@ func (r repo) PostApplication(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Println(application)
+	//fmt.Println("From PostApplication all applicatins :")
+	//fmt.Println(application)
 
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
@@ -440,7 +442,6 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	}
 
 	// Return success and ID of added cabin
-	r.sendEmailToUser(application.UserId)
 	ctx.JSON(200, resId)
 }
 

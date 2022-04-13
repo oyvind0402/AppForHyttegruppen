@@ -9,6 +9,7 @@ import Step3 from './Steps/Step3';
 import './Soknad.css';
 
 const Soknad = () => {
+  let postSuccessful = true;
   const loginContext = useContext(LoginContext);
   const loggedIn = loginContext.loggedIn;
   const [page, setPage] = useState(1);
@@ -47,8 +48,26 @@ const Soknad = () => {
           body: JSON.stringify(JsonBody),
         })
           .then((response) => console.log(response))
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            postSuccessful = false;
+            console.log(error);
+          });
       });
+      //post for email. Sends in user id
+      if (postSuccessful) {
+        const emailData = new FormData();
+        emailData.append('userId', formData.userId); //returns id
+        emailData.append('periods', JSON.stringify(formData.period)); //returns object
+        fetch('/email/post', {
+          method: 'POST',
+          body: emailData,
+        })
+          .then((response) => console.log(response))
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+
       //Everything is set back to the initial start position
       setFormCompleted(false);
       setPage(1);
