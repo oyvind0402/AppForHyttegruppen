@@ -3,6 +3,7 @@ package server
 import (
 	//"bachelorprosjekt/backend/server"
 
+	"bachelorprosjekt/backend/data"
 	"bachelorprosjekt/backend/utils"
 	"fmt"
 	"strings"
@@ -30,61 +31,29 @@ func (r repo) SendEmailToUser(ctx *gin.Context) {
 	//TODO https://stackoverflow.com/questions/57015479/post-api-getting-invalid-character-in-numeric-literal
 
 	type FormData struct {
-		UserId  string            `json:"userId" form:"userId"`
-		Periods map[string]string `json: "periods" form:"periods"`
+		UserId  string        `json:"userId"`
+		Periods []data.Period `json:"periods"`
 	}
 	var inData = new(FormData)
-	err := ctx.Bind(inData)
-	fmt.Println(inData.UserId)
-	fmt.Print("From SendEmailToUser() perdiods type from struct:")
-	fmt.Printf("t1: %T\n", inData.Periods)
-	fmt.Print("print inData.periods: ")
-	fmt.Println(inData.Periods)
+	err := ctx.BindJSON(inData)
 	if err != nil {
 		fmt.Println("from error inData: ")
 		fmt.Println(err)
 		return
 	}
 
-	for i := 0; i < len(inData.Periods); i++ {
-		fmt.Println("period in forloop:")
-		fmt.Println(inData.Periods[i]) //TODO map instead of array
-		fmt.Print("From SendEmailToUser() for loop type of p:")
-		fmt.Printf("t1: %T\n", inData.Periods[i])
-	}
-
-	/* for _, p := range inData.periods {
-		//htmlBody.WriteString(`<p> %s`, p)
-		fmt.Print("From SendEmailToUser() for loop type of p:")
-		fmt.Printf("t1: %T\n", p)
-	} */
-	// week1 := inData.periods[0]
-	/* type inPeriods struct {
-		period []data.Period
-	}
-
 	htmlBody.WriteString(`</body></html>`)
-	id := ctx.Request.FormValue("userId")
-	//periods := ctx.Request.FormValue("periods")//returns string
-	var periods = new(inPeriods)
-	err := ctx.BindJSON(periods) //returns string
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Print("From SendEmailToUser() perdiod type:")
-	fmt.Printf("t1: %T\n", *periods)
-	fmt.Println(periods) */
-	// for i := 0; i < len(periods.period); i++ {
-	// 	fmt.Println(periods.period[i])
-	// }
-	/* for _, element := range periods {
+
+	/* 	 for i := 0; i < len(inData.Periods); i++ {
+		fmt.Println(periods.period[i])
+	} */
+
+	for _, period := range inData.Periods {
 		htmlBody.WriteString(`<p>`)
-		htmlBody.WriteString(fmt.Sprintf("%c", element))
+		htmlBody.WriteString(fmt.Sprintf(" %s", period.Name))
 		htmlBody.WriteString(`</p>`)
-		//fmt.Print("From for loop in SendEmailToUser()")
-		//fmt.Printf("t1: %T\n", element)
-		//fmt.Println(element)
-	}*/
+	}
+
 	var userEmail = new(string)
 
 	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, inData.UserId)

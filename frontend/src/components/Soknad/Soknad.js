@@ -55,12 +55,18 @@ const Soknad = () => {
       });
       //post for email. Sends in user id
       if (postSuccessful) {
-        const emailData = new FormData();
-        emailData.append('userId', formData.userId); //returns id
-        emailData.append('periods', JSON.stringify(formData.period)); //returns object
+        const emailData = {};
+        emailData['userId'] = formData.userId; //returns id
+        emailData['periods'] = formData.period; //returns object
+        console.log(formData.period);
+        console.log(emailData);
+        console.log(JSON.stringify(emailData));
         fetch('/email/post', {
           method: 'POST',
-          body: emailData,
+          body: JSON.stringify(emailData),
+          // headers: {
+          //   Accept: 'application/json',
+          // },
         })
           .then((response) => console.log(response))
           .catch((error) => {
@@ -71,7 +77,7 @@ const Soknad = () => {
       //Everything is set back to the initial start position
       setFormCompleted(false);
       setPage(1);
-      nullstillForm();
+      // nullstillForm();
     }
   }, [formData]);
 
