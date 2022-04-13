@@ -41,20 +41,28 @@ const Features = (props) => {
   }, []);
 
   return (
-    <div className="features" id="features">
-      {props.cabinData !== null &&
-        props.cabinData.features !== undefined &&
-        Object.keys(props.cabinData.features).map((key) => {
-          const val = props.cabinData.features[key];
-          if (typeof val != 'object') {
-            return <Feat k={key} val={val} key={key} />;
-          } else {
-            const obj = flatten(val);
-            return Object.keys(obj).map((key) => (
-              <Feat k={key} val={obj[key]} key={key} />
-            ));
-          }
-        })}
+    <div className="wrapper">
+      {props.cabinData.shortDescription !== undefined &&
+      props.cabinData.shortDescription !== '' ? (
+        <p>{props.cabinData.shortDescription}</p>
+      ) : (
+        ''
+      )}
+      <div className="features" id="features">
+        {props.cabinData !== null &&
+          props.cabinData.features !== undefined &&
+          Object.keys(props.cabinData.features).map((key) => {
+            const val = props.cabinData.features[key];
+            if (typeof val != 'object') {
+              return <Feat k={key} val={val} key={key} />;
+            } else {
+              const obj = flatten(val);
+              return Object.keys(obj).map((key) => (
+                <Feat k={key} val={obj[key]} key={key} />
+              ));
+            }
+          })}
+      </div>
     </div>
   );
 };
