@@ -43,14 +43,9 @@ func (r repo) SendEmailToUser(ctx *gin.Context) {
 	}
 
 	htmlBody.WriteString(`</body></html>`)
-
-	/* 	 for i := 0; i < len(inData.Periods); i++ {
-		fmt.Println(periods.period[i])
-	} */
-
 	for _, period := range inData.Periods {
 		htmlBody.WriteString(`<p>`)
-		htmlBody.WriteString(fmt.Sprintf(" %s", period.Name))
+		htmlBody.WriteString(fmt.Sprintf("%s", period.Name))
 		htmlBody.WriteString(`</p>`)
 	}
 
