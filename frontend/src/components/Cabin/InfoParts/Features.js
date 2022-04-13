@@ -27,7 +27,7 @@ const Features = (props) => {
         const computed = window
           .getComputedStyle(item, null)
           .getPropertyValue('width');
-        const reg = /[0-9\.]*/;
+        const reg = /[0-9.]*/;
         const width = Number(reg.exec(computed)[0]);
         if (width > maxWidth) {
           maxWidth = width;
@@ -42,7 +42,7 @@ const Features = (props) => {
 
   return (
     <div className="features" id="features">
-      {typeof cabinData !== null &&
+      {props.cabinData !== null &&
         props.cabinData.features !== undefined &&
         Object.keys(props.cabinData.features).map((key) => {
           const val = props.cabinData.features[key];

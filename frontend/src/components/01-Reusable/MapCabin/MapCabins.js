@@ -9,7 +9,6 @@ const MapCabins = (props) => {
 
   const cabins = props.cabins;
   const [cabinCard, setCabinCard] = useState('');
-  const pickedCabin = props.pickedCabin;
 
   return (
     <>

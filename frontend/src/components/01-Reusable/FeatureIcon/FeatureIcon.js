@@ -33,7 +33,7 @@ const getIcon = (feature, bool) => {
     case 'totalPrice':
       return <MdAttachMoney className="feature-icon-svg icon-totalPrice" />;
     default:
-      return bool != undefined && bool == false ? (
+      return bool !== undefined && Boolean(bool) === false ? (
         <BiXCircle className="feature-icon-svg icon-other-false" />
       ) : (
         <BiCheckCircle className="feature-icon-svg icon-other" />

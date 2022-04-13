@@ -14,7 +14,7 @@ const Carousel = (props) => {
 
   return (
     <Slider {...settings}>
-      {typeof cabinData !== null &&
+      {props.cabinData !== null &&
         props.cabinData.pictures !== undefined &&
         props.cabinData.pictures.otherPictures.map((file) => {
           return (
