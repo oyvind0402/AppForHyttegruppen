@@ -10,16 +10,17 @@
   position: relative;
   margin-top: 4rem;
   width: 100%;
-  height: 75vh;
-  object-fit: cover;
+  height: 45vh;
+  background-repeat: no-repeat;
   border-radius: 5px;
+  background-position: center;
 }
 
 .admin-picture-btn {
   display: table;
   position: absolute;
   bottom: 10%;
-  right: 10%;
+  right: 17%;
   min-width: 15rem;
   height: 50px;
   border-radius: 0.25rem;
@@ -41,6 +42,7 @@
   top: 50%;
   left: -10%;
   color: #d182ff;
+  vertical-align: 5%;
 }
 
 .admin-picture-icon {
@@ -59,4 +61,36 @@
 .admin-picture-btn:hover {
   background-color: #bd00ff;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 2200px) {
+  .admin-picture-btn {
+    right: 12%;
+  }
+}
+
+@media only screen and (max-width: 1179px) {
+  .admin-container {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .admin-picture {
+    height: 30vh;
+  }
+
+  .admin-picture-btn {
+    height: 30px;
+  }
+
+  .admin-picture-text {
+    margin: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 382px) {
+  .admin-container {
+    width: 100%;
+  }
 }
