@@ -4,7 +4,7 @@ const UtvidetInfo = (props) => {
   return (
     <TabTextAndAddress
       cabinData={props.cabinData}
-      chosenText={props.cabinData.longDescription}
+      chosenText={props.cabinData.directions}
     />
   );
 };

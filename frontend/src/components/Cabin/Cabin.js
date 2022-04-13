@@ -5,6 +5,7 @@ import Carousel from '../01-Reusable/ImageCarousel/Carousel';
 import './Cabin.css';
 import Features from './InfoParts/Features';
 import UtvidetInfo from './InfoParts/UtvidetInfo';
+import Veibeskrivelse from './InfoParts/Veibeskrivelse';
 import { Apply } from './InfoParts/Apply';
 import { TabPicker } from './InfoParts/TabPicker';
 import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
@@ -50,7 +51,7 @@ const Cabin = () => {
       case 2:
         break;
       case 3:
-        break;
+        return <Veibeskrivelse cabinData={cabinData} />;
       default:
         return <Features cabinData={cabinData} />;
     }

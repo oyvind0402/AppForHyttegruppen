@@ -1,17 +1,17 @@
-.utvidetinfo {
+.infowrapper {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 1rem;
 }
 
 @media only screen and (max-width: 1200px) {
-  .utvidetinfo {
+  .infowrapper {
     grid-template-columns: 5fr 2fr;
   }
 }
 
 @media only screen and (max-width: 800px) {
-  .utvidetinfo {
+  .infowrapper {
     grid-template-columns: 1fr;
     gap: 0;
   }
