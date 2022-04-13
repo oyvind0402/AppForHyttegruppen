@@ -31,7 +31,7 @@ CREATE TABLE Cabins (
 CREATE TABLE Users(
     user_id char(22) PRIMARY KEY NOT NULL,
     email varchar(40) UNIQUE NOT NULL,
-    passwd varchar(20) NOT NULL, /*deal with hash */
+    hashed_passwd varchar(255) NOT NULL,
     firstname varchar(25) NOT NULL, 
     lastname varchar(25) NOT NULL, 
     admin_access boolean NOT NULL
@@ -112,8 +112,8 @@ VALUES('Utsikten', TRUE),
 ('Store Grøndalen', TRUE);
 
 INSERT INTO Users 
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com','password123', 'test', 'tester', FALSE),
-('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com','admin', 'Admin', 'Adminer', TRUE);
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4uHEb2bdYRKt4OuX9xye5U8PkVSH.WJRS', 'test', 'tester', FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$PsxqvC8fkSF6sEu9DF45/.N/eZLZyj8.K9k/BDsz7C/FqyMOdtH/S', 'Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '1', TRUE), /*Won in the past*/
