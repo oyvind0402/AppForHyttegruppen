@@ -4,6 +4,7 @@ import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import Carousel from '../01-Reusable/ImageCarousel/Carousel';
 import './Cabin.css';
 import Features from './InfoParts/Features';
+import UtvidetInfo from './InfoParts/UtvidetInfo';
 import { Apply } from './InfoParts/Apply';
 import { TabPicker } from './InfoParts/TabPicker';
 import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
@@ -45,7 +46,7 @@ const Cabin = () => {
   const loadInfoTab = (infoTab) => {
     switch (infoTab) {
       case 1:
-        break;
+        return <UtvidetInfo cabinData={cabinData} />;
       case 2:
         break;
       case 3:

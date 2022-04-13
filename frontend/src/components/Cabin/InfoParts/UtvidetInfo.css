@@ -1,0 +1,18 @@
+.utvidetinfo {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  .utvidetinfo {
+    grid-template-columns: 5fr 2fr;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .utvidetinfo {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

@@ -9,7 +9,7 @@ import {
 } from 'react-icons/bi';
 import { GiBroom } from 'react-icons/gi';
 import { MdOutlineBedroomParent, MdAttachMoney } from 'react-icons/md';
-import { GrMoney } from 'react-icons/gr';
+import { GrMoney, GrLocation } from 'react-icons/gr';
 import './FeatureIcon.css';
 
 const getIcon = (feature, bool) => {
@@ -32,6 +32,8 @@ const getIcon = (feature, bool) => {
       return <GiBroom className="feature-icon-svg icon-cleaningPrice" />;
     case 'totalPrice':
       return <MdAttachMoney className="feature-icon-svg icon-totalPrice" />;
+    case 'address':
+      return <GrLocation className="feature-icon-svg icon-address" />;
     default:
       return bool !== undefined && Boolean(bool) === false ? (
         <BiXCircle className="feature-icon-svg icon-other-false" />
