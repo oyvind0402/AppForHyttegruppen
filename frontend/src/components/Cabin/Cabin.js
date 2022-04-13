@@ -5,9 +5,14 @@ import Carousel from '../01-Reusable/ImageCarousel/Carousel';
 import './Cabin.css';
 import Features from './InfoParts/Features';
 import { Apply } from './InfoParts/Apply';
+import { TabPicker } from './InfoParts/TabPicker';
 import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
 
 const Cabin = () => {
+  const [cabinData, setCabinData] = useState('');
+  const [cabins, setCabins] = useState([]);
+  const [infoTab, setInfoTab] = useState(0);
+
   const loginContext = useContext(LoginContext);
   const loggedIn = loginContext.loggedIn;
 
@@ -27,10 +32,6 @@ const Cabin = () => {
     getCabin(pageID[pageID.length - 1]);
   }, []);
 
-  const [cabinData, setCabinData] = useState('');
-  const [cabins, setCabins] = useState([]);
-
-  //Fetching
   useEffect(() => {
     async function fetchData() {
       fetch('/cabin/all')
@@ -41,12 +42,26 @@ const Cabin = () => {
     fetchData();
   }, []);
 
+  const loadInfoTab = (infoTab) => {
+    switch (infoTab) {
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      default:
+        return <Features cabinData={cabinData} />;
+    }
+  };
+
   return (
     <>
       <HeroBanner name={cabinData.name} />
       <div className="cabin-display">
         <Carousel cabinData={cabinData} />
-        <Features cabinData={cabinData} />
+        <TabPicker setInfoTab={setInfoTab} active={infoTab} />
+        {loadInfoTab(infoTab)}
         <Apply cabinData={cabinData} />
         {cabinData !== '' && (
           <MapSingleCabin cabins={cabins} pickedCabin={cabinData} />
