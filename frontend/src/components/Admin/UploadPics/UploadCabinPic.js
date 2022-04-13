@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import './UploadCabinPic.css';
 
 const UploadCabinPic = () => {
+  const [url, setUrl] = useState();
   const link = window.location.href;
   let cabinName = link.split('/')[5];
   if (cabinName.includes('%20') || cabinName.includes('%C3%B8')) {
@@ -16,6 +18,7 @@ const UploadCabinPic = () => {
     formData.append('file', files);
     formData.append('cabinName', cabinName);
     console.log(files);
+    setUrl(null);
 
     // fetch('/pictures/one', {
     //   method: 'POST',
@@ -28,6 +31,15 @@ const UploadCabinPic = () => {
     //   .catch((error) => {
     //     console.error(error);
     //   });
+    document.getElementById('image').value = null;
+  };
+
+  const handleChange = (event) => {
+    if (event.target.files.length > 0) {
+      setUrl(URL.createObjectURL(event.target.files[0]));
+    } else {
+      setUrl(null);
+    }
   };
   return (
     <>
@@ -39,12 +51,20 @@ const UploadCabinPic = () => {
       <div className="upload-cabin-pic-container">
         <p className="upload-title">Last opp bilder for {cabinName}</p>
         <input
+          onChange={(e) => handleChange(e)}
           className="upload-input"
           type="file"
           id="image"
           name="image"
           accept=".jpg,.png"
         />
+
+        {url ? (
+          <div>
+            <p>Valgt bilde:</p>
+            <img src={url} />
+          </div>
+        ) : null}
 
         <button onClick={handleImageUpload} className="btn big">
           Last opp bilde
