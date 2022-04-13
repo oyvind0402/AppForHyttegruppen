@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
+import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditCabin.css';
 
 const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
+  const [visible, setVisible] = useState(false);
   const link = window.location.href;
   const history = useHistory();
 
@@ -50,6 +52,15 @@ const EditCabin = () => {
           .removeChild(document.getElementById('todolist').lastChild);
       }
     }
+  };
+
+  const cancelPopup = () => {
+    setVisible(false);
+  };
+
+  const acceptPopup = () => {
+    setVisible(false);
+    history.push('/admin/lastoppbilde/' + cabinName);
   };
 
   async function handleEdit() {
@@ -101,30 +112,9 @@ const EditCabin = () => {
     const data = await response.json();
     if (response.ok) {
       console.log(data);
-      history.push('/admin/lastoppbilde/' + cabinName);
+      setVisible(true);
     }
   }
-
-  const handleImageUpload = () => {
-    const files = document.getElementById('image').files[0];
-    const formData = new FormData();
-    formData.append('file', files);
-    const cabinName = cabin.name;
-    formData.append('cabinName', cabinName);
-    console.log(files);
-
-    // fetch('/pictures/one', {
-    //   method: 'POST',
-    //   body: formData,
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-  };
 
   return (
     <>
@@ -286,11 +276,7 @@ const EditCabin = () => {
             })
           : null}
         <div className="edit-cabin-wrapper">
-          <label
-            onClick={handleImageUpload}
-            className="edit-cabin-label"
-            htmlFor="edit-recycling"
-          >
+          <label className="edit-cabin-label" htmlFor="edit-recycling">
             Kildesortering info
           </label>
           <textarea
@@ -310,18 +296,6 @@ const EditCabin = () => {
             type="checkbox"
             id="edit-active"
             defaultChecked={cabin.length !== 0 ? cabin[0].active : null}
-          />
-        </div>
-        <div className="edit-cabin-wrapper">
-          <label htmlFor="file" className="edit-cabin-label">
-            Last opp bilde
-          </label>
-          <input
-            className="edit-cabin-input-picture"
-            type="file"
-            id="image"
-            name="image"
-            accept=".jpg,.png"
           />
         </div>
         <div className="edit-cabin-wrapper" id="todolist">
@@ -349,6 +323,22 @@ const EditCabin = () => {
           Endre
         </button>
       </div>
+      {visible && (
+        <AlertPopup
+          title={'Vil du legge til bilder for ' + cabinName + '?'}
+          description={
+            cabinName +
+            ' endret! Hvis du trykker ja kan du legge til bilder for ' +
+            cabinName +
+            '. Vil du det?'
+          }
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={cancelPopup}
+          acceptMethod={acceptPopup}
+          show={visible}
+        />
+      )}
     </>
   );
 };
