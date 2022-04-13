@@ -8,6 +8,7 @@ import Step3 from './Steps/Step3';
 import './Soknad.css';
 
 const Soknad = () => {
+  let postSuccessful = true;
   const [page, setPage] = useState(1);
   const [popup, setPopup] = useState(false);
   const [popupResponse, setPopupResponse] = useState('');
