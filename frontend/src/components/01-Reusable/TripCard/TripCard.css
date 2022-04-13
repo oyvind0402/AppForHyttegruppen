@@ -117,12 +117,19 @@
   font-size: 2.5rem;
 }
 
+.relative-container {
+  position: relative;
+}
+
 .cancel-container {
   display: flex;
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
   flex-direction: row;
   align-items: center;
   grid-area: d;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   z-index: 100;
 }
 
@@ -142,6 +149,7 @@
 .cancel-container:hover {
   text-decoration: underline;
   color: red;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 1795px) {

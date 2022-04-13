@@ -13,28 +13,20 @@ const EditSite = () => {
         Endre hytter
       </Link>
 
-      <Link className="btn-link btn big" to="/admin/endresoknader">
-        Endre søknader
+      <Link className="btn-link btn big" to="/admin/leggtilhytte">
+        Legg til hytte
       </Link>
 
       <Link className="btn-link btn big" to="/admin/endreperioder">
         Endre perioder
       </Link>
 
-      <Link className="btn-link btn big" to="/admin/endrefunksjonaliteter">
-        Endre funksjonaliteter
+      <Link className="btn-link btn big" to="/admin/endresoknader">
+        Alle søknader
       </Link>
 
-      <Link className="btn-link btn big" to="/admin/leggtilhytte">
-        Legg til hytte
-      </Link>
-
-      <Link className="btn-link btn big" to="/admin/leggtilperiode">
-        Legg til periode
-      </Link>
-
-      <Link className="btn-link btn big" to="/admin/leggtilfunksjonalitet">
-        Legg til funksjonalitet
+      <Link className="btn-link btn big" to="/admin/lastoppbilder">
+        Last opp bilder
       </Link>
     </>
   );

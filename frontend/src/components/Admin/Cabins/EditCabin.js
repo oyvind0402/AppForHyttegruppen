@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
-import BackButton from '../01-Reusable/Buttons/BackButton';
+import { useHistory } from 'react-router-dom';
+import BackButton from '../../01-Reusable/Buttons/BackButton';
+import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditCabin.css';
 
 const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
+  const [visible, setVisible] = useState(false);
   const link = window.location.href;
+  const history = useHistory();
 
   let cabinName = link.split('/')[5];
   if (cabinName.includes('%20') || cabinName.includes('%C3%B8')) {
@@ -31,14 +35,6 @@ const EditCabin = () => {
     console.log(cabin);
   }, []);
 
-  const [active, setActive] = useState(
-    cabin.length !== 0 ? cabin[0].active : true
-  );
-
-  const onActiveChange = () => {
-    setActive(!active);
-  };
-
   const handleAddItem = () => {
     const node = document.createElement('input');
     node.className = 'edit-cabin-input';
@@ -58,6 +54,15 @@ const EditCabin = () => {
     }
   };
 
+  const cancelPopup = () => {
+    setVisible(false);
+  };
+
+  const acceptPopup = () => {
+    setVisible(false);
+    history.push('/admin/lastoppbilde/' + cabinName);
+  };
+
   async function handleEdit() {
     let inputliste = document
       .getElementById('todolist')
@@ -66,14 +71,18 @@ const EditCabin = () => {
     for (var x = 0; x < inputliste.length; x++) {
       huskeliste.push(inputliste[x].value);
     }
-    const cabin = {
-      _id: document.getElementById('edit-name').value,
-      active: active,
+    console.log(huskeliste);
+    const cabin2 = {
+      name: document.getElementById('edit-name').value,
+      active: document.getElementById('edit-active').checked,
       shortDescription: document.getElementById('edit-shortdesc').value,
       longDescription: document.getElementById('edit-longdesc').value,
       address: document.getElementById('edit-address').value,
       directions: document.getElementById('edit-directions').value,
-
+      coordinates: {
+        latitude: parseFloat(document.getElementById('edit-latitude').value),
+        longitude: parseFloat(document.getElementById('edit-longitude').value),
+      },
       price: parseInt(document.getElementById('edit-price').value),
       cleaningPrice: parseInt(
         document.getElementById('edit-cleaningprice').value
@@ -86,12 +95,25 @@ const EditCabin = () => {
         ),
         soverom: parseInt(document.getElementById('edit-soverom').value),
       },
+      pictures: cabin[0].pictures,
+
       other: {
         huskeliste: huskeliste,
         kildesortering: document.getElementById('edit-recycling').value,
       },
     };
-    console.log(cabin);
+    console.log(cabin2);
+
+    const response = await fetch('/cabin/update', {
+      method: 'PUT',
+      body: JSON.stringify(cabin2),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+      setVisible(true);
+    }
   }
 
   return (
@@ -118,6 +140,32 @@ const EditCabin = () => {
             defaultValue={cabin.length !== 0 ? cabin[0].address : ''}
             type="text"
             id="edit-address"
+          />
+        </div>
+        <div className="edit-cabin-wrapper">
+          <label className="edit-cabin-label" htmlFor="edit-latitude">
+            Breddegrad
+          </label>
+          <input
+            className="edit-cabin-input"
+            defaultValue={
+              cabin.length !== 0 ? cabin[0].coordinates.latitude : ''
+            }
+            type="text"
+            id="edit-latitude"
+          />
+        </div>
+        <div className="edit-cabin-wrapper">
+          <label className="edit-cabin-label" htmlFor="edit-longitude">
+            Lengdegrad
+          </label>
+          <input
+            className="edit-cabin-input"
+            defaultValue={
+              cabin.length !== 0 ? cabin[0].coordinates.longitude : ''
+            }
+            type="text"
+            id="edit-longitude"
           />
         </div>
         <div className="edit-cabin-wrapper">
@@ -185,29 +233,27 @@ const EditCabin = () => {
                     </label>
                     <input
                       className="edit-cabin-input"
-                      defaultValue={value.toString()}
+                      defaultValue={value}
                       type="number"
                       id={'edit-' + key}
                     />
                   </div>
                 );
               } else {
-                if (key !== 'other') {
-                  return (
-                    <div className="input-function" key={key}>
-                      <label className="edit-cabin-label2" htmlFor={key}>
-                        {key}
-                      </label>
-                      <input
-                        className="edit-cabin-checkbox"
-                        type="checkbox"
-                        id={key}
-                        name={key}
-                        defaultChecked={value.toString()}
-                      />
-                    </div>
-                  );
-                }
+                return (
+                  <div className="input-function" key={key}>
+                    <label className="edit-cabin-label2" htmlFor={key}>
+                      {key}
+                    </label>
+                    <input
+                      className="edit-cabin-checkbox"
+                      type="checkbox"
+                      id={key}
+                      name={key}
+                      defaultChecked={value}
+                    />
+                  </div>
+                );
               }
             })
           : null}
@@ -248,10 +294,8 @@ const EditCabin = () => {
           <input
             className="edit-cabin-checkbox"
             type="checkbox"
-            defaultValue={active}
             id="edit-active"
-            checked={active}
-            onChange={onActiveChange}
+            defaultChecked={cabin.length !== 0 ? cabin[0].active : null}
           />
         </div>
         <div className="edit-cabin-wrapper" id="todolist">
@@ -279,6 +323,22 @@ const EditCabin = () => {
           Endre
         </button>
       </div>
+      {visible && (
+        <AlertPopup
+          title={'Vil du legge til bilder for ' + cabinName + '?'}
+          description={
+            cabinName +
+            ' endret! Hvis du trykker ja kan du legge til bilder for ' +
+            cabinName +
+            '. Vil du det?'
+          }
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={cancelPopup}
+          acceptMethod={acceptPopup}
+          show={visible}
+        />
+      )}
     </>
   );
 };

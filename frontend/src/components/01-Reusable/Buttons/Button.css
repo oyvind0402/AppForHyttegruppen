@@ -115,19 +115,22 @@
 }
 
 .btn-smaller {
-  color: var(--black);
+  color: var(--white);
   background-color: var(--light-purple);
   max-width: 100px;
   padding: 0.5rem;
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  font-weight: 750;
+  width: 125px;
+  text-align: center;
 }
 
 .btn-smaller:hover {
-  background-color: var(--purple);
+  background-color: var(--light-purple);
   color: var(--white);
-  outline: 3px solid var(--light-purple);
+  outline: 3px solid var(--purple);
 }
 
 .tabbtn {
@@ -162,5 +165,11 @@
   .tabbtn {
     padding: 0.3rem 2vw;
     font-size: 0.7rem;
+  }
+}
+
+@media only screen and (max-width: 356px) {
+  .btn-smaller {
+    font-size: 0.8rem;
   }
 }

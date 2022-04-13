@@ -6,18 +6,12 @@ import { Link } from 'react-router-dom';
 import LoginContext from '../../../LoginContext/login-context';
 import { useContext } from 'react';
 
-const CabinCardBig = (props) => {
+const AdminCabinCardBig = (props) => {
   const loginContext = useContext(LoginContext);
 
   return (
     <>
-      <button
-        className="card"
-        onClick={(e) => {
-          e.preventDefault();
-          window.location.href = `/hytte/${props.cabin.name}`;
-        }}
-      >
+      <button className="card">
         <img
           className="card-picture"
           src={`${process.env.PUBLIC_URL}/assets/pictures/${props.cabin.pictures.mainPicture.filename}`}
@@ -56,4 +50,4 @@ const CabinCardBig = (props) => {
   );
 };
 
-export default CabinCardBig;
+export default AdminCabinCardBig;

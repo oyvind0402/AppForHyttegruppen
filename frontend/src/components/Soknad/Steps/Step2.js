@@ -14,7 +14,7 @@ const Step2 = (props) => {
   //Fetching all periods
   useEffect(() => {
     async function fetchData() {
-      fetch('/period/all')
+      fetch('/period/inseason/open')
         .then((response) => response.json())
         .then((data) => {
           //setPerioder(data);

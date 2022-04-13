@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import BackButton from '../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import BackButton from '../../01-Reusable/Buttons/BackButton';
+import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import './EditSoknad.css';
 
 const Application = () => {
@@ -71,7 +71,6 @@ const Application = () => {
   const getPeriods = async () => {
     const response = await fetch('/period/all');
     const data = await response.json();
-
     if (response.ok) {
       setPeriods(data);
     }
@@ -79,13 +78,10 @@ const Application = () => {
 
   useEffect(() => {
     getCabinNames();
+    getPeriods();
     getTrip();
     getUsers();
     getUser();
-    getPeriods();
-    console.log(trip);
-    console.log(periods);
-    console.log(users);
   }, []);
 
   return (
@@ -264,31 +260,35 @@ const Application = () => {
             id="periods"
             className="edit-trip-selectperiod"
           >
-            {periods?.map((period, index) => {
-              if (period.id === trip.period.id) {
-                return (
-                  <option selected key={index} value={period}>
-                    {getFormattedDate(period.start) +
-                      ' - ' +
-                      getFormattedDate(period.end) +
-                      ' (' +
-                      period.name +
-                      ')'}
-                  </option>
-                );
-              } else {
-                return (
-                  <option key={index} value={period}>
-                    {getFormattedDate(period.start) +
-                      ' - ' +
-                      getFormattedDate(period.end) +
-                      ' (' +
-                      period.name +
-                      ')'}
-                  </option>
-                );
-              }
-            })}
+            {trip.length !== 0 &&
+            periods.length !== 0 &&
+            typeof trip.period !== 'undefined'
+              ? periods?.map((period, index) => {
+                  if (period.id === trip.period.id) {
+                    return (
+                      <option selected key={index} value={period}>
+                        {getFormattedDate(period.start) +
+                          ' - ' +
+                          getFormattedDate(period.end) +
+                          ' (' +
+                          period.name +
+                          ')'}
+                      </option>
+                    );
+                  } else {
+                    return (
+                      <option key={index} value={period}>
+                        {getFormattedDate(period.start) +
+                          ' - ' +
+                          getFormattedDate(period.end) +
+                          ' (' +
+                          period.name +
+                          ')'}
+                      </option>
+                    );
+                  }
+                })
+              : null}
           </select>
         </div>
         <div className="edit-trip-cbwrapper">

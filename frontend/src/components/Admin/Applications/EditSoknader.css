@@ -1,0 +1,98 @@
+.application-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  grid-gap: 2rem;
+  margin-bottom: 4rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.application-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.application-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.5rem;
+}
+
+.application-cabins-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.application-container h2 {
+  margin-top: 0;
+}
+
+.application-half h4 {
+  margin-bottom: 0;
+}
+
+.application-half p {
+  margin-top: 0;
+}
+
+.application {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border: 1px solid gray;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.application-half {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  grid-gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 900px) {
+  .application-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (max-width: 475px) {
+  .application-container {
+    font-size: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 403px) {
+  .application-container {
+    width: 95%;
+    margin: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media only screen and (max-width: 357px) {
+  .application-container {
+    width: 100%;
+    font-size: 0.7rem;
+  }
+
+  .application-title {
+    font-size: 1.5rem;
+  }
+
+  .btn-smaller {
+    width: 100px;
+  }
+}

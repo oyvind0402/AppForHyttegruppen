@@ -1,9 +1,11 @@
 import { MdOutlineCancel } from 'react-icons/md';
 import { BsHourglassSplit } from 'react-icons/bs';
 import './TripCard.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const TripCardPending = (props) => {
+  const history = useHistory();
+
   console.log(props);
   if (props.data.length === 0) {
     return <></>;
@@ -49,44 +51,50 @@ const TripCardPending = (props) => {
     const data = await response.json();
     if (response.ok) {
       console.log(data);
+      history.go(0);
     }
   };
 
   return (
     <>
-      <Link to={'/mintur/' + props.data.applicationId} className="mintur-link">
-        <div className="mytrip-card-container">
-          <img
-            className={'mytrip-picture-blur'}
-            src={process.env.PUBLIC_URL + '/assets/pictures/TripPicture.svg'}
-            alt="the cabin for the trip"
-          />
-          <div className="card-info">
-            <p className="card-title">
-              {props.data.cabins.length > 1
-                ? 'Søkt på ' + props.data.cabins.length + ' hytter'
-                : props.data.cabins[0].cabinName}
-            </p>
-            <div className="season-date-wrapper">
-              <p className="card-season">{props.data.period.name}</p>
-              <p className="card-date">({getFormattedDate(date, false)})</p>
+      <div className="relative-container">
+        <Link
+          to={'/mintur/' + props.data.applicationId}
+          className="mintur-link"
+        >
+          <div className="mytrip-card-container">
+            <img
+              className={'mytrip-picture-blur'}
+              src={process.env.PUBLIC_URL + '/assets/pictures/TripPicture.svg'}
+              alt="the cabin for the trip"
+            />
+            <div className="card-info">
+              <p className="card-title">
+                {props.data.cabins.length > 1
+                  ? 'Søkt på ' + props.data.cabins.length + ' hytter'
+                  : props.data.cabins[0].cabinName}
+              </p>
+              <div className="season-date-wrapper">
+                <p className="card-season">{props.data.period.name}</p>
+                <p className="card-date">({getFormattedDate(date, false)})</p>
+              </div>
+              <div>
+                <p className="pending-text">Svar forventes:</p>
+                <p className="pending-date">({getFormattedDate(date, true)})</p>
+              </div>
             </div>
-            <div>
-              <p className="pending-text">Svar forventes:</p>
-              <p className="pending-date">({getFormattedDate(date, true)})</p>
+            <div className="cancel-box">
+              <div className="pending-container">
+                <BsHourglassSplit className="pending-icon" />
+              </div>
             </div>
           </div>
-          <div className="cancel-box">
-            <div className="pending-container">
-              <BsHourglassSplit className="pending-icon" />
-            </div>
-            <div className="cancel-container" onClick={cancelTrip}>
-              <MdOutlineCancel className="cancel-icon" />
-              <p className="cancel-text">Avbestill</p>
-            </div>
-          </div>
+        </Link>
+        <div className="cancel-container" onClick={cancelTrip}>
+          <MdOutlineCancel className="cancel-icon" />
+          <p className="cancel-text">Avbestill</p>
         </div>
-      </Link>
+      </div>
     </>
   );
 };

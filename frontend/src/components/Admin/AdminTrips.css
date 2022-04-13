@@ -1,0 +1,41 @@
+.admin-trips-container {
+  width: 50%;
+  margin: auto;
+}
+
+.admin-trips-title {
+  font-weight: 700;
+  font-size: 2rem;
+  text-transform: capitalize;
+  margin-bottom: 1rem;
+}
+
+.trip-info-text {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+@media only screen and (max-width: 950px) {
+  .admin-trips-container {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .admin-trips-container {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .admin-trips-container .application {
+    font-size: 0.7rem;
+  }
+}
+
+@media only screen and (max-width: 338px) {
+  .admin-trips-container {
+    width: 95%;
+  }
+}
