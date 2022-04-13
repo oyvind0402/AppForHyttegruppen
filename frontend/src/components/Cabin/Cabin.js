@@ -9,6 +9,7 @@ import Veibeskrivelse from './InfoParts/Veibeskrivelse';
 import { Apply } from './InfoParts/Apply';
 import { TabPicker } from './InfoParts/TabPicker';
 import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
+import Huskeliste from './InfoParts/Huskeliste';
 
 const Cabin = () => {
   const [cabinData, setCabinData] = useState('');
@@ -49,7 +50,7 @@ const Cabin = () => {
       case 1:
         return <UtvidetInfo cabinData={cabinData} />;
       case 2:
-        break;
+        return <Huskeliste cabinData={cabinData} />;
       case 3:
         return <Veibeskrivelse cabinData={cabinData} />;
       default:

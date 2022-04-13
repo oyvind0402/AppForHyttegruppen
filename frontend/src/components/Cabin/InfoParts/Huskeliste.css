@@ -1,0 +1,22 @@
+.huskeliste-items {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  column-gap: calc(2rem + 5vw);
+  justify-content: space-between;
+}
+
+.huskeliste-item {
+  width: fit-content;
+}
+
+@media only screen and (max-width: 1000px) {
+  .huskeliste-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .huskeliste-items {
+    grid-template-columns: 1fr;
+  }
+}
