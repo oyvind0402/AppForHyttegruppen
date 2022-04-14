@@ -114,8 +114,8 @@ VALUES('Utsikten', TRUE),
 ('Store Grøndalen', TRUE);
 
 INSERT INTO Users 
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4uHEb2bdYRKt4OuX9xye5U8PkVSH.WJRS', '', '', 'test', 'tester', FALSE),
-('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$PsxqvC8fkSF6sEu9DF45/.N/eZLZyj8.K9k/BDsz7C/FqyMOdtH/S', '', '','Admin', 'Adminer', TRUE);
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4uHEb2bdYRKt4OuX9xye5U8PkVSH.WJRS', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RAdGV0ZXIuY29tIiwiZXhwIjoxNjUwMDQzODMzfQ.dr6LP-qRSzmr5-VsDr6PptjvP8OtPyzp1pHpCvv1RK0', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjIzM30.xPsuMjr1qbJBBjIhLiGGNecYaj8ZaFeA0Y9qpf4bQvM', 'test', 'tester', FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$PsxqvC8fkSF6sEu9DF45/.N/eZLZyj8.K9k/BDsz7C/FqyMOdtH/S', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluQGFkbWluci5jb20iLCJleHAiOjE2NTAwNDM3MzN9.IKFVQxDWaVKYDLemALfx3Ck7hXL_jnz8N-aSTW0S7NE', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjEzM30.kwwObYPLJrDkk0pxCquhsf666_FWl7biWNC7LCrDrVg','Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '1', TRUE), /*Won in the past*/
