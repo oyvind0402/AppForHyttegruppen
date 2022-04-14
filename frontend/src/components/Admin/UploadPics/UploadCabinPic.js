@@ -23,6 +23,9 @@ const UploadCabinPic = () => {
     // fetch('/pictures/one', {
     //   method: 'POST',
     //   body: formData,
+    //   headers: {
+    //     token: localStorage.getItem('token');
+    //   }
     // })
     //   .then((response) => response.json())
     //   .then((data) => {

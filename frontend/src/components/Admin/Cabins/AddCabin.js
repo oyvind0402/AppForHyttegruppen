@@ -79,6 +79,7 @@ const AddCabin = () => {
     const response = await fetch('/cabin/post', {
       method: 'POST',
       body: JSON.stringify(cabin),
+      headers: { token: localStorage.getItem('token') },
     });
     const data = await response.json();
     if (response.ok) {

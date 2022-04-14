@@ -76,6 +76,7 @@ const MinTur = () => {
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(pageID),
+      headers: { token: localStorage.getItem('token') },
     });
 
     const data = await response.json();

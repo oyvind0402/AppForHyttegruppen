@@ -35,16 +35,9 @@ const LoginForm = () => {
       if (!response.ok) {
         setShowFeedBack(true);
       } else {
-        const userResponse = await fetch('/user/' + data.userId);
-        const datum = await userResponse.json();
-
-        if (!userResponse.ok) {
-          alert('Something went wrong!');
-        } else {
-          loginContext.login(data.jwt, datum.adminAccess);
-          localStorage.setItem('userID', data.userId);
-          history.replace('/');
-        }
+        loginContext.login(data.token, data.refreshToken, data.adminAccess);
+        localStorage.setItem('userID', data.userId);
+        history.replace('/');
       }
     } catch (error) {
       console.log(error);

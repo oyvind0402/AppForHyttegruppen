@@ -2,6 +2,7 @@ package server
 
 import (
 	"bachelorprosjekt/backend/data"
+	"bachelorprosjekt/backend/middleware"
 	"database/sql"
 	"fmt"
 	"net/http"
@@ -21,6 +22,8 @@ func getUser(ctx *gin.Context, row *sql.Row) (data.User, int, error) {
 		&user.Id,
 		&user.Email,
 		&user.HashedPassword,
+		&user.Token,
+		&user.RefreshToken,
 		&user.FirstName,
 		&user.LastName,
 		&user.AdminAccess); err != nil && err != sql.ErrNoRows {
@@ -71,6 +74,8 @@ func (r repo) GetAllUsers(ctx *gin.Context) {
 			&user.Id,
 			&user.Email,
 			&user.HashedPassword,
+			&user.Token,
+			&user.RefreshToken,
 			&user.FirstName,
 			&user.LastName,
 			&user.AdminAccess); err != nil {
@@ -97,7 +102,7 @@ func (r repo) PostUser(ctx *gin.Context) {
 	}
 
 	// Hash users password
-	toHash := append([]byte(user.Password))
+	toHash := []byte(user.Password)
 	hashedPassword, err := bcrypt.GenerateFromPassword(toHash, bcrypt.DefaultCost)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
@@ -112,7 +117,17 @@ func (r repo) PostUser(ctx *gin.Context) {
 	user.HashedPassword = string(hashedPassword)
 	user.Id = new(string)
 	*user.Id = shortuuid.New()
-	fmt.Println(string(hashedPassword[:]))
+
+	// Generating token and refresh token
+	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email)
+
+	if tokenErr != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": tokenErr.Error()})
+
+	}
+
+	user.Token = token
+	user.RefreshToken = refreshToken
 
 	// Execute INSERT query and retrieve ID of inserted user
 	var resId string
@@ -121,6 +136,8 @@ func (r repo) PostUser(ctx *gin.Context) {
 			user_id,
 			email,
 			hashed_passwd,
+			token,
+			refresh_token,
 			firstname,
 			lastname,
 			admin_access) 
@@ -128,6 +145,8 @@ func (r repo) PostUser(ctx *gin.Context) {
 		&user.Id,
 		&user.Email,
 		&user.HashedPassword,
+		&user.Token,
+		&user.RefreshToken,
 		&user.FirstName,
 		&user.LastName,
 		&user.AdminAccess,
@@ -197,6 +216,8 @@ func (r repo) SignIn(ctx *gin.Context) {
 	scanErr := row.Scan(&user.Id,
 		&user.Email,
 		&user.HashedPassword,
+		&user.Token,
+		&user.RefreshToken,
 		&user.FirstName,
 		&user.LastName,
 		&user.AdminAccess)
@@ -206,17 +227,30 @@ func (r repo) SignIn(ctx *gin.Context) {
 	}
 
 	// Check if the password is right
-	salted := append([]byte(credentials.Password))
+	salted := []byte(credentials.Password)
 	pwErr := bcrypt.CompareHashAndPassword([]byte(user.HashedPassword), salted)
 	if pwErr != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": pwErr.Error()})
 		return
 	}
 
+	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email)
+	if tokenErr != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": tokenErr.Error()})
+		return
+	}
+
+	_, updateErr := r.sqlDb.Exec(`UPDATE Users SET token = $1, refresh_token = $2 WHERE email = $3`, &token, &refreshToken, &user.Email)
+	if updateErr != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": updateErr.Error()})
+		return
+	}
+
 	// Returns success, token and userId
 	ctx.JSON(http.StatusOK, gin.H{
-		"msg":    "Signed up successfully.",
-		"jwt":    "123456789",
-		"userId": user.Id,
+		"token":        user.Token,
+		"refreshToken": user.RefreshToken,
+		"userId":       user.Id,
+		"adminAccess":  user.AdminAccess,
 	})
 }

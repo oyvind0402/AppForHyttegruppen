@@ -42,6 +42,7 @@ const Applications = () => {
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(id),
+      headers: { token: localStorage.getItem('token') },
     });
     const data = await response.json();
     if (response.ok) {

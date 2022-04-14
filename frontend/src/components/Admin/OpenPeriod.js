@@ -176,6 +176,7 @@ const OpenPeriod = () => {
     const response = await fetch('/season/post', {
       method: 'POST',
       body: JSON.stringify(season),
+      headers: { token: localStorage.getItem('token') },
     });
     const data = response.json();
     if (response.ok) {
@@ -184,6 +185,7 @@ const OpenPeriod = () => {
         fetch('/period/post', {
           method: 'POST',
           body: JSON.stringify(period),
+          headers: { token: localStorage.getItem('token') },
         })
           .then((response) => response.json())
           .then((data) => console.log(data))

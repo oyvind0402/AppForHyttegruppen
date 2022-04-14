@@ -42,6 +42,7 @@ const Soknad = () => {
         fetch('/application/post', {
           method: 'POST',
           body: JSON.stringify(JsonBody),
+          headers: { token: localStorage.getItem('token') },
         })
           .then((response) => console.log(response))
           .catch((error) => console.log(error));

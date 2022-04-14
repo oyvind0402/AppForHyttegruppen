@@ -107,6 +107,7 @@ const EditCabin = () => {
     const response = await fetch('/cabin/update', {
       method: 'PUT',
       body: JSON.stringify(cabin2),
+      headers: { token: localStorage.getItem('token') },
     });
 
     const data = await response.json();
