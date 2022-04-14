@@ -4,7 +4,7 @@ import AdminCabinCardBig from '../../01-Reusable/CabinCard/AdminCabinCard';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 
 const EditCabins = () => {
-  const [cabins, setCabins] = useState(['']);
+  const [cabins, setCabins] = useState([]);
 
   //Fetching
   useEffect(() => {
@@ -22,7 +22,7 @@ const EditCabins = () => {
       <BackButton name="Tilbake til sideinnhold" link="admin/endringer" />
       <HeroBanner name="Endre hytter" />
       <div className="cabins-display">
-        {cabins[0] !== '' &&
+        {cabins.length > 0 &&
           cabins.map((cabin, index) => {
             return <AdminCabinCardBig key={index} cabin={cabin} />;
           })}
