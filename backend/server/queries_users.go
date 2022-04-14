@@ -115,6 +115,8 @@ func (r repo) PostUser(ctx *gin.Context) {
 	}
 
 	user.HashedPassword = string(hashedPassword)
+
+	// Creating userId
 	user.Id = new(string)
 	*user.Id = shortuuid.New()
 
@@ -234,6 +236,7 @@ func (r repo) SignIn(ctx *gin.Context) {
 		return
 	}
 
+	// Updating tokens on login
 	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email)
 	if tokenErr != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": tokenErr.Error()})
@@ -246,7 +249,7 @@ func (r repo) SignIn(ctx *gin.Context) {
 		return
 	}
 
-	// Returns success, token and userId
+	// Returns token, refreshToken, userId and adminAccess
 	ctx.JSON(http.StatusOK, gin.H{
 		"token":        user.Token,
 		"refreshToken": user.RefreshToken,
