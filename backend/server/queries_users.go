@@ -3,6 +3,8 @@ package server
 import (
 	"bachelorprosjekt/backend/data"
 	"bachelorprosjekt/backend/middleware"
+	"bachelorprosjekt/backend/utils"
+
 	"database/sql"
 	"fmt"
 	"net/http"
@@ -101,6 +103,12 @@ func (r repo) PostUser(ctx *gin.Context) {
 		return
 	}
 
+	validEmail := utils.CheckEmailValidity(user.Email)
+	if !validEmail {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "The email is invalid"})
+		return
+	}
+
 	// Hash users password
 	toHash := []byte(user.Password)
 	hashedPassword, err := bcrypt.GenerateFromPassword(toHash, bcrypt.DefaultCost)
@@ -143,7 +151,7 @@ func (r repo) PostUser(ctx *gin.Context) {
 			firstname,
 			lastname,
 			admin_access) 
-			VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING user_id`,
+			VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING user_id`,
 		&user.Id,
 		&user.Email,
 		&user.HashedPassword,
