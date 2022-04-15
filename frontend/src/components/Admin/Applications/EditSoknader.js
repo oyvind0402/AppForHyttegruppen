@@ -7,6 +7,8 @@ import './EditSoknader.css';
 const Applications = () => {
   const [trips, setTrips] = useState([]);
   const [tripsCopy, setTripsCopy] = useState([]);
+  const [changedTrips, setChangedTrips] = useState([]);
+  const [periods, setPeriods] = useState([]);
   let cabins = '';
 
   const fetchApplications = async () => {
@@ -18,6 +20,14 @@ const Applications = () => {
     if (response.ok) {
       setTrips(data);
       setTripsCopy(data);
+    }
+  };
+
+  const fetchPeriods = async () => {
+    const response = await fetch('/period/all');
+    const data = await response.json();
+    if (response.ok) {
+      setPeriods(data);
     }
   };
 
@@ -106,10 +116,28 @@ const Applications = () => {
       });
       setTrips(newTrips);
     }
+    document.getElementById('selected-period-trips').value = 'all';
+  };
+
+  const changeTripsToPeriod = (type) => {
+    if (type === 'all') {
+      setTrips(tripsCopy);
+    } else {
+      const newTrips = tripsCopy.filter((trip) => {
+        console.log(trip.period.id);
+        console.log(type);
+        if (trip.period.id === parseInt(type)) {
+          return trip;
+        }
+      });
+      setTrips(newTrips);
+    }
+    document.getElementById('selected-trips').value = 'all';
   };
 
   useEffect(() => {
     localStorage.removeItem('tripUser');
+    fetchPeriods();
     fetchApplications();
   }, []);
 
@@ -132,6 +160,23 @@ const Applications = () => {
           <option value="current">Nåværende turer</option>
           <option value="pending">Fremtidige søknader</option>
           <option value="declined">Tidligere avslåtte søknader</option>
+        </select>
+        <select
+          id="selected-period-trips"
+          onChange={(e) => changeTripsToPeriod(e.target.value)}
+          className="trips-filter"
+        >
+          <option value="all">Alle perioder</option>
+          {periods.map((period) => {
+            return (
+              <option value={period.id}>
+                {period.name}:{' '}
+                {getFormattedDate(period.start) +
+                  ' - ' +
+                  getFormattedDate(period.end)}
+              </option>
+            );
+          })}
         </select>
       </div>
 
@@ -196,7 +241,7 @@ const Applications = () => {
                   className="btn-smaller"
                   onClick={() => handleDelete(item.applicationId)}
                 >
-                  {!item.winner ? 'Slett søknad' : 'Avbestill tur'}
+                  {!item.winner ? 'Slett søknad' : 'Slett tur'}
                 </span>
               </div>
             </div>

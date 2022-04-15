@@ -167,8 +167,9 @@
   }
 }
 
-@media only screen and (max-width: 356px) {
+@media only screen and (max-width: 357px) {
   .btn-smaller {
     font-size: 0.8rem;
+    width: 100px;
   }
 }
