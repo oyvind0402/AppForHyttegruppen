@@ -2,13 +2,19 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknader.css';
 
 const Applications = () => {
   const [trips, setTrips] = useState([]);
   const [tripsCopy, setTripsCopy] = useState([]);
-  const [changedTrips, setChangedTrips] = useState([]);
   const [periods, setPeriods] = useState([]);
+  const [visible, setVisible] = useState(false);
+
+  const handleVisibility = () => {
+    setVisible(!visible);
+  };
+
   let cabins = '';
 
   const fetchApplications = async () => {
@@ -51,6 +57,7 @@ const Applications = () => {
   };
 
   const handleDelete = async (id) => {
+    setVisible(false);
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(id),
@@ -59,6 +66,7 @@ const Applications = () => {
     const data = await response.json();
     if (response.ok) {
       console.log(data);
+      setTrips(trips.filter((item) => item.applicationId !== id));
     }
   };
 
@@ -69,7 +77,7 @@ const Applications = () => {
     } else if (type === 'future') {
       const newTrips = tripsCopy.filter((trip) => {
         let tripDate = new Date(trip.period.start);
-        if (trip.winner && tripDate.getDate() > date.getDate()) {
+        if (trip.winner && tripDate.getTime() > date.getTime()) {
           return trip;
         }
       });
@@ -77,7 +85,7 @@ const Applications = () => {
     } else if (type === 'past') {
       const newTrips = tripsCopy.filter((trip) => {
         let tripDate = new Date(trip.period.start);
-        if (trip.winner && tripDate.getDate() < date.getDate()) {
+        if (trip.winner && tripDate.getTime() < date.getTime()) {
           return trip;
         }
       });
@@ -88,8 +96,8 @@ const Applications = () => {
         let tripEnd = new Date(trip.period.end);
         if (
           trip.winner &&
-          tripDate.getDate() <= date.getDate() &&
-          tripEnd.getDate() >= date.getDate()
+          tripDate.getTime() <= date.getTime() &&
+          tripEnd.getTime() >= date.getTime()
         ) {
           return trip;
         }
@@ -98,8 +106,6 @@ const Applications = () => {
     } else if (type === 'pending') {
       const newTrips = tripsCopy.filter((trip) => {
         let tripDate = new Date(trip.period.start);
-        console.log(tripDate);
-        console.log(date);
         if (!trip.winner && tripDate.getTime() > date.getTime()) {
           return trip;
         }
@@ -237,13 +243,20 @@ const Applications = () => {
                 >
                   {!item.winner ? 'Endre søknad' : 'Endre tur'}
                 </Link>
-                <span
-                  className="btn-smaller"
-                  onClick={() => handleDelete(item.applicationId)}
-                >
+                <span className="btn-smaller" onClick={handleVisibility}>
                   {!item.winner ? 'Slett søknad' : 'Slett tur'}
                 </span>
               </div>
+              {visible && (
+                <AlertPopup
+                  title="Sletting av søknad"
+                  description="Er du sikker på at du vil slette turen/søknaden? Hvis ja, trykk slett!"
+                  acceptMethod={() => handleDelete(item.applicationId)}
+                  cancelMethod={handleVisibility}
+                  negativeAction="Avbryt"
+                  positiveAction="Slett"
+                />
+              )}
             </div>
           );
         })}
