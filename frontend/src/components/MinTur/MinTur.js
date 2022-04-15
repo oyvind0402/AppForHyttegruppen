@@ -13,19 +13,13 @@ import { MdShower } from 'react-icons/md';
 import './MinTur.css';
 import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
 import { useHistory } from 'react-router-dom';
+import AlertPopup from '../01-Reusable/PopUp/AlertPopup';
 
 const MinTur = () => {
   const history = useHistory();
   const link = window.location.href;
   const pageID = parseInt(link.split('/')[4]);
-  const [trip, setTrip] = useState({
-    winner: false,
-    cabins: [{ cabinName: 'Fanitullen' }],
-    period: {
-      start: '00.00.0000',
-      end: '00.00.0000',
-    },
-  });
+  const [trip, setTrip] = useState({});
 
   const [future, setFuture] = useState(false);
   const [pending, setPending] = useState(false);
@@ -33,6 +27,35 @@ const MinTur = () => {
   const [former, setFormer] = useState(false);
   const [end, setEnd] = useState(new Date());
   const [start, setStart] = useState(new Date());
+  const [visible, setVisible] = useState(false);
+
+  function getFormattedDate(date, pending) {
+    if (pending) {
+      date.setDate(date.getDate() - 7);
+      let year = date.getFullYear();
+
+      let month = (1 + date.getMonth()).toString();
+      if (month.length < 2) {
+        month = '0' + month;
+      }
+      let day = date.getDate().toString();
+      if (day.length < 2) {
+        day = '0' + day;
+      }
+      return day + '/' + month + '/' + year;
+    }
+    let year = date.getFullYear();
+
+    let month = (1 + date.getMonth()).toString();
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    let day = date.getDate().toString();
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+    return day + '/' + month + '/' + year;
+  }
 
   async function getTrip() {
     const response = await fetch('/application/' + pageID);
@@ -72,7 +95,12 @@ const MinTur = () => {
     }
   }
 
+  const handleVisibility = () => {
+    setVisible(!visible);
+  };
+
   const cancelTrip = async () => {
+    setVisible(false);
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(pageID),
@@ -110,13 +138,7 @@ const MinTur = () => {
               <div className="travelinfo-wrapper">
                 <div className="checkin-info">
                   <p>Innsjekking</p>
-                  <p>
-                    {start.getDate() +
-                      '/' +
-                      start.getMonth() +
-                      '/' +
-                      start.getFullYear()}
-                  </p>
+                  <p>{getFormattedDate(start, false)}</p>
                   <p>17:00</p>
                 </div>
                 <img
@@ -126,13 +148,7 @@ const MinTur = () => {
                 />
                 <div className="checkout-info">
                   <p>Utsjekking</p>
-                  <p>
-                    {end.getDate() +
-                      '/' +
-                      end.getMonth() +
-                      '/' +
-                      end.getFullYear()}
-                  </p>
+                  <p>{getFormattedDate(end, false)}</p>
                   <p>12:00</p>
                 </div>
               </div>
@@ -216,7 +232,20 @@ const MinTur = () => {
               </div>
             </div>
           </div>
+          <button onClick={handleVisibility} className="btn small">
+            Avbestill
+          </button>
         </div>
+        {visible && (
+          <AlertPopup
+            title="Avbestilling av tur"
+            description="Er du sikker på at du vil avbestille turen? Hvis ja, trykk avbestill!"
+            acceptMethod={cancelTrip}
+            cancelMethod={handleVisibility}
+            negativeAction="Avbryt"
+            positiveAction="Avbestill"
+          />
+        )}
       </>
     );
   } else if (pending && !trip.winner) {
@@ -237,14 +266,7 @@ const MinTur = () => {
           </div>
           <div className="calendar-container">
             <BsHourglassSplit className="pending-trip-icon" />
-            <p>
-              {start.getDate() -
-                7 +
-                '/' +
-                start.getMonth() +
-                '/' +
-                start.getFullYear()}
-            </p>
+            <p>{getFormattedDate(start, true)}</p>
           </div>
           <div className="pending-trip-container">
             <p className="pending-trip-text pending-applied">Søkt på:</p>
@@ -255,10 +277,20 @@ const MinTur = () => {
             ))}
           </div>
 
-          <button onClick={cancelTrip} className="btn small">
+          <button onClick={handleVisibility} className="btn small">
             Avbestill
           </button>
         </div>
+        {visible && (
+          <AlertPopup
+            title="Sletting av søknad"
+            description="Er du sikker på at du vil slette søknaden? Hvis ja, trykk slett!"
+            acceptMethod={cancelTrip}
+            cancelMethod={handleVisibility}
+            negativeAction="Avbryt"
+            positiveAction="Slett"
+          />
+        )}
       </>
     );
   } else if (current && trip.winner) {
@@ -281,13 +313,7 @@ const MinTur = () => {
               <div className="travelinfo-wrapper">
                 <div className="checkin-info">
                   <p className="checkin-text">Innsjekking</p>
-                  <p>
-                    {start.getDate() +
-                      '/' +
-                      start.getMonth() +
-                      '/' +
-                      start.getFullYear()}
-                  </p>
+                  <p>{getFormattedDate(start, false)}</p>
                   <p>17:00</p>
                 </div>
                 <div>
@@ -300,13 +326,7 @@ const MinTur = () => {
 
                 <div className="checkout-info">
                   <p className="checkin-text">Utsjekking</p>
-                  <p>
-                    {end.getDate() +
-                      '/' +
-                      end.getMonth() +
-                      '/' +
-                      end.getFullYear()}
-                  </p>
+                  <p>{getFormattedDate(end, false)}</p>
                   <p>12:00</p>
                 </div>
               </div>
@@ -407,6 +427,9 @@ const MinTur = () => {
           </div>
           {/**Må legge til en funksjonalitet for å se om brukeren har sendt inn feedback eller ikke */}
           {!trip.winner && <FeedbackForm />}
+          <p className="pending-trip-text">
+            {getFormattedDate(start, false)} - {getFormattedDate(end, false)}
+          </p>
         </div>
       </>
     );

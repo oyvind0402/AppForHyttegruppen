@@ -2,9 +2,12 @@ import { MdOutlineCancel } from 'react-icons/md';
 import { BsHourglassSplit } from 'react-icons/bs';
 import './TripCard.css';
 import { Link, useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import AlertPopup from '../PopUp/AlertPopup';
 
 const TripCardPending = (props) => {
   const history = useHistory();
+  const [visible, setVisible] = useState(false);
 
   console.log(props);
   if (props.data.length === 0) {
@@ -42,7 +45,12 @@ const TripCardPending = (props) => {
     }
   }
 
+  const handleVisibility = () => {
+    setVisible(!visible);
+  };
+
   const cancelTrip = async () => {
+    setVisible(false);
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(props.data.applicationId),
@@ -91,11 +99,21 @@ const TripCardPending = (props) => {
             </div>
           </div>
         </Link>
-        <div className="cancel-container" onClick={cancelTrip}>
+        <div className="cancel-container" onClick={handleVisibility}>
           <MdOutlineCancel className="cancel-icon" />
-          <p className="cancel-text">Avbestill</p>
+          <p className="cancel-text">Slett</p>
         </div>
       </div>
+      {visible && (
+        <AlertPopup
+          title="Sletting av søknad"
+          description="Er du sikker på at du vil slette søknaden? Hvis ja, trykk slett!"
+          acceptMethod={cancelTrip}
+          cancelMethod={handleVisibility}
+          negativeAction="Avbryt"
+          positiveAction="Slett"
+        />
+      )}
     </>
   );
 };

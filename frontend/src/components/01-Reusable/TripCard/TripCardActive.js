@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
 import { Link, useHistory } from 'react-router-dom';
+import AlertPopup from '../PopUp/AlertPopup';
 import './TripCard.css';
 
 const TripCardActive = (props) => {
   const history = useHistory();
+  const [visible, setVisible] = useState(false);
+
   if (props.data.length === 0) {
     return <></>;
   }
@@ -23,9 +27,14 @@ const TripCardActive = (props) => {
     return day + '/' + month + '/' + year;
   }
 
+  const handleVisibility = () => {
+    setVisible(!visible);
+  };
+
   const cancelTrip = async () => {
     //Should add a way to send an email to admins if its cancelled close to the start date
     //Should also add a date thats the latest you can cancel a trip
+    setVisible(false);
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(props.data.applicationId),
@@ -61,11 +70,21 @@ const TripCardActive = (props) => {
             </div>
           </div>
         </Link>
-        <div className="cancel-container" onClick={cancelTrip}>
+        <div className="cancel-container" onClick={handleVisibility}>
           <MdOutlineCancel className="cancel-icon" />
           <p className="cancel-text">Avbestill</p>
         </div>
       </div>
+      {visible && (
+        <AlertPopup
+          title="Avbestilling av tur"
+          description="Er du sikker på at du vil avbestille turen? Hvis ja, trykk avbestill!"
+          acceptMethod={cancelTrip}
+          cancelMethod={handleVisibility}
+          negativeAction="Avbryt"
+          positiveAction="Avbestill"
+        />
+      )}
     </>
   );
 };
