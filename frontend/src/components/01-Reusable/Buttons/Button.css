@@ -117,7 +117,6 @@
 .btn-smaller {
   color: var(--white);
   background-color: var(--purple);
-  max-width: 100px;
   padding: 0.5rem;
   cursor: pointer;
   border: none;
