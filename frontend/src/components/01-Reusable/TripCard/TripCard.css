@@ -130,7 +130,6 @@
   align-items: center;
   grid-area: d;
   margin-bottom: 0.5rem;
-  z-index: 100;
 }
 
 .cancel-icon {

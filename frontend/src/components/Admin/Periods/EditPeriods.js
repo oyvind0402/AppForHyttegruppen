@@ -2,10 +2,16 @@ import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import PeriodCard from '../PeriodCard';
+import InfoPopupNoBg from '../../01-Reusable/PopUp/InfoPopupNoOverlay';
 import './EditPeriods.css';
 
 const EditPeriods = () => {
   const [periods, setPeriods] = useState([]);
+  const [visible, setVisible] = useState(false);
+
+  const handleVisibility = () => {
+    setVisible(!visible);
+  };
 
   /**
    * @param {*} date A date
@@ -52,6 +58,22 @@ const EditPeriods = () => {
     }
   };
 
+  const handleEdit = async (period) => {
+    const response = await fetch('/period/update', {
+      method: 'PUT',
+      headers: { token: localStorage.getItem('token') },
+      body: JSON.stringify(period),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+      setVisible(true);
+    } else {
+      console.log(data);
+    }
+  };
+
   useEffect(() => {
     getPeriods();
   }, []);
@@ -78,8 +100,10 @@ const EditPeriods = () => {
                   className="edit-period-input"
                   value={period.name}
                   onChange={(e) => {
-                    period.name = e.target.value;
-                    setPeriods([...periods]);
+                    if (e.target.value.length > 0) {
+                      period.name = e.target.value;
+                      setPeriods([...periods]);
+                    }
                   }}
                   id="edit-period-name"
                 />
@@ -92,8 +116,13 @@ const EditPeriods = () => {
                   className="edit-period-input"
                   value={setDefaultDateValue(period.start)}
                   onChange={(e) => {
-                    period.start = setDateObject(e.target.value);
-                    setPeriods([...periods]);
+                    if (
+                      setDateObject(e.target.value).toString() !==
+                      'Invalid Date'
+                    ) {
+                      period.start = setDateObject(e.target.value);
+                      setPeriods([...periods]);
+                    }
                   }}
                   id="edit-period-startdate"
                 />
@@ -106,16 +135,39 @@ const EditPeriods = () => {
                   className="edit-period-input"
                   value={setDefaultDateValue(period.end)}
                   onChange={(e) => {
-                    period.end = setDateObject(e.target.value);
-                    setPeriods([...periods]);
+                    if (
+                      setDateObject(e.target.value).toString() !==
+                      'Invalid Date'
+                    ) {
+                      period.end = setDateObject(e.target.value);
+                      setPeriods([...periods]);
+                    }
                   }}
                   id="edit-period-enddate"
                 />
+              </div>
+              <div>
+                <button
+                  onClick={() => handleEdit(period)}
+                  className="btn-smaller edit-period-btn"
+                >
+                  Endre
+                </button>
               </div>
             </PeriodCard>
           );
         })}
       </div>
+      {visible && (
+        <InfoPopupNoBg
+          btnText="Ok"
+          hideMethod={handleVisibility}
+          title="Periode endret!"
+          description={
+            'Perioden ble endret og endringen er lagret i databasen!'
+          }
+        />
+      )}
     </>
   );
 };

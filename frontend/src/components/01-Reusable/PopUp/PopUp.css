@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 5;
 }
 
 .popup-content {
@@ -26,7 +27,7 @@
   text-align: center;
   padding: 25px 50px 0 50px;
   background-color: white;
-
+  z-index: 99;
   border-radius: 5px;
   border: 3px solid #787878;
 }
