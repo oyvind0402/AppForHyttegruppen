@@ -3,11 +3,14 @@ import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
+import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 import './EditCabin.css';
 
 const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [errorVisible, setErrorVisible] = useState(false);
+  const [error, setError] = useState('');
   const link = window.location.href;
   const history = useHistory();
 
@@ -56,6 +59,7 @@ const EditCabin = () => {
 
   const cancelPopup = () => {
     setVisible(false);
+    setErrorVisible(false);
   };
 
   const acceptPopup = () => {
@@ -114,6 +118,9 @@ const EditCabin = () => {
     if (response.ok) {
       console.log(data);
       setVisible(true);
+    } else {
+      setError(data.err);
+      setErrorVisible(true);
     }
   }
 
@@ -338,6 +345,18 @@ const EditCabin = () => {
           cancelMethod={cancelPopup}
           acceptMethod={acceptPopup}
           show={visible}
+        />
+      )}
+      {errorVisible && (
+        <InfoPopup
+          btnText="Ok"
+          hideMethod={cancelPopup}
+          title="Feil med endring av hytte"
+          description={
+            "Hytten ble ikke endret, det skjedde en feil. Server svarte med: '" +
+            error +
+            "'. Prøv igjen."
+          }
         />
       )}
     </>
