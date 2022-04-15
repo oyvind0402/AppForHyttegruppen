@@ -6,6 +6,7 @@ import './EditSoknader.css';
 
 const Applications = () => {
   const [trips, setTrips] = useState([]);
+  const [tripsCopy, setTripsCopy] = useState([]);
   let cabins = '';
 
   const fetchApplications = async () => {
@@ -16,6 +17,7 @@ const Applications = () => {
     const data = await response.json();
     if (response.ok) {
       setTrips(data);
+      setTripsCopy(data);
     }
   };
 
@@ -50,6 +52,62 @@ const Applications = () => {
     }
   };
 
+  const changeTrips = (type) => {
+    let date = new Date();
+    if (type === 'all') {
+      setTrips(tripsCopy);
+    } else if (type === 'future') {
+      const newTrips = tripsCopy.filter((trip) => {
+        let tripDate = new Date(trip.period.start);
+        if (trip.winner && tripDate.getDate() > date.getDate()) {
+          return trip;
+        }
+      });
+      setTrips(newTrips);
+    } else if (type === 'past') {
+      const newTrips = tripsCopy.filter((trip) => {
+        let tripDate = new Date(trip.period.start);
+        if (trip.winner && tripDate.getDate() < date.getDate()) {
+          return trip;
+        }
+      });
+      setTrips(newTrips);
+    } else if (type === 'current') {
+      const newTrips = tripsCopy.filter((trip) => {
+        let tripDate = new Date(trip.period.start);
+        let tripEnd = new Date(trip.period.end);
+        if (
+          trip.winner &&
+          tripDate.getDate() <= date.getDate() &&
+          tripEnd.getDate() >= date.getDate()
+        ) {
+          return trip;
+        }
+      });
+      setTrips(newTrips);
+    } else if (type === 'pending') {
+      const newTrips = tripsCopy.filter((trip) => {
+        let tripDate = new Date(trip.period.start);
+        console.log(tripDate);
+        console.log(date);
+        if (!trip.winner && tripDate.getTime() > date.getTime()) {
+          return trip;
+        }
+      });
+      setTrips(newTrips);
+    } else {
+      const newTrips = tripsCopy.filter((trip) => {
+        let tripDate = new Date(trip.period.start);
+        console.log(tripDate.getDate());
+        console.log(date.getDate());
+        if (!trip.winner && tripDate.getTime() < date.getTime()) {
+          return trip;
+        }
+      });
+      setTrips(newTrips);
+    }
+  };
+
   useEffect(() => {
     localStorage.removeItem('tripUser');
     fetchApplications();
@@ -60,14 +118,31 @@ const Applications = () => {
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <HeroBanner name="Alle søknader" />
       <p className="application-title">
-        Alle søknader ({trips.length !== 0 ? trips.length : 0})
+        Søknader/turer ({trips.length !== 0 ? trips.length : 0})
       </p>
+      <div className="trips-filter-container">
+        <select
+          id="selected-trips"
+          onChange={(e) => changeTrips(e.target.value)}
+          className="trips-filter"
+        >
+          <option value="all">Alle turer/søknader</option>
+          <option value="future">Fremtidige turer</option>
+          <option value="past">Tidligere turer</option>
+          <option value="current">Nåværende turer</option>
+          <option value="pending">Fremtidige søknader</option>
+          <option value="declined">Tidligere avslåtte søknader</option>
+        </select>
+      </div>
+
       <div className="application-container">
         {trips?.map((item, index) => {
           cabins = '';
           return (
             <div className="application" key={index}>
-              <h2>Søknads ID #{item.applicationId}</h2>
+              <h2>
+                {!item.winner ? 'Søknad' : 'Tur'} ID #{item.applicationId}
+              </h2>
               <div className="application-wrapper">
                 <div className="application-half">
                   <div>
@@ -115,13 +190,13 @@ const Applications = () => {
                   className="link btn-smaller"
                   onClick={() => setUserToTrip(item.userId)}
                 >
-                  Endre søknad
+                  {!item.winner ? 'Endre søknad' : 'Endre tur'}
                 </Link>
                 <span
                   className="btn-smaller"
                   onClick={() => handleDelete(item.applicationId)}
                 >
-                  Slett søknad
+                  {!item.winner ? 'Slett søknad' : 'Avbestill tur'}
                 </span>
               </div>
             </div>
