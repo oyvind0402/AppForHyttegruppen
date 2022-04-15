@@ -103,9 +103,14 @@ func (r repo) PostUser(ctx *gin.Context) {
 		return
 	}
 
-	validEmail := utils.CheckEmailValidity(user.Email)
-	if !validEmail {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "The email is invalid"})
+	validUser := utils.CheckUserValidity(user.Email, user.FirstName, user.LastName)
+	if !validUser {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "The user input is invalid"})
+		return
+	}
+	validPw := utils.CheckPasswordValidity(user.Password)
+	if !validPw {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "The password is invalid"})
 		return
 	}
 

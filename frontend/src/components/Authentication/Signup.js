@@ -48,9 +48,12 @@ const SignupForm = () => {
     if (!values.password) {
       errors.password = 'Passord må fylles inn!';
     } else if (
-      !/^(?=.*[A-Za-z])(?=.*\d)([a-zA-Z\d]{8,})$/i.test(values.password)
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\\\-\._\(\)\\}{\/,:;`^'¨=#"|])[A-Za-zøæåØÆÅ\d@$!%*?&\\\-\._\(\)\\}{\/,:;`^'¨=#"|]{8,}$/i.test(
+        values.password
+      )
     ) {
-      errors.password = 'Passord må ha minst 8 tegn!';
+      errors.password =
+        'Passord må ha minst 8 tegn, en stor bokstav, en liten bokstav, ett tall og ett spesielt symbol!';
     }
 
     if (!values.firstname) {
