@@ -11,6 +11,7 @@ const OpenPeriod = () => {
   const [showPeriods, setShowPeriods] = useState(false);
   const [periods, setPeriods] = useState([{}]);
   const [season, setSeason] = useState({});
+  const [errors, setErrors] = useState({});
 
   let initialPeriods = [];
 
@@ -82,14 +83,33 @@ const OpenPeriod = () => {
     const seasonEndDate = new Date(document.getElementById('enddate').value);
     const seasonName = document.getElementById('seasonname').value;
 
-    //If the date order is wrong return
+    let _errors = {};
+
+    //Validation
     if (seasonEndDate < seasonStartDate) {
-      alert('Du valgte en sluttdato som er før startdato');
-      return;
+      _errors.dateError = 'Du valgte en sluttdato som er før startdatoen!';
     }
 
     if (seasonName.length < 1) {
-      alert('Du skrev ikke inn et navn på perioden!');
+      _errors.seasonName = 'Du skrev ikke inn et navn på perioden!';
+    }
+
+    if (seasonEndDate.toString() === 'Invalid Date') {
+      _errors.seasonEndDate = 'Du må fylle inn en sluttdato!';
+    }
+
+    if (seasonStartDate.toString() === 'Invalid Date') {
+      _errors.seasonStartDate = 'Du må fylle inn en startdato!';
+    }
+
+    setErrors(_errors);
+
+    if (
+      _errors.dateError ||
+      _errors.seasonName ||
+      _errors.seasonEndDate ||
+      _errors.seasonStartDate
+    ) {
       return;
     }
 
@@ -218,12 +238,21 @@ const OpenPeriod = () => {
             Startdato
           </label>
           <input type="date" id="startdate" className="open-period-date" />
+          {errors.seasonStartDate && (
+            <span className="login-error">{errors.seasonStartDate}</span>
+          )}
         </div>
         <div className="date-wrapper">
           <label className="date-title" htmlFor="enddate">
             Sluttdato
           </label>
           <input type="date" id="enddate" className="open-period-date" />
+          {errors.seasonEndDate && (
+            <span className="login-error">{errors.seasonEndDate}</span>
+          )}
+          {errors.dateError && (
+            <span className="login-error">{errors.dateError}</span>
+          )}
         </div>
         <div className="date-wrapper">
           <label className="date-title" htmlFor="seasonname">
@@ -235,7 +264,11 @@ const OpenPeriod = () => {
             id="seasonname"
             className="open-period-date"
           />
+          {errors.seasonName && (
+            <span className="login-error">{errors.seasonName}</span>
+          )}
         </div>
+
         <div className="period-info-button" onClick={handleShowInfo}>
           <AiOutlineQuestionCircle />
         </div>
@@ -276,8 +309,10 @@ const OpenPeriod = () => {
                         className="gen-period-input"
                         value={period.name}
                         onChange={(e) => {
-                          period.name = e.target.value;
-                          setPeriods([...periods]);
+                          if (e.target.value.length > 0) {
+                            period.name = e.target.value;
+                            setPeriods([...periods]);
+                          }
                         }}
                         id="gen-period-name"
                       />
@@ -290,8 +325,13 @@ const OpenPeriod = () => {
                         id="gen-period-startdate"
                         value={setDefaultDateValue(period.start)}
                         onChange={(e) => {
-                          period.start = setDateObject(e.target.value);
-                          setPeriods([...periods]);
+                          if (
+                            setDateObject(e.target.value).toString() !==
+                            'Invalid Date'
+                          ) {
+                            period.start = setDateObject(e.target.value);
+                            setPeriods([...periods]);
+                          }
                         }}
                         className="gen-period-input"
                       />
@@ -304,8 +344,13 @@ const OpenPeriod = () => {
                         className="gen-period-input"
                         value={setDefaultDateValue(period.end)}
                         onChange={(e) => {
-                          period.end = setDateObject(e.target.value);
-                          setPeriods([...periods]);
+                          if (
+                            setDateObject(e.target.value).toString() !==
+                            'Invalid Date'
+                          ) {
+                            period.end = setDateObject(e.target.value);
+                            setPeriods([...periods]);
+                          }
                         }}
                       />
                     </div>
