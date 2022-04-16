@@ -79,15 +79,17 @@ const Header = () => {
               Hjem
             </NavLink>
           </p>
-          <p>
-            <NavLink
-              activeClassName="active"
-              className="nav-list-item"
-              to="/mineturer"
-            >
-              Mine Turer
-            </NavLink>
-          </p>
+          {loggedIn && (
+            <p>
+              <NavLink
+                activeClassName="active"
+                className="nav-list-item"
+                to="/mineturer"
+              >
+                Mine Turer
+              </NavLink>
+            </p>
+          )}
           <p>
             <NavLink
               activeClassName="active"

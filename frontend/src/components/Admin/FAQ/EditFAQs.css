@@ -1,0 +1,48 @@
+.edit-faqs-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  padding: 2rem;
+}
+
+.faq-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.faq-wrapper .btn-smaller {
+  align-self: center;
+}
+
+.edit-faq-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-faq-label {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.edit-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+@media only screen and (max-width: 1070px) {
+  .edit-faqs-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 610px) {
+  .edit-faqs-container {
+    grid-template-columns: 1fr;
+  }
+}

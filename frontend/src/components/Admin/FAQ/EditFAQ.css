@@ -1,0 +1,27 @@
+.edit-faq-container {
+  width: 50%;
+  margin: auto;
+  padding: 2rem;
+}
+
+.edit-faq-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-input {
+  height: 30px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.faq-area {
+  height: 225px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}

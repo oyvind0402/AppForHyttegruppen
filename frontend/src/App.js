@@ -26,6 +26,9 @@ import AdminTrips from './components/Admin/AdminTrips';
 import UploadCabinPics from './components/Admin/UploadPics/UploadCabinPics';
 import UploadCabinPic from './components/Admin/UploadPics/UploadCabinPic';
 import EditPeriods from './components/Admin/Periods/EditPeriods';
+import AddFAQ from './components/Admin/FAQ/AddFAQ';
+import EditFAQs from './components/Admin/FAQ/EditFAQs';
+import EditFAQ from './components/Admin/FAQ/EditFAQ';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -95,6 +98,18 @@ function App() {
           {loginContext.adminAccess && <AddCabin />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
+        <Route path="/admin/endrefaqs">
+          {loginContext.adminAccess && <EditFAQs />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/endrefaq">
+          {loginContext.adminAccess && <EditFAQ />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/leggtilfaq">
+          {loginContext.adminAccess && <AddFAQ />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
 
         <Route path="/hytter">
           <HytterPage />
@@ -109,10 +124,12 @@ function App() {
           <SoknadPage />
         </Route>
         <Route path="/mineturer">
-          <MineTurerPage />
+          {loginContext.loggedIn && <MineTurerPage />}
+          {!loginContext.loggedIn && <Redirect to="/login" />}
         </Route>
         <Route path="/mintur">
-          <MinTurPage />
+          {loginContext.loggedIn && <MinTurPage />}
+          {!loginContext.loggedIn && <Redirect to="/login" />}
         </Route>
         <Route path="/faq">
           <FAQPage />
