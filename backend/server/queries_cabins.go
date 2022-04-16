@@ -216,6 +216,24 @@ func (r repo) PostCabin(ctx *gin.Context) {
 		return
 	}
 
+	validated := utils.CheckCabinValidation(cabin.Name,
+		cabin.Address,
+		cabin.Coordinates.Latitude,
+		cabin.Coordinates.Longitude,
+		cabin.Directions,
+		cabin.LongDescription,
+		cabin.ShortDescription,
+		cabin.Price,
+		cabin.CleaningPrice,
+		cabin.Features.Bathrooms,
+		cabin.Features.SleepingSlots,
+		cabin.Features.Bedrooms)
+
+	if !validated {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Cabin input is not valid!"})
+		return
+	}
+
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	res, err := collection.InsertOne(
 		context.Background(),
@@ -292,6 +310,23 @@ func (r repo) UpdateCabin(ctx *gin.Context) {
 	err := ctx.BindJSON(cabin)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	validated := utils.CheckCabinValidation(cabin.Name,
+		cabin.Address,
+		cabin.Coordinates.Latitude,
+		cabin.Coordinates.Longitude,
+		cabin.Directions,
+		cabin.LongDescription,
+		cabin.ShortDescription,
+		cabin.Price,
+		cabin.CleaningPrice,
+		cabin.Features.Bathrooms,
+		cabin.Features.SleepingSlots,
+		cabin.Features.Bedrooms)
+	if !validated {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Cabin input not valid!"})
 		return
 	}
 
