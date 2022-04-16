@@ -46,14 +46,6 @@ const AddCabin = () => {
     );
   };
 
-  const validateInput = (value, error, name) => {
-    if (value.length === 0) {
-      error = 'Fyll inn ' + name + '!';
-    } else if (!/^[a-zA-ZøæåØÆÅ. \\-]{2,20}$/i.test(value)) {
-      error = 'Feil format på ' + name + '!';
-    }
-  };
-
   const addCabin = async () => {
     let inputliste = document
       .getElementById('todolist')
@@ -88,7 +80,7 @@ const AddCabin = () => {
     if (document.getElementById('add-latitude').value.length === 0) {
       _errors.latitude = 'Fyll inn breddegraden!';
     } else if (
-      !/^[+-]?(([1-8]?[0-9])(\.[0-9]{1,6})?|90(\.0{1,6})?)$/i.test(
+      !/^(([1-8]?[0-9])(\.[0-9]{1,6})?|90(\.0{1,6})?)$/i.test(
         document.getElementById('add-latitude').value
       )
     ) {
@@ -98,7 +90,7 @@ const AddCabin = () => {
     if (document.getElementById('add-longitude').value.length === 0) {
       _errors.longitude = 'Fyll inn lengdegraden!';
     } else if (
-      !/^[+-]?((([1-9]?[0-9]|1[0-7][0-9])(\.[0-9]{1,6})?)|180(\.0{1,6})?)$/i.test(
+      !/^((([1-9]?[0-9]|1[0-7][0-9])(\.[0-9]{1,6})?)|180(\.0{1,6})?)$/i.test(
         document.getElementById('add-longitude').value
       )
     ) {
@@ -120,7 +112,7 @@ const AddCabin = () => {
     if (document.getElementById('add-price').value.length === 0) {
       _errors.price = 'Fyll inn en pris!';
     } else if (
-      !/^([1-9]{1}[0-9]{0,})?(0)$/i.test(
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
         document.getElementById('add-price').value
       )
     ) {
@@ -130,7 +122,7 @@ const AddCabin = () => {
     if (document.getElementById('add-cleaningprice').value.length === 0) {
       _errors.cleaningprice = 'Fyll inn en vaskepris!';
     } else if (
-      !/^[1-9]{1}[0-9]{0,}$/i.test(
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
         document.getElementById('add-cleaningprice').value
       )
     ) {
@@ -140,7 +132,7 @@ const AddCabin = () => {
     if (document.getElementById('add-bad').value.length === 0) {
       _errors.bathrooms = 'Fyll inn et antall bad!';
     } else if (
-      !/^[0-9]{1}[0-9]{0,}$/i.test(document.getElementById('add-bad').value)
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(document.getElementById('add-bad').value)
     ) {
       _errors.bathrooms = 'Feil format på antall bad!';
     }
@@ -148,7 +140,7 @@ const AddCabin = () => {
     if (document.getElementById('add-soveplasser').value.length === 0) {
       _errors.sleepingslots = 'Fyll inn et antall soveplasser!';
     } else if (
-      !/^[0-9]{1}[0-9]{0,}$/i.test(
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
         document.getElementById('add-soveplasser').value
       )
     ) {
@@ -158,7 +150,9 @@ const AddCabin = () => {
     if (document.getElementById('add-soverom').value.length === 0) {
       _errors.bedrooms = 'Fyll inn et antall soverom!';
     } else if (
-      !/^[0-9]{1}[0-9]{0,}$/i.test(document.getElementById('add-soverom').value)
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
+        document.getElementById('add-soverom').value
+      )
     ) {
       _errors.bedrooms = 'Feil format på antall soverom!';
     }

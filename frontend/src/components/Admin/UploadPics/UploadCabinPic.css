@@ -1,14 +1,19 @@
 .upload-cabin-pic-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.image-upload-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
-  margin: auto;
+  justify-content: center;
 }
 
 .upload-title {
   font-size: 2rem;
   font-weight: 700;
+  text-align: center;
 }
 
 .upload-input {
@@ -17,17 +22,25 @@
   margin-bottom: 2rem;
 }
 
-@media only screen and (max-width: 828px) {
-  .upload-cabin-pic-container {
-    width: 80%;
-  }
+.chosen-image {
+  max-width: 100%;
+}
+
+.upload-cabin-pic-container .slick-slide-item img {
+  width: 60vw;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.upload-cabin-pic-container .slick-slide-item img {
+  aspect-ratio: 1;
+}
+
+.uploaded-pics-title {
+  text-align: center;
 }
 
 @media only screen and (max-width: 500px) {
-  .upload-cabin-pic-container {
-    width: 90%;
-  }
-
   .upload-title {
     font-size: 1.5rem;
   }

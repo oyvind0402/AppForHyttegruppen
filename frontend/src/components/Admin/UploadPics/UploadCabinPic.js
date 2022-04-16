@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import CarouselFromProps from '../../01-Reusable/ImageCarousel/CarouselFromProps';
 import './UploadCabinPic.css';
 
 const UploadCabinPic = () => {
   const [url, setUrl] = useState();
+  const [uploadedImages, setUploadedImages] = useState([]);
   const link = window.location.href;
   let cabinName = link.split('/')[5];
   if (cabinName.includes('%20') || cabinName.includes('%C3%B8')) {
@@ -12,20 +14,29 @@ const UploadCabinPic = () => {
     cabinName = fix.replace('%C3%B8', 'ø');
   }
 
+  const handleShowingPictures = (image) => {
+    setUploadedImages((images) => [...images, { image }]);
+  };
+
   const handleImageUpload = async () => {
     const files = document.getElementById('image').files[0];
     const formData = new FormData();
     formData.append('file', files);
     formData.append('cabinName', cabinName);
-    console.log(files);
     setUrl(null);
+
+    if (typeof files === 'undefined') {
+      return;
+    }
+
+    handleShowingPictures(files);
 
     // fetch('/pictures/one', {
     //   method: 'POST',
     //   body: formData,
     //   headers: {
-    //     token: localStorage.getItem('token');
-    //   }
+    //     token: localStorage.getItem('token'),
+    //   },
     // })
     //   .then((response) => response.json())
     //   .then((data) => {
@@ -35,6 +46,7 @@ const UploadCabinPic = () => {
     //     console.error(error);
     //   });
     document.getElementById('image').value = null;
+    console.log(uploadedImages);
   };
 
   const handleChange = (event) => {
@@ -52,26 +64,37 @@ const UploadCabinPic = () => {
       />
       <HeroBanner name={'Last opp bilder'} />
       <div className="upload-cabin-pic-container">
-        <p className="upload-title">Last opp bilder for {cabinName}</p>
-        <input
-          onChange={(e) => handleChange(e)}
-          className="upload-input"
-          type="file"
-          id="image"
-          name="image"
-          accept=".jpg,.png"
-        />
+        <div className="image-upload-wrapper">
+          <p className="upload-title">Last opp bilder for {cabinName}</p>
+          <input
+            onChange={(e) => handleChange(e)}
+            className="upload-input"
+            type="file"
+            id="image"
+            name="image"
+            accept=".jpg,.png"
+          />
+        </div>
 
         {url ? (
-          <div>
-            <p>Valgt bilde:</p>
-            <img src={url} />
+          <div className="image-upload-wrapper">
+            <div>
+              <p>Valgt bilde:</p>
+              <div className="chosen-image-center">
+                <img className="chosen-image" src={url} />
+              </div>
+            </div>
           </div>
         ) : null}
-
         <button onClick={handleImageUpload} className="btn big">
           Last opp bilde
         </button>
+        {uploadedImages.length > 0 ? (
+          <>
+            <p className="uploaded-pics-title">Opplastede bilder:</p>
+            <CarouselFromProps data={uploadedImages} />
+          </>
+        ) : null}
       </div>
     </>
   );
