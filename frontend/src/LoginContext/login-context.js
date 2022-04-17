@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Setting default values to the context
 const LoginContext = React.createContext({
@@ -55,6 +55,15 @@ export const LoginContextProvider = (props) => {
     login: login,
     logout: logout,
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      const jwtPayload = JSON.parse(window.atob(token.split('.')[1]));
+      if (Date.now() >= jwtPayload.exp * 1000) {
+        logout();
+      }
+    }
+  }, []);
 
   return (
     <LoginContext.Provider value={contextValues}>
