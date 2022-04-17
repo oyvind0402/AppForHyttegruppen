@@ -61,7 +61,7 @@ const EditPeriods = () => {
   const handleEdit = async (period) => {
     const response = await fetch('/period/update', {
       method: 'PUT',
-      headers: { token: localStorage.getItem('token') },
+      headers: { token: localStorage.getItem('refresh_token') },
       body: JSON.stringify(period),
     });
 

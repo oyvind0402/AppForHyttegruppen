@@ -35,7 +35,7 @@ const UploadCabinPic = () => {
     //   method: 'POST',
     //   body: formData,
     //   headers: {
-    //     token: localStorage.getItem('token'),
+    //     token: localStorage.getItem('refresh_token'),
     //   },
     // })
     //   .then((response) => response.json())

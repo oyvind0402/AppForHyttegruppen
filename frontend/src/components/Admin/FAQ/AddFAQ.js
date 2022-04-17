@@ -38,7 +38,7 @@ const AddFAQ = () => {
 
     const response = await fetch('/faq/post', {
       method: 'POST',
-      headers: { token: localStorage.getItem('token') },
+      headers: { token: localStorage.getItem('refresh_token') },
       body: JSON.stringify({
         question: question,
         answer: answer,

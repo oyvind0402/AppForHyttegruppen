@@ -54,7 +54,7 @@ const TripCardPending = (props) => {
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(props.data.applicationId),
-      headers: { token: localStorage.getItem('token') },
+      headers: { token: localStorage.getItem('refresh_token') },
     });
 
     const data = await response.json();

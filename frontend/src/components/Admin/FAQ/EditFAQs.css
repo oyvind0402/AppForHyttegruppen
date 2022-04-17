@@ -1,7 +1,7 @@
 .edit-faqs-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 1rem;
+  grid-gap: 5rem;
   padding: 2rem;
 }
 
@@ -34,13 +34,19 @@
   height: 100%;
 }
 
+@media only screen and (max-width: 1400px) {
+  .edit-faqs-container {
+    grid-gap: 2rem;
+  }
+}
+
 @media only screen and (max-width: 1070px) {
   .edit-faqs-container {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media only screen and (max-width: 610px) {
+@media only screen and (max-width: 720px) {
   .edit-faqs-container {
     grid-template-columns: 1fr;
   }
