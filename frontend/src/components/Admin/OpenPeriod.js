@@ -201,7 +201,7 @@ const OpenPeriod = () => {
     const data = response.json();
     if (response.ok) {
       console.log(data);
-      periods.map((period) =>
+      periods.forEach((period) =>
         fetch('/period/post', {
           method: 'POST',
           body: JSON.stringify(period),
@@ -292,70 +292,68 @@ const OpenPeriod = () => {
             </p>
             {periods?.map((period, index) => {
               return (
-                <>
-                  <PeriodCard key={index}>
-                    <p className="gen-period-week">{period.name}</p>
-                    <p className="gen-period-date">
-                      {getFormattedDate(period.start) +
-                        ' - ' +
-                        getFormattedDate(period.end)}
-                    </p>
+                <PeriodCard key={index}>
+                  <p className="gen-period-week">{period.name}</p>
+                  <p className="gen-period-date">
+                    {getFormattedDate(period.start) +
+                      ' - ' +
+                      getFormattedDate(period.end)}
+                  </p>
 
-                    <div className="gen-period-wrapper">
-                      <p className="gen-period-title">Navn</p>
+                  <div className="gen-period-wrapper">
+                    <p className="gen-period-title">Navn</p>
 
-                      <input
-                        type="text"
-                        className="gen-period-input"
-                        value={period.name}
-                        onChange={(e) => {
-                          if (e.target.value.length > 0) {
-                            period.name = e.target.value;
-                            setPeriods([...periods]);
-                          }
-                        }}
-                        id="gen-period-name"
-                      />
-                    </div>
-                    <div className="gen-period-wrapper">
-                      <p className="gen-period-title">Startdato</p>
+                    <input
+                      type="text"
+                      className="gen-period-input"
+                      value={period.name}
+                      onChange={(e) => {
+                        if (e.target.value.length > 0) {
+                          period.name = e.target.value;
+                          setPeriods([...periods]);
+                        }
+                      }}
+                      id="gen-period-name"
+                    />
+                  </div>
+                  <div className="gen-period-wrapper">
+                    <p className="gen-period-title">Startdato</p>
 
-                      <input
-                        type="date"
-                        id="gen-period-startdate"
-                        value={setDefaultDateValue(period.start)}
-                        onChange={(e) => {
-                          if (
-                            setDateObject(e.target.value).toString() !==
-                            'Invalid Date'
-                          ) {
-                            period.start = setDateObject(e.target.value);
-                            setPeriods([...periods]);
-                          }
-                        }}
-                        className="gen-period-input"
-                      />
-                    </div>
-                    <div className="gen-period-wrapper">
-                      <p className="gen-period-title">Sluttdato</p>
-                      <input
-                        type="date"
-                        id="gen-period-enddate"
-                        className="gen-period-input"
-                        value={setDefaultDateValue(period.end)}
-                        onChange={(e) => {
-                          if (
-                            setDateObject(e.target.value).toString() !==
-                            'Invalid Date'
-                          ) {
-                            period.end = setDateObject(e.target.value);
-                            setPeriods([...periods]);
-                          }
-                        }}
-                      />
-                    </div>
-                  </PeriodCard>
-                </>
+                    <input
+                      type="date"
+                      id="gen-period-startdate"
+                      value={setDefaultDateValue(period.start)}
+                      onChange={(e) => {
+                        if (
+                          setDateObject(e.target.value).toString() !==
+                          'Invalid Date'
+                        ) {
+                          period.start = setDateObject(e.target.value);
+                          setPeriods([...periods]);
+                        }
+                      }}
+                      className="gen-period-input"
+                    />
+                  </div>
+                  <div className="gen-period-wrapper">
+                    <p className="gen-period-title">Sluttdato</p>
+                    <input
+                      type="date"
+                      id="gen-period-enddate"
+                      className="gen-period-input"
+                      value={setDefaultDateValue(period.end)}
+                      onChange={(e) => {
+                        if (
+                          setDateObject(e.target.value).toString() !==
+                          'Invalid Date'
+                        ) {
+                          period.end = setDateObject(e.target.value);
+                          setPeriods([...periods]);
+                        }
+                      }}
+                    />
+                  </div>
+                </PeriodCard>
               );
             })}
           </>
