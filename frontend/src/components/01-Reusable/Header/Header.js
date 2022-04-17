@@ -18,8 +18,6 @@ const Header = () => {
   const loggedIn = loginContext.loggedIn;
   const adminAccess = loginContext.adminAccess;
 
-  //const [defaultLocale, setDefaultLocale] = useState(true);
-
   const logoutHandler = () => {
     if (click) {
       handleClick();
@@ -29,10 +27,6 @@ const Header = () => {
     localStorage.removeItem('userID');
     history.replace('/');
   };
-
-  /*const changeLanguage = () => {
-    setDefaultLocale(!defaultLocale);
-  };*/
 
   const handleClick = () => {
     setClick(!click);
@@ -143,16 +137,6 @@ const Header = () => {
               Admin
             </NavLink>
           )}
-          {/*<img
-            className="language-nor"
-            onClick={changeLanguage}
-            src={
-              defaultLocale
-                ? `${process.env.PUBLIC_URL}/assets/pictures/Norwegian.svg`
-                : `${process.env.PUBLIC_URL}/assets/pictures/English.svg`
-            }
-            alt="Hjemmeikon"
-          />*/}
         </div>
         <div className="mobile-menu">
           <span className="menu-icon">
