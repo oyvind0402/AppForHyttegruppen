@@ -1,0 +1,32 @@
+.add-faq-container {
+  width: 50%;
+  margin: auto;
+  padding: 2rem;
+}
+
+.add-faq-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.add-faq-label {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.add-faq-input {
+  height: 100px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.add-faq-input2 {
+  height: 225px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+}
