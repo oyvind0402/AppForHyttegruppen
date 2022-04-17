@@ -149,7 +149,7 @@ const Applications = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
+      <BackButton name="Tilbake til admin" link="admin" />
       <HeroBanner name="Alle søknader" />
       <p className="application-title">
         Søknader/turer ({trips.length !== 0 ? trips.length : 0})

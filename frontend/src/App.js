@@ -22,7 +22,6 @@ import Applications from './components/Admin/Applications/EditSoknader';
 import Application from './components/Admin/Applications/EditSoknad';
 import OpenPeriod from './components/Admin/OpenPeriod';
 import AddCabin from './components/Admin/Cabins/AddCabin';
-import AdminTrips from './components/Admin/AdminTrips';
 import UploadCabinPics from './components/Admin/UploadPics/UploadCabinPics';
 import UploadCabinPic from './components/Admin/UploadPics/UploadCabinPic';
 import EditPeriods from './components/Admin/Periods/EditPeriods';
@@ -52,10 +51,6 @@ function App() {
         )}
         <Route path="/admin" exact>
           {loginContext.adminAccess && <AdminPage />}
-          {!loginContext.adminAccess && <Redirect to="/login" />}
-        </Route>
-        <Route path="/admin/historikk">
-          {loginContext.adminAccess && <AdminTrips />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/lastoppbilder">

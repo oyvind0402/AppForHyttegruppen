@@ -9,24 +9,24 @@ const EditSite = () => {
       <BackButton name="Tilbake til admin" link="admin" />
       <HeroBanner name="Endre sideinnhold" />
 
-      <Link className="btn-link btn big" to="/admin/endrehytter">
-        Endre hytter
-      </Link>
-
       <Link className="btn-link btn big" to="/admin/leggtilhytte">
         Legg til hytte
       </Link>
 
-      <Link className="btn-link btn big" to="/admin/endreperioder">
-        Endre perioder
+      <Link className="btn-link btn big" to="/admin/endrehytter">
+        Endre hytter
+      </Link>
+
+      <Link className="btn-link btn big" to="/admin/leggtilfaq">
+        Legg til FAQ
       </Link>
 
       <Link className="btn-link btn big" to="/admin/endrefaqs">
         Endre FAQ
       </Link>
 
-      <Link className="btn-link btn big" to="/admin/endresoknader">
-        Alle søknader
+      <Link className="btn-link btn big" to="/admin/endreperioder">
+        Endre perioder
       </Link>
 
       <Link className="btn-link btn big" to="/admin/lastoppbilder">
