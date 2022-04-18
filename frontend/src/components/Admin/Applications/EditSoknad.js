@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknad.css';
 
 const Application = () => {
@@ -13,16 +14,10 @@ const Application = () => {
   const [periods, setPeriods] = useState([]);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
+  const [updated, setUpdated] = useState(false);
 
-  const [checked, setChecked] = useState(true);
-  const [purpose, setPurpose] = useState(true);
-
-  const handleChange = () => {
-    setChecked((checked) => !checked);
-  };
-
-  const handlePurpose = () => {
-    setPurpose((purpose) => !purpose);
+  const handleVisibility = () => {
+    setUpdated(!updated);
   };
 
   function getFormattedDate(inDate) {
@@ -76,6 +71,46 @@ const Application = () => {
     }
   };
 
+  const editApplication = async () => {
+    let _cabins = [];
+    const utsikten = document.getElementById('Utsikten');
+    const knausen = document.getElementById('Knausen');
+    const fanitullen = document.getElementById('Fanitullen');
+    const storeG = document.getElementById('Store Grøndalen');
+    const winner = document.getElementById('edit-winner').checked;
+
+    if (utsikten.checked) {
+      _cabins.push({ cabinName: utsikten.value });
+    }
+
+    if (knausen.checked) {
+      _cabins.push({ cabinName: knausen.value });
+    }
+
+    if (fanitullen.checked) {
+      _cabins.push({ cabinName: fanitullen.value });
+    }
+
+    if (storeG.checked) {
+      _cabins.push({ cabinName: storeG.value });
+    }
+
+    const _application = trip;
+    _application.cabinsWon = _cabins;
+    _application.winner = winner;
+
+    const response = await fetch('/application/setwinner', {
+      method: 'PATCH',
+      headers: { token: localStorage.getItem('refresh_token') },
+      body: JSON.stringify(_application),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      setUpdated(false);
+    }
+  };
+
   useEffect(() => {
     getCabinNames();
     getPeriods();
@@ -92,86 +127,71 @@ const Application = () => {
       />
       <HeroBanner name="Endre søknad" />
       <div className="edit-trip-container">
-        <div className="edit-trip-wrapper">
-          <label className="edit-trip-label" htmlFor="edit-accentureid">
-            Accenture ID
-          </label>
-          <input
-            className="edit-trip-input"
-            defaultValue={trip.accentureId}
-            type="text"
-            id="edit-accentureid"
-          />
+        <div className="edit-trip-grid">
+          <div>
+            <div className="edit-trip-wrapper">
+              <label className="edit-trip-label" htmlFor="edit-accentureid">
+                Accenture ID
+              </label>
+              <p className="edit-trip-info">{trip.accentureId}</p>
+            </div>
+            <div className="edit-trip-wrapper">
+              <p className="edit-trip-title">Bruker:</p>
+              {users?.map((_user, index) => {
+                if (_user.userId === user.userId) {
+                  return (
+                    <p key={index} className="edit-trip-info">
+                      {_user.firstname +
+                        ' ' +
+                        _user.lastname +
+                        ' - ' +
+                        _user.email}
+                    </p>
+                  );
+                }
+              })}
+            </div>
+
+            <div className="edit-trip-wrapper">
+              <p className="edit-trip-title">Type tur</p>
+              <p className="edit-trip-info">{trip.tripPurpose}</p>
+            </div>
+          </div>
+          <div>
+            <div className="edit-trip-wrapper">
+              <p className="edit-trip-title">Periode</p>
+              {trip.length !== 0 &&
+              periods.length !== 0 &&
+              typeof trip.period !== 'undefined'
+                ? periods?.map((period, index) => {
+                    if (period.id === trip.period.id) {
+                      return (
+                        <p className="edit-trip-info" key={index}>
+                          {getFormattedDate(period.start) +
+                            ' - ' +
+                            getFormattedDate(period.end) +
+                            ' (' +
+                            period.name +
+                            ')'}
+                        </p>
+                      );
+                    }
+                  })
+                : null}
+            </div>
+            <div className="edit-trip-wrapper">
+              <p className="edit-trip-title">Hyttevalg</p>
+              <p className="edit-trip-info">{trip.cabinAssignment}</p>
+            </div>
+            <div className="edit-trip-wrapper">
+              <label className="edit-trip-label" htmlFor="edit-numberofcabins">
+                Antall ønskede hytter
+              </label>
+              <p className="edit-trip-info">{trip.numberOfCabins}</p>
+            </div>
+          </div>
         </div>
-        <div className="trip-user-wrapper">
-          <p className="edit-trip-title">Bruker:</p>
-          <select name="users" id="users">
-            {users?.map((_user, index) => {
-              if (_user.userId === user.userId) {
-                return (
-                  <option
-                    key={index}
-                    className="edit-trip-option"
-                    selected
-                    value={index}
-                  >
-                    {_user.firstname +
-                      ' ' +
-                      _user.lastname +
-                      ' - ' +
-                      _user.email}
-                  </option>
-                );
-              } else {
-                return (
-                  <option className="edit-trip-option" value={index}>
-                    {_user.firstname +
-                      ' ' +
-                      _user.lastname +
-                      ' - ' +
-                      _user.email}
-                  </option>
-                );
-              }
-            })}
-          </select>
-        </div>
-        <div className="edit-trip-wrapper">
-          <label className="edit-trip-label" htmlFor="edit-numberofcabins">
-            Antall ønskede hytter
-          </label>
-          <input
-            className="edit-trip-input"
-            defaultValue={trip.numberOfCabins}
-            type="number"
-            id="edit-numberofcabins"
-            min={1}
-            max={cabins.length}
-          />
-        </div>
-        <div>
-          <p className="edit-trip-title">Hyttevalg</p>
-          <label className="edit-trip-label2" htmlFor="edit-purposeassignment">
-            Tilfeldig
-          </label>
-          <input
-            className="edit-trip-input-radio"
-            checked={trip.cabinAssignment === 'random' ? purpose : !purpose}
-            onChange={handlePurpose}
-            type="radio"
-            id="edit-purposeassignment"
-          />
-          <label className="edit-trip-label2" htmlFor="edit-specificassignment">
-            Spesifikk
-          </label>
-          <input
-            className="edit-trip-input-radio"
-            checked={trip.cabinAssignment === 'specific' ? purpose : !purpose}
-            onChange={handlePurpose}
-            type="radio"
-            id="edit-specificassignment"
-          />
-        </div>
+
         <div className="edit-trip-wrapper2">
           <p className="edit-trip-title">Valgte hytter</p>
           {cabins?.map((cabin, i) => {
@@ -182,128 +202,71 @@ const Application = () => {
             });
             if (selectedCabins.includes(cabin)) {
               return (
-                <div
-                  key={i}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    marginBottom: '0.5rem',
-                  }}
-                >
+                <div className="edit-trip-cabins" key={i}>
                   <input
                     defaultChecked={true}
                     name={cabin}
                     type="checkbox"
                     className="edit-trip-input-checkbox2"
                     id={cabin}
+                    value={cabin}
                   />
-                  <label style={{ lineHeight: '1.875rem', height: '1.875rem' }}>
-                    {cabin}
-                  </label>
+                  <label className="edit-trip-cabinslabel">{cabin}</label>
                 </div>
               );
             } else {
               return (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    marginBottom: '0.5rem',
-                  }}
-                  key={i}
-                >
+                <div className="edit-trip-cabins" key={i}>
                   <input
                     name={cabin}
                     className="edit-trip-input-checkbox2"
                     type="checkbox"
                     id={cabin}
+                    value={cabin}
                   />
-                  <label style={{ lineHeight: '1.875rem', height: '1.875rem' }}>
-                    {cabin}
-                  </label>
+                  <label className="edit-trip-cabinslabel">{cabin}</label>
                 </div>
               );
             }
           })}
         </div>
-        <div>
-          <p className="edit-trip-title">Type tur</p>
-          <label className="edit-trip-label2" htmlFor="edit-privatetrip">
-            Privat
-          </label>
-          <input
-            className="edit-trip-input-radio"
-            checked={
-              trip.tripPurpose === 'privat' || trip.tripPurpose === 'private'
-                ? checked
-                : !checked
-            }
-            onChange={handleChange}
-            type="radio"
-            id="edit-privatetrip"
-          />
-          <label className="edit-trip-label2" htmlFor="edit-projecttrip">
-            Prosjekt
-          </label>
-          <input
-            className="edit-trip-input-radio"
-            checked={trip.tripPurpose === 'project' ? checked : !checked}
-            onChange={handleChange}
-            type="radio"
-            id="edit-projecttrip"
-          />
-        </div>
-        <div className="edit-trip-wrapper">
-          <p className="edit-trip-title">Periode</p>
-          <select
-            name="periods"
-            id="periods"
-            className="edit-trip-selectperiod"
-          >
-            {trip.length !== 0 &&
-            periods.length !== 0 &&
-            typeof trip.period !== 'undefined'
-              ? periods?.map((period, index) => {
-                  if (period.id === trip.period.id) {
-                    return (
-                      <option selected key={index} value={period}>
-                        {getFormattedDate(period.start) +
-                          ' - ' +
-                          getFormattedDate(period.end) +
-                          ' (' +
-                          period.name +
-                          ')'}
-                      </option>
-                    );
-                  } else {
-                    return (
-                      <option key={index} value={period}>
-                        {getFormattedDate(period.start) +
-                          ' - ' +
-                          getFormattedDate(period.end) +
-                          ' (' +
-                          period.name +
-                          ')'}
-                      </option>
-                    );
-                  }
-                })
-              : null}
-          </select>
-        </div>
+        {trip.winner ? (
+          <div className="edit-trip-wrapper2">
+            <p className="edit-trip-title">Hytte(r) vunnet:</p>
+            {trip.cabinsWon.map((cabin, i) => {
+              return (
+                <div key={i}>
+                  <p className="edit-trip-info">{cabin.cabinName}</p>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
         <div className="edit-trip-cbwrapper">
           <label className="edit-trip-label" htmlFor="edit-winner">
             Vinner
           </label>
           <input
             className="edit-trip-input-checkbox"
-            defaultValue={trip.winner}
+            defaultChecked={trip.winner}
             type="checkbox"
             id="edit-winner"
           />
         </div>
-        <button className="btn big">Endre</button>
+        <button onClick={handleVisibility} className="btn big">
+          Endre
+        </button>
       </div>
+      {updated && (
+        <AlertPopup
+          title="Endring av søknad"
+          description="Er du sikker på at du vil endre søknaden?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleVisibility}
+          acceptMethod={editApplication}
+        />
+      )}
     </>
   );
 };

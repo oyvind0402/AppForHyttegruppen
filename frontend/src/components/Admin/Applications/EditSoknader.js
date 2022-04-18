@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
+import ExcelConverter from '../../01-Reusable/ExcelConverter/ExcelConverter';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknader.css';
@@ -151,6 +152,7 @@ const Applications = () => {
     <>
       <BackButton name="Tilbake til admin" link="admin" />
       <HeroBanner name="Alle søknader" />
+      <ExcelConverter />
       <p className="application-title">
         Søknader/turer ({trips.length !== 0 ? trips.length : 0})
       </p>
@@ -164,7 +166,7 @@ const Applications = () => {
           <option value="future">Fremtidige turer</option>
           <option value="past">Tidligere turer</option>
           <option value="current">Nåværende turer</option>
-          <option value="pending">Fremtidige søknader</option>
+          <option value="pending">Søknader</option>
           <option value="declined">Tidligere avslåtte søknader</option>
         </select>
         <select
@@ -186,7 +188,13 @@ const Applications = () => {
         </select>
       </div>
 
-      <div className="application-container">
+      <div
+        className={
+          trips.length > 1
+            ? 'application-container'
+            : 'application-container-single'
+        }
+      >
         {trips?.map((item, index) => {
           cabins = '';
           return (
@@ -202,18 +210,32 @@ const Applications = () => {
                     <h4>Bruker:</h4>
                     <p>{item.userId}</p>
                     <h4>Tilfeldig / Spesifikk hytte:</h4>
-                    <p>
-                      {item.cabinAssignment === 'random'
-                        ? 'Tilfeldig'
-                        : 'Spesifikk'}
-                    </p>
-                    <h4>Valgte hytter:</h4>
-                    <div className="application-cabins-wrapper">
-                      {item.cabins.forEach((cabin) => {
-                        cabins += cabin.cabinName += ' ';
-                      })}
-                      <p>{cabins}</p>
-                    </div>
+                    <p>{item.cabinAssignment}</p>
+                    {item.winner ? (
+                      <>
+                        <h4>
+                          {item.cabinsWon.length > 1
+                            ? 'Hytter vunnet:'
+                            : 'Hytte vunnet:'}
+                        </h4>
+                        <div className="application-cabins-wrapper">
+                          {item.cabinsWon.forEach((cabin) => {
+                            cabins += cabin.cabinName += ' ';
+                          })}
+                          <p>{cabins}</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <h4>Valgte hytter:</h4>
+                        <div className="application-cabins-wrapper">
+                          {item.cabins.forEach((cabin) => {
+                            cabins += cabin.cabinName += ' ';
+                          })}
+                          <p>{cabins}</p>
+                        </div>
+                      </>
+                    )}
                     <h4>Antall hytter ønsket:</h4>
                     <p>{item.numberOfCabins}</p>
                   </div>
@@ -227,9 +249,7 @@ const Applications = () => {
                     <p>Startdato: {getFormattedDate(item.period.start)}</p>
                     <p>Sluttdato: {getFormattedDate(item.period.end)}</p>
                     <h4>Type tur:</h4>
-                    <p>
-                      {item.tripPurpose === 'private' ? 'Privat' : 'Prosjekt'}
-                    </p>
+                    <p>{item.tripPurpose}</p>
                     <h4>Vinner:</h4>
                     <p> {!item.winner ? 'Nei' : 'Ja'}</p>
                   </div>

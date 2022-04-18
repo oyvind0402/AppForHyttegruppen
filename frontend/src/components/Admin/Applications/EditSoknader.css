@@ -1,9 +1,19 @@
 .application-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   justify-items: center;
   grid-gap: 2rem;
+  margin-bottom: 4rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.application-container-single {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
   margin-bottom: 4rem;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -76,6 +86,12 @@
   border-radius: 5px;
   margin-bottom: 1rem;
   max-width: 250px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .application-container {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media only screen and (max-width: 935px) {
