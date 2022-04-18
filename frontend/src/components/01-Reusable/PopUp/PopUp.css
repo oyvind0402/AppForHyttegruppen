@@ -58,7 +58,7 @@
 .alert-popup-container hr {
   margin: 0;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .alert-popup-title {
@@ -73,7 +73,7 @@
 
 .alert-popup-desc {
   margin-top: 0;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   padding-left: 2rem;
   padding-right: 2rem;
 }
