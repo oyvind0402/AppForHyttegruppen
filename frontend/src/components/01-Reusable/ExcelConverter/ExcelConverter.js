@@ -66,11 +66,45 @@ const ExcelConverter = () => {
     }
   }, [applicationData]);
 
+  function getFormattedDate(inDate) {
+    let date = new Date(inDate);
+    let year = date.getFullYear();
+
+    let month = (1 + date.getMonth()).toString();
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    let day = date.getDate().toString();
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+    return day + '/' + month + '/' + year;
+  }
+
+  const headers = [
+    { label: 'ID', key: 'applicationId' },
+    { label: 'BrukerID', key: 'userId' },
+    { label: 'Enterprise ID', key: 'accentureId' },
+    { label: 'Type tur', key: 'tripPurpose' },
+    { label: 'Periode', key: 'period' },
+    { label: 'Antall hytter', key: 'numberOfCabins' },
+    { label: 'Hyttetildeling', key: 'cabinAssignment' },
+    { label: 'Hytter valgt', key: 'cabins' },
+    { label: 'Hytter vunnet', key: 'cabinsWon' },
+    { label: 'Vinner', key: 'winner' },
+  ];
+
+  const now = new Date();
+
   return (
     <>
       {loaded && (
-        <CSVLink data={applicationData} filename={'hytteapplications.csv'}>
-          Convert Applications to Excel
+        <CSVLink
+          headers={headers}
+          data={applicationData}
+          filename={'hyttesøknader' + getFormattedDate(now) + '.csv'}
+        >
+          Konverter søknader til Excel (.csv fil)
         </CSVLink>
       )}
     </>
