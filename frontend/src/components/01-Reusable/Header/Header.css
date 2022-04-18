@@ -166,7 +166,7 @@
   }
 }
 
-@media only screen and (max-width: 835px) {
+@media only screen and (max-width: 715px) {
   .nav-list {
     display: none;
   }
@@ -254,5 +254,11 @@
   .active {
     text-decoration: underline;
     color: #8900c5;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .mobile-menu span {
+    font-size: 2rem;
   }
 }
