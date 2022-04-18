@@ -27,7 +27,7 @@ const Step1 = (props) => {
       props.formData.accentureId;
 
     const tripPurpose = props.formData.tripPurpose;
-    if (tripPurpose === 'prosjekt') {
+    if (tripPurpose === 'Prosjekt') {
       document.querySelector('input[id="prosjekt"]').checked = true;
     } else {
       document.querySelector('input[id="privat"]').checked = true;
@@ -73,7 +73,7 @@ const Step1 = (props) => {
               type="radio"
               id="privat"
               name="purpose-trip"
-              value="privat"
+              value="Privat"
               onChange={(e) => e.target}
             />
             <label className="soknad-radio-text" htmlFor="privat">
@@ -87,7 +87,7 @@ const Step1 = (props) => {
               type="radio"
               id="prosjekt"
               name="purpose-trip"
-              value="prosjekt"
+              value="Prosjekt"
               onChange={(e) => e.target}
             />
             <label className="soknad-radio-text" htmlFor="prosjekt">

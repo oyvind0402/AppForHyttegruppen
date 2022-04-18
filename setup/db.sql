@@ -82,7 +82,7 @@ CREATE TABLE Faq(
 );
 
 INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
-VALUES('Vinter 2022','2022-01-01', '2022-01-01', '2021-03-31', '2021-03-31'),
+VALUES('Vinter 2022','2022-01-01', '2022-03-15', '2021-12-20', '2021-12-31'),
 ('Høst 2022','2022-08-29', '2023-01-02', '2022-01-02', '2023-08-14');
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
@@ -118,9 +118,9 @@ VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4
 ('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$PsxqvC8fkSF6sEu9DF45/.N/eZLZyj8.K9k/BDsz7C/FqyMOdtH/S', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluQGFkbWluci5jb20iLCJleHAiOjE2NTAwNDM3MzN9.IKFVQxDWaVKYDLemALfx3Ck7hXL_jnz8N-aSTW0S7NE', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjEzM30.kwwObYPLJrDkk0pxCquhsf666_FWl7biWNC7LCrDrVg','Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '1', TRUE), /*Won in the past*/
-('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '2', TRUE),
-('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'private', '1', 'random', '3', FALSE);
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'Privat', '1', 'Tilfeldig', '1', TRUE), /*Won in the past*/
+('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'Privat', '1', 'Tilfeldig', '2', TRUE),
+('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'Privat', '1', 'Tilfeldig', '3', FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', TRUE),

@@ -42,7 +42,7 @@ const Step3 = (props) => {
   const getCurrentData = () => {
     let valgteCabins = [];
 
-    if (cabinAssigment === 'random') {
+    if (cabinAssigment === 'Tilfeldig') {
       valgteCabins = cabins.map((cabin) => {
         return { cabinName: cabin.name };
       });
@@ -120,8 +120,8 @@ const Step3 = (props) => {
                 type="radio"
                 id="random"
                 name="cabinChoice"
-                value="random"
-                checked={cabinAssigment === 'random' ? true : false}
+                value="Tilfeldig"
+                checked={cabinAssigment === 'Tilfeldig' ? true : false}
                 onChange={(event) => setCabinAssigment(event.target.value)}
               />
               <label htmlFor="random">Jeg ønsker tilfeldig tildeling</label>
@@ -131,18 +131,16 @@ const Step3 = (props) => {
                 type="radio"
                 id="pickSelf"
                 name="cabinChoice"
-                value="pickSelf"
-                checked={cabinAssigment === 'pickSelf' ? true : false}
+                value="Spesifikk"
+                checked={cabinAssigment === 'Spesifikk' ? true : false}
                 onChange={(event) => setCabinAssigment(event.target.value)}
               />
-              <label htmlFor="pickSelf">
-                Jeg ønsker å velge mulige hytte(ne)
-              </label>
+              <label htmlFor="pickSelf">Jeg ønsker å velge hyttene selv</label>
             </div>
           </div>
         )}
 
-        {numberOfCabins > 0 && cabinAssigment === 'pickSelf' && (
+        {numberOfCabins > 0 && cabinAssigment === 'Spesifikk' && (
           <div className="soknad-step3-cabins">
             {cabins.map((cabin, index) => {
               return (
