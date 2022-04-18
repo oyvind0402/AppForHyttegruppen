@@ -14,8 +14,6 @@ const LoginForm = () => {
 
   const loginContext = useContext(LoginContext);
 
-  const endpoint = '/user/signin';
-
   async function onSubmit(event) {
     event.preventDefault();
 
@@ -23,7 +21,7 @@ const LoginForm = () => {
     const passwordValue = password.current.value;
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch('/user/signin', {
         method: 'POST',
         body: JSON.stringify({
           email: usernameValue,
