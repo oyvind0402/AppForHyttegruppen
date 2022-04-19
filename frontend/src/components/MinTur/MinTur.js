@@ -14,6 +14,7 @@ import './MinTur.css';
 import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
 import { useHistory } from 'react-router-dom';
 import AlertPopup from '../01-Reusable/PopUp/AlertPopup';
+import BackButton from '../01-Reusable/Buttons/BackButton';
 
 const MinTur = () => {
   const history = useHistory();
@@ -121,6 +122,7 @@ const MinTur = () => {
   if (future && trip.winner) {
     return (
       <>
+        <BackButton name="Tilbake til mine turer" link="mineturer" />
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
@@ -251,6 +253,7 @@ const MinTur = () => {
   } else if (pending && !trip.winner) {
     return (
       <>
+        <BackButton name="Tilbake til mine turer" link="mineturer" />
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
@@ -296,6 +299,7 @@ const MinTur = () => {
   } else if (current && trip.winner) {
     return (
       <>
+        <BackButton name="Tilbake til mine turer" link="mineturer" />
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
@@ -415,6 +419,7 @@ const MinTur = () => {
   } else if (former && trip.winner) {
     return (
       <>
+        <BackButton name="Tilbake til mine turer" link="mineturer" />
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">

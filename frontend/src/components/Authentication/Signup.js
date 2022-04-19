@@ -105,6 +105,19 @@ const SignupForm = () => {
           <div className="login-form-group">
             <label htmlFor="username">Epost:</label>
             <input
+              readonly="readonly"
+              onFocus={() => {
+                if (
+                  document
+                    .getElementById('emailsignup')
+                    .hasAttribute('readonly')
+                ) {
+                  document
+                    .getElementById('emailsignup')
+                    .removeAttribute('readonly');
+                }
+              }}
+              id="emailsignup"
               type="text"
               className="form-control"
               placeholder="Epost..."

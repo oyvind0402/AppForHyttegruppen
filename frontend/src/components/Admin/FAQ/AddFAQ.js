@@ -83,7 +83,8 @@ const AddFAQ = () => {
       </div>
       {visible && (
         <AlertPopup
-          title={'Vil du lagre spørsmålet og svaret?'}
+          title={'Lagring av FAQ'}
+          description="Vil du lagre spørsmålet og svaret?"
           negativeAction="Nei"
           positiveAction="Ja"
           cancelMethod={handleVisibility}
