@@ -150,7 +150,7 @@ const Step1 = (props) => {
           className="btn small btn-nonActive"
           onClick={props.nullstillForm}
         >
-          Nullstil
+          Nullstill
         </button>
 
         <button className="btn small" onClick={submitStep1}>

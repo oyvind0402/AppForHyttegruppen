@@ -34,6 +34,10 @@
   height: 100%;
 }
 
+.edit-button .link {
+  margin-right: 0.5rem;
+}
+
 @media only screen and (max-width: 1400px) {
   .edit-faqs-container {
     grid-gap: 2rem;
