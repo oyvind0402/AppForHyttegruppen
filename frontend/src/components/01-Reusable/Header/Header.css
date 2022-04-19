@@ -48,6 +48,13 @@
   grid-template-columns: repeat(6, auto);
 }
 
+.nav-list-smaller {
+  text-align: center;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+}
+
 .nav-list-item {
   text-decoration: none;
   font-size: 1.5rem;
@@ -161,6 +168,11 @@
   .nav-list {
     grid-template-columns: repeat(3, auto);
   }
+
+  .nav-list-smaller {
+    grid-template-columns: repeat(4, auto);
+  }
+
   .nav-list-item {
     padding: 0.3125rem;
   }
@@ -168,6 +180,10 @@
 
 @media only screen and (max-width: 715px) {
   .nav-list {
+    display: none;
+  }
+
+  .nav-list-smaller {
     display: none;
   }
 

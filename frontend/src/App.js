@@ -4,7 +4,7 @@ import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import LoginContext from './LoginContext/login-context';
 import SignupPage from './pages/SignupPage';
 import HytterPage from './pages/HytterPage';
@@ -28,9 +28,24 @@ import EditPeriods from './components/Admin/Periods/EditPeriods';
 import AddFAQ from './components/Admin/FAQ/AddFAQ';
 import EditFAQs from './components/Admin/FAQ/EditFAQs';
 import EditFAQ from './components/Admin/FAQ/EditFAQ';
+import SoknadStengtPage from './pages/SoknadStengtPage';
 
 function App() {
   const loginContext = useContext(LoginContext);
+
+  const [soknadOpen, setSoknadOpen] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('/season/open');
+      const data = await response.json();
+      if (response.ok) {
+        setSoknadOpen(data.isOpen);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <Layout>
@@ -105,6 +120,11 @@ function App() {
           {loginContext.adminAccess && <AddFAQ />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
+        {!soknadOpen && (
+          <Route path="/stengt">
+            <SoknadStengtPage />
+          </Route>
+        )}
 
         <Route path="/hytter">
           <HytterPage />

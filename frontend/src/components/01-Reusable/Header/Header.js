@@ -10,6 +10,7 @@ const Header = () => {
   const loginContext = useContext(LoginContext);
   const [click, setClick] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [soknadOpen, setSoknadOpen] = useState(false);
 
   const prevScrollPos = useRef(
     typeof window !== 'undefined' && window.pageYOffset
@@ -49,6 +50,18 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('/season/open');
+      const data = await response.json();
+      if (response.ok) {
+        setSoknadOpen(data.isOpen);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <nav className={visible ? 'nav-container' : 'nav-hide'}>
@@ -62,7 +75,7 @@ const Header = () => {
             </Link>
           </div>
         </div>
-        <div className={'nav-list'}>
+        <div className={loggedIn ? 'nav-list' : 'nav-list-smaller'}>
           <p>
             <NavLink
               exact={true}
@@ -84,15 +97,17 @@ const Header = () => {
               </NavLink>
             </p>
           )}
-          <p>
-            <NavLink
-              activeClassName="active"
-              className="nav-list-item"
-              to="/soknad"
-            >
-              Søknad
-            </NavLink>
-          </p>
+          {loggedIn && (
+            <p>
+              <NavLink
+                activeClassName="active"
+                className="nav-list-item"
+                to={soknadOpen ? '/soknad' : '/stengt'}
+              >
+                Søknad
+              </NavLink>
+            </p>
+          )}
           <p>
             <NavLink
               activeClassName="active"
