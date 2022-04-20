@@ -28,8 +28,8 @@ const Soknad = () => {
     if (formCompleted) {
       formData.period.forEach((period) => {
         let JsonBody = {
-          //userId: localStorage.getItem('userID'),
-          userId: formData.userId,
+          userId: localStorage.getItem('userID'),
+          //userId: formData.userId,
           accentureId: formData.accentureId,
           tripPurpose: formData.tripPurpose,
           period: period,

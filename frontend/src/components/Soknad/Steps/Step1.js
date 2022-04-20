@@ -5,6 +5,7 @@ import './Step1.css';
 import { useEffect, useState } from 'react';
 
 const Step1 = (props) => {
+  const [showExtraInfo, setShowExtraInfo] = useState(false);
   const [showUserFeedback, setShowUserFeedback] = useState(false);
   const [showaccentureFeedback, setShowAccentureFeedback] = useState(false);
   const [cabins, setCabins] = useState([]);
@@ -38,7 +39,7 @@ const Step1 = (props) => {
   const submitStep1 = () => {
     setShowUserFeedback(false);
     setShowAccentureFeedback(false);
-    const newUserId = document.getElementById('name').value;
+    const newUserId = localStorage.getItem('userID');
     const newAccentureId = document.getElementById('EnterpriseID').value;
     const newTripPurpose = document.querySelector(
       'input[name="purpose-trip"]:checked'
@@ -61,10 +62,23 @@ const Step1 = (props) => {
   return (
     <>
       <div className="step-soknad">
-        <div className="stepQuestion">
+        <div
+          className="stepQuestion"
+          onClick={() => setShowExtraInfo(!showExtraInfo)}
+        >
           <BsQuestionCircle className="soknad-question-icon" />
           <p className="soknad-question-text">Hva er grunnen for oppholdet</p>
         </div>
+        {showExtraInfo && (
+          <div className="step-extra-info-div">
+            <p className="step-extra-info-p">
+              Dersom du søker på et prosjekt må du fylle ut ???
+            </p>
+            <p className="step-extra-info-p">
+              EnterpriseID er din epost uten @accenture.com
+            </p>
+          </div>
+        )}
 
         <div className="soknad-purpose">
           <div>

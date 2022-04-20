@@ -4,6 +4,7 @@ import './Steps.css';
 import './Step2.css';
 
 const Step2 = (props) => {
+  const [showExtraInfo, setShowExtraInfo] = useState(false);
   const [tempPerioder, setTempPerioder] = useState([]);
   const [perioder, setPerioder] = useState([]);
   let newMuligePerioder = [];
@@ -127,29 +128,47 @@ const Step2 = (props) => {
   return (
     <>
       <div className="step-soknad">
-        <div className="stepQuestion">
+        <div
+          className="stepQuestion"
+          onClick={() => setShowExtraInfo(!showExtraInfo)}
+        >
           <BsQuestionCircle className="soknad-question-icon" />
           <p className="soknad-question-text">Velg perioder du vil søke på</p>
         </div>
+        {showExtraInfo && (
+          <div className="step-extra-info-div">
+            <p className="step-extra-info-p">
+              Du kan kun søke en gang per periode.
+            </p>
+            <p className="step-extra-info-p">
+              Har du gjort en feil? Da kan du avbestille turen under min tur og
+              deretter søke på nytt.
+            </p>
+          </div>
+        )}
 
         <div>
           <div>
             <h3 className="input-header">Perioder</h3>
             <div className="perioder-input">
-              {muligePerioder.map((period, index) => (
-                <div className="soknad-step2-period" key={index}>
-                  <input
-                    className="soknad-step2-checkbox add-checkbox"
-                    type="checkbox"
-                    id={period.id}
-                    name={period.id}
-                  />
-                  <label className="soknad-step2-label" htmlFor={period.id}>
-                    {period.name} ({changeDate(period.start)} -{' '}
-                    {changeDate(period.end)})
-                  </label>
-                </div>
-              ))}
+              {muligePerioder.length > 0 ? (
+                muligePerioder.map((period, index) => (
+                  <div className="soknad-step2-period" key={index}>
+                    <input
+                      className="soknad-step2-checkbox add-checkbox"
+                      type="checkbox"
+                      id={period.id}
+                      name={period.id}
+                    />
+                    <label className="soknad-step2-label" htmlFor={period.id}>
+                      {period.name} ({changeDate(period.start)} -{' '}
+                      {changeDate(period.end)})
+                    </label>
+                  </div>
+                ))
+              ) : (
+                <p>Vi fant ingen perioder</p>
+              )}
             </div>
           </div>
           <div className="soknad-step2-btns">

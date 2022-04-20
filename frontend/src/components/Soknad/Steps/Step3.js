@@ -5,6 +5,8 @@ import './Steps.css';
 import './Step3.css';
 
 const Step3 = (props) => {
+  const [showExtraInfo, setShowExtraInfo] = useState(false);
+
   const [numberOfCabins, setNumberOfCabins] = useState(
     props.formData.numberOfCabins
   );
@@ -84,10 +86,25 @@ const Step3 = (props) => {
   return (
     <>
       <div className="step-soknad">
-        <div className="stepQuestion">
+        <div
+          className="stepQuestion"
+          onClick={() => setShowExtraInfo(!showExtraInfo)}
+        >
           <BsQuestionCircle className="soknad-question-icon" />
           <p className="soknad-question-text">Velg hytter</p>
         </div>
+        {showExtraInfo && (
+          <div className="step-extra-info-div">
+            <p className="step-extra-info-p">
+              Tilfeldig tildeling betyr at du muligens vil få en av hyttene.
+            </p>
+            <p className="step-extra-info-p">
+              Dersom du ønsker å velge selv kan du velge de hyttene som du vil
+              søke på og utelukke de som du ikke vil ha.
+            </p>
+          </div>
+        )}
+
         <div className="soknad-step3-antall">
           <label className="soknad-label" htmlFor="numberOfHytter">
             Ønsket antall hytter
