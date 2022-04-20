@@ -21,11 +21,18 @@ const MapCabins = (props) => {
             pickedCabin.coordinates.latitude,
             pickedCabin.coordinates.longitude,
           ]}
-          defaultZoom={11}
+          defaultZoom={13}
         >
           {cabins[0] !== '' && (
             <Cluster>
               {cabins.map((cabin, index) => {
+                let cabinPicked = false;
+                //if cabin is same as picked and the cabinCard name = picked than the color is set to gray
+                if (
+                  cabin.name === pickedCabin.name &&
+                  cabinCard.name === pickedCabin.name
+                )
+                  cabinPicked = true;
                 return (
                   <Marker
                     key={index}
@@ -34,8 +41,25 @@ const MapCabins = (props) => {
                       cabin.coordinates.latitude,
                       cabin.coordinates.longitude,
                     ]}
-                    color={color}
-                    onClick={() => setCabinCard(cabin)}
+                    color={cabinPicked ? '#666666' : color}
+                    onClick={(e) => {
+                      setCabinCard(cabin);
+                      const listMarkers =
+                        document.getElementsByClassName('clicked');
+                      for (let i = 0; i < listMarkers.length; i++) {
+                        try {
+                          listMarkers[i].classList.remove('clicked');
+                        } catch (error) {
+                          //no sush class
+                        }
+                      }
+                      //Making sure path is selected and not circle
+                      let element = e.event.target;
+                      if (element.tagName === 'circle') {
+                        element = e.event.target.previousElementSibling;
+                      }
+                      element.classList.add('clicked');
+                    }}
                   />
                 );
               })}
