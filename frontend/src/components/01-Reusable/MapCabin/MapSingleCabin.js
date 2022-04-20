@@ -2,7 +2,7 @@ import './../../Cabins/Cabins.css';
 import { Map, Marker } from 'pigeon-maps';
 import Cluster from 'pigeon-cluster';
 import CabinCardMap from '../CabinCard/CabinCardMap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const MapCabins = (props) => {
   const color = `hsl(271, 76%, 53%)`;
@@ -10,6 +10,21 @@ const MapCabins = (props) => {
   const cabins = props.cabins;
   const [cabinCard, setCabinCard] = useState(props.pickedCabin);
   const pickedCabin = props.pickedCabin;
+
+  useEffect(() => {
+    function handleResize() {
+      let map = document.evaluate(
+        '//*[@id="root"]/main/div/div[2]/div[5]/div',
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      ).singleNodeValue;
+      map.style.width = '100%';
+    }
+
+    window.addEventListener('resize', handleResize);
+  });
 
   return (
     <>

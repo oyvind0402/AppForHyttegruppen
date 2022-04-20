@@ -3,13 +3,29 @@ import './Map.css';
 import { Map, Marker } from 'pigeon-maps';
 import Cluster from 'pigeon-cluster';
 import CabinCardMap from '../../01-Reusable/CabinCard/CabinCardMap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const MapCabins = (props) => {
   const color = `hsl(271, 76%, 53%)`;
 
   const cabins = props.cabins;
   const [cabinCard, setCabinCard] = useState('');
+  const [, updateState] = useState();
+
+  useEffect(() => {
+    function handleResize() {
+      let map = document.evaluate(
+        '//*[@id="root"]/main/div/div[3]/div',
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      ).singleNodeValue;
+      map.style.width = '80%';
+    }
+
+    window.addEventListener('resize', handleResize);
+  });
 
   return (
     <>
@@ -22,6 +38,7 @@ const MapCabins = (props) => {
             cabins[0].coordinates.longitude,
           ]}
           defaultZoom={11}
+          className={'pigeon-map'}
         >
           {cabins[0] !== '' && (
             <Cluster>
