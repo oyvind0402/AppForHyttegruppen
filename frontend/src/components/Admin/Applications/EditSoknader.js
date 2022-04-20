@@ -256,16 +256,18 @@ const Applications = () => {
                 </div>
               </div>
               <div className="button-container">
-                <Link
-                  to={'/admin/endresoknad/' + item.applicationId}
-                  className="link btn-smaller"
-                  onClick={() => setUserToTrip(item.userId)}
-                >
-                  {!item.winner ? 'Endre søknad' : 'Endre tur'}
-                </Link>
-                <span className="btn-smaller" onClick={handleVisibility}>
-                  {!item.winner ? 'Slett søknad' : 'Slett tur'}
-                </span>
+                <div className="buttons-soknad">
+                  <Link
+                    to={'/admin/endresoknad/' + item.applicationId}
+                    className="link btn-smaller"
+                    onClick={() => setUserToTrip(item.userId)}
+                  >
+                    {!item.winner ? 'Endre søknad' : 'Endre tur'}
+                  </Link>
+                  <span className="btn-smaller" onClick={handleVisibility}>
+                    {!item.winner ? 'Slett søknad' : 'Slett tur'}
+                  </span>
+                </div>
               </div>
               {visible && (
                 <AlertPopup

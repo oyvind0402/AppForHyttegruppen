@@ -457,11 +457,7 @@ const OpenPeriod = () => {
         <InfoPopup
           btnText="Ok"
           title={'Feil'}
-          description={
-            "Det skjedde en feil ved lagring av søknadsperioden, server svarte med: '" +
-            error +
-            "'. Prøv igjen!"
-          }
+          description={"Det skjedde en feil. '" + error + "'. Prøv igjen!"}
           hideMethod={handleErrorVisibility}
         />
       )}
