@@ -1,4 +1,5 @@
 import './../../Cabins/Cabins.css';
+import './Map.css';
 import { Map, Marker } from 'pigeon-maps';
 import Cluster from 'pigeon-cluster';
 import CabinCardMap from '../../01-Reusable/CabinCard/CabinCardMap';
@@ -34,7 +35,25 @@ const MapCabins = (props) => {
                       cabin.coordinates.longitude,
                     ]}
                     color={color}
-                    onClick={() => setCabinCard(cabin)}
+                    onClick={(e) => {
+                      setCabinCard(cabin);
+
+                      const listMarkers =
+                        document.getElementsByClassName('clicked');
+                      for (let i = 0; i < listMarkers.length; i++) {
+                        try {
+                          listMarkers[i].classList.remove('clicked');
+                        } catch (error) {
+                          //no sush class
+                        }
+                      }
+                      //Making sure path is selected and not circle
+                      let element = e.event.target;
+                      if (element.tagName === 'circle') {
+                        element = e.event.target.previousElementSibling;
+                      }
+                      element.classList.add('clicked');
+                    }}
                   />
                 );
               })}
