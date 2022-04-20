@@ -76,7 +76,7 @@ const MapCabins = (props) => {
               })}
             </Cluster>
           )}
-          <CabinCardMap cabin={cabinCard} />
+          <CabinCardMap cabin={cabinCard} showSeeMore={true} />
         </Map>
       </div>
     </>

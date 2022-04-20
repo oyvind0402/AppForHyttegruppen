@@ -80,7 +80,11 @@ const MapCabins = (props) => {
               })}
             </Cluster>
           )}
-          <CabinCardMap cabin={cabinCard} />
+          {cabinCard.name === pickedCabin.name ? (
+            <CabinCardMap cabin={cabinCard} showSeeMore={false} />
+          ) : (
+            <CabinCardMap cabin={cabinCard} showSeeMore={true} />
+          )}
         </Map>
       </div>
     </>

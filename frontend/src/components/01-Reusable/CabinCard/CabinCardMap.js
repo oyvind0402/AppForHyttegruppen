@@ -23,15 +23,26 @@ const CabinCardMap = (props) => {
               {props.cabin.features.bad} Bad
             </p>
 
-            <button
-              className="card-map-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                window.location.href = `/hytte/${props.cabin.name}`;
-              }}
-            >
-              Se mer
-            </button>
+            {props.showSeeMore ? (
+              <button
+                className="card-map-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = `/hytte/${props.cabin.name}`;
+                }}
+              >
+                Se mer
+              </button>
+            ) : (
+              <button
+                className="card-map-btn"
+                onClick={(e) => {
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Se mer
+              </button>
+            )}
           </div>
         </div>
       </>
