@@ -46,7 +46,7 @@ CREATE TABLE Applications(
     ansattnummerWBS varchar(40) NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
-    kommentar varchar(255),
+    kommentar TEXT,
     cabin_assignment varchar(10) NOT NULL,
     period_id int NOT NULL,
     winner boolean NOT NULL,
