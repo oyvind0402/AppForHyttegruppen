@@ -1,0 +1,139 @@
+{
+  "id": "82505509-8509-4f6a-ba23-38d90ecee68c",
+  "version": "2.0",
+  "name": "Accenture",
+  "url": "http://localhost:3000",
+  "tests": [{
+    "id": "1c3b6980-c37c-45c4-94a1-9b96dca9c9dd",
+    "name": "informationRegaringRental",
+    "commands": [{
+      "id": "92e81836-2c25-4e54-86c6-62fd0ff2c65a",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "146df316-0468-4ed2-b753-a9affa8a00c3",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logg inn",
+      "targets": [
+        ["linkText=Logg inn", "linkText"],
+        ["css=.nav-list-logout", "css:finder"],
+        ["xpath=//a[contains(text(),'Logg inn')]", "xpath:link"],
+        ["xpath=//div[@id='root']/nav/div[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/login')]", "xpath:href"],
+        ["xpath=//div[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logg inn')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2fc82d60-5a07-4fb8-b93c-17de8f900b7a",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/main/div/div[2]/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a83be965-ac2d-499e-961f-16140b88aa5e",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/main/div/div[2]/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test@teter.com"
+    }, {
+      "id": "de7bc1f4-4d2f-454c-94b2-817a780731ac",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/main/div/div[2]/form/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "16e1f8a6-fd37-44b5-a071-a9f937f73477",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/main/div/div[2]/form/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "password123"
+    }, {
+      "id": "e90e82af-ffc0-4310-abc2-f53deb044239",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=FAQ",
+      "targets": [
+        ["linkText=FAQ", "linkText"],
+        ["css=p:nth-child(6) > .nav-list-item", "css:finder"],
+        ["xpath=//a[contains(text(),'FAQ')]", "xpath:link"],
+        ["xpath=//div[@id='root']/nav/div[2]/p[6]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/faq')]", "xpath:href"],
+        ["xpath=//p[6]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'FAQ')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c6457bd7-d806-4ea3-bc37-45d56e0d191b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.FAQ:nth-child(1) > .FAQ-question",
+      "targets": [
+        ["css=.FAQ:nth-child(1) > .FAQ-question", "css:finder"],
+        ["xpath=//div[@id='root']/main/div/div[2]/div/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cdcc3ef3-b8b1-4f71-9c4d-0fa584565c0a",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.open > .FAQ-question",
+      "targets": [],
+      "value": "Hvordan avbestiller jeg en tur?"
+    }, {
+      "id": "95efd6d7-0bd2-4076-bdea-6045b0776fd5",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.open > .FAQ-answer",
+      "targets": [
+        ["css=.open > .FAQ-answer", "css:finder"],
+        ["xpath=//div[@id='root']/main/div/div[2]/div/div[2]", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div[2]", "xpath:position"]
+      ],
+      "value": "En tur kan avbestilles under mine turer eller ved å ta kontakt med hyttekomiteen@accenture.com. Dersom man avbestiller senere enn to uker før avreise blir det en ekstra kostnad på 500 NOK."
+    }]
+  }],
+  "suites": [{
+    "id": "876d2f05-2c0b-4ac1-866e-23f12e8f27d2",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["1c3b6980-c37c-45c4-94a1-9b96dca9c9dd"]
+  }],
+  "urls": ["http://localhost:3000/"],
+  "plugins": []
+}
