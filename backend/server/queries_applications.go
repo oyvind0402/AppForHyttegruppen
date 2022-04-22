@@ -268,11 +268,7 @@ func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 // Retrieve applications for a userid where winner=true and start_date < today < end_date (receives userId: string; returns []Application)
 func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(string)
-	if err := ctx.Bind(userId); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	userId := ctx.Param("userid")
 
 	curdate := time.Now()
 
@@ -284,9 +280,9 @@ func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	AND period_id IN (
 		SELECT period_id
 		FROM Periods
-		WHERE starting < $2 AND ending > $2
+		WHERE starting <= $2 AND ending >= $2
 	) `
-	args := []interface{}{*userId, curdate}
+	args := []interface{}{userId, curdate}
 
 	applications, err, status := r.getApplications(ctx, stmt, args)
 	if err != nil {
@@ -361,7 +357,7 @@ func (r repo) GetFutureWinnerApplications(ctx *gin.Context) {
 	AND period_id IN (
 		SELECT period_id
 		FROM Periods
-		WHERE ending < $1
+		WHERE starting > $1
 	)`
 	args := []interface{}{curdate}
 

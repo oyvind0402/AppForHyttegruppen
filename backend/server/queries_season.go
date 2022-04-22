@@ -137,7 +137,7 @@ func (r repo) PostSeason(ctx *gin.Context) {
 
 	//If the array is not empty we abort, since there is already an active season
 	if len(seasons) != 0 {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "A season is already active during that timeperiod"})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "A season is already created for that timeperiod"})
 		return
 	}
 

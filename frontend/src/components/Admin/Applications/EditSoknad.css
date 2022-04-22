@@ -7,6 +7,11 @@
   padding-top: 2rem;
 }
 
+.edit-trip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .edit-trip-wrapper {
   display: flex;
   flex-direction: column;
@@ -35,6 +40,10 @@
   margin-bottom: 1rem;
 }
 
+.edit-trip-info {
+  margin-top: 0;
+}
+
 .edit-trip-input-checkbox {
   height: 1.875rem;
   width: 1.875rem;
@@ -51,6 +60,17 @@
 
 .edit-trip-input-radio {
   margin-bottom: 1rem;
+}
+
+.edit-trip-cabins {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5rem;
+}
+
+.edit-trip-cabinslabel {
+  line-height: 1.875rem;
+  height: 1.875rem;
 }
 
 .edit-trip-label {
@@ -72,10 +92,6 @@
   margin: 0;
 }
 
-.trip-user-wrapper {
-  margin-bottom: 1rem;
-}
-
 #users {
   width: 100%;
   font-size: 1rem;
@@ -90,4 +106,31 @@
 
 .edit-trip-selectperiod {
   margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 1216px) {
+  .edit-trip-container {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 972px) {
+  .edit-trip-container {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 814px) {
+  .edit-trip-container {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .edit-trip-grid {
+    grid-template-columns: 1fr;
+  }
+  .edit-trip-container {
+    width: 40%;
+  }
 }

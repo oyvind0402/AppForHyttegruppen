@@ -3,12 +3,14 @@ import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
 import HomeImage from '../01-Reusable/HomeImage/HomeImage';
 import { FaRegUserCircle, FaQuestionCircle } from 'react-icons/fa';
 import './Home.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import LoginContext from '../../LoginContext/login-context';
 
 const Home = () => {
   const [soknadOpen, setSoknadOpen] = useState(false);
   const [soknadEndDate, setsoknadEndDate] = useState('');
+  const loginContext = useContext(LoginContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -28,52 +30,42 @@ const Home = () => {
     }
     fetchData();
   }, []);
-  useEffect(() => {
-    document.querySelector('#file').addEventListener('change', (event) => {
-      handleImageUpload(event);
-    });
-  });
-
-  const handleImageUpload = (event) => {
-    const files = event.target.files;
-    const formData = new FormData();
-    formData.append('file', files[0]);
-    const cabinName = document.getElementById('cabinName').value;
-    console.log(cabinName);
-    formData.append('cabinName', cabinName);
-
-    fetch('/pictures/one', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
 
   return (
     <>
-      <input type="text" id="cabinName" name="cabinName" />
-      <input type="file" id="file" name="file" accept=".jpg,.png" />
       <HeroBanner />
       <div className="home-display">
         <div className="home-application">
-          <h2 className="home-h2">Søknadsperiod er</h2>
+          <h2 className="home-h2">Søknadsperioden er</h2>
           <h2 className="home-h2 soknad-open">
             {soknadOpen ? 'åpen' : 'stengt'}
           </h2>
-          {soknadOpen ? (
+          {soknadOpen && loginContext.loggedIn ? (
             <BigButtonLink name="Søk på hytte" link="/soknad" />
           ) : (
             ''
           )}
-          {soknadOpen ? (
+          {!soknadOpen && loginContext.adminAccess ? (
+            <BigButtonLink
+              name="Åpne søknadsperiode"
+              link="/admin/startsoknad"
+            />
+          ) : null}
+          {soknadOpen && !loginContext.loggedIn ? (
+            <BigButtonLink name="Logg inn" link="/login" />
+          ) : null}
+          {soknadOpen && loginContext.loggedIn ? (
             <p className="home-soknad-closes">
               Søknadsperioden stenger {soknadEndDate}
+            </p>
+          ) : (
+            ''
+          )}
+          {soknadOpen && !loginContext.loggedIn ? (
+            <p className="home-soknad-closes">
+              Søknadsperioden stenger {soknadEndDate}
+              <br />
+              Logg inn for å søke på hytter!
             </p>
           ) : (
             ''

@@ -12,7 +12,7 @@
   z-index: 2;
 
   position: relative;
-  top: 250px;
+  top: 300px;
   right: -20vw;
 }
 
@@ -76,8 +76,32 @@
   color: white;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 850px) {
   .card-map {
+    top: 300px;
     right: 0;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .card-map {
+    height: 175px;
+    width: 200px;
+    margin: 0.5rem auto;
+
+    border-radius: 0.25rem;
+    background-color: white;
+    overflow: hidden;
+    z-index: 2;
+
+    position: relative;
+    top: 300px;
+  }
+
+  .card-map-features {
+    grid-template-areas:
+      'bedIcon textBedroom textBedroom'
+      'bathIcon textBath textBath'
+      'btn btn btn';
   }
 }
