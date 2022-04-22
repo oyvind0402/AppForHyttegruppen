@@ -13,13 +13,15 @@ const Soknad = () => {
   const [popupResponse, setPopupResponse] = useState('');
   const [formCompleted, setFormCompleted] = useState(false);
   const [formData, setFormData] = useState({
-    userId: '',
+    userId: localStorage.getItem('userID'),
+    ansattnummerWBS: '',
     accentureId: '',
-    tripPurpose: '',
+    tripPurpose: 'Privat',
     period: [],
     numberOfCabins: 0,
     cabinAssigment: 'random',
     cabins: [],
+    kommentar: '',
     winner: false,
   });
 
@@ -29,13 +31,14 @@ const Soknad = () => {
       formData.period.forEach((period) => {
         let JsonBody = {
           userId: localStorage.getItem('userID'),
-          //userId: formData.userId,
+          //ansattnummerWBS: formData.ansattnummerWBS,
           accentureId: formData.accentureId,
           tripPurpose: formData.tripPurpose,
           period: period,
           numberOfCabins: formData.numberOfCabins,
           cabinAssignment: formData.cabinAssigment,
           cabins: formData.cabins,
+          //kommentar: formData.kommentar,
           winner: false,
         };
 
@@ -72,7 +75,7 @@ const Soknad = () => {
     if (page === 1) {
       setFormData({
         ...formData,
-        userId: data.userId,
+        ansattnummerWBS: data.ansattnummerWBS,
         accentureId: data.accentureId,
         tripPurpose: data.tripPurpose,
       });
@@ -94,6 +97,7 @@ const Soknad = () => {
         numberOfCabins: parseInt(data.numberOfCabins),
         cabinAssigment: data.cabinAssigment,
         cabins: data.cabins,
+        kommentar: data.kommentar,
       });
     }
   };
@@ -112,13 +116,15 @@ const Soknad = () => {
 
   function nullstillForm() {
     setFormData({
-      userId: '',
+      userId: localStorage.getItem('userID'),
+      ansattnummerWBS: '',
       accentureId: '',
-      tripPurpose: '',
+      tripPurpose: 'Privat',
       period: [],
       numberOfCabins: 1,
       cabinAssigment: '',
       cabins: [],
+      kommentar: '',
       winner: false,
     });
   }
@@ -131,6 +137,7 @@ const Soknad = () => {
         numberOfCabins: parseInt(data.numberOfCabins),
         cabinAssigment: data.cabinAssigment,
         cabins: data.cabins,
+        kommentar: data.kommentar,
       });
     }
   };
