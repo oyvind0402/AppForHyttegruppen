@@ -2,7 +2,7 @@ package data
 
 type Application struct {
 	ApplicationId   int          `json:"applicationId,omitempty"`
-	UserId          string       `json:"userId"`
+	User            User         `json:"user"`
 	AccentureId     string       `json:"accentureId"`
 	TripPurpose     string       `json:"tripPurpose"`
 	Period          Period       `json:"period"`

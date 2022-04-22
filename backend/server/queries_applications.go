@@ -87,11 +87,12 @@ func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}
 	for rows.Next() {
 		var application data.Application
 		var periodId int
+		var userId string
 
 		// Insert row values into Application
 		if err = rows.Scan(
 			&application.ApplicationId,
-			&application.UserId,
+			&userId,
 			&application.AccentureId,
 			&application.TripPurpose,
 			&application.NumberOfCabins,
@@ -103,6 +104,12 @@ func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}
 
 		// Get period
 		application.Period, err = r.getPeriodById(ctx, periodId)
+		if err != nil {
+			return applications, err, http.StatusBadRequest
+		}
+
+		// Get user
+		application.User, err = r.getUserById(ctx, userId)
 		if err != nil {
 			return applications, err, http.StatusBadRequest
 		}
@@ -139,11 +146,12 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	// Create Application
 	var application data.Application
 	var periodId int
+	var userId string
 
 	// Map columns to Application fields
 	if err = row.Scan(
 		&application.ApplicationId,
-		&application.UserId,
+		&userId,
 		&application.AccentureId,
 		&application.TripPurpose,
 		&application.NumberOfCabins,
@@ -159,6 +167,12 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
+	}
+
+	// Get User information
+	application.User, err = r.getUserById(ctx, userId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadGateway, gin.H{"err": err.Error()})
 	}
 
 	// Get cabins
@@ -374,6 +388,18 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 
 // Post one cabin (receives Application; returns application_id: int)
 func (r repo) PostApplication(ctx *gin.Context) {
+	type PostedApplication struct {
+		ApplicationId   int               `json:"applicationId,omitempty"`
+		UserId          string            `json:"userId"`
+		AccentureId     string            `json:"accentureId"`
+		TripPurpose     string            `json:"tripPurpose"`
+		Period          data.Period       `json:"period"`
+		NumberOfCabins  int               `json:"numberOfCabins"`
+		CabinAssignment string            `json:"cabinAssignment"`
+		Cabins          []data.CabinShort `json:"cabins"`
+		CabinsWon       []data.CabinShort `json:"cabinsWon,omitempty"`
+		Winner          bool              `json:"winner"`
+	}
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
 	if err != nil {
@@ -383,14 +409,12 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	defer tx.Rollback()
 
 	// Retrieve Application
-	application := new(data.Application)
+	application := new(PostedApplication)
 	err = ctx.BindJSON(application)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
-
-	fmt.Println(application)
 
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
@@ -447,7 +471,7 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 		`UPDATE Applications
 		SET user_id = $1, employee_id = $2, trip_purpose = $3, number_of_cabins = $4, cabin_assignment = $5, period_id = $6, winner = $7
 		WHERE application_id = $8`,
-		application.UserId,
+		application.User.Id,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
@@ -494,6 +518,12 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 
 // Update application, defining it as a winning application AND specifying cabins that were won (receives Application, requires only Id, Winner and CabinsWon; returns rowsAffected: int)
 func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
+	type CabinsWon struct {
+		ApplicationId int               `json:"applicationId"`
+		CabinsWon     []data.CabinShort `json:"cabinsWon"`
+		Winner        bool              `json:"winner"`
+	}
+
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
 	if err != nil {
@@ -503,7 +533,7 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	defer tx.Rollback()
 
 	// Retrieve data from front-end (WinnerApplication type)
-	application := new(data.Application)
+	application := new(CabinsWon)
 	if err = ctx.BindJSON(application); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return

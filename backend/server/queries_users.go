@@ -36,6 +36,28 @@ func getUser(ctx *gin.Context, row *sql.Row) (data.User, int, error) {
 	return user, http.StatusOK, err
 }
 
+// Get one User by Id
+func (r repo) getUserById(ctx *gin.Context, userId string) (data.User, error) {
+	// Define user
+	var user data.User
+
+	// Retrieve user by ID
+	row := r.sqlDb.QueryRow(`SELECT user_id, email, firstname, lastname, admin_access FROM Users WHERE user_id = $1`, userId)
+
+	// Populate User fields with column values
+	var err error
+	if err = row.Scan(
+		&user.Id,
+		&user.Email,
+		&user.FirstName,
+		&user.LastName,
+		&user.AdminAccess); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+	}
+
+	return user, err
+}
+
 // Retrieve one user by ID (receives userId: string; returns User)
 func (r repo) GetUser(ctx *gin.Context) {
 	// Retrieve parameter ID
