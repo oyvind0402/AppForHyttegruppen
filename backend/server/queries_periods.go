@@ -18,7 +18,12 @@ func (r repo) getPeriodById(ctx *gin.Context, periodId int) (data.Period, error)
 	var period data.Period
 
 	// Retrieve period by ID
-	row := r.sqlDb.QueryRow(`SELECT * FROM Periods WHERE period_id = $1`, periodId)
+	row := r.sqlDb.QueryRow(`SELECT Periods.period_id, Periods.period_name, Periods.season_name, Periods.starting, Periods.ending, COUNT(Applications.period_id) AS count 
+	FROM Periods 
+	LEFT JOIN Applications 
+		ON Periods.period_id = Applications.period_id
+	WHERE Periods.period_id = $1
+	GROUP BY Periods.period_id`, periodId)
 
 	// Populate Period fields with column values
 	var err error
@@ -27,7 +32,8 @@ func (r repo) getPeriodById(ctx *gin.Context, periodId int) (data.Period, error)
 		&period.Name,
 		&period.Season.Name,
 		&period.Start,
-		&period.End); err != nil {
+		&period.End,
+		&period.ApplicationsInPeriod); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 	}
 
@@ -46,13 +52,14 @@ func (r repo) getPeriodsFromRows(ctx *gin.Context, rows *sql.Rows) ([]data.Perio
 		var season data.Season
 		var start time.Time
 		var end time.Time
+		var count int
 
-		if err = rows.Scan(&id, &name, &season.Name, &start, &end); err != nil {
+		if err = rows.Scan(&id, &name, &season.Name, &start, &end, &count); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 			return nil, err
 		}
 
-		period := data.Period{Id: id, Name: name, Season: season, Start: &start, End: &end}
+		period := data.Period{Id: id, Name: name, Season: season, Start: &start, End: &end, ApplicationsInPeriod: count}
 		periods = append(periods, period)
 	}
 	return periods, err
@@ -85,7 +92,13 @@ func (r repo) GetAllPeriodsInSeason(ctx *gin.Context) {
 	seasonName := ctx.Param("season")
 
 	// Query for Periods with specified season name
-	rows, err := r.sqlDb.Query(`SELECT * FROM Periods WHERE season_name = $1 ORDER BY starting ASC`, seasonName)
+	rows, err := r.sqlDb.Query(`SELECT Periods.period_id, Periods.period_name, Periods.season_name, Periods.starting, Periods.ending, COUNT(Applications.period_id) AS count 
+	FROM Periods 
+	LEFT JOIN Applications 
+		ON Periods.period_id = Applications.period_id
+	WHERE season_name = $1 
+	GROUP BY Periods.period_id 
+	ORDER BY starting ASC`, seasonName)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -107,10 +120,15 @@ func (r repo) GetAllPeriodsInOpenSeason(ctx *gin.Context) {
 	curdate := time.Now()
 
 	// Query for Periods with specified season name
-	rows, err := r.sqlDb.Query(`SELECT * FROM Periods WHERE season_name = 
+	rows, err := r.sqlDb.Query(`SELECT Periods.period_id, Periods.period_name, Periods.season_name, Periods.starting, Periods.ending, COUNT(Applications.period_id) AS count 
+	FROM Periods 
+	LEFT JOIN Applications 
+		ON Periods.period_id = Applications.period_id
+	WHERE season_name = 
 	(SELECT season_name
 		FROM Seasons
-		WHERE apply_from <= $1 AND apply_until >= $1)`, curdate)
+		WHERE apply_from <= $1 AND apply_until >= $1)
+	GROUP BY Periods.period_id `, curdate)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -130,7 +148,12 @@ func (r repo) GetAllPeriodsInOpenSeason(ctx *gin.Context) {
 // Get all periods (receives NOTHING; returns []Period)
 func (r repo) GetAllPeriods(ctx *gin.Context) {
 	// Query for periods
-	rows, err := r.sqlDb.Query(`SELECT * FROM Periods ORDER BY starting ASC`)
+	rows, err := r.sqlDb.Query(`SELECT Periods.period_id, Periods.period_name, Periods.season_name, Periods.starting, Periods.ending, COUNT(Applications.period_id) AS count 
+	FROM Periods 
+	LEFT JOIN Applications 
+		ON Periods.period_id = Applications.period_id
+	GROUP BY Periods.period_id 
+	ORDER BY starting ASC`)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
