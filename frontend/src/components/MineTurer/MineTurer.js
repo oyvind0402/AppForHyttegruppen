@@ -69,6 +69,7 @@ const MineTurer = () => {
 
   return (
     <>
+      {console.log(pendingTrips)}
       <HeroBanner name="Mine turer" />
       <div className="mytrip-container">
         {currentTrips !== null ? (

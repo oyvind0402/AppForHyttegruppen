@@ -12,7 +12,7 @@ const CabinCardSmall = (props) => {
           className="card-small card-small-active"
           onClick={() => {
             setActive(false);
-            props.setPicked(false, props.index);
+            props.updatePickedCabin(false, props.index);
           }}
         >
           <CabinContent cabin={props.cabin} />
@@ -22,7 +22,7 @@ const CabinCardSmall = (props) => {
           className="card-small"
           onClick={() => {
             setActive(true);
-            props.setPicked(true, props.index);
+            props.updatePickedCabin(true, props.index);
           }}
         >
           <CabinContent cabin={props.cabin} />

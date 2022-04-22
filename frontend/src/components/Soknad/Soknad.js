@@ -31,14 +31,14 @@ const Soknad = () => {
       formData.period.forEach((period) => {
         let JsonBody = {
           userId: localStorage.getItem('userID'),
-          //ansattnummerWBS: formData.ansattnummerWBS,
+          ansattnummerWBS: formData.ansattnummerWBS,
           accentureId: formData.accentureId,
           tripPurpose: formData.tripPurpose,
           period: period,
           numberOfCabins: formData.numberOfCabins,
           cabinAssignment: formData.cabinAssigment,
           cabins: formData.cabins,
-          //kommentar: formData.kommentar,
+          kommentar: formData.kommentar,
           winner: false,
         };
 

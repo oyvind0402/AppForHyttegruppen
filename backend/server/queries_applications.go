@@ -93,9 +93,11 @@ func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}
 		if err = rows.Scan(
 			&application.ApplicationId,
 			&userId,
+			&application.AnsattnummerWBS,
 			&application.AccentureId,
 			&application.TripPurpose,
 			&application.NumberOfCabins,
+			&application.Kommentar,
 			&application.CabinAssignment,
 			&periodId,
 			&application.Winner); err != nil {
@@ -152,9 +154,11 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	if err = row.Scan(
 		&application.ApplicationId,
 		&userId,
+		&application.AnsattnummerWBS,
 		&application.AccentureId,
 		&application.TripPurpose,
 		&application.NumberOfCabins,
+		&application.Kommentar,
 		&application.CabinAssignment,
 		&periodId,
 		&application.Winner); err != nil {
@@ -391,12 +395,14 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	type PostedApplication struct {
 		ApplicationId   int               `json:"applicationId,omitempty"`
 		UserId          string            `json:"userId"`
+		AnsattnummerWBS string            `json:"ansattnummerWBS"`
 		AccentureId     string            `json:"accentureId"`
 		TripPurpose     string            `json:"tripPurpose"`
 		Period          data.Period       `json:"period"`
 		NumberOfCabins  int               `json:"numberOfCabins"`
 		CabinAssignment string            `json:"cabinAssignment"`
 		Cabins          []data.CabinShort `json:"cabins"`
+		Kommentar       string            `json:"kommentar"`
 		CabinsWon       []data.CabinShort `json:"cabinsWon,omitempty"`
 		Winner          bool              `json:"winner"`
 	}
@@ -419,11 +425,13 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
 	if err = tx.QueryRow(
-		`INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING application_id`,
+		`INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING application_id`,
 		application.UserId,
+		application.AnsattnummerWBS,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
+		application.Kommentar,
 		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
@@ -469,16 +477,17 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	// Update all application fields
 	res, err := tx.Exec(
 		`UPDATE Applications
-		SET user_id = $1, employee_id = $2, trip_purpose = $3, number_of_cabins = $4, cabin_assignment = $5, period_id = $6, winner = $7
-		WHERE application_id = $8`,
+		SET user_id = $1, ansattnummerWBS= $2, employee_id = $3, trip_purpose = $4, number_of_cabins = $5, kommentar = $6, cabin_assignment = $7, period_id = $8, winner = $9
+		WHERE application_id = $10`,
 		application.User.Id,
+		application.AnsattnummerWBS,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
+		application.Kommentar,
 		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
-		application.ApplicationId,
 	)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})

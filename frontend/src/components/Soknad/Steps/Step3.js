@@ -17,7 +17,8 @@ const Step3 = (props) => {
   const [showFeedBackNumber, setShowFeedBackNumber] = useState(false);
 
   const [cabins, setCabins] = useState([]);
-  let pickedCabins = [];
+  const [pickedCabins, setPickedCabins] = useState([]);
+
   //Fetching
   useEffect(() => {
     async function fetchData() {
@@ -31,13 +32,17 @@ const Step3 = (props) => {
 
   //No cabin is picked yet
   useEffect(() => {
-    cabins.map((cabin) => {
-      pickedCabins.push(false);
-      return '';
-    });
+    if (pickedCabins.length === 0) {
+      let newPickedCabins = [];
+      cabins.map((cabin) => {
+        newPickedCabins.push(false);
+        return '';
+      });
+      setPickedCabins(newPickedCabins);
+    }
   }, [cabins]);
 
-  function setPickedCabin(picked, index) {
+  function updatePickedCabin(picked, index) {
     pickedCabins[index] = picked;
   }
 
@@ -168,13 +173,13 @@ const Step3 = (props) => {
                     key={cabin.name}
                     index={index}
                     cabin={cabin}
-                    setPicked={setPickedCabin}
+                    updatePickedCabin={updatePickedCabin}
                   />
                 );
               })}
             </div>
             <div className="soknad-step3-antall">
-              <label class="soknad-label" htmlFor="comments">
+              <label className="soknad-label" htmlFor="comments">
                 Kommentar
               </label>
               <textarea
