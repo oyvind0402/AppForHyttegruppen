@@ -19,7 +19,7 @@ async function example() {
     await driver.get("http://localhost:3000/");
     //wait until element is visible
     await driver.wait(
-      until.elementIsVisible(driver.findElement(By.className("home-h2"))),
+      until.elementIsVisible(driver.findElemen(By.className("home-h2"))),
       10000
     );
 
