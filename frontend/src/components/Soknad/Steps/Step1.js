@@ -151,6 +151,7 @@ const Step1 = (props) => {
             </p>
           )}
 
+          {/*Når login løsningn er implementert kan dette feltet fylles ut automatisk*/}
           <label className="soknad-label" htmlFor="EnterpriseID">
             Enterprise ID:
           </label>
