@@ -12,15 +12,15 @@ import (
 
 func Start() {
 	// Handle databases
-	r := startDB()
+	r := StartDB()
 	defer r.sqlDb.Close()
 	defer r.noSqlDb.Disconnect(context.Background())
-	router := setRouter(r)
+	router := SetRouter(r)
 	// Start listening and serving requests
 	router.Run("127.0.0.1:8080")
 }
 
-func setRouter(r repo) *gin.Engine {
+func SetRouter(r repo) *gin.Engine {
 	// Creates default gin router with Logger and Recovery middleware already attached
 	router := gin.Default()
 	//config := cors.DefaultConfig()
