@@ -171,7 +171,7 @@ const Step2 = (props) => {
                   </div>
                 ))
               ) : (
-                <p>Vi fant ingen perioder</p>
+                <p>Ingen perioder funnet</p>
               )}
             </div>
           </div>
