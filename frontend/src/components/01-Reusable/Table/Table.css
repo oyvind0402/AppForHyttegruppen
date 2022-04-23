@@ -1,0 +1,95 @@
+.react-table {
+  border-spacing: 0;
+  border: 1px solid #ededed;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 0.5rem;
+}
+.react-table tr:last-child td {
+  border-bottom: 0;
+}
+.react-table th,
+.react-table td {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ededed;
+  border-right: 1px solid #ededed;
+  position: relative;
+}
+
+.react-table th {
+  background-color: #eaddff;
+}
+
+.react-table th:last-child,
+.react-table td:last-child {
+  border-right: 0;
+}
+
+.react-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.react-table select {
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.react-table option:hover {
+  background-color: #eaddff;
+}
+
+.react-table-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-table-input {
+  margin-bottom: 1rem;
+  width: 650px;
+  height: 30px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 0.3rem 0.5rem;
+}
+
+@media only screen and (max-width: 800px) {
+  .react-table {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .react-table select {
+    overflow: scroll;
+    font-size: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 615px) {
+  .react-table td,
+  .react-table th {
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 472px) {
+  .react-table select {
+    font-size: 0.6rem;
+  }
+
+  .react-table {
+    font-size: 0.6rem;
+  }
+}
+
+@media only screen and (max-width: 354px) {
+  .react-table select {
+    font-size: 0.5rem;
+  }
+
+  .react-table {
+    font-size: 0.5rem;
+  }
+}

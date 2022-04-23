@@ -350,7 +350,7 @@ func (r repo) GetPastWinnerApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve all applications in database where ending date is after current date (receives NOTHING; returns []Application)
+// Retrieve all applications in database where starting date is after current date (receives NOTHING; returns []Application)
 func (r repo) GetFutureWinnerApplications(ctx *gin.Context) {
 	curdate := time.Now()
 
@@ -361,6 +361,78 @@ func (r repo) GetFutureWinnerApplications(ctx *gin.Context) {
 		SELECT period_id
 		FROM Periods
 		WHERE starting > $1
+	)`
+	args := []interface{}{curdate}
+
+	applications, err, status := r.getApplications(ctx, stmt, args)
+	if err != nil {
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve all pending applications in database where starting date is after current date (receives NOTHING; returns []Application)
+func (r repo) GetFuturePendingApplications(ctx *gin.Context) {
+	curdate := time.Now()
+
+	// Get all applications from database
+	stmt := `SELECT * FROM Applications 
+	WHERE winner = False 
+	AND period_id IN (
+		SELECT period_id
+		FROM Periods
+		WHERE starting > $1
+	)`
+	args := []interface{}{curdate}
+
+	applications, err, status := r.getApplications(ctx, stmt, args)
+	if err != nil {
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve all pending applications in database where ending date is after current date (receives NOTHING; returns []Application)
+func (r repo) GetPastPendingApplications(ctx *gin.Context) {
+	curdate := time.Now()
+
+	// Get all applications from database
+	stmt := `SELECT * FROM Applications 
+	WHERE winner = False 
+	AND period_id IN (
+		SELECT period_id
+		FROM Periods
+		WHERE ending < $1
+	)`
+	args := []interface{}{curdate}
+
+	applications, err, status := r.getApplications(ctx, stmt, args)
+	if err != nil {
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve all winning applications in database where starting date is before current date and ending date is after current date (receives NOTHING; returns []Application)
+func (r repo) GetCurrentApplications(ctx *gin.Context) {
+	curdate := time.Now()
+
+	// Get all applications from database
+	stmt := `SELECT * FROM Applications 
+	WHERE winner = False 
+	AND period_id IN (
+		SELECT period_id
+		FROM Periods
+		WHERE starting < $1 AND ending > $1
 	)`
 	args := []interface{}{curdate}
 
@@ -488,6 +560,7 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
+		application.ApplicationId,
 	)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})

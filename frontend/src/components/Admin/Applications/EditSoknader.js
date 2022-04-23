@@ -1,40 +1,78 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useMemo } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import ExcelConverter from '../../01-Reusable/ExcelConverter/ExcelConverter';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknader.css';
+import Table from '../../01-Reusable/Table/Table';
+import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 
 const Applications = () => {
-  const [trips, setTrips] = useState([]);
-  const [tripsCopy, setTripsCopy] = useState([]);
-  const [periods, setPeriods] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const history = useHistory();
+  const [allApplications, setAllApplications] = useState([]);
+  const [applications, setApplications] = useState([]);
+  const [pastWinning, setPastWinning] = useState([]);
+  const [futureWinning, setFutureWinning] = useState([]);
+  const [currentWinning, setCurrentWinning] = useState([]);
+  const [pastPending, setPastPending] = useState([]);
+  const [futurePending, setFuturePending] = useState([]);
+  const [assigned, setAssigned] = useState(false);
+  const [edited, setEdited] = useState(false);
+  const [cabins, setCabins] = useState([]);
+  const [errors, setErrors] = useState({});
+  let _cabinWinners = [];
+  let _changedTrips = [];
 
   const handleVisibility = () => {
-    setVisible(!visible);
+    setAssigned(!assigned);
   };
 
-  let cabins = '';
+  const handleEdited = () => {
+    setEdited(!edited);
+  };
 
   const fetchApplications = async () => {
-    const response = await fetch('/application/all', {
-      response: 'GET',
-    });
+    const allApps = await fetch('/application/all');
+    const pastWinners = await fetch('/application/winners/past');
+    const futureWinners = await fetch('/application/winners/future');
+    const currentWinners = await fetch('/application/winners/current');
+    const pastPending = await fetch('/application/pending/past');
+    const futurePending = await fetch('/application/pending/future');
 
-    const data = await response.json();
-    if (response.ok) {
-      setTrips(data);
-      setTripsCopy(data);
+    const allAppsData = await allApps.json();
+    const pastWinnersData = await pastWinners.json();
+    const futureWinnersData = await futureWinners.json();
+    const currentWinnersData = await currentWinners.json();
+    const pastPendingData = await pastPending.json();
+    const futurePendingData = await futurePending.json();
+
+    if (allApps.ok) {
+      setAllApplications(allAppsData);
+    }
+
+    if (pastWinners.ok) {
+      setPastWinning(pastWinnersData);
+    }
+    if (futureWinners.ok) {
+      setFutureWinning(futureWinnersData);
+    }
+    if (currentWinners.ok) {
+      setCurrentWinning(currentWinnersData);
+    }
+    if (pastPending.ok) {
+      setPastPending(pastPendingData);
+    }
+    if (futurePending.ok) {
+      setFuturePending(futurePendingData);
     }
   };
 
-  const fetchPeriods = async () => {
-    const response = await fetch('/period/all');
+  const fetchCabins = async () => {
+    const response = await fetch('/cabin/active/names');
     const data = await response.json();
     if (response.ok) {
-      setPeriods(data);
+      setCabins(data);
     }
   };
 
@@ -53,236 +91,400 @@ const Applications = () => {
     return day + '/' + month + '/' + year;
   }
 
-  const setUserToTrip = (userId) => {
-    localStorage.setItem('tripUser', userId);
-  };
+  const pendingColumns = useMemo(() => [
+    {
+      Header: 'Enterprise ID',
+      accessor: 'ansattnummerWBS',
+    },
+    {
+      Header: 'Navn',
+      accessor: 'user',
+      Cell: ({ cell: { value } }) => {
+        return <span>{value.firstname + ' ' + value.lastname}</span>;
+      },
+    },
 
-  const handleDelete = async (id) => {
-    setVisible(false);
-    const response = await fetch('/application/delete', {
-      method: 'DELETE',
-      body: JSON.stringify(id),
-      headers: { token: localStorage.getItem('refresh_token') },
+    {
+      Header: 'Formål',
+      accessor: 'tripPurpose',
+    },
+    {
+      Header: 'Periode',
+      accessor: 'period.name',
+      Cell: ({ cell: { value } }) => {
+        return <span>{value}</span>;
+      },
+    },
+    {
+      Header: 'Hytte(r) ønsket',
+      accessor: 'cabins',
+      Cell: ({ cell: { value } }) => {
+        return value.map((cabin, i) => {
+          if (i === value.length - 1) {
+            return <span>{cabin.cabinName}</span>;
+          }
+          return <span>{cabin.cabinName + ', '}</span>;
+        });
+      },
+    },
+    {
+      Header: 'Tildeling',
+      accessor: 'cabinAssignment',
+    },
+    {
+      Header: 'Antall',
+      accessor: 'numberOfCabins',
+    },
+    {
+      Header: 'Kommentar',
+      accessor: 'kommentar',
+    },
+    {
+      Header: 'Tildelt',
+      Cell: (props) => {
+        let winner = props.row.original.winner;
+        if (winner) {
+          let end = new Date(props.row.original.period.end);
+          let now = new Date();
+          if (end > now) {
+            return (
+              <input
+                type="checkbox"
+                id={'winnercheck' + props.row.original.applicationId}
+                defaultChecked={winner}
+                onChange={() => {
+                  addChangedTrip(props.row.original.applicationId);
+                }}
+              />
+            );
+          } else {
+            if (props.row.original.cabinsWon.length > 1) {
+              return (
+                <span>
+                  {props.row.original.cabinsWon[0].map((cabin) => {
+                    return cabin.cabinName + ' ';
+                  })}
+                </span>
+              );
+            }
+            if (props.row.original.cabinsWon.length === 1) {
+              return <span>{props.row.original.cabinsWon[0].cabinName}</span>;
+            }
+          }
+        }
+        return (
+          <div id="get-select">
+            <select
+              id={'add-assignment' + props.row.original.applicationId}
+              multiple
+              onMouseDown={(event) => {
+                event.preventDefault();
+                event.target.selected = !event.target.selected;
+                addAssignment(props.row.original.applicationId);
+              }}
+            >
+              {cabins.map((cabin, i) => {
+                return (
+                  <option
+                    className="add-assignment-option"
+                    key={i}
+                    value={cabin}
+                  >
+                    {cabin}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        );
+      },
+    },
+  ]);
+
+  const addChangedTrip = (id) => {
+    let winner = document.getElementById('winnercheck' + id).checked;
+    console.log(winner);
+    let trip = {};
+    allApplications.filter((item) => {
+      if (item.applicationId === id) {
+        trip = item;
+      }
     });
-    const data = await response.json();
-    if (response.ok) {
-      console.log(data);
-      setTrips(trips.filter((item) => item.applicationId !== id));
+    trip.winner = winner;
+
+    console.log(trip.winner);
+
+    let contains = false;
+
+    for (let i = 0; i < _changedTrips.length; i++) {
+      if (_changedTrips[i].applicationId === id) {
+        contains = true;
+      }
     }
+
+    if (contains) {
+      _changedTrips.forEach((item, index) => {
+        if (item.applicationId === id) {
+          _changedTrips.splice(index, 1);
+        }
+      });
+    } else {
+      _changedTrips.push(trip);
+    }
+    console.log(_changedTrips);
   };
 
-  const changeTrips = (type) => {
-    let date = new Date();
-    if (type === 'all') {
-      setTrips(tripsCopy);
-    } else if (type === 'future') {
-      const newTrips = tripsCopy.filter((trip) => {
-        let tripDate = new Date(trip.period.start);
-        if (trip.winner && tripDate.getTime() > date.getTime()) {
-          return trip;
-        }
-      });
-      setTrips(newTrips);
-    } else if (type === 'past') {
-      const newTrips = tripsCopy.filter((trip) => {
-        let tripDate = new Date(trip.period.start);
-        if (trip.winner && tripDate.getTime() < date.getTime()) {
-          return trip;
-        }
-      });
-      setTrips(newTrips);
-    } else if (type === 'current') {
-      const newTrips = tripsCopy.filter((trip) => {
-        let tripDate = new Date(trip.period.start);
-        let tripEnd = new Date(trip.period.end);
-        if (
-          trip.winner &&
-          tripDate.getTime() <= date.getTime() &&
-          tripEnd.getTime() >= date.getTime()
-        ) {
-          return trip;
-        }
-      });
-      setTrips(newTrips);
-    } else if (type === 'pending') {
-      const newTrips = tripsCopy.filter((trip) => {
-        let tripDate = new Date(trip.period.start);
-        if (!trip.winner && tripDate.getTime() > date.getTime()) {
-          return trip;
-        }
-      });
-      setTrips(newTrips);
-    } else {
-      const newTrips = tripsCopy.filter((trip) => {
-        let tripDate = new Date(trip.period.start);
-        console.log(tripDate.getDate());
-        console.log(date.getDate());
-        if (!trip.winner && tripDate.getTime() < date.getTime()) {
-          return trip;
-        }
-      });
-      setTrips(newTrips);
+  const addAssignment = (id) => {
+    let values = document.getElementById('add-assignment' + id).selectedOptions;
+    let valuesArray = [];
+    Array.from(values).map(({ value }) => {
+      let _value = { cabinName: value };
+      valuesArray.push(_value);
+    });
+    const winnerAppliction = {
+      applicationId: id,
+      cabinsWon: valuesArray,
+      winner: true,
+    };
+
+    let contains = false;
+
+    for (let i = 0; i < _cabinWinners.length; i++) {
+      if (_cabinWinners[i].applicationId === id) {
+        contains = true;
+      }
     }
-    document.getElementById('selected-period-trips').value = 'all';
+
+    if (contains) {
+      _cabinWinners.forEach((item, index) => {
+        if (item.applicationId === id) {
+          if (valuesArray.length > 0) {
+            item.cabinsWon = valuesArray;
+          } else {
+            _cabinWinners.splice(index, 1);
+          }
+        }
+      });
+    } else {
+      _cabinWinners.push(winnerAppliction);
+    }
+    console.log(_cabinWinners);
   };
 
-  const changeTripsToPeriod = (type) => {
-    if (type === 'all') {
-      setTrips(tripsCopy);
-    } else {
-      const newTrips = tripsCopy.filter((trip) => {
-        console.log(trip.period.id);
-        console.log(type);
-        if (trip.period.id === parseInt(type)) {
-          return trip;
-        }
+  const postWinners = () => {
+    if (applications === futurePending) {
+      let _errors = {};
+      if (_cabinWinners.length === 0) {
+        _errors.assignment =
+          "For å tildele hytter må du trykke på en hytte i kolonnen 'Tildelt' for en søknad!";
+      }
+
+      setErrors(_errors);
+
+      if (_errors.assignment) {
+        return;
+      }
+
+      _cabinWinners.forEach((cabinWinner) => {
+        fetch('/application/setwinner', {
+          method: 'PATCH',
+          headers: { token: localStorage.getItem('refresh_token') },
+          body: JSON.stringify(cabinWinner),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.log(error));
       });
-      setTrips(newTrips);
+      localStorage.setItem('assignedCabins', _cabinWinners);
+      fetchApplications();
+      setAssigned(true);
+    } else if (
+      applications === pastPending ||
+      applications === currentWinning
+    ) {
+    } else {
+      let _errors = {};
+      if (_changedTrips.length === 0) {
+        _errors.assignment = 'Du har ikke endret en hytte!';
+      }
+
+      setErrors(_errors);
+
+      if (_errors.assignment) {
+        return;
+      }
+
+      _changedTrips.forEach((application) => {
+        fetch('/application/update', {
+          method: 'PUT',
+          headers: { token: localStorage.getItem('refresh_token') },
+          body: JSON.stringify(application),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.log(error));
+      });
+      fetchApplications();
+      setEdited(true);
     }
-    document.getElementById('selected-trips').value = 'all';
   };
 
   useEffect(() => {
-    localStorage.removeItem('tripUser');
-    fetchPeriods();
     fetchApplications();
+    fetchCabins();
   }, []);
+
+  useEffect(() => {
+    setApplications(futurePending);
+    document.getElementById('futurePending').checked = true;
+  }, [futurePending]);
 
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
       <HeroBanner name="Alle søknader" />
-      <ExcelConverter />
-      <p className="application-title">
-        Søknader/turer ({trips.length !== 0 ? trips.length : 0})
-      </p>
-      <div className="trips-filter-container">
-        <select
-          id="selected-trips"
-          onChange={(e) => changeTrips(e.target.value)}
-          className="trips-filter"
-        >
-          <option value="all">Alle turer/søknader</option>
-          <option value="future">Fremtidige turer</option>
-          <option value="past">Tidligere turer</option>
-          <option value="current">Nåværende turer</option>
-          <option value="pending">Søknader</option>
-          <option value="declined">Tidligere avslåtte søknader</option>
-        </select>
-        <select
-          id="selected-period-trips"
-          onChange={(e) => changeTripsToPeriod(e.target.value)}
-          className="trips-filter"
-        >
-          <option value="all">Alle perioder</option>
-          {periods.map((period) => {
-            return (
-              <option value={period.id}>
-                {period.name}:{' '}
-                {getFormattedDate(period.start) +
-                  ' - ' +
-                  getFormattedDate(period.end)}
-              </option>
-            );
-          })}
-        </select>
+      {/* <ExcelConverter /> */}
+      {applications === null && (
+        <p className="application-title">Søknader / turer (0)</p>
+      )}
+      {applications !== null && (
+        <p className="application-title">
+          {applications === futurePending &&
+            'Søknader (' + applications.length + ')'}
+          {applications === pastPending &&
+            'Tidligere søknader (' + applications.length + ')'}
+          {applications === pastWinning &&
+            'Tidligere turer (' + applications.length + ')'}
+          {applications === futureWinning &&
+            'Fremtidige turer (' + applications.length + ')'}
+          {applications === currentWinning &&
+            'Nåværende turer (' + applications.length + ')'}
+        </p>
+      )}
+      <div className="tab-container">
+        <div className="checkbox-trip-container">
+          <input
+            name="tripLink"
+            className="change-trip-type"
+            type="radio"
+            id="futurePending"
+            onChange={() => {
+              setApplications(futurePending);
+              setErrors({});
+              console.log(futurePending);
+            }}
+          />
+          <label htmlFor="futurePending" className="checkbox-trip-label">
+            Søknader
+          </label>
+        </div>
+        <div className="checkbox-trip-container">
+          <input
+            name="tripLink"
+            className="change-trip-type"
+            type="radio"
+            id="pastPending"
+            onChange={() => {
+              setApplications(pastPending);
+              setErrors({});
+              console.log(pastPending);
+            }}
+          />
+          <label htmlFor="pastPending" className="checkbox-trip-label">
+            Tidligere søknader
+          </label>
+        </div>
+        <div className="checkbox-trip-container">
+          <input
+            name="tripLink"
+            className="change-trip-type"
+            type="radio"
+            id="futureWinning"
+            onChange={() => {
+              setApplications(futureWinning);
+              setErrors({});
+              console.log(futureWinning);
+            }}
+          />
+          <label htmlFor="futureWinning" className="checkbox-trip-label">
+            Fremtidige turer
+          </label>
+        </div>
+        <div className="checkbox-trip-container">
+          <input
+            name="tripLink"
+            className="change-trip-type"
+            type="radio"
+            id="pastWinning"
+            onChange={() => {
+              setApplications(pastWinning);
+              setErrors({});
+              console.log(pastWinning);
+            }}
+          />
+          <label htmlFor="pastWinning" className="checkbox-trip-label">
+            Tidligere turer
+          </label>
+        </div>
+        <div className="checkbox-trip-container">
+          <input
+            name="tripLink"
+            className="change-trip-type"
+            type="radio"
+            id="currentWinning"
+            onChange={() => {
+              setApplications(currentWinning);
+              setErrors({});
+              console.log(currentWinning);
+            }}
+          />
+          <label htmlFor="currentWinning" className="checkbox-trip-label">
+            Nåværende turer
+          </label>
+        </div>
       </div>
 
-      <div
-        className={
-          trips.length > 1
-            ? 'application-container'
-            : 'application-container-single'
-        }
-      >
-        {trips?.map((item, index) => {
-          cabins = '';
-          return (
-            <div className="application" key={index}>
-              <h2>
-                {!item.winner ? 'Søknad' : 'Tur'} ID #{item.applicationId}
-              </h2>
-              <div className="application-wrapper">
-                <div className="application-half">
-                  <div>
-                    <h4>Accenture ID:</h4>
-                    <p>{item.accentureId}</p>
-                    <h4>Bruker:</h4>
-                    <p>{item.userId}</p>
-                    <h4>Tilfeldig / Spesifikk hytte:</h4>
-                    <p>{item.cabinAssignment}</p>
-                    {item.winner ? (
-                      <>
-                        <h4>
-                          {item.cabinsWon.length > 1
-                            ? 'Hytter vunnet:'
-                            : 'Hytte vunnet:'}
-                        </h4>
-                        <div className="application-cabins-wrapper">
-                          {item.cabinsWon.forEach((cabin) => {
-                            cabins += cabin.cabinName += ' ';
-                          })}
-                          <p>{cabins}</p>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <h4>Valgte hytter:</h4>
-                        <div className="application-cabins-wrapper">
-                          {item.cabins.forEach((cabin) => {
-                            cabins += cabin.cabinName += ' ';
-                          })}
-                          <p>{cabins}</p>
-                        </div>
-                      </>
-                    )}
-                    <h4>Antall hytter ønsket:</h4>
-                    <p>{item.numberOfCabins}</p>
-                  </div>
-                </div>
-                <div className="application-half">
-                  <div>
-                    <h4>Periode informasjon:</h4>
-                    <p>ID: {item.period.id}</p>
-                    <p>Navn: {item.period.name}</p>
-                    <p>Sesong: {item.period.season.seasonName}</p>
-                    <p>Startdato: {getFormattedDate(item.period.start)}</p>
-                    <p>Sluttdato: {getFormattedDate(item.period.end)}</p>
-                    <h4>Type tur:</h4>
-                    <p>{item.tripPurpose}</p>
-                    <h4>Vinner:</h4>
-                    <p> {!item.winner ? 'Nei' : 'Ja'}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="button-container">
-                <div className="buttons-soknad">
-                  <Link
-                    to={'/admin/endresoknad/' + item.applicationId}
-                    className="link btn-smaller"
-                    onClick={() => setUserToTrip(item.userId)}
-                  >
-                    {!item.winner ? 'Endre søknad' : 'Endre tur'}
-                  </Link>
-                  <span className="btn-smaller" onClick={handleVisibility}>
-                    {!item.winner ? 'Slett søknad' : 'Slett tur'}
-                  </span>
-                </div>
-              </div>
-              {visible && (
-                <AlertPopup
-                  title="Sletting av søknad"
-                  description="Er du sikker på at du vil slette turen/søknaden? Hvis ja, trykk slett!"
-                  acceptMethod={() => handleDelete(item.applicationId)}
-                  cancelMethod={handleVisibility}
-                  negativeAction="Avbryt"
-                  positiveAction="Slett"
-                />
-              )}
-            </div>
-          );
-        })}
+      <div>
+        {applications !== null && applications.length !== 0 ? (
+          <Table columns={pendingColumns} data={applications} cabins={cabins} />
+        ) : null}
       </div>
+      <div className="button-soknad-container">
+        {applications !== null && applications.length !== 0 && (
+          <button
+            onClick={() => postWinners(_cabinWinners)}
+            className="btn big"
+          >
+            {applications === futurePending ? 'Tildel hytter' : 'Endre turer'}
+          </button>
+        )}
+
+        {errors.assignment && (
+          <span className="login-error">{errors.assignment}</span>
+        )}
+      </div>
+      {assigned && (
+        <AlertPopup
+          title="Hytter tildelt"
+          description="Hytter ble tildelt og lagret i databasen, vil du se en oversikt over fremtidige turer?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleVisibility}
+          acceptMethod={() => {
+            setApplications(futureWinning);
+            document.getElementById('futureWinning').checked = true;
+            setAssigned(false);
+          }}
+        />
+      )}
+      {edited && (
+        <InfoPopup
+          title="Hytter endret"
+          description="Hytte(r) ble endret og lagret i databasen, du vil nå bli sendt til alle søknader."
+          btnText="Ok"
+          hideMethod={handleEdited}
+        />
+      )}
     </>
   );
 };
