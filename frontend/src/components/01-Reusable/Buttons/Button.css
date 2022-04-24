@@ -21,6 +21,21 @@
   border: 3px solid var(--purple);
 }
 
+.btn-tiny {
+  background-color: var(--purple);
+  border-radius: 5px;
+  border: 0;
+  color: var(--white);
+  font-weight: 700;
+  padding: 0.3rem;
+  cursor: pointer;
+}
+
+.btn-tiny:hover {
+  background-color: var(--light-purple);
+  color: var(--black);
+}
+
 .btn-link {
   color: var(--white);
   text-decoration: none;
@@ -75,17 +90,6 @@
   font-weight: 750;
   cursor: pointer;
   border: 3px solid var(--purple);
-}
-
-.admin-edit-btn:hover {
-  cursor: pointer;
-  background-color: var(--light-purple);
-  color: var(--black);
-}
-
-.admin-edit-btn a {
-  text-decoration: none;
-  color: var(--white);
 }
 
 .back-btn {
