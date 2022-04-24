@@ -166,7 +166,7 @@ const Step2 = (props) => {
                     />
                     <label className="soknad-step2-label" htmlFor={period.id}>
                       {period.name} ({changeDate(period.start)} -{' '}
-                      {changeDate(period.end)})
+                      {changeDate(period.end)}) {period.applied} har søkt
                     </label>
                   </div>
                 ))
