@@ -71,6 +71,13 @@
   }
 }
 
+@media only screen and (max-width: 915px) {
+  .cell5,
+  .react-table-header5 {
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 720px) {
   .react-table-input {
     width: 560px;
@@ -96,12 +103,9 @@
 }
 
 @media only screen and (max-width: 472px) {
-  .react-table select {
-    font-size: 0.6rem;
-  }
-
-  .react-table {
-    font-size: 0.6rem;
+  .cell6,
+  .react-table-header6 {
+    display: none;
   }
 }
 
@@ -111,12 +115,22 @@
   }
 }
 
-@media only screen and (max-width: 354px) {
+@media only screen and (max-width: 394px) {
   .react-table select {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
   }
 
   .react-table {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media only screen and (max-width: 354px) {
+  .react-table select {
+    font-size: 0.6rem;
+  }
+
+  .react-table {
+    font-size: 0.6rem;
   }
 }

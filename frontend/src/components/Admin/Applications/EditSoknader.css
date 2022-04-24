@@ -66,13 +66,6 @@
   flex-direction: column;
 }
 
-@media only screen and (max-width: 915px) {
-  .cell5,
-  .react-table-header5 {
-    display: none;
-  }
-}
-
 @media only screen and (max-width: 720px) {
   .checkbox-trip-container {
     font-size: 0.8rem;
@@ -91,6 +84,10 @@
   .tab-container {
     grid-template-columns: 1fr 1fr 1fr;
     padding: 3rem;
+  }
+
+  .checkbox-trip-label {
+    text-align: center;
   }
 }
 
