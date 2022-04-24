@@ -13,6 +13,26 @@
   overflow: hidden;
 }
 
+.admin-card {
+  position: relative;
+  height: 400px;
+  width: 300px;
+  margin: 20px auto;
+  padding: 5px;
+  text-align: left;
+
+  border-radius: 5px;
+  border: 0;
+  box-shadow: 0px 0px 2px 2px #e5e5e5;
+  background-color: white;
+  overflow: hidden;
+}
+
+.admin-card:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+}
+
 .card:hover {
   cursor: pointer;
   background-color: #eaddff;
@@ -92,8 +112,17 @@
   margin: 7px 20px 7px 0;
 }
 
+.admin-card {
+  color: black;
+}
+
 @media only screen and (max-width: 900px) {
   .card {
+    height: 300px;
+    width: 200px;
+  }
+
+  .admin-card {
     height: 300px;
     width: 200px;
   }
@@ -120,6 +149,12 @@
 
 @media only screen and (max-width: 500px) {
   .card {
+    height: 300px;
+    width: 150px;
+    margin: 10px auto;
+  }
+
+  .admin-card {
     height: 300px;
     width: 150px;
     margin: 10px auto;
