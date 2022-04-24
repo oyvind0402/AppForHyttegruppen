@@ -34,7 +34,7 @@ export default function Table({ columns, data, cabins }) {
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => {
+              {headerGroup.headers.map((column, index) => {
                 if (column.Header === 'Tildelt') {
                   let winner = data[0].winner;
                   if (winner) {
@@ -50,7 +50,11 @@ export default function Table({ columns, data, cabins }) {
                 }
 
                 return (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  <th
+                    className={'react-table-header' + index}
+                    key={index}
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                  >
                     {column.render('Header')}
                   </th>
                 );
@@ -63,9 +67,15 @@ export default function Table({ columns, data, cabins }) {
             prepareRow(row);
             return (
               <tr key={i} {...row.getRowProps()}>
-                {row.cells.map((cell) => {
+                {row.cells.map((cell, index) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    <td
+                      key={index}
+                      className={'cell' + index}
+                      {...cell.getCellProps()}
+                    >
+                      {cell.render('Cell')}
+                    </td>
                   );
                 })}
               </tr>

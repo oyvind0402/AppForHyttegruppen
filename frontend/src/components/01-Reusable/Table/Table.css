@@ -47,7 +47,7 @@
 
 .react-table-input {
   margin-bottom: 1rem;
-  width: 650px;
+  width: 665px;
   height: 30px;
   font-size: 1.5rem;
   border: 2px solid black;
@@ -65,12 +65,33 @@
     overflow: scroll;
     font-size: 0.8rem;
   }
+
+  .react-table-input {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .react-table-input {
+    width: 560px;
+  }
 }
 
 @media only screen and (max-width: 615px) {
   .react-table td,
   .react-table th {
     padding: 0;
+  }
+}
+@media only screen and (max-width: 601px) {
+  .react-table-input {
+    width: 450px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .react-table-input {
+    width: 75%;
   }
 }
 
@@ -81,6 +102,12 @@
 
   .react-table {
     font-size: 0.6rem;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  .react-table-input {
+    width: 70%;
   }
 }
 

@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Link, useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import ExcelConverter from '../../01-Reusable/ExcelConverter/ExcelConverter';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
@@ -9,7 +8,6 @@ import Table from '../../01-Reusable/Table/Table';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 
 const Applications = () => {
-  const history = useHistory();
   const [allApplications, setAllApplications] = useState([]);
   const [applications, setApplications] = useState([]);
   const [pastWinning, setPastWinning] = useState([]);
@@ -362,7 +360,7 @@ const Applications = () => {
         </p>
       )}
       <div className="tab-container">
-        <div className="checkbox-trip-container">
+        <div className="checkbox-trip-container" id="chckb1">
           <input
             name="tripLink"
             className="change-trip-type"
@@ -371,14 +369,13 @@ const Applications = () => {
             onChange={() => {
               setApplications(futurePending);
               setErrors({});
-              console.log(futurePending);
             }}
           />
           <label htmlFor="futurePending" className="checkbox-trip-label">
             Søknader
           </label>
         </div>
-        <div className="checkbox-trip-container">
+        <div className="checkbox-trip-container" id="chckb2">
           <input
             name="tripLink"
             className="change-trip-type"
@@ -387,14 +384,13 @@ const Applications = () => {
             onChange={() => {
               setApplications(pastPending);
               setErrors({});
-              console.log(pastPending);
             }}
           />
           <label htmlFor="pastPending" className="checkbox-trip-label">
             Tidligere søknader
           </label>
         </div>
-        <div className="checkbox-trip-container">
+        <div className="checkbox-trip-container" id="chckb3">
           <input
             name="tripLink"
             className="change-trip-type"
@@ -403,14 +399,13 @@ const Applications = () => {
             onChange={() => {
               setApplications(futureWinning);
               setErrors({});
-              console.log(futureWinning);
             }}
           />
           <label htmlFor="futureWinning" className="checkbox-trip-label">
             Fremtidige turer
           </label>
         </div>
-        <div className="checkbox-trip-container">
+        <div className="checkbox-trip-container" id="chckb4">
           <input
             name="tripLink"
             className="change-trip-type"
@@ -419,14 +414,13 @@ const Applications = () => {
             onChange={() => {
               setApplications(pastWinning);
               setErrors({});
-              console.log(pastWinning);
             }}
           />
           <label htmlFor="pastWinning" className="checkbox-trip-label">
             Tidligere turer
           </label>
         </div>
-        <div className="checkbox-trip-container">
+        <div className="checkbox-trip-container" id="chckb5">
           <input
             name="tripLink"
             className="change-trip-type"
@@ -435,7 +429,6 @@ const Applications = () => {
             onChange={() => {
               setApplications(currentWinning);
               setErrors({});
-              console.log(currentWinning);
             }}
           />
           <label htmlFor="currentWinning" className="checkbox-trip-label">
@@ -450,14 +443,17 @@ const Applications = () => {
         ) : null}
       </div>
       <div className="button-soknad-container">
-        {applications !== null && applications.length !== 0 && (
-          <button
-            onClick={() => postWinners(_cabinWinners)}
-            className="btn big"
-          >
-            {applications === futurePending ? 'Tildel hytter' : 'Endre turer'}
-          </button>
-        )}
+        {applications !== null &&
+          applications.length !== 0 &&
+          applications !== pastPending &&
+          applications !== pastWinning && (
+            <button
+              onClick={() => postWinners(_cabinWinners)}
+              className="btn big"
+            >
+              {applications === futurePending ? 'Tildel hytter' : 'Endre turer'}
+            </button>
+          )}
 
         {errors.assignment && (
           <span className="login-error">{errors.assignment}</span>
