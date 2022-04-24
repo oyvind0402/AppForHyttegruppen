@@ -10,7 +10,12 @@ const EditFAQ = () => {
   const [FAQ, setFAQ] = useState({});
   const [editing, setEditing] = useState(false);
   const [deletion, setDeletion] = useState(false);
+  const [edited, setEdited] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const handleEdited = () => {
+    setEdited(!edited);
+  };
 
   const handleVisibility = () => {
     let _errors = {};
@@ -60,8 +65,7 @@ const EditFAQ = () => {
     });
     const data = await response.json();
     if (response.ok) {
-      console.log(data);
-      history.replace('/admin/endrefaqs');
+      setEdited(true);
     }
   };
 
@@ -137,6 +141,19 @@ const EditFAQ = () => {
           positiveAction="Ja"
           cancelMethod={handleDeletionVisibility}
           acceptMethod={() => deleteFAQ(FAQ.id)}
+        />
+      )}
+      {edited && (
+        <AlertPopup
+          title={'FAQ endret!'}
+          description="Spørsmålet og svaret ble endret, vil du gå tilbake til oversikten over FAQ?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleEdited}
+          acceptMethod={() => {
+            setEdited(false);
+            history.push('/admin/endrefaqs');
+          }}
         />
       )}
     </>

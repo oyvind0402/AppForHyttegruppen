@@ -10,7 +10,9 @@ const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
   const [visible, setVisible] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState({});
   const link = window.location.href;
   const history = useHistory();
 
@@ -57,14 +59,133 @@ const EditCabin = () => {
     }
   };
 
-  const cancelPopup = () => {
-    setVisible(false);
-    setErrorVisible(false);
+  const handleVisibility = () => {
+    let _errors = {};
+
+    if (document.getElementById('edit-name').value.length === 0) {
+      _errors.name = 'Fyll inn navn!';
+    } else if (
+      !/^[a-zA-ZøæåØÆÅ. \\-]{2,20}$/i.test(
+        document.getElementById('edit-name').value
+      )
+    ) {
+      _errors.name = 'Feil format på navn!';
+    }
+
+    if (document.getElementById('edit-address').value.length === 0) {
+      _errors.address = 'Fyll inn adressen!';
+    } else if (
+      !/^[0-9a-zA-ZøæåØÆÅ. \\-]{2,50}$/i.test(
+        document.getElementById('edit-address').value
+      )
+    ) {
+      _errors.address = 'Feil format på adresse!';
+    }
+
+    if (document.getElementById('edit-latitude').value.length === 0) {
+      _errors.latitude = 'Fyll inn breddegraden!';
+    } else if (
+      !/^(([1-8]?[0-9])(\.[0-9]{1,6})?|90(\.0{1,6})?)$/i.test(
+        document.getElementById('edit-latitude').value
+      )
+    ) {
+      _errors.latitude = 'Feil format på breddegrad!';
+    }
+
+    if (document.getElementById('edit-longitude').value.length === 0) {
+      _errors.longitude = 'Fyll inn lengdegraden!';
+    } else if (
+      !/^((([1-9]?[0-9]|1[0-7][0-9])(\.[0-9]{1,6})?)|180(\.0{1,6})?)$/i.test(
+        document.getElementById('edit-longitude').value
+      )
+    ) {
+      _errors.longitude = 'Feil format på lengdegrad!';
+    }
+
+    if (document.getElementById('edit-directions').value.length === 0) {
+      _errors.directions = 'Fyll inn en veibeskrivelse!';
+    }
+
+    if (document.getElementById('edit-shortdesc').value.length === 0) {
+      _errors.shortdesc = 'Fyll inn en kort beskrivelse!';
+    }
+
+    if (document.getElementById('edit-longdesc').value.length === 0) {
+      _errors.longdesc = 'Fyll inn en lang beskrivelse!';
+    }
+
+    if (document.getElementById('edit-price').value.length === 0) {
+      _errors.price = 'Fyll inn en pris!';
+    } else if (
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
+        document.getElementById('edit-price').value
+      )
+    ) {
+      _errors.price = 'Feil format på prisen!';
+    }
+
+    if (document.getElementById('edit-cleaningprice').value.length === 0) {
+      _errors.cleaningprice = 'Fyll inn en vaskepris!';
+    } else if (
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
+        document.getElementById('edit-cleaningprice').value
+      )
+    ) {
+      _errors.cleaningprice = 'Feil format på vaskeprisen!';
+    }
+
+    if (
+      document.getElementById('edit-bad').value.length === 0 ||
+      document.getElementById('edit-sengeplasser').value.length === 0 ||
+      document.getElementById('edit-soverom').value.length === 0
+    ) {
+      _errors.numbers = 'Fyll inn et antall!';
+    } else if (
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
+        document.getElementById('edit-bad').value
+      ) ||
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
+        document.getElementById('edit-sengeplasser').value
+      ) ||
+      !/^(0|[1-9]{1}[0-9]{0,})$/i.test(
+        document.getElementById('edit-soverom').value
+      )
+    ) {
+      _errors.numbers = 'Feil format på antallet!';
+    }
+
+    if (document.getElementById('edit-recycling').value.length === 0) {
+      _errors.recycling = 'Fyll inn kildesortering!';
+    }
+
+    setErrorMessage(_errors);
+
+    if (
+      _errors.name ||
+      _errors.address ||
+      _errors.shortdesc ||
+      _errors.latitude ||
+      _errors.longitude ||
+      _errors.directions ||
+      _errors.longdesc ||
+      _errors.price ||
+      _errors.cleaningprice ||
+      _errors.bathrooms ||
+      _errors.sleepingslots ||
+      _errors.bedrooms ||
+      _errors.recycling
+    ) {
+      return;
+    }
+    setVisible(!visible);
   };
 
-  const acceptPopup = () => {
-    setVisible(false);
-    history.push('/admin/lastoppbilde/' + cabinName);
+  const handleErrorVisibility = () => {
+    setErrorVisible(!errorVisible);
+  };
+
+  const handleSavedVisibility = () => {
+    setSaved(!saved);
   };
 
   async function handleEdit() {
@@ -75,7 +196,6 @@ const EditCabin = () => {
     for (var x = 0; x < inputliste.length; x++) {
       huskeliste.push(inputliste[x].value);
     }
-    console.log(huskeliste);
     const cabin2 = {
       name: document.getElementById('edit-name').value,
       active: document.getElementById('edit-active').checked,
@@ -116,12 +236,12 @@ const EditCabin = () => {
 
     const data = await response.json();
     if (response.ok) {
-      console.log(data);
-      setVisible(true);
+      setSaved(true);
     } else {
       setError(data.err);
       setErrorVisible(true);
     }
+    setVisible(false);
   }
 
   return (
@@ -138,6 +258,9 @@ const EditCabin = () => {
             type="text"
             id="edit-name"
           />
+          {errorMessage.name && (
+            <span className="login-error">{errorMessage.name}</span>
+          )}
         </div>
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-address">
@@ -149,6 +272,9 @@ const EditCabin = () => {
             type="text"
             id="edit-address"
           />
+          {errorMessage.address && (
+            <span className="login-error">{errorMessage.address}</span>
+          )}
         </div>
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-latitude">
@@ -162,6 +288,9 @@ const EditCabin = () => {
             type="text"
             id="edit-latitude"
           />
+          {errorMessage.latitude && (
+            <span className="login-error">{errorMessage.latitude}</span>
+          )}
         </div>
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-longitude">
@@ -175,6 +304,9 @@ const EditCabin = () => {
             type="text"
             id="edit-longitude"
           />
+          {errorMessage.longitude && (
+            <span className="login-error">{errorMessage.longitude}</span>
+          )}
         </div>
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-directions">
@@ -185,6 +317,9 @@ const EditCabin = () => {
             defaultValue={cabin.length !== 0 ? cabin[0].directions : ''}
             id="edit-directions"
           />
+          {errorMessage.directions && (
+            <span className="login-error">{errorMessage.directions}</span>
+          )}
         </div>
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-shortdesc">
@@ -195,6 +330,9 @@ const EditCabin = () => {
             defaultValue={cabin.length !== 0 ? cabin[0].shortDescription : ''}
             id="edit-shortdesc"
           />
+          {errorMessage.shortdesc && (
+            <span className="login-error">{errorMessage.shortdesc}</span>
+          )}
         </div>
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-longdesc">
@@ -205,6 +343,9 @@ const EditCabin = () => {
             defaultValue={cabin.length !== 0 ? cabin[0].longDescription : ''}
             id="edit-longdesc"
           />
+          {errorMessage.longdesc && (
+            <span className="login-error">{errorMessage.longdesc}</span>
+          )}
         </div>
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-price">
@@ -216,6 +357,9 @@ const EditCabin = () => {
             type="number"
             id="edit-price"
           />
+          {errorMessage.price && (
+            <span className="login-error">{errorMessage.price}</span>
+          )}
         </div>
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-cleaningprice">
@@ -227,6 +371,9 @@ const EditCabin = () => {
             type="number"
             id="edit-cleaningprice"
           />
+          {errorMessage.cleaningprice && (
+            <span className="login-error">{errorMessage.cleaningprice}</span>
+          )}
         </div>
         {cabin.length !== 0
           ? Object.entries(cabin[0].features).map(([key, value]) => {
@@ -245,6 +392,11 @@ const EditCabin = () => {
                       type="number"
                       id={'edit-' + key}
                     />
+                    {errorMessage.numbers && (
+                      <span className="login-error">
+                        {errorMessage.numbers}
+                      </span>
+                    )}
                   </div>
                 );
               } else {
@@ -294,6 +446,9 @@ const EditCabin = () => {
             }
             id="edit-recycling"
           />
+          {errorMessage.recycling && (
+            <span className="login-error">{errorMessage.recycling}</span>
+          )}
         </div>
         <div className="edit-cabin-cbwrapper">
           <label className="edit-cabin-label" htmlFor="edit-active">
@@ -327,36 +482,45 @@ const EditCabin = () => {
           <IoIosRemoveCircle onClick={removeItem} />
         </div>
 
-        <button className="btn big" onClick={handleEdit}>
+        <button className="btn big" onClick={handleVisibility}>
           Endre
         </button>
       </div>
       {visible && (
         <AlertPopup
-          title={'Vil du legge til bilder for ' + cabinName + '?'}
+          title={'Lagring av hytte'}
           description={
-            cabinName +
-            ' endret! Hvis du trykker ja kan du legge til bilder for ' +
-            cabinName +
-            '. Vil du det?'
+            'Er du sikker på at du vil endre hytten? Hvis du svarer ja vil ' +
+            document.getElementById('edit-name').value +
+            ' endres!'
           }
           negativeAction="Nei"
           positiveAction="Ja"
-          cancelMethod={cancelPopup}
-          acceptMethod={acceptPopup}
-          show={visible}
+          cancelMethod={handleVisibility}
+          acceptMethod={handleEdit}
         />
       )}
       {errorVisible && (
         <InfoPopup
           btnText="Ok"
-          hideMethod={cancelPopup}
+          hideMethod={handleErrorVisibility}
           title="Feil med endring av hytte"
           description={
-            "Hytten ble ikke endret, det skjedde en feil. Server svarte med: '" +
-            error +
-            "'. Prøv igjen."
+            "Hytten ble ikke endret. Server svarte med: '" + error + "'."
           }
+        />
+      )}
+      {saved && (
+        <AlertPopup
+          title="Hytte endret!"
+          description="Hytten ble endret og lagret i databasen! Vil du bli sendt til oversikten over hytter?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleSavedVisibility}
+          acceptMethod={() => {
+            setSaved(false);
+            history.push('/admin/endrehytter');
+          }}
         />
       )}
     </>

@@ -11,6 +11,7 @@ const AddCabin = () => {
   const history = useHistory();
   const [visible, setVisible] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [errors, setErrors] = useState({});
   const [error, setError] = useState('');
 
@@ -34,27 +35,11 @@ const AddCabin = () => {
     }
   };
 
-  const cancelPopup = () => {
-    setVisible(false);
-    setErrorVisible(false);
+  const handleSavedVisibility = () => {
+    setSaved(!saved);
   };
 
-  const acceptPopup = () => {
-    setVisible(false);
-    history.push(
-      '/admin/lastoppbilde/' + document.getElementById('add-name').value
-    );
-  };
-
-  const addCabin = async () => {
-    let inputliste = document
-      .getElementById('todolist')
-      .getElementsByTagName('input');
-    let huskeliste = [];
-    for (var i = 0; i < inputliste.length; i++) {
-      huskeliste.push(inputliste[i].value);
-    }
-
+  const handleVisibility = () => {
     let _errors = {};
 
     if (document.getElementById('add-name').value.length === 0) {
@@ -181,6 +166,29 @@ const AddCabin = () => {
       return;
     }
 
+    setVisible(!visible);
+  };
+
+  const handleErrorVisibility = () => {
+    setErrorVisible(!errorVisible);
+  };
+
+  const acceptPopup = () => {
+    setVisible(false);
+    history.push(
+      '/admin/lastoppbilde/' + document.getElementById('add-name').value
+    );
+  };
+
+  const addCabin = async () => {
+    let inputliste = document
+      .getElementById('todolist')
+      .getElementsByTagName('input');
+    let huskeliste = [];
+    for (var i = 0; i < inputliste.length; i++) {
+      huskeliste.push(inputliste[i].value);
+    }
+
     const cabin = {
       name: document.getElementById('add-name').value,
       active: document.getElementById('add-active').checked,
@@ -231,7 +239,7 @@ const AddCabin = () => {
     });
     const data = await response.json();
     if (response.ok) {
-      setVisible(true);
+      setSaved(true);
     } else {
       setError(data.err);
       setErrorVisible(true);
@@ -455,40 +463,47 @@ const AddCabin = () => {
           <IoIosRemoveCircle onClick={removeItem} />
         </div>
 
-        <button onClick={addCabin} className="btn big">
+        <button onClick={handleVisibility} className="btn big">
           Legg til
         </button>
       </div>
       {visible && (
         <AlertPopup
-          title={
-            'Vil du legge til bilder for ' +
-            document.getElementById('add-name').value +
-            '?'
-          }
+          title={'Lagring av hytte'}
           description={
+            'Er du sikker på at du vil lagre den nye hytten? Hvis du svarer ja vil ' +
             document.getElementById('add-name').value +
-            ' lagret! Hvis du trykker ja kan du legge til bilder for ' +
-            document.getElementById('add-name').value +
-            '. Vil du det?'
+            ' lagres!'
           }
           negativeAction="Nei"
           positiveAction="Ja"
-          cancelMethod={cancelPopup}
-          acceptMethod={acceptPopup}
-          show={visible}
+          cancelMethod={handleVisibility}
+          acceptMethod={addCabin}
         />
       )}
       {errorVisible && (
         <InfoPopup
           btnText="Ok"
-          hideMethod={cancelPopup}
+          hideMethod={handleErrorVisibility}
           title="Feil med lagring av hytte"
           description={
             "Hytten ble ikke lagret, det skjedde en feil. Server svarte med: '" +
             error +
             "'. Prøv igjen."
           }
+        />
+      )}
+      {saved && (
+        <AlertPopup
+          title="Hytte lagret!"
+          description="Hytten ble lagret i databasen! Vil du bli sendt til oversikten over hytter?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleSavedVisibility}
+          acceptMethod={() => {
+            setSaved(false);
+            history.push('/admin/endrehytter');
+          }}
         />
       )}
     </>
