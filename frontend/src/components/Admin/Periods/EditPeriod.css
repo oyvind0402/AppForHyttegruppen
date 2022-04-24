@@ -1,0 +1,33 @@
+.endreperiode-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.edit-input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-period-input {
+  width: 300px;
+  height: 2rem;
+  border: 2px solid gray;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.edit-period-title {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.endreperiode-container select:hover {
+  cursor: pointer;
+}
+
+.endreperiode-container select {
+  margin-bottom: 2rem;
+}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useFilters, useSortBy, useTable } from 'react-table';
 import './Table.css';
 
-export default function Table({ columns, data }) {
+export default function Table2({ columns, data }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -15,7 +15,7 @@ export default function Table({ columns, data }) {
 
   const handleFiltering = (e) => {
     const value = e.target.value || undefined;
-    setFilter('period.name', value);
+    setFilter('name', value);
     setFilterBy(value);
   };
 
@@ -35,23 +35,12 @@ export default function Table({ columns, data }) {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column, index) => {
-                if (column.Header === 'Tildelt') {
-                  let winner = data[0].winner;
-                  if (winner) {
-                    let end = new Date(data[0].period.end);
-                    let now = new Date();
-
-                    if (end > now) {
-                      column.Header = 'Vinner';
-                    } else {
-                      column.Header = 'Tildelt';
-                    }
-                  }
+                if (column.Header === 'Endre') {
+                  column.Header = ' ';
                 }
-
                 return (
                   <th
-                    className={'react-table-header' + index}
+                    className={'react-table-header2' + index}
                     key={index}
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                   >
@@ -71,7 +60,7 @@ export default function Table({ columns, data }) {
                   return (
                     <td
                       key={index}
-                      className={'cell' + index}
+                      className={'cell2' + index}
                       {...cell.getCellProps()}
                     >
                       {cell.render('Cell')}

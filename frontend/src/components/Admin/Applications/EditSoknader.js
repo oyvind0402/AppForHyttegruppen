@@ -439,7 +439,7 @@ const Applications = () => {
 
       <div>
         {applications !== null && applications.length !== 0 ? (
-          <Table columns={pendingColumns} data={applications} cabins={cabins} />
+          <Table columns={pendingColumns} data={applications} />
         ) : null}
       </div>
       <div className="button-soknad-container">
