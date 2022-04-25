@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import TripCardActive from '../../01-Reusable/TripCard/TripCardActive';
 import TripCardPending from '../../01-Reusable/TripCard/TripCardPending';
 
 import './../MineTurer.css';

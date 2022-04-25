@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
 import TripCardActive from '../../01-Reusable/TripCard/TripCardActive';
-import TripCardPending from '../../01-Reusable/TripCard/TripCardPending';
 
 import TripCardPast from '../../01-Reusable/TripCard/TripCardPast';
 
 import './../MineTurer.css';
 
 const YourTrips = () => {
-  const [chosenTripType, setChosenTripType] = useState('Krever handling');
-  //let chosenTripType = 'Dine turer';
-  const [pendingTrips, setPendingTrips] = useState([]);
-  const [currentTrips, setCurrentTrips] = useState([]);
   const [futureTrips, setFutureTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
   const [visibleTrips, setVisibleTrips] = useState(false);
@@ -25,17 +20,6 @@ const YourTrips = () => {
     const data2 = await response2.json();
     if (response2.ok) {
       setPastTrips(data2);
-    }
-
-    const response3 = await fetch(
-      '/application/byuser/' + localStorage.getItem('userID') + '/current',
-      {
-        method: 'GET',
-      }
-    );
-    const data3 = await response3.json();
-    if (response3.ok) {
-      setCurrentTrips(data3);
     }
 
     const response4 = await fetch(
