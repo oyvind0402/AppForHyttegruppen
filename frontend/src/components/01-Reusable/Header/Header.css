@@ -55,6 +55,10 @@
   grid-template-columns: repeat(4, auto);
 }
 
+.nav-text {
+  padding-bottom: 4px;
+}
+
 .nav-list-item {
   text-decoration: none;
   font-size: 1.5rem;
@@ -76,6 +80,9 @@
   text-decoration: none;
   font-size: 1.5rem;
   color: black;
+  border: none;
+  padding: 0;
+  background-color: transparent;
   transition: border 500s ease-in;
   background-size: 0% 3px;
   background-position: 0% 100%;
@@ -99,6 +106,8 @@
   background-image: linear-gradient(black, black);
   transition: background 0.3s linear;
   margin-left: 5%;
+  line-height: 1.5rem;
+  padding-bottom: 4px;
 }
 
 .active {
