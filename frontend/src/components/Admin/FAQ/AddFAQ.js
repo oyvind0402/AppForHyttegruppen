@@ -59,7 +59,7 @@ const AddFAQ = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
+      <BackButton name="Tilbake til endre FAQ" link="admin/endrefaqs" />
       <HeroBanner name="Legg til ofte stilte spørsmål og svar" />
       <div className="add-faq-container">
         <div className="add-faq-wrapper">

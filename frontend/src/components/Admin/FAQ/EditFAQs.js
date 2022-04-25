@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import { BsFillPlusCircleFill } from 'react-icons/bs';
 import './EditFAQs.css';
 
 const EditFAQs = () => {
@@ -48,6 +49,10 @@ const EditFAQs = () => {
               );
             })
           : null}
+        <BsFillPlusCircleFill
+          className="endrefaq-add"
+          onClick={() => (window.location.href = '/admin/leggtilfaq')}
+        />
       </div>
     </>
   );
