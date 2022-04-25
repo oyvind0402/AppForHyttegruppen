@@ -10,6 +10,7 @@ import { Apply } from './InfoParts/Apply';
 import { TabPicker } from './InfoParts/TabPicker';
 import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
 import Huskeliste from './InfoParts/Huskeliste';
+import BackButton from '../01-Reusable/Buttons/BackButton';
 
 const Cabin = () => {
   const [cabinData, setCabinData] = useState('');
@@ -60,6 +61,7 @@ const Cabin = () => {
 
   return (
     <>
+      <BackButton name="Tilbake til hytter" link="hytter" />
       <HeroBanner name={cabinData.name} />
       <div className="cabin-display">
         <Carousel cabinData={cabinData} />
