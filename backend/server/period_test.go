@@ -15,6 +15,7 @@ import (
 	//"bachelorprosjekt/backend/server"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -102,12 +103,21 @@ func TestPostPeriod(t *testing.T) {
 
 	s := "weoigf"
 	body := bytes.NewBufferString(s)
+	secret := "randomString"
+	token := jwt.EncodeSegment([]byte(secret))
 
 	r := initialise()
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "period/post", body)
+	//FIXME fix authentication problem
+	//periodapi.POST("/post", middleware.Authenticate(), r.PostPeriod)
+	//send token properly ?
+	req, _ := http.NewRequest("POST", "/period/post", body)
+	// req.Header.Set("token", token)
+	req.Header.Add("token", token)
+
 	r.ServeHTTP(w, req)
 
+	assert.Equal(t, 1, w.Body.String())
 	assert.Equal(t, 200, w.Code)
 }
 
