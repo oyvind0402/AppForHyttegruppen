@@ -92,7 +92,7 @@ func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
 
 func SendEmail(userEmail string) {
 	//reads email credentials from a file e-creds
-	username, passwd := utils.GetCreds("backend/e-creds")
+	username, passwd := utils.GetCreds("../../credentials/e-creds")
 
 	smtpClient := connectToEmailService(username, passwd)
 
