@@ -50,6 +50,7 @@ CREATE TABLE Applications(
     cabin_assignment varchar(10) NOT NULL,
     period_id int NOT NULL,
     winner boolean NOT NULL,
+    feedback boolean NOT NULL,
 
     CONSTRAINT fk_user
         FOREIGN KEY(user_id)
@@ -120,11 +121,11 @@ INSERT INTO Users
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4uHEb2bdYRKt4OuX9xye5U8PkVSH.WJRS', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RAdGV0ZXIuY29tIiwiZXhwIjoxNjUwMDQzODMzfQ.dr6LP-qRSzmr5-VsDr6PptjvP8OtPyzp1pHpCvv1RK0', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjIzM30.xPsuMjr1qbJBBjIhLiGGNecYaj8ZaFeA0Y9qpf4bQvM', 'test', 'tester', FALSE),
 ('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$PsxqvC8fkSF6sEu9DF45/.N/eZLZyj8.K9k/BDsz7C/FqyMOdtH/S', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluQGFkbWluci5jb20iLCJleHAiOjE2NTAwNDM3MzN9.IKFVQxDWaVKYDLemALfx3Ck7hXL_jnz8N-aSTW0S7NE', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjEzM30.kwwObYPLJrDkk0pxCquhsf666_FWl7biWNC7LCrDrVg','Admin', 'Adminer', TRUE);
 
-INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner)
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1','kommentar' ,'Tilfeldig', '1', TRUE), /*Won in the past*/
-('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '2', TRUE),
-('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', TRUE),
-('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', FALSE);
+INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner, feedback)
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1','kommentar' ,'Tilfeldig', '1', TRUE, FALSE), /*Won in the past*/
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '2', TRUE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', TRUE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', FALSE, FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', TRUE),

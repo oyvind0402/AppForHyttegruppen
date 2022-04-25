@@ -101,6 +101,7 @@ func setRouter(r repo) *gin.Engine {
 		applicationapi.POST("/post", middleware.Authenticate(), r.PostApplication)
 		applicationapi.PUT("/update", middleware.Authenticate(), r.UpdateApplication)
 		applicationapi.PATCH("/setwinner", middleware.Authenticate(), r.UpdateApplicationWinner)
+		applicationapi.PATCH("/setfeedback", middleware.Authenticate(), r.UpdateApplicationFeedback)
 		applicationapi.DELETE("/delete", middleware.Authenticate(), r.DeleteApplication)
 		applicationapi.DELETE("/deletelosing", middleware.Authenticate(), r.DeleteLosingApplications)
 		applicationapi.DELETE("/deletemanybyid", middleware.Authenticate(), r.DeleteApplicationsById)

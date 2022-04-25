@@ -100,7 +100,8 @@ func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}
 			&application.Kommentar,
 			&application.CabinAssignment,
 			&periodId,
-			&application.Winner); err != nil {
+			&application.Winner,
+			&application.FeedbackSent); err != nil {
 			return applications, err, http.StatusBadRequest
 		}
 
@@ -161,7 +162,8 @@ func (r repo) GetApplication(ctx *gin.Context) {
 		&application.Kommentar,
 		&application.CabinAssignment,
 		&periodId,
-		&application.Winner); err != nil {
+		&application.Winner,
+		&application.FeedbackSent); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
@@ -428,7 +430,7 @@ func (r repo) GetCurrentApplications(ctx *gin.Context) {
 
 	// Get all applications from database
 	stmt := `SELECT * FROM Applications 
-	WHERE winner = False 
+	WHERE winner = True 
 	AND period_id IN (
 		SELECT period_id
 		FROM Periods
@@ -477,6 +479,7 @@ func (r repo) PostApplication(ctx *gin.Context) {
 		Kommentar       string            `json:"kommentar"`
 		CabinsWon       []data.CabinShort `json:"cabinsWon,omitempty"`
 		Winner          bool              `json:"winner"`
+		FeedbackSent    bool              `json:"feedback,omitempty"`
 	}
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
@@ -494,10 +497,12 @@ func (r repo) PostApplication(ctx *gin.Context) {
 		return
 	}
 
+	application.FeedbackSent = false
+
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
 	if err = tx.QueryRow(
-		`INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING application_id`,
+		`INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner, feedback) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING application_id`,
 		application.UserId,
 		application.AnsattnummerWBS,
 		application.AccentureId,
@@ -507,6 +512,7 @@ func (r repo) PostApplication(ctx *gin.Context) {
 		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
+		application.FeedbackSent,
 	).Scan(&resId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -549,8 +555,8 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	// Update all application fields
 	res, err := tx.Exec(
 		`UPDATE Applications
-		SET user_id = $1, ansattnummerWBS= $2, employee_id = $3, trip_purpose = $4, number_of_cabins = $5, kommentar = $6, cabin_assignment = $7, period_id = $8, winner = $9
-		WHERE application_id = $10`,
+		SET user_id = $1, ansattnummerWBS= $2, employee_id = $3, trip_purpose = $4, number_of_cabins = $5, kommentar = $6, cabin_assignment = $7, period_id = $8, winner = $9, feedback = $10
+		WHERE application_id = $11`,
 		application.User.Id,
 		application.AnsattnummerWBS,
 		application.AccentureId,
@@ -560,6 +566,7 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
+		application.FeedbackSent,
 		application.ApplicationId,
 	)
 	if err != nil {
@@ -662,6 +669,48 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	tx, err, status := addOrUpdateCabins(ctx, tx, application.CabinsWon, application.ApplicationId, true)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Commit transaction
+	if err = tx.Commit(); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return number of applications updated
+	ctx.JSON(200, rowsAffected)
+}
+
+func (r repo) UpdateApplicationFeedback(ctx *gin.Context) {
+	// Set application ID to be an int
+	applicationId := new(int)
+
+	// Transactional
+	tx, err := r.sqlDb.BeginTx(ctx, nil)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer tx.Rollback()
+
+	// Get data from frontend
+	if err := ctx.BindJSON(applicationId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Update the feedback sent bool
+	res, err := r.sqlDb.Exec(`UPDATE Applications SET feedback = $1 WHERE application_id = $2`, true, applicationId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Get rows affected
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 

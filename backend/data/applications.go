@@ -13,4 +13,5 @@ type Application struct {
 	Kommentar       string       `json:"kommentar"`
 	CabinsWon       []CabinShort `json:"cabinsWon,omitempty"`
 	Winner          bool         `json:"winner"`
+	FeedbackSent    bool         `json:"feedback"`
 }
