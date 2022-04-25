@@ -1,32 +1,65 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
 	"os"
 	"regexp"
-	"strings"
 
 	"bachelorprosjekt/backend/server"
 )
 
 func main() {
-	setRoot()
-	print(os.Getenv("hytteroot"))
-	server.Start()
+	// Get arguments (passed + processed)
+	args := getArgs()
+
+	//Start server
+	server.Start(args)
 }
 
-func setRoot() {
-	// Get working directory
-	wd, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err)
+// Get arguments from flags and process accordingly
+func getArgs() server.Args {
+	var path string
+	var creds string
+
+	flag.StringVar(&path, "path", "", "Specify the absolute path to the root folder")
+	flag.StringVar(&creds, "creds", "", "Specify the absolute path to the credentials folder. Default is path/to/project/credentials")
+
+	flag.Parse()
+
+	// Check if path is passed; if not, retrieve from pwd
+	path = getRoot(path)
+
+	// Check if creds path is passed; if not, $path/credentials
+	creds = getCreds(path, creds)
+
+	return server.Args{RootPath: path, CredsPath: creds}
+}
+
+func getRoot(path string) string {
+	root := path
+	// If -p argument not passed, fetch as pwd
+	if root == "" {
+		// Get working directory
+		wd, err := os.Getwd()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// Remove all content after "AppForHyttegruppen" (/ for Unix, \ for Windows)
+		re := regexp.MustCompile(`(?m)^(.*AppForHyttegruppen[/\\]).*`)
+		root = re.ReplaceAllString(wd, "${1}")
+	}
+	return root
+
+}
+
+// Retrieve path to credentials
+func getCreds(rootPath string, credsPath string) string {
+	if credsPath != "" {
+		return credsPath
 	}
 
-	// Remove all content after "AppForHyttegruppen" (/ for Unix, \ for Windows)
-	re := regexp.MustCompile(`(?m)^(.*AppForHyttegruppen[/\\]).*`)
-	root := re.ReplaceAllString(wd, "${1}")
-	root = strings.TrimSuffix(root, "/")
-	root = strings.TrimSuffix(root, "\\")
-
-	os.Setenv("hytteroot", root)
+	return fmt.Sprintf("%s/credentials", rootPath)
 }
