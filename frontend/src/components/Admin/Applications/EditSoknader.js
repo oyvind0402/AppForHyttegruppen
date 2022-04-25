@@ -89,125 +89,122 @@ const Applications = () => {
     return day + '/' + month + '/' + year;
   }
 
-  const pendingColumns = useMemo(
-    () => [
-      {
-        Header: 'Enterprise ID',
-        accessor: 'ansattnummerWBS',
+  const pendingColumns = useMemo(() => [
+    {
+      Header: 'Enterprise ID',
+      accessor: 'ansattnummerWBS',
+    },
+    {
+      Header: 'Navn',
+      accessor: 'user',
+      Cell: ({ cell: { value } }) => {
+        return <span>{value.firstname + ' ' + value.lastname}</span>;
       },
-      {
-        Header: 'Navn',
-        accessor: 'user',
-        Cell: ({ cell: { value } }) => {
-          return <span>{value.firstname + ' ' + value.lastname}</span>;
-        },
-      },
+    },
 
-      {
-        Header: 'Formål',
-        accessor: 'tripPurpose',
+    {
+      Header: 'Formål',
+      accessor: 'tripPurpose',
+    },
+    {
+      Header: 'Periode',
+      accessor: 'period.name',
+      Cell: ({ cell: { value } }) => {
+        return <span>{value}</span>;
       },
-      {
-        Header: 'Periode',
-        accessor: 'period.name',
-        Cell: ({ cell: { value } }) => {
-          return <span>{value}</span>;
-        },
+    },
+    {
+      Header: 'Hytte(r) ønsket',
+      accessor: 'cabins',
+      Cell: ({ cell: { value } }) => {
+        return value.map((cabin, i) => {
+          if (i === value.length - 1) {
+            return <span>{cabin.cabinName}</span>;
+          }
+          return <span>{cabin.cabinName + ', '}</span>;
+        });
       },
-      {
-        Header: 'Hytte(r) ønsket',
-        accessor: 'cabins',
-        Cell: ({ cell: { value } }) => {
-          return value.map((cabin, i) => {
-            if (i === value.length - 1) {
-              return <span>{cabin.cabinName}</span>;
-            }
-            return <span>{cabin.cabinName + ', '}</span>;
-          });
-        },
-      },
-      {
-        Header: 'Tildeling',
-        accessor: 'cabinAssignment',
-      },
-      {
-        Header: 'Antall',
-        accessor: 'numberOfCabins',
-      },
-      {
-        Header: 'Kommentar',
-        accessor: 'kommentar',
-      },
-      {
-        Header: 'Tildelt',
-        Cell: (props) => {
-          let winner = props.row.original.winner;
-          if (winner) {
-            let end = new Date(props.row.original.period.end);
-            let now = new Date();
-            if (end > now) {
+    },
+    {
+      Header: 'Tildeling',
+      accessor: 'cabinAssignment',
+    },
+    {
+      Header: 'Antall',
+      accessor: 'numberOfCabins',
+    },
+    {
+      Header: 'Kommentar',
+      accessor: 'kommentar',
+    },
+    {
+      Header: 'Tildelt',
+      Cell: (props) => {
+        let winner = props.row.original.winner;
+        if (winner) {
+          let end = new Date(props.row.original.period.end);
+          let now = new Date();
+          if (end > now) {
+            return (
+              <>
+                <input
+                  type="checkbox"
+                  id={'winnercheck' + props.row.original.applicationId}
+                  defaultChecked={winner}
+                  onChange={() => {
+                    addChangedTrip(props.row.original.applicationId);
+                  }}
+                />
+                <span>
+                  {props.row.original.cabinsWon.map((cabin) => {
+                    return cabin.cabinName;
+                  })}
+                </span>
+              </>
+            );
+          } else {
+            if (props.row.original.cabinsWon.length > 1) {
               return (
-                <>
-                  <input
-                    type="checkbox"
-                    id={'winnercheck' + props.row.original.applicationId}
-                    defaultChecked={winner}
-                    onChange={() => {
-                      addChangedTrip(props.row.original.applicationId);
-                    }}
-                  />
-                  <span>
-                    {props.row.original.cabinsWon.map((cabin) => {
-                      return cabin.cabinName;
-                    })}
-                  </span>
-                </>
+                <span>
+                  {props.row.original.cabinsWon[0].map((cabin) => {
+                    return cabin.cabinName + ' ';
+                  })}
+                </span>
               );
-            } else {
-              if (props.row.original.cabinsWon.length > 1) {
-                return (
-                  <span>
-                    {props.row.original.cabinsWon[0].map((cabin) => {
-                      return cabin.cabinName + ' ';
-                    })}
-                  </span>
-                );
-              }
-              if (props.row.original.cabinsWon.length === 1) {
-                return <span>{props.row.original.cabinsWon[0].cabinName}</span>;
-              }
+            }
+            if (props.row.original.cabinsWon.length === 1) {
+              return <span>{props.row.original.cabinsWon[0].cabinName}</span>;
             }
           }
-          return (
-            <div id="get-select">
-              <select
-                id={'add-assignment' + props.row.original.applicationId}
-                multiple
-                onMouseDown={(event) => {
-                  event.preventDefault();
-                  event.target.selected = !event.target.selected;
-                  addAssignment(props.row.original.applicationId);
-                }}
-              >
-                {cabins.map((cabin, i) => {
-                  return (
-                    <option
-                      className="add-assignment-option"
-                      key={i}
-                      value={cabin}
-                    >
-                      {cabin}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          );
-        },
+        }
+        return (
+          <div id="get-select">
+            <select
+              id={'add-assignment' + props.row.original.applicationId}
+              multiple
+              onMouseDown={(event) => {
+                event.preventDefault();
+                event.target.selected = !event.target.selected;
+                addAssignment(props.row.original.applicationId);
+              }}
+            >
+              {cabins.map((cabin, i) => {
+                return (
+                  <option
+                    className="add-assignment-option"
+                    key={i}
+                    value={cabin}
+                  >
+                    {cabin}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        );
       },
-    ],
-    []
-  );
+    },
+  ]);
 
   const addChangedTrip = (id) => {
     let winner = document.getElementById('winnercheck' + id).checked;
