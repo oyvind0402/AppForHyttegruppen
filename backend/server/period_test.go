@@ -6,6 +6,7 @@ import (
 	//	"fmt"
 
 	"bachelorprosjekt/backend/data"
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -99,13 +100,12 @@ func TestGetAllPeriods(t *testing.T) {
 
 func TestPostPeriod(t *testing.T) {
 
-	stringBody = ""
-
-	var body io.Reader = stringBody 
+	s := "weoigf"
+	body := bytes.NewBufferString(s)
 
 	r := initialise()
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "post?token={{refresh_token}}", body)
+	req, _ := http.NewRequest("POST", "period/post", body)
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, 200, w.Code)
