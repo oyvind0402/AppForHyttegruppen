@@ -167,6 +167,10 @@
   align-self: center;
 }
 
+.feedback-info {
+  text-align: center;
+}
+
 @media only screen and (max-width: 1250px) {
   .omhytta-container {
     width: 100%;

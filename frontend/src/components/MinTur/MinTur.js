@@ -310,7 +310,14 @@ const MinTur = () => {
               alt="cabin"
             />
           </div>
-          {!trip.feedback && <FeedbackForm data={trip} />}
+          {!trip.feedback ? (
+            <FeedbackForm data={trip} />
+          ) : (
+            <p className="feedback-info">
+              Tilbakemelding sendt, hvis du vil kontakte oss send epost til
+              hyttekommitteen@accenture.com
+            </p>
+          )}
           <div className="secondrow-wrapper">
             <div className="info-container">
               <p className="info-title">Reise informasjon</p>

@@ -8,6 +8,7 @@ import './../MineTurer.css';
 const YourTrips = () => {
   const [futureTrips, setFutureTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
+  const [currentTrips, setCurrentTrips] = useState([]);
   const [visibleTrips, setVisibleTrips] = useState(false);
 
   const getApplications = async () => {
@@ -31,6 +32,14 @@ const YourTrips = () => {
     const data4 = await response4.json();
     if (response4.ok) {
       setFutureTrips(data4);
+    }
+
+    const response3 = await fetch(
+      '/application/byuser/' + localStorage.getItem('userID') + '/current'
+    );
+    const data3 = await response3.json();
+    if (response3.ok) {
+      setCurrentTrips(data3);
     }
   };
 
@@ -58,6 +67,23 @@ const YourTrips = () => {
           <p className="empty-trip">Ingen godkjente turer</p>
         </div>
       )}
+
+      {currentTrips !== null ? (
+        <div className="mytrip-card-wrapper">
+          <p className="mytrip-title-empty">Dine nåværende turer:</p>
+          <div className="trip-row-wrapper">
+            {currentTrips.map((trip, index) => (
+              <TripCardActive key={index} data={trip} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="mytrip-card-wrapper">
+          <p className="mytrip-title-empty">Dine godkjente turer:</p>
+          <p className="empty-trip">Ingen godkjente turer</p>
+        </div>
+      )}
+
       {visibleTrips ? <hr /> : null}
 
       {visibleTrips && pastTrips !== null ? (
