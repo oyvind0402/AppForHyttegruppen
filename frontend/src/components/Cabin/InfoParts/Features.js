@@ -42,12 +42,6 @@ const Features = (props) => {
 
   return (
     <div className="wrapper">
-      {props.cabinData.shortDescription !== undefined &&
-      props.cabinData.shortDescription !== '' ? (
-        <p>{props.cabinData.shortDescription}</p>
-      ) : (
-        ''
-      )}
       <div className="features" id="features">
         {props.cabinData !== null &&
           props.cabinData.features !== undefined &&

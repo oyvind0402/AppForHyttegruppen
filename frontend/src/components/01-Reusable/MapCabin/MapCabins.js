@@ -21,7 +21,7 @@ const MapCabins = (props) => {
         XPathResult.FIRST_ORDERED_NODE_TYPE,
         null
       ).singleNodeValue;
-      if (typeof map !== undefined) map.style.width = '80%';
+      if (map !== null) map.style.width = '80%';
     }
 
     window.addEventListener('resize', handleResize);

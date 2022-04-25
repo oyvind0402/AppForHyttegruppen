@@ -139,14 +139,14 @@
 .tabbtn {
   color: var(--black);
   background-color: transparent;
-  border-color: transparent;
-  font-size: 0.7rem;
+  border: 1px solid var(--purple);
+  font-size: 1rem;
   display: inline-block;
   box-sizing: border-box;
   padding: 0.3rem 2vw;
-  width: calc(5rem + 8vw);
+  width: calc(5rem + 10vw);
   min-width: fit-content;
-  max-width: 90vw;
+  margin: 0 auto;
 }
 
 .tabbtn.activetab {
@@ -167,7 +167,6 @@
 
   .tabbtn {
     padding: 0.3rem 2vw;
-    font-size: 0.7rem;
   }
 }
 
