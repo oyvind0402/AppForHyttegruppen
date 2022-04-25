@@ -89,6 +89,7 @@ VALUES('Vinter 2022','2022-01-01', '2022-03-15', '2021-12-20', '2021-12-31'),
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
 VALUES ('Uke 1', '2022-01-03', '2022-01-11', 'Vinter 2022'),
+('Forever Active', '2022-01-29', '2022-12-05', 'Høst 2022'),
 ('Uke 35', '2022-08-29', '2022-09-05', 'Høst 2022'),
 ('Uke 36', '2022-09-05', '2022-09-12', 'Høst 2022'),
 ('Uke 37', '2022-09-12', '2022-09-19', 'Høst 2022'),
@@ -122,6 +123,7 @@ VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4
 INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner)
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1','kommentar' ,'Tilfeldig', '1', TRUE), /*Won in the past*/
 ('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '2', TRUE),
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', TRUE),
 ('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
@@ -131,10 +133,14 @@ VALUES ('1', 'Utsikten', TRUE),
 ('2', 'Fanitullen', FALSE),
 ('2', 'Knausen', TRUE),
 ('2', 'Store Grøndalen', FALSE),
-('3', 'Utsikten', FALSE),
+('3', 'Utsikten', TRUE),
 ('3', 'Fanitullen', FALSE),
-('3', 'Knausen', FALSE),
-('3', 'Store Grøndalen', FALSE);
+('3', 'Knausen', False),
+('3', 'Store Grøndalen', FALSE),
+('4', 'Utsikten', FALSE),
+('4', 'Fanitullen', FALSE),
+('4', 'Knausen', FALSE),
+('4', 'Store Grøndalen', FALSE);
 
 INSERT INTO Faq (question, answer) 
 VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine turer eller ved å ta kontakt med hyttekomiteen@accenture.com. Dersom man avbestiller senere enn to uker før avreise blir det en ekstra kostnad på 500 NOK.'),
