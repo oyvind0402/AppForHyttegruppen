@@ -136,6 +136,19 @@
   outline: 3px solid var(--purple);
 }
 
+.feedback-btn {
+  color: var(--white);
+  background-color: var(--purple);
+  padding: 1.5rem;
+  cursor: pointer;
+  border: none;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  font-weight: 750;
+  width: 125px;
+  text-align: center;
+}
+
 .tabbtn {
   color: var(--black);
   background-color: transparent;
