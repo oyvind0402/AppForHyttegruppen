@@ -51,7 +51,6 @@ const AddFAQ = () => {
         answer: answer,
       }),
     });
-    const data = response.json();
     if (response.ok) {
       setSaved(true);
     }

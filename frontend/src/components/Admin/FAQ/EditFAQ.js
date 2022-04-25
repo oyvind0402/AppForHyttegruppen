@@ -63,7 +63,6 @@ const EditFAQ = () => {
       body: JSON.stringify(_FAQ),
       headers: { token: localStorage.getItem('refresh_token') },
     });
-    const data = await response.json();
     if (response.ok) {
       setEdited(true);
     }

@@ -173,13 +173,6 @@ const AddCabin = () => {
     setErrorVisible(!errorVisible);
   };
 
-  const acceptPopup = () => {
-    setVisible(false);
-    history.push(
-      '/admin/lastoppbilde/' + document.getElementById('add-name').value
-    );
-  };
-
   const addCabin = async () => {
     let inputliste = document
       .getElementById('todolist')

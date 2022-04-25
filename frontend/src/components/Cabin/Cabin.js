@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
-import LoginContext from '../../LoginContext/login-context';
+import { useState, useEffect } from 'react';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import Carousel from '../01-Reusable/ImageCarousel/Carousel';
 import './Cabin.css';
@@ -16,9 +15,6 @@ const Cabin = () => {
   const [cabinData, setCabinData] = useState('');
   const [cabins, setCabins] = useState([]);
   const [infoTab, setInfoTab] = useState(0);
-
-  const loginContext = useContext(LoginContext);
-  const loggedIn = loginContext.loggedIn;
 
   const link = window.location.href;
   const pageID = link.split('/');
