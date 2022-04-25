@@ -146,14 +146,21 @@ const Applications = () => {
           let now = new Date();
           if (end > now) {
             return (
-              <input
-                type="checkbox"
-                id={'winnercheck' + props.row.original.applicationId}
-                defaultChecked={winner}
-                onChange={() => {
-                  addChangedTrip(props.row.original.applicationId);
-                }}
-              />
+              <>
+                <input
+                  type="checkbox"
+                  id={'winnercheck' + props.row.original.applicationId}
+                  defaultChecked={winner}
+                  onChange={() => {
+                    addChangedTrip(props.row.original.applicationId);
+                  }}
+                />
+                <span>
+                  {props.row.original.cabinsWon.map((cabin) => {
+                    return cabin.cabinName;
+                  })}
+                </span>
+              </>
             );
           } else {
             if (props.row.original.cabinsWon.length > 1) {
