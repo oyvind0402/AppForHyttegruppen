@@ -24,21 +24,21 @@ type repo struct {
 	noSqlDb *mongo.Client
 }
 
-func startDB() repo {
-	sqlDb := startSqlDB()
-	noSqlDb := startNoSqlDB()
+func startDB(path string) repo {
+	sqlDb := startSqlDB(path)
+	noSqlDb := startNoSqlDB(path)
 	r := repo{sqlDb, noSqlDb}
 	return r
 }
 
-func startSqlDB() *sql.DB {
+func startSqlDB(path string) *sql.DB {
 	// Database connection information
 	const (
 		host   = "localhost"
 		port   = 5432
 		dbname = "hyttegruppen"
 	)
-	username, passwd := utils.GetCreds("../credentials/screds")
+	username, passwd := utils.GetCreds(fmt.Sprintf("%s/screds", path))
 
 	// Start database
 	params := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, username, passwd, dbname)
@@ -48,14 +48,14 @@ func startSqlDB() *sql.DB {
 	return db
 }
 
-func startNoSqlDB() *mongo.Client {
+func startNoSqlDB(path string) *mongo.Client {
 	// Database connection information
 	const (
 		host       = "localhost"
 		port       = 27017
 		authSource = "admin"
 	)
-	username, passwd := utils.GetCreds("backend/nscreds")
+	username, passwd := utils.GetCreds(fmt.Sprintf("%s/nscreds", path))
 	passwd = url.QueryEscape(passwd)
 
 	// Start client and connect to database

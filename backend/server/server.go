@@ -11,9 +11,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func Start() {
+type Args struct {
+	RootPath  string
+	CredsPath string
+}
+
+func Start(args Args) {
 	// Handle databases
-	r := startDB()
+	r := startDB(args.CredsPath)
 	defer r.sqlDb.Close()
 	defer r.noSqlDb.Disconnect(context.Background())
 	router := setRouter(r)
