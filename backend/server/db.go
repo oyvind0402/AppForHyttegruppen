@@ -38,7 +38,7 @@ func startSqlDB() *sql.DB {
 		port   = 5432
 		dbname = "hyttegruppen"
 	)
-	username, passwd := utils.GetCreds("backend/screds")
+	username, passwd := utils.GetCreds("../credentials/screds")
 
 	// Start database
 	params := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, username, passwd, dbname)

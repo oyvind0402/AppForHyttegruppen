@@ -33,6 +33,7 @@ const PeriodCard = (props) => {
             onClick={handleExpanded}
           />
         </div>
+        {props.children[5] && props.children[5]}
       </div>
     </>
   );

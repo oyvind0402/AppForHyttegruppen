@@ -1,5 +1,6 @@
 package server
 
+//TODO set up email sending
 import (
 	//"bachelorprosjekt/backend/server"
 

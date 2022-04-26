@@ -3,6 +3,7 @@ package server
 import (
 	//"bachelorprosjekt/backend/data"
 
+	"bachelorprosjekt/backend/middleware"
 	"context"
 	"net/http"
 
@@ -42,12 +43,13 @@ func setRouter(r repo) *gin.Engine {
 	{
 		periodapi.GET("/:id", r.GetPeriod)
 		periodapi.GET("/inseason/:season", r.GetAllPeriodsInSeason)
+		periodapi.GET("/inseason/open", r.GetAllPeriodsInOpenSeason)
 		periodapi.GET("/all", r.GetAllPeriods)
-		periodapi.POST("/post", r.PostPeriod)
-		periodapi.POST("/postmany", r.PostManyPeriods)
-		periodapi.PUT("/update", r.UpdatePeriod)
-		periodapi.DELETE("/delete", r.DeletePeriod)
-		periodapi.DELETE("/deletemany", r.DeleteManyPeriods)
+		periodapi.POST("/post", middleware.Authenticate(), r.PostPeriod)
+		periodapi.POST("/postmany", middleware.Authenticate(), r.PostManyPeriods)
+		periodapi.PUT("/update", middleware.Authenticate(), r.UpdatePeriod)
+		periodapi.DELETE("/delete", middleware.Authenticate(), r.DeletePeriod)
+		periodapi.DELETE("/deletemany", middleware.Authenticate(), r.DeleteManyPeriods)
 	}
 
 	seasonapi := router.Group("/season")
@@ -55,10 +57,10 @@ func setRouter(r repo) *gin.Engine {
 		seasonapi.GET("/:name", r.GetSeason)
 		seasonapi.GET("/open", r.GetCurrentOpenSeason)
 		seasonapi.GET("/all", r.GetAllSeasons)
-		seasonapi.POST("/post", r.PostSeason)
-		seasonapi.PUT("/update", r.UpdateSeason)
-		seasonapi.DELETE("/delete", r.DeleteSeason)
-		seasonapi.DELETE("/deleteolder", r.DeleteOlderSeasons)
+		seasonapi.POST("/post", middleware.Authenticate(), r.PostSeason)
+		seasonapi.PUT("/update", middleware.Authenticate(), r.UpdateSeason)
+		seasonapi.DELETE("/delete", middleware.Authenticate(), r.DeleteSeason)
+		seasonapi.DELETE("/deleteolder", middleware.Authenticate(), r.DeleteOlderSeasons)
 	}
 
 	featureapi := router.Group("/feature")
@@ -75,10 +77,10 @@ func setRouter(r repo) *gin.Engine {
 		cabinsapi.GET("/active/names", r.GetActiveCabinNames)
 		cabinsapi.GET("/active", r.GetActiveCabins)
 		cabinsapi.GET("/all", r.GetAllCabins)
-		cabinsapi.POST("/post", r.PostCabin)
-		cabinsapi.PATCH("/updatefield", r.UpdateCabinField)
-		cabinsapi.PUT("/update", r.UpdateCabin)
-		cabinsapi.DELETE("/delete", r.DeleteCabin)
+		cabinsapi.POST("/post", middleware.Authenticate(), r.PostCabin)
+		cabinsapi.PATCH("/updatefield", middleware.Authenticate(), r.UpdateCabinField)
+		cabinsapi.PUT("/update", middleware.Authenticate(), r.UpdateCabin)
+		cabinsapi.DELETE("/delete", middleware.Authenticate(), r.DeleteCabin)
 	}
 
 	applicationapi := router.Group("/application")
@@ -92,12 +94,12 @@ func setRouter(r repo) *gin.Engine {
 		applicationapi.GET("/all", r.GetAllApplications)
 		applicationapi.GET("/winners/past", r.GetPastWinnerApplications)
 		applicationapi.GET("/winners/future", r.GetFutureWinnerApplications)
-		applicationapi.POST("/post", r.PostApplication)
-		applicationapi.PUT("/update", r.UpdateApplication)
-		applicationapi.PATCH("/setwinner", r.UpdateApplicationWinner)
-		applicationapi.DELETE("/delete", r.DeleteApplication)
-		applicationapi.DELETE("/deletelosing", r.DeleteLosingApplications)
-		applicationapi.DELETE("/deletemanybyid", r.DeleteApplicationsById)
+		applicationapi.POST("/post", middleware.Authenticate(), r.PostApplication)
+		applicationapi.PUT("/update", middleware.Authenticate(), r.UpdateApplication)
+		applicationapi.PATCH("/setwinner", middleware.Authenticate(), r.UpdateApplicationWinner)
+		applicationapi.DELETE("/delete", middleware.Authenticate(), r.DeleteApplication)
+		applicationapi.DELETE("/deletelosing", middleware.Authenticate(), r.DeleteLosingApplications)
+		applicationapi.DELETE("/deletemanybyid", middleware.Authenticate(), r.DeleteApplicationsById)
 	}
 
 	userapi := router.Group("/user")
@@ -114,15 +116,15 @@ func setRouter(r repo) *gin.Engine {
 	{
 		faqapi.GET("/:id", r.GetOneFAQ)
 		faqapi.GET("/all", r.GetAllFAQs)
-		faqapi.POST("/post", r.PostFAQ)
-		faqapi.PUT("/update", r.UpdateFAQ)
-		faqapi.DELETE("/delete", r.DeleteFAQ)
+		faqapi.POST("/post", middleware.Authenticate(), r.PostFAQ)
+		faqapi.PUT("/update", middleware.Authenticate(), r.UpdateFAQ)
+		faqapi.DELETE("/delete", middleware.Authenticate(), r.DeleteFAQ)
 	}
 
 	picturesapi := router.Group("/pictures")
 	{
-		picturesapi.POST("/one", r.PostOnePicture)
-		picturesapi.POST("/many", r.PostManyPictures)
+		picturesapi.POST("/one", middleware.Authenticate(), r.PostOnePicture)
+		picturesapi.POST("/many", middleware.Authenticate(), r.PostManyPictures)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })

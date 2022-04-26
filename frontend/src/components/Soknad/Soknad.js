@@ -29,8 +29,8 @@ const Soknad = () => {
     if (formCompleted) {
       formData.period.forEach((period) => {
         let JsonBody = {
-          //userId: localStorage.getItem('userID'),
-          userId: formData.userId,
+          userId: localStorage.getItem('userID'),
+          //userId: formData.userId,
           accentureId: formData.accentureId,
           tripPurpose: formData.tripPurpose,
           period: period,
@@ -43,6 +43,7 @@ const Soknad = () => {
         fetch('/application/post', {
           method: 'POST',
           body: JSON.stringify(JsonBody),
+          headers: { token: localStorage.getItem('refresh_token') },
         })
           .then((response) => console.log(response))
           .catch((error) => {

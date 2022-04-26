@@ -14,8 +14,6 @@ const LoginForm = () => {
 
   const loginContext = useContext(LoginContext);
 
-  const endpoint = '/user/signin';
-
   async function onSubmit(event) {
     event.preventDefault();
 
@@ -23,7 +21,7 @@ const LoginForm = () => {
     const passwordValue = password.current.value;
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch('/user/signin', {
         method: 'POST',
         body: JSON.stringify({
           email: usernameValue,
@@ -35,16 +33,9 @@ const LoginForm = () => {
       if (!response.ok) {
         setShowFeedBack(true);
       } else {
-        const userResponse = await fetch('/user/' + data.userId);
-        const datum = await userResponse.json();
-
-        if (!userResponse.ok) {
-          alert('Something went wrong!');
-        } else {
-          loginContext.login(data.jwt, datum.adminAccess);
-          localStorage.setItem('userID', data.userId);
-          history.replace('/');
-        }
+        loginContext.login(data.token, data.refreshToken, data.adminAccess);
+        localStorage.setItem('userID', data.userId);
+        history.replace('/');
       }
     } catch (error) {
       console.log(error);

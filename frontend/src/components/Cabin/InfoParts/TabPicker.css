@@ -1,0 +1,8 @@
+.tabPicker {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: space-between;
+  gap: 1rem;
+  overflow-x: scroll;
+  margin: 1rem;
+}
