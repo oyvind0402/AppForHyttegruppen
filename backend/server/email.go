@@ -1,6 +1,5 @@
 package server
 
-//TODO set up email sending
 import (
 	//"bachelorprosjekt/backend/server"
 
@@ -8,8 +7,6 @@ import (
 	"bachelorprosjekt/backend/utils"
 	"fmt"
 	"strings"
-
-	//"net/smtp"
 
 	"github.com/gin-gonic/gin"
 	mail "github.com/xhit/go-simple-mail/v2"
