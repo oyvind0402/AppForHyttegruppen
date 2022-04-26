@@ -11,6 +11,9 @@ const Admin = () => {
         <Link className="btn-link big btn" to="/admin/startsoknad">
           Åpne søknadsperiode
         </Link>
+        <Link className="btn-link big btn" to="/admin/endresoknader">
+          Alle søknader
+        </Link>
         <Link className="btn-link big btn" to="/admin/endringer">
           Endre innhold på siden
         </Link>
@@ -18,8 +21,8 @@ const Admin = () => {
           className="admin-picture"
           style={{ backgroundImage: 'url(' + AdminImg + ')' }}
         >
-          <Link className="link admin-picture-btn" to="/historikk">
-            <p className="admin-picture-text">Alle turer</p>
+          <Link className="link admin-picture-btn" to="/admin/historikk">
+            <p className="admin-picture-text">Turhistorikk</p>
           </Link>
         </div>
       </div>

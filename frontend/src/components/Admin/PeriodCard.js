@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 
 const PeriodCard = (props) => {
   const [expanded, setExpanded] = useState(false);
@@ -17,10 +16,9 @@ const PeriodCard = (props) => {
         {props.children[0]}
         {props.children[1]}
         <div className="justify-end">
-          <RiArrowDownSLine
-            className="gen-period-arrow-down"
-            onClick={handleExpanded}
-          />
+          <button className="btn-tiny" onClick={handleExpanded}>
+            Endre
+          </button>
         </div>
       </div>
       <div className={expanded ? 'gen-period-container-expanded' : 'no-show'}>
@@ -28,11 +26,11 @@ const PeriodCard = (props) => {
         {props.children[3]}
         {props.children[4]}
         <div className="justify-end-expanded">
-          <RiArrowUpSLine
-            className="gen-period-arrow-up"
-            onClick={handleExpanded}
-          />
+          <button className="btn-tiny" onClick={handleExpanded}>
+            Lagre
+          </button>
         </div>
+        {props.children[5] && props.children[5]}
       </div>
     </>
   );

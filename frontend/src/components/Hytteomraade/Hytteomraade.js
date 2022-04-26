@@ -1,5 +1,3 @@
-//import { useContext } from 'react';
-//import LoginContext from '../../LoginContext/login-context';
 import { ReactComponent as HemsedalLogo } from './hemsedal-logo.svg';
 import { FaSkiing, FaDog, FaSpa } from 'react-icons/fa';
 import { MdSledding } from 'react-icons/md';
@@ -10,9 +8,6 @@ import { Link } from 'react-router-dom';
 import './Hytteomraade.css';
 
 const Hytteomraade = () => {
-  //const loginContext = useContext(LoginContext);
-  //const loggedIn = loginContext.loggedIn;
-
   return (
     <>
       <div className="omraade-hero">

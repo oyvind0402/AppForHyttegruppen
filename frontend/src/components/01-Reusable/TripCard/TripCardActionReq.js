@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { AiOutlineWarning } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import InfoPopup from '../PopUp/InfoPopup';
 import './TripCard.css';
 
 const TripCardActionReq = (props) => {
-  console.log(props.data);
-
+  const [visible, setVisible] = useState(false);
   if (props.data.length === 0) {
     return <></>;
   }
@@ -24,30 +25,48 @@ const TripCardActionReq = (props) => {
     return day + '/' + month + '/' + year;
   }
 
+  const showInformation = () => {
+    setVisible(!visible);
+  };
+
   return (
     <>
-      <Link to={'/mintur/' + props.data.applicationId} className="mintur-link">
-        <div className="mytrip-card-container">
-          <img
-            className={'mytrip-picture-blur'}
-            src={process.env.PUBLIC_URL + '/assets/pictures/TripPicture.svg'}
-            alt="the cabin for the trip"
-          />
-          <div className="card-info">
-            <p className="card-title">{props.data.cabins[0].cabinName}</p>
-            <div className="season-date-wrapper">
-              <p className="card-season">{props.data.period.name}</p>
-              <p className="card-date">({getFormattedDate(date)})</p>
+      <div className="relative-container">
+        <Link
+          to={'/mintur/' + props.data.applicationId}
+          className="mintur-link"
+        >
+          <div className="mytrip-card-container">
+            <img
+              className={'mytrip-picture-blur'}
+              src={process.env.PUBLIC_URL + '/assets/pictures/TripPicture.svg'}
+              alt="the cabin for the trip"
+            />
+            <div className="card-info">
+              <p className="card-title">{props.data.cabins[0].cabinName}</p>
+              <div className="season-date-wrapper">
+                <p className="card-season">{props.data.period.name}</p>
+                <p className="card-date">({getFormattedDate(date)})</p>
+              </div>
             </div>
           </div>
-          <div className="handling-info">
-            <div className="warning">
-              <AiOutlineWarning className="warning-icon" />
-              <p className="warning-text">Handling kreves</p>
-            </div>
+        </Link>
+        <div className="handling-info">
+          <div className="warning" onClick={showInformation}>
+            <AiOutlineWarning className="warning-icon" />
+            <p className="warning-text">Handling kreves</p>
           </div>
         </div>
-      </Link>
+      </div>
+
+      {visible && (
+        <InfoPopup
+          title="Handling kreves"
+          description="Handling kreves betyr at du ikke har fyllt inn tilbakemeldingsskjemaet, trykk på turen for å fylle det ut og sende det inn!"
+          btnText="Ok"
+          hideMethod={showInformation}
+        />
+      )}
     </>
   );
 };

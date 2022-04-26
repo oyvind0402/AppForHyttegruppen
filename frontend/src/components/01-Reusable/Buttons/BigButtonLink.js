@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom';
 const BigButtonLink = (props) => {
   return (
     <>
-      <button className="btn big">
-        <Link className="btn-link" to={props.link}>
-          {props.name}
-        </Link>
-      </button>
+      <Link className="btn-link btn big" to={props.link}>
+        {props.name}
+      </Link>
     </>
   );
 };

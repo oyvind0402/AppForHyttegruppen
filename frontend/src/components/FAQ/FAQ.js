@@ -26,9 +26,11 @@ const FAQ = () => {
       FAQElements.map((FAQ, i) => {
         if (i === index) {
           FAQ.open = !FAQ.open;
-        } else {
-          FAQ.open = false;
         }
+        // closes the other questions
+        /*else {
+          FAQ.open = false;
+        }*/
         return FAQ;
       })
     );

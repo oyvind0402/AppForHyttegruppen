@@ -102,22 +102,32 @@ func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}
 	for rows.Next() {
 		var application data.Application
 		var periodId int
+		var userId string
 
 		// Insert row values into Application
 		if err = rows.Scan(
 			&application.ApplicationId,
-			&application.UserId,
+			&userId,
+			&application.AnsattnummerWBS,
 			&application.AccentureId,
 			&application.TripPurpose,
 			&application.NumberOfCabins,
+			&application.Kommentar,
 			&application.CabinAssignment,
 			&periodId,
-			&application.Winner); err != nil {
+			&application.Winner,
+			&application.FeedbackSent); err != nil {
 			return applications, err, http.StatusBadRequest
 		}
 
 		// Get period
 		application.Period, err = r.getPeriodById(ctx, periodId)
+		if err != nil {
+			return applications, err, http.StatusBadRequest
+		}
+
+		// Get user
+		application.User, err = r.getUserById(ctx, userId)
 		if err != nil {
 			return applications, err, http.StatusBadRequest
 		}
@@ -154,17 +164,21 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	// Create Application
 	var application data.Application
 	var periodId int
+	var userId string
 
 	// Map columns to Application fields
 	if err = row.Scan(
 		&application.ApplicationId,
-		&application.UserId,
+		&userId,
+		&application.AnsattnummerWBS,
 		&application.AccentureId,
 		&application.TripPurpose,
 		&application.NumberOfCabins,
+		&application.Kommentar,
 		&application.CabinAssignment,
 		&periodId,
-		&application.Winner); err != nil {
+		&application.Winner,
+		&application.FeedbackSent); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
@@ -174,6 +188,12 @@ func (r repo) GetApplication(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
+	}
+
+	// Get User information
+	application.User, err = r.getUserById(ctx, userId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadGateway, gin.H{"err": err.Error()})
 	}
 
 	// Get cabins
@@ -268,11 +288,7 @@ func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 // Retrieve applications for a userid where winner=true and start_date < today < end_date (receives userId: string; returns []Application)
 func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	// Retrieve ID parameter
-	userId := new(string)
-	if err := ctx.Bind(userId); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	userId := ctx.Param("userid")
 
 	curdate := time.Now()
 
@@ -284,9 +300,9 @@ func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	AND period_id IN (
 		SELECT period_id
 		FROM Periods
-		WHERE starting < $2 AND ending > $2
+		WHERE starting <= $2 AND ending >= $2
 	) `
-	args := []interface{}{*userId, curdate}
+	args := []interface{}{userId, curdate}
 
 	applications, err, status := r.getApplications(ctx, stmt, args)
 	if err != nil {
@@ -351,7 +367,7 @@ func (r repo) GetPastWinnerApplications(ctx *gin.Context) {
 	ctx.JSON(200, applications)
 }
 
-// Retrieve all applications in database where ending date is after current date (receives NOTHING; returns []Application)
+// Retrieve all applications in database where starting date is after current date (receives NOTHING; returns []Application)
 func (r repo) GetFutureWinnerApplications(ctx *gin.Context) {
 	curdate := time.Now()
 
@@ -361,7 +377,79 @@ func (r repo) GetFutureWinnerApplications(ctx *gin.Context) {
 	AND period_id IN (
 		SELECT period_id
 		FROM Periods
+		WHERE starting > $1
+	)`
+	args := []interface{}{curdate}
+
+	applications, err, status := r.getApplications(ctx, stmt, args)
+	if err != nil {
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve all pending applications in database where starting date is after current date (receives NOTHING; returns []Application)
+func (r repo) GetFuturePendingApplications(ctx *gin.Context) {
+	curdate := time.Now()
+
+	// Get all applications from database
+	stmt := `SELECT * FROM Applications 
+	WHERE winner = False 
+	AND period_id IN (
+		SELECT period_id
+		FROM Periods
+		WHERE starting > $1
+	)`
+	args := []interface{}{curdate}
+
+	applications, err, status := r.getApplications(ctx, stmt, args)
+	if err != nil {
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve all pending applications in database where ending date is after current date (receives NOTHING; returns []Application)
+func (r repo) GetPastPendingApplications(ctx *gin.Context) {
+	curdate := time.Now()
+
+	// Get all applications from database
+	stmt := `SELECT * FROM Applications 
+	WHERE winner = False 
+	AND period_id IN (
+		SELECT period_id
+		FROM Periods
 		WHERE ending < $1
+	)`
+	args := []interface{}{curdate}
+
+	applications, err, status := r.getApplications(ctx, stmt, args)
+	if err != nil {
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return success and Application array
+	ctx.JSON(200, applications)
+}
+
+// Retrieve all winning applications in database where starting date is before current date and ending date is after current date (receives NOTHING; returns []Application)
+func (r repo) GetCurrentApplications(ctx *gin.Context) {
+	curdate := time.Now()
+
+	// Get all applications from database
+	stmt := `SELECT * FROM Applications 
+	WHERE winner = True 
+	AND period_id IN (
+		SELECT period_id
+		FROM Periods
+		WHERE starting < $1 AND ending > $1
 	)`
 	args := []interface{}{curdate}
 
@@ -393,6 +481,21 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 
 // Post one cabin (receives Application; returns application_id: int)
 func (r repo) PostApplication(ctx *gin.Context) {
+	type PostedApplication struct {
+		ApplicationId   int               `json:"applicationId,omitempty"`
+		UserId          string            `json:"userId"`
+		AnsattnummerWBS string            `json:"ansattnummerWBS"`
+		AccentureId     string            `json:"accentureId"`
+		TripPurpose     string            `json:"tripPurpose"`
+		Period          data.Period       `json:"period"`
+		NumberOfCabins  int               `json:"numberOfCabins"`
+		CabinAssignment string            `json:"cabinAssignment"`
+		Cabins          []data.CabinShort `json:"cabins"`
+		Kommentar       string            `json:"kommentar"`
+		CabinsWon       []data.CabinShort `json:"cabinsWon,omitempty"`
+		Winner          bool              `json:"winner"`
+		FeedbackSent    bool              `json:"feedback,omitempty"`
+	}
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
 	if err != nil {
@@ -402,27 +505,29 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	defer tx.Rollback()
 
 	// Retrieve Application
-	application := new(data.Application)
+	application := new(PostedApplication)
 	err = ctx.BindJSON(application)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
-	//fmt.Println("From PostApplication all applicatins :")
-	//fmt.Println(application)
+	application.FeedbackSent = false
 
 	// Execute INSERT query and retrieve ID of inserted cabin
 	var resId int
 	if err = tx.QueryRow(
-		`INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING application_id`,
+		`INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner, feedback) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING application_id`,
 		application.UserId,
+		application.AnsattnummerWBS,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
+		application.Kommentar,
 		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
+		application.FeedbackSent,
 	).Scan(&resId); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -465,15 +570,18 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	// Update all application fields
 	res, err := tx.Exec(
 		`UPDATE Applications
-		SET user_id = $1, employee_id = $2, trip_purpose = $3, number_of_cabins = $4, cabin_assignment = $5, period_id = $6, winner = $7
-		WHERE application_id = $8`,
-		application.UserId,
+		SET user_id = $1, ansattnummerWBS= $2, employee_id = $3, trip_purpose = $4, number_of_cabins = $5, kommentar = $6, cabin_assignment = $7, period_id = $8, winner = $9, feedback = $10
+		WHERE application_id = $11`,
+		application.User.Id,
+		application.AnsattnummerWBS,
 		application.AccentureId,
 		application.TripPurpose,
 		application.NumberOfCabins,
+		application.Kommentar,
 		application.CabinAssignment,
 		application.Period.Id,
 		application.Winner,
+		application.FeedbackSent,
 		application.ApplicationId,
 	)
 	if err != nil {
@@ -514,6 +622,12 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 
 // Update application, defining it as a winning application AND specifying cabins that were won (receives Application, requires only Id, Winner and CabinsWon; returns rowsAffected: int)
 func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
+	type CabinsWon struct {
+		ApplicationId int               `json:"applicationId"`
+		CabinsWon     []data.CabinShort `json:"cabinsWon"`
+		Winner        bool              `json:"winner"`
+	}
+
 	// Transactional
 	tx, err := r.sqlDb.BeginTx(ctx, nil)
 	if err != nil {
@@ -523,7 +637,7 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	defer tx.Rollback()
 
 	// Retrieve data from front-end (WinnerApplication type)
-	application := new(data.Application)
+	application := new(CabinsWon)
 	if err = ctx.BindJSON(application); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -570,6 +684,48 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	tx, err, status := addOrUpdateCabins(ctx, tx, application.CabinsWon, application.ApplicationId, true)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Commit transaction
+	if err = tx.Commit(); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return number of applications updated
+	ctx.JSON(200, rowsAffected)
+}
+
+func (r repo) UpdateApplicationFeedback(ctx *gin.Context) {
+	// Set application ID to be an int
+	applicationId := new(int)
+
+	// Transactional
+	tx, err := r.sqlDb.BeginTx(ctx, nil)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer tx.Rollback()
+
+	// Get data from frontend
+	if err := ctx.BindJSON(applicationId); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Update the feedback sent bool
+	res, err := r.sqlDb.Exec(`UPDATE Applications SET feedback = $1 WHERE application_id = $2`, true, applicationId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Get rows affected
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 

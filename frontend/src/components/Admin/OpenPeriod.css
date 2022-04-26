@@ -73,8 +73,18 @@
   align-items: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border: 1px solid gray;
-  margin-bottom: 2rem;
   padding: 1rem;
+}
+
+.periodcard-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+
+.periodcard-container button {
+  width: 100px;
+  height: 35px;
 }
 
 .gen-period-week {
@@ -109,7 +119,6 @@
   align-items: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border: 1px solid gray;
-  margin-bottom: 2rem;
   padding: 1rem;
 }
 
@@ -132,6 +141,35 @@
 
 input[type='date']::-webkit-calendar-picker-indicator {
   cursor: pointer;
+}
+
+.add-remove-period {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 2rem;
+  padding: 0.1rem;
+}
+
+.period-button {
+  cursor: pointer;
+}
+
+.period-button:hover {
+  opacity: 0.8;
+}
+
+.openperiod-button-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.openperiod-button-container button {
+  margin-bottom: 0;
 }
 
 @media only screen and (max-width: 1100px) {

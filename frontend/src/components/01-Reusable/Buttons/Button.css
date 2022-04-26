@@ -1,32 +1,54 @@
+:root {
+  --purple: #bd00ff;
+  --light-purple: #eaddff;
+  --white: white;
+  --black: black;
+}
+
 .btn {
   display: block;
   padding: 20px;
 
-  background-color: #bd00ff;
+  background-color: var(--purple);
   border-radius: 5px;
   border: 0;
 
-  font-size: 23px;
+  font-size: 1.5rem;
   text-align: center;
-  color: white;
-  font-weight: 750;
+  color: var(--white);
+  font-weight: 700;
 
-  border: 3px solid #bd00ff;
+  border: 3px solid var(--purple);
+}
+
+.btn-tiny {
+  background-color: var(--purple);
+  border-radius: 5px;
+  border: 0;
+  color: var(--white);
+  font-weight: 700;
+  padding: 0.3rem;
+  cursor: pointer;
+}
+
+.btn-tiny:hover {
+  background-color: var(--light-purple);
+  color: var(--black);
 }
 
 .btn-link {
-  color: white;
+  color: var(--white);
   text-decoration: none;
 }
 
 .btn:hover {
   cursor: pointer;
-  background-color: #eaddff;
-  color: black;
+  background-color: var(--light-purple);
+  color: var(--black);
 }
 
 .btn:hover .btn-link {
-  color: black;
+  color: var(--black);
 }
 
 .big {
@@ -42,20 +64,20 @@
 }
 
 .btn-nonActive {
-  background-color: #eaddff;
-  color: black;
+  background-color: var(--light-purple);
+  color: var(--black);
   border: 0;
-  border: 3px solid #eaddff;
+  border: 3px solid var(--light-purple);
 }
 
 .btn-nonActive:hover {
-  background-color: #bd00ff;
-  color: white;
-  border: 3px solid #bd00ff;
+  background-color: var(--purple);
+  color: var(--white);
+  border: 3px solid var(--purple);
 }
 
 .admin-edit-btn {
-  background-color: #bd00ff;
+  background-color: var(--purple);
   border-radius: 5px;
   border: 0;
   text-align: center;
@@ -64,21 +86,10 @@
   left: 1rem;
   padding: 5px;
   font-size: 1rem;
-  color: white;
+  color: var(--white);
   font-weight: 750;
   cursor: pointer;
-  border: 3px solid #bd00ff;
-}
-
-.admin-edit-btn:hover {
-  cursor: pointer;
-  background-color: #eaddff;
-  color: black;
-}
-
-.admin-edit-btn a {
-  text-decoration: none;
-  color: white;
+  border: 3px solid var(--purple);
 }
 
 .back-btn {
@@ -90,7 +101,7 @@
   width: 100%;
   height: 3rem;
   text-align: center;
-  background-color: #eaddff;
+  background-color: var(--light-purple);
   font-weight: 700;
   border: 0;
   padding: 0;
@@ -98,38 +109,83 @@
 }
 
 .backbtn-title {
-  color: black;
+  color: var(--black);
 }
 
 .backbtn-arrow {
   padding-left: 2.5rem;
   text-align: left;
-  color: black;
+  color: var(--black);
 }
 
 .btn-smaller {
-  color: black;
-  background-color: #eaddff;
-  max-width: 100px;
+  color: var(--white);
+  background-color: var(--purple);
   padding: 0.5rem;
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  font-weight: 750;
+  width: 125px;
+  text-align: center;
 }
 
 .btn-smaller:hover {
-  background-color: #bd00ff;
-  color: white;
-  outline: 3px solid #eaddff;
+  background-color: var(--light-purple);
+  color: var(--black);
+  outline: 3px solid var(--purple);
+}
+
+.feedback-btn {
+  color: var(--white);
+  background-color: var(--purple);
+  padding: 1.5rem;
+  cursor: pointer;
+  border: none;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  font-weight: 750;
+  width: 125px;
+  text-align: center;
+}
+
+.tabbtn {
+  color: var(--black);
+  background-color: transparent;
+  border: 1px solid var(--purple);
+  font-size: 1rem;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0.3rem 2vw;
+  width: calc(5rem + 10vw);
+  min-width: fit-content;
+  margin: 0 auto;
+}
+
+.tabbtn.activetab {
+  background-color: var(--purple);
+  color: var(--white);
+  border-color: var(--purple);
 }
 
 @media only screen and (max-width: 500px) {
   .btn {
     padding: 15px 10px;
-    font-size: 18px;
+    font-size: 1rem;
   }
 
   .back-btn {
     height: 4rem;
+  }
+
+  .tabbtn {
+    padding: 0.3rem 2vw;
+  }
+}
+
+@media only screen and (max-width: 357px) {
+  .btn-smaller {
+    font-size: 0.8rem;
+    width: 100px;
   }
 }

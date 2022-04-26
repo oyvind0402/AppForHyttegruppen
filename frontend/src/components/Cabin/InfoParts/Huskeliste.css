@@ -1,0 +1,31 @@
+.huskeliste {
+  padding: 2rem 0;
+}
+.huskeliste-titel {
+  color: var(--purple);
+}
+
+.huskeliste-items {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  column-gap: calc(2rem + 5vw);
+  justify-content: center;
+  line-height: 1.5;
+  list-style-type: symbols(-);
+}
+
+.huskeliste-item {
+  width: fit-content;
+}
+
+@media only screen and (max-width: 1000px) {
+  .huskeliste-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .huskeliste-items {
+    grid-template-columns: 1fr;
+  }
+}

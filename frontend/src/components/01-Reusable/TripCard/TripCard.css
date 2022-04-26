@@ -52,6 +52,9 @@
 }
 
 .handling-info {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
   display: grid;
   grid-template-areas:
     'a'
@@ -63,12 +66,18 @@
   height: 100%;
   align-items: flex-end;
   justify-content: flex-end;
-  padding-right: 10%;
+  padding-right: 3%;
 }
 
 .warning {
   text-align: center;
   grid-area: f;
+}
+
+.warning:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: red;
 }
 
 .warning-icon {
@@ -117,13 +126,19 @@
   font-size: 2.5rem;
 }
 
+.relative-container {
+  position: relative;
+}
+
 .cancel-container {
   display: flex;
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
   flex-direction: row;
   align-items: center;
   grid-area: d;
-  margin-bottom: 1rem;
-  z-index: 100;
+  margin-bottom: 0.5rem;
 }
 
 .cancel-icon {
@@ -142,6 +157,7 @@
 .cancel-container:hover {
   text-decoration: underline;
   color: red;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 1795px) {
