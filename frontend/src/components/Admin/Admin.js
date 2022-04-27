@@ -20,11 +20,7 @@ const Admin = () => {
         <div
           className="admin-picture"
           style={{ backgroundImage: 'url(' + AdminImg + ')' }}
-        >
-          <Link className="link admin-picture-btn" to="/admin/historikk">
-            <p className="admin-picture-text">Turhistorikk</p>
-          </Link>
-        </div>
+        ></div>
       </div>
     </>
   );
