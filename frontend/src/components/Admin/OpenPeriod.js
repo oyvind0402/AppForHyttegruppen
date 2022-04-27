@@ -6,6 +6,7 @@ import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './OpenPeriod.css';
 import PeriodCard from './PeriodCard';
 import InfoPopup from '../01-Reusable/PopUp/InfoPopup';
+import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 
 const OpenPeriod = () => {
   const [visible, setVisible] = useState(false);
@@ -16,13 +17,19 @@ const OpenPeriod = () => {
   const [error, setError] = useState({});
   const [errorVisible, setErrorVisible] = useState(false);
   const [popupVisible, setPopupVisible] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   const handleVisibility = () => {
+    setErrors({});
     setPopupVisible(!popupVisible);
   };
 
   const handleErrorVisibility = () => {
     setErrorVisible(!errorVisible);
+  };
+
+  const handleOpenedVisibility = () => {
+    setOpened(!opened);
   };
 
   let initialPeriods = [];
@@ -97,9 +104,20 @@ const OpenPeriod = () => {
     const applyFrom = new Date(document.getElementById('applyFrom').value);
     const applyTo = new Date(document.getElementById('applyTo').value);
 
-    let _errors = {};
+    let firstPeriodStart = new Date(seasonStartDate);
+    //First period of the season is set to the next monday if it isnt already a monday
+    if (seasonStartDate.getDay() !== 1) {
+      firstPeriodStart.setDate(
+        firstPeriodStart.getDate() +
+          ((1 + 7 - firstPeriodStart.getDay()) % 7 || 7)
+      );
+    }
 
-    console.log(applyFrom);
+    //Setting the first periods end to be a week later
+    let firstPeriodEnd = new Date(firstPeriodStart);
+    firstPeriodEnd.setDate(firstPeriodEnd.getDate() + 7);
+
+    let _errors = {};
 
     //Validation
     if (seasonEndDate < seasonStartDate) {
@@ -131,6 +149,16 @@ const OpenPeriod = () => {
       _errors.applyTo = 'Du må fylle inn en dato!';
     }
 
+    if (applyTo > firstPeriodStart) {
+      _errors.applyTo =
+        'Du har fylt inn en søknadsfrist som er etter første periode har startet!';
+    }
+
+    if (applyFrom > firstPeriodStart) {
+      _errors.applyFrom =
+        'Starten på søknadsperioden er etter første periode har startet!';
+    }
+
     setErrors(_errors);
 
     if (
@@ -144,18 +172,6 @@ const OpenPeriod = () => {
     ) {
       return;
     }
-    let firstPeriodStart = new Date(seasonStartDate);
-    //First period of the season is set to the next monday if it isnt already a monday
-    if (seasonStartDate.getDay() !== 1) {
-      firstPeriodStart.setDate(
-        firstPeriodStart.getDate() +
-          ((1 + 7 - firstPeriodStart.getDay()) % 7 || 7)
-      );
-    }
-
-    //Setting the first periods end to be a week later
-    let firstPeriodEnd = new Date(firstPeriodStart);
-    firstPeriodEnd.setDate(firstPeriodEnd.getDate() + 7);
 
     initialPeriods.push(firstPeriodStart);
     initialPeriods.push(firstPeriodEnd);
@@ -222,6 +238,30 @@ const OpenPeriod = () => {
    * Saving season and periods via requests to the backend
    */
   const saveSeasonAndPeriods = async () => {
+    let _errors = {};
+
+    periods.forEach((period, index) => {
+      periods.forEach((period2, index2) => {
+        if (index !== index2) {
+          if (
+            period.end === period2.end ||
+            period.start === period2.start ||
+            period.name === period2.name
+          ) {
+            _errors.openPeriod =
+              'To eller flere perioder har identiske verdier, endre de!';
+          }
+        }
+      });
+    });
+
+    setErrors(_errors);
+
+    if (_errors.openPeriod) {
+      setPopupVisible(false);
+      return;
+    }
+
     const response = await fetch('/season/post', {
       method: 'POST',
       body: JSON.stringify(season),
@@ -230,7 +270,7 @@ const OpenPeriod = () => {
     const data = await response.json();
     if (response.ok) {
       setPopupVisible(false);
-      console.log(data);
+      setOpened(true);
       periods.forEach((period) =>
         fetch('/period/post', {
           method: 'POST',
@@ -255,6 +295,29 @@ const OpenPeriod = () => {
       setError(data.err);
       setErrorVisible(true);
     }
+  };
+
+  const handleAddPeriodAfter = (index) => {
+    const _periods = [...periods];
+    let start = periods[index].start;
+    let end = periods[index].end;
+    let name = periods[index].name;
+
+    const period = {
+      name: name,
+      start: start,
+      end: end,
+      season: season,
+    };
+
+    _periods.splice(index, 0, period);
+    setPeriods(_periods);
+  };
+
+  const handleDeletePeriod = (index) => {
+    let _periods = periods;
+    _periods.splice(index, 1);
+    setPeriods([..._periods]);
   };
 
   /**
@@ -283,8 +346,23 @@ const OpenPeriod = () => {
         </p>
 
         <div className="date-wrapper">
+          <label className="date-title" htmlFor="seasonname">
+            Navn til søknadsperioden
+          </label>
+          <input
+            placeholder="F.eks 'Vår 2022'"
+            type="text"
+            id="seasonname"
+            className="open-period-date"
+          />
+          {errors.seasonName && (
+            <span className="login-error">{errors.seasonName}</span>
+          )}
+        </div>
+        <br />
+        <div className="date-wrapper">
           <label className="date-title" htmlFor="startdate">
-            Startdato
+            Startdato for første periode
           </label>
           <input type="date" id="startdate" className="open-period-date" />
           {errors.seasonStartDate && (
@@ -293,7 +371,7 @@ const OpenPeriod = () => {
         </div>
         <div className="date-wrapper">
           <label className="date-title" htmlFor="enddate">
-            Sluttdato
+            Sluttdato for siste periode
           </label>
           <input type="date" id="enddate" className="open-period-date" />
           {errors.seasonEndDate && (
@@ -303,6 +381,7 @@ const OpenPeriod = () => {
             <span className="login-error">{errors.dateError}</span>
           )}
         </div>
+        <br />
         <div className="date-wrapper">
           <label className="date-title" htmlFor="startdate">
             Kan søkes på fra
@@ -322,20 +401,6 @@ const OpenPeriod = () => {
           )}
           {errors.dateError2 && (
             <span className="login-error">{errors.dateError2}</span>
-          )}
-        </div>
-        <div className="date-wrapper">
-          <label className="date-title" htmlFor="seasonname">
-            Navn til søknadsperioden
-          </label>
-          <input
-            placeholder="F.eks 'Vår 2022'"
-            type="text"
-            id="seasonname"
-            className="open-period-date"
-          />
-          {errors.seasonName && (
-            <span className="login-error">{errors.seasonName}</span>
           )}
         </div>
 
@@ -363,79 +428,97 @@ const OpenPeriod = () => {
                 ' - ' +
                 getFormattedDate(season.lastDay)}
             </p>
-            {periods?.map((period, index) => {
+            {periods.map((period, index) => {
+              console.log(period);
               return (
-                <PeriodCard key={index}>
-                  <p className="gen-period-week">{period.name}</p>
-                  <p className="gen-period-date">
-                    {getFormattedDate(period.start) +
-                      ' - ' +
-                      getFormattedDate(period.end)}
-                  </p>
+                <div key={index} className="periodcard-container">
+                  <PeriodCard>
+                    <p className="gen-period-week">{period.name}</p>
+                    <p className="gen-period-date">
+                      {getFormattedDate(period.start) +
+                        ' - ' +
+                        getFormattedDate(period.end)}
+                    </p>
 
-                  <div className="gen-period-wrapper">
-                    <p className="gen-period-title">Navn</p>
+                    <div className="gen-period-wrapper">
+                      <p className="gen-period-title">Navn</p>
 
-                    <input
-                      type="text"
-                      className="gen-period-input"
-                      value={period.name}
-                      onChange={(e) => {
-                        if (e.target.value.length > 0) {
-                          period.name = e.target.value;
-                          setPeriods([...periods]);
-                        }
-                      }}
-                      id="gen-period-name"
+                      <input
+                        type="text"
+                        className="gen-period-input"
+                        value={period.name}
+                        onChange={(e) => {
+                          if (e.target.value.length > 0) {
+                            period.name = e.target.value;
+                            setPeriods([...periods]);
+                          }
+                        }}
+                        id="gen-period-name"
+                      />
+                    </div>
+                    <div className="gen-period-wrapper">
+                      <p className="gen-period-title">Startdato</p>
+
+                      <input
+                        type="date"
+                        id="gen-period-startdate"
+                        value={setDefaultDateValue(period.start)}
+                        onChange={(e) => {
+                          if (
+                            setDateObject(e.target.value).toString() !==
+                            'Invalid Date'
+                          ) {
+                            period.start = setDateObject(e.target.value);
+                            setPeriods([...periods]);
+                          }
+                        }}
+                        className="gen-period-input"
+                      />
+                    </div>
+                    <div className="gen-period-wrapper">
+                      <p className="gen-period-title">Sluttdato</p>
+                      <input
+                        type="date"
+                        id="gen-period-enddate"
+                        className="gen-period-input"
+                        value={setDefaultDateValue(period.end)}
+                        onChange={(e) => {
+                          if (
+                            setDateObject(e.target.value).toString() !==
+                            'Invalid Date'
+                          ) {
+                            period.end = setDateObject(e.target.value);
+                            setPeriods([...periods]);
+                          }
+                        }}
+                      />
+                    </div>
+                  </PeriodCard>
+                  <div className="add-remove-period">
+                    <IoIosRemoveCircle
+                      onClick={() => handleDeletePeriod(index)}
+                      className="period-button"
+                    />
+                    <IoMdAddCircle
+                      onClick={() => handleAddPeriodAfter(index, period)}
+                      className="period-button"
                     />
                   </div>
-                  <div className="gen-period-wrapper">
-                    <p className="gen-period-title">Startdato</p>
-
-                    <input
-                      type="date"
-                      id="gen-period-startdate"
-                      value={setDefaultDateValue(period.start)}
-                      onChange={(e) => {
-                        if (
-                          setDateObject(e.target.value).toString() !==
-                          'Invalid Date'
-                        ) {
-                          period.start = setDateObject(e.target.value);
-                          setPeriods([...periods]);
-                        }
-                      }}
-                      className="gen-period-input"
-                    />
-                  </div>
-                  <div className="gen-period-wrapper">
-                    <p className="gen-period-title">Sluttdato</p>
-                    <input
-                      type="date"
-                      id="gen-period-enddate"
-                      className="gen-period-input"
-                      value={setDefaultDateValue(period.end)}
-                      onChange={(e) => {
-                        if (
-                          setDateObject(e.target.value).toString() !==
-                          'Invalid Date'
-                        ) {
-                          period.end = setDateObject(e.target.value);
-                          setPeriods([...periods]);
-                        }
-                      }}
-                    />
-                  </div>
-                </PeriodCard>
+                </div>
               );
             })}
           </>
         ) : null}
-        {showPeriods && periods.length !== 0 ? (
-          <button className="btn big soknadbtn" onClick={handleVisibility}>
-            Åpne søknadsperioden
-          </button>
-        ) : null}
+        <div className="openperiod-button-container">
+          {showPeriods && periods.length !== 0 ? (
+            <button className="btn big soknadbtn" onClick={handleVisibility}>
+              Åpne søknadsperioden
+            </button>
+          ) : null}
+          {showPeriods && periods.length !== 0 && errors.openPeriod && (
+            <span className="login-error">{errors.openPeriod}</span>
+          )}
+        </div>
       </div>
       {popupVisible && (
         <AlertPopup
@@ -447,7 +530,7 @@ const OpenPeriod = () => {
             getFormattedDate(season.firstDay) +
             ' til ' +
             getFormattedDate(season.lastDay) +
-            '. Perioder er generert automatisk, eller med endringer i tilfelle de ble gjort. Vil du fullføre åpningen av søknadsperioden? Ingenting er lagret før du trykker ja.'
+            '. Vil du fullføre åpningen av søknadsperioden? Ingenting er lagret før du trykker ja.'
           }
           acceptMethod={saveSeasonAndPeriods}
           cancelMethod={handleVisibility}
@@ -459,6 +542,24 @@ const OpenPeriod = () => {
           title={'Feil'}
           description={"Det skjedde en feil. '" + error + "'. Prøv igjen!"}
           hideMethod={handleErrorVisibility}
+        />
+      )}
+      {opened && (
+        <InfoPopup
+          btnText="Ok"
+          title={'Periode åpnet!'}
+          description={
+            'Søknadsperioden ble åpnet mellom ' +
+            getFormattedDate(season.firstDay) +
+            ' og ' +
+            getFormattedDate(season.lastDay) +
+            '.\nPerioden kan søkes på fra ' +
+            getFormattedDate(season.applyFrom) +
+            ' til ' +
+            getFormattedDate(season.applyUntil) +
+            '.'
+          }
+          hideMethod={handleOpenedVisibility}
         />
       )}
     </>

@@ -38,6 +38,18 @@
   margin-right: 0.5rem;
 }
 
+.endrefaq-add {
+  color: #bd00ff;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+}
+
+.endrefaq-add:hover {
+  cursor: pointer;
+  color: #666666;
+}
+
 @media only screen and (max-width: 1400px) {
   .edit-faqs-container {
     grid-gap: 2rem;

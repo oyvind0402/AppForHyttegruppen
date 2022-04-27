@@ -6,7 +6,15 @@ import { useEffect, useState } from 'react';
 
 const Step1 = (props) => {
   const [showExtraInfo, setShowExtraInfo] = useState(false);
-  const [showUserFeedback, setShowUserFeedback] = useState(false);
+  const [radioPrivatProject, setRadioPrivatProject] = useState(
+    props.formData.tripPurpose
+  );
+  const [ansattnummerWBS, setAnsattnummerWBS] = useState(
+    props.formData.ansattnummerWBS
+  );
+  const [enterpriseId, setEnterpriseId] = useState(props.formData.accentureId);
+
+  const [showCredentialsFeedback, setCredentialsFeedback] = useState(false);
   const [showaccentureFeedback, setShowAccentureFeedback] = useState(false);
   const [cabins, setCabins] = useState([]);
 
@@ -23,40 +31,37 @@ const Step1 = (props) => {
 
   //Setting values based on props
   useEffect(() => {
-    document.querySelector('input[id="name"]').value = props.formData.userId;
-    document.querySelector('input[id="EnterpriseID"]').value =
-      props.formData.accentureId;
-
-    const tripPurpose = props.formData.tripPurpose;
-    if (tripPurpose === 'Prosjekt') {
-      document.querySelector('input[id="prosjekt"]').checked = true;
-    } else {
-      document.querySelector('input[id="privat"]').checked = true;
-    }
+    document.querySelector('input[id="credentials"]').value = ansattnummerWBS;
+    document.querySelector('input[id="EnterpriseID"]').value = enterpriseId;
   });
 
   //Submitting data to parent
   const submitStep1 = () => {
-    setShowUserFeedback(false);
+    setCredentialsFeedback(false);
     setShowAccentureFeedback(false);
-    const newUserId = localStorage.getItem('userID');
-    const newAccentureId = document.getElementById('EnterpriseID').value;
-    const newTripPurpose = document.querySelector(
-      'input[name="purpose-trip"]:checked'
-    ).value;
 
-    if (newUserId === '') setShowUserFeedback(true);
-    if (newAccentureId === '') setShowAccentureFeedback(true);
+    if (ansattnummerWBS === '') setCredentialsFeedback(true);
+    if (enterpriseId === '') setShowAccentureFeedback(true);
     const step1Data = {
-      userId: newUserId,
-      accentureId: newAccentureId,
-      tripPurpose: newTripPurpose,
+      ansattnummerWBS: ansattnummerWBS,
+      accentureId: enterpriseId,
+      tripPurpose: radioPrivatProject,
     };
 
     props.updateForm(step1Data);
-    if (newUserId !== '' && newAccentureId !== '') {
+    if (ansattnummerWBS !== '' && enterpriseId !== '') {
       props.nextPage();
     }
+  };
+
+  const handleTypeTrip = (e) => {
+    setRadioPrivatProject(e.target.value);
+    setAnsattnummerWBS('');
+    setEnterpriseId(document.getElementById('EnterpriseID').value);
+  };
+
+  const handleEnterpriseId = (e) => {
+    setEnterpriseId(e.target.value);
   };
 
   return (
@@ -72,9 +77,6 @@ const Step1 = (props) => {
         {showExtraInfo && (
           <div className="step-extra-info-div">
             <p className="step-extra-info-p">
-              Dersom du søker på et prosjekt må du fylle ut ???
-            </p>
-            <p className="step-extra-info-p">
               EnterpriseID er din epost uten @accenture.com
             </p>
           </div>
@@ -88,7 +90,8 @@ const Step1 = (props) => {
               id="privat"
               name="purpose-trip"
               value="Privat"
-              onChange={(e) => e.target}
+              checked={radioPrivatProject === 'Privat'}
+              onChange={(e) => handleTypeTrip(e)}
             />
             <label className="soknad-radio-text" htmlFor="privat">
               <RiSuitcase2Line className="soknad-step1-icon" />
@@ -102,7 +105,8 @@ const Step1 = (props) => {
               id="prosjekt"
               name="purpose-trip"
               value="Prosjekt"
-              onChange={(e) => e.target}
+              checked={radioPrivatProject === 'Prosjekt'}
+              onChange={(e) => handleTypeTrip(e)}
             />
             <label className="soknad-radio-text" htmlFor="prosjekt">
               <RiSuitcaseLine className="soknad-step1-icon" /> Prosjekt
@@ -111,16 +115,43 @@ const Step1 = (props) => {
         </div>
 
         <div className="step1-input">
-          <label className="soknad-label" htmlFor="name">
-            Navn:
-          </label>
-          <input className="soknad-input" type="text" id="name" name="name" />
-          {showUserFeedback && (
+          {radioPrivatProject === 'Privat' ? (
+            <>
+              {' '}
+              <label className="soknad-label" htmlFor="credentials">
+                Ansattnummer:
+              </label>
+              <input
+                className="soknad-input"
+                type="text"
+                id="credentials"
+                name="credentials"
+                onChange={(e) => setAnsattnummerWBS(e.target.value)}
+              />
+            </>
+          ) : (
+            <>
+              {' '}
+              <label className="soknad-label" htmlFor="credentials">
+                WBS:
+              </label>
+              <input
+                className="soknad-input"
+                type="text"
+                id="credentials"
+                name="credentials"
+                onChange={(e) => setAnsattnummerWBS(e.target.value)}
+              />
+            </>
+          )}
+
+          {showCredentialsFeedback && (
             <p className="soknad-error step1-error">
               <BsExclamationTriangle /> Dette feltet må fylles ut!
             </p>
           )}
 
+          {/*Når login løsningn er implementert kan dette feltet fylles ut automatisk*/}
           <label className="soknad-label" htmlFor="EnterpriseID">
             Enterprise ID:
           </label>
@@ -129,6 +160,7 @@ const Step1 = (props) => {
             type="text"
             id="EnterpriseID"
             name="EnterpriseID"
+            onChange={(e) => setEnterpriseId(e.target.value)}
           />
           {showaccentureFeedback && (
             <p className="soknad-error step1-error">

@@ -63,7 +63,7 @@ export const LoginContextProvider = (props) => {
         logout();
       }
     }
-  }, []);
+  });
 
   return (
     <LoginContext.Provider value={contextValues}>

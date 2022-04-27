@@ -8,8 +8,14 @@ import './EditFAQ.css';
 const EditFAQ = () => {
   const history = useHistory();
   const [FAQ, setFAQ] = useState({});
-  const [visible, setVisible] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [deletion, setDeletion] = useState(false);
+  const [edited, setEdited] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const handleEdited = () => {
+    setEdited(!edited);
+  };
 
   const handleVisibility = () => {
     let _errors = {};
@@ -27,7 +33,11 @@ const EditFAQ = () => {
       return;
     }
 
-    setVisible(!visible);
+    setEditing(!editing);
+  };
+
+  const handleDeletionVisibility = () => {
+    setDeletion(!deletion);
   };
 
   const link = window.location.href;
@@ -48,15 +58,25 @@ const EditFAQ = () => {
       answer: document.getElementById('edit-faq-answer').value,
     };
 
-    console.log(_FAQ);
     const response = await fetch('/faq/update', {
       method: 'PUT',
       body: JSON.stringify(_FAQ),
       headers: { token: localStorage.getItem('refresh_token') },
     });
-    const data = await response.json();
     if (response.ok) {
-      console.log(data);
+      setEdited(true);
+    }
+  };
+
+  const deleteFAQ = async (id) => {
+    setEditing(false);
+
+    const response = await fetch('/faq/delete', {
+      method: 'DELETE',
+      headers: { token: localStorage.getItem('refresh_token') },
+      body: JSON.stringify(id),
+    });
+    if (response.ok) {
       history.replace('/admin/endrefaqs');
     }
   };
@@ -92,18 +112,47 @@ const EditFAQ = () => {
           {errors.answer && (
             <span className="login-error">{errors.answer}</span>
           )}
-          <button onClick={handleVisibility} className="btn big">
-            Endre
-          </button>
+          <div className="editfaq-buttons">
+            <button onClick={handleVisibility} className="btn-smaller">
+              Endre
+            </button>
+            <button onClick={handleDeletionVisibility} className="btn-smaller">
+              Slett
+            </button>
+          </div>
         </div>
       </div>
-      {visible && (
+      {editing && (
         <AlertPopup
-          title={'Vil du endre spørsmålet og svaret?'}
+          title={'Endring av FAQ'}
+          description="Vil du endre spørsmålet og svaret?"
           negativeAction="Nei"
           positiveAction="Ja"
           cancelMethod={handleVisibility}
           acceptMethod={editFAQ}
+        />
+      )}
+      {deletion && (
+        <AlertPopup
+          title={'Sletting av FAQ'}
+          description="Vil du slette spørsmålet og svaret?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleDeletionVisibility}
+          acceptMethod={() => deleteFAQ(FAQ.id)}
+        />
+      )}
+      {edited && (
+        <AlertPopup
+          title={'FAQ endret!'}
+          description="Spørsmålet og svaret ble endret, vil du gå tilbake til oversikten over FAQ?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleEdited}
+          acceptMethod={() => {
+            setEdited(false);
+            history.push('/admin/endrefaqs');
+          }}
         />
       )}
     </>

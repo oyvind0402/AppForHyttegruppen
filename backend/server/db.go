@@ -1,20 +1,16 @@
 package server
 
 import (
-	//"bachelorprosjekt/backend/data"
-
+	"bachelorprosjekt/backend/utils"
 	"context"
 	"database/sql"
 	"fmt"
 	"net/url"
 	"time"
 
-	// "github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-
-	"bachelorprosjekt/backend/utils"
 )
 
 // Defines all databases

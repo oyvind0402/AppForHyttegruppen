@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
-import LoginContext from '../../LoginContext/login-context';
+import { useState, useEffect } from 'react';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import Carousel from '../01-Reusable/ImageCarousel/Carousel';
 import './Cabin.css';
@@ -10,14 +9,12 @@ import { Apply } from './InfoParts/Apply';
 import { TabPicker } from './InfoParts/TabPicker';
 import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
 import Huskeliste from './InfoParts/Huskeliste';
+import BackButton from '../01-Reusable/Buttons/BackButton';
 
 const Cabin = () => {
   const [cabinData, setCabinData] = useState('');
   const [cabins, setCabins] = useState([]);
   const [infoTab, setInfoTab] = useState(0);
-
-  const loginContext = useContext(LoginContext);
-  const loggedIn = loginContext.loggedIn;
 
   const link = window.location.href;
   const pageID = link.split('/');
@@ -60,6 +57,7 @@ const Cabin = () => {
 
   return (
     <>
+      <BackButton name="Tilbake til hytter" link="hytter" />
       <HeroBanner name={cabinData.name} />
       <div className="cabin-display">
         <Carousel cabinData={cabinData} />

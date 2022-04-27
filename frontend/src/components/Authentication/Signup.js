@@ -41,14 +41,14 @@ const SignupForm = () => {
 
     if (!values.email.trim()) {
       errors.email = 'Epost må fylles inn!';
-    } else if (!/^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/i.test(values.email)) {
+    } else if (!/^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/i.test(values.email)) {
       errors.email = 'Feil format på epost!';
     }
 
     if (!values.password) {
       errors.password = 'Passord må fylles inn!';
     } else if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\\\-\._\(\)\\}{\/,:;`^'¨=#"|<>])[A-Za-zøæåØÆÅ\d@$!%*?&\\\-\._\(\)\\}{\/,:;`^'¨=#"<>|]{8,}$/i.test(
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\\\-._()\\}{/,:;`^'¨=#"|<>])[A-Za-zøæåØÆÅ\d@$!%*?&\\\-._()\\}{/,:;`^'¨=#"<>|]{8,}$/i.test(
         values.password
       )
     ) {

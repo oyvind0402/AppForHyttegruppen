@@ -3,15 +3,161 @@
   grid-template-columns: 1fr;
   align-self: center;
   width: 1115px;
+  margin-bottom: 1rem;
 }
 
 .feedback-form-container {
   border: solid red 0.5px;
   text-align: center;
+  padding-bottom: 1.5rem;
 }
 
 .feedback-title {
   font-weight: 700;
   font-size: 2rem;
   margin-bottom: 0;
+}
+
+.answer-input {
+  width: 100%;
+  height: 0px;
+  visibility: hidden;
+}
+
+.yes-no-label {
+  background-color: #eaddff;
+  color: black;
+  padding: 0.5rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  padding: 1rem;
+  width: 50px;
+  border-radius: 5px;
+}
+
+.answer-input:checked ~ .yes-no-label {
+  background-color: #bc01ff;
+  color: white;
+}
+
+.yes-no-label:hover {
+  cursor: pointer;
+}
+
+.feedback-yesno-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.question-buttons {
+  display: flex;
+  grid-gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.question-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.question-text {
+  font-size: 1.25rem;
+}
+
+.textarea-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.question-reply {
+  height: 300px;
+  width: 450px;
+  margin: auto;
+  padding: 15px;
+}
+
+.no-reply {
+  display: none;
+}
+
+.twobutton-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  grid-gap: 2rem;
+  margin-top: 1rem;
+}
+
+@media only screen and (max-width: 1250px) {
+  .feedback-container {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 739px) {
+  .question-reply {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  .feedback-title {
+    font-size: 1.5rem;
+  }
+
+  .question-title {
+    font-size: 1rem;
+  }
+
+  .question-text {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 551px) {
+  .feedback-container .feedback-btn {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .yes-no-label {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 551px) {
+  .feedback-container .feedback-btn {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .yes-no-label {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .question-reply {
+    height: 200px;
+  }
+}
+
+@media only screen and (max-width: 459px) {
+  .feedback-container .feedback-btn {
+    width: 100px;
+    padding: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 389px) {
+  .feedback-container .feedback-btn {
+    width: 80px;
+    padding: 0.7rem;
+  }
 }

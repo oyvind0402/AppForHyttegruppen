@@ -1,77 +1,7 @@
-.application-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 2rem;
-  margin-bottom: 4rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  justify-items: center;
-}
-
-.application-container-single {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  justify-items: center;
-  margin-bottom: 4rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
 .application-title {
   font-size: 2rem;
   font-weight: 700;
   text-align: center;
-}
-
-.application-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 0.5rem;
-}
-
-.application-cabins-wrapper {
-  display: flex;
-  flex-direction: row;
-}
-
-.application-container h2 {
-  margin-top: 0;
-}
-
-.application-half h4 {
-  margin-bottom: 0;
-}
-
-.application-half p {
-  margin-top: 0;
-}
-
-.application {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  border: 1px solid gray;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  max-width: 400px;
-  max-height: 485px;
-}
-
-.application-half {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  justify-content: flex-end;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
 
 .buttons-soknad {
@@ -80,51 +10,70 @@
   grid-gap: 0.5rem;
 }
 
-.trips-filter-container {
+.button-soknad-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+}
+
+.button-soknad-container button {
+  margin-bottom: 0;
+}
+
+.button-soknad-container {
   margin-bottom: 2rem;
 }
 
-.trips-filter {
-  font-size: 1.5rem;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  max-width: 250px;
+.add-assignment-option:checked {
+  background-color: #eaddff;
 }
 
-@media only screen and (max-width: 1366px) {
-  .application-container {
-    grid-template-columns: 1fr 1fr;
-  }
+.tab-container {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  grid-gap: 0.5rem;
 }
 
-@media only screen and (max-width: 935px) {
-  .application-container {
-    grid-template-columns: 1fr;
-  }
+.change-trip-type {
+  width: 100%;
+  height: 0px;
+  visibility: hidden;
 }
 
-@media only screen and (max-width: 475px) {
-  .application-container {
+.checkbox-trip-label {
+  background-color: #eaddff;
+  color: black;
+  padding: 0.5rem;
+  font-weight: 700;
+}
+
+.change-trip-type:checked ~ .checkbox-trip-label {
+  background-color: #bc01ff;
+  color: white;
+}
+
+.checkbox-trip-label:hover {
+  cursor: pointer;
+}
+
+.checkbox-trip-container {
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 720px) {
+  .checkbox-trip-container {
     font-size: 0.8rem;
   }
 }
 
-@media only screen and (max-width: 403px) {
-  .application-container {
-    width: 95%;
-    margin: auto;
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
-@media only screen and (max-width: 357px) {
-  .application-container {
-    width: 100%;
+@media only screen and (max-width: 601px) {
+  .checkbox-trip-container {
     font-size: 0.7rem;
   }
 
@@ -132,7 +81,24 @@
     font-size: 1.5rem;
   }
 
-  .trips-filter {
-    font-size: 1rem;
+  .tab-container {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 3rem;
+  }
+
+  .checkbox-trip-label {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 455px) {
+  .checkbox-trip-container {
+    font-size: 0.6rem;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  .tab-container {
+    grid-template-columns: 1fr 1fr;
   }
 }

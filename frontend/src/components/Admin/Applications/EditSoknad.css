@@ -10,6 +10,7 @@
 .edit-trip-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  padding: 1rem;
 }
 
 .edit-trip-wrapper {
@@ -18,17 +19,24 @@
   justify-content: center;
 }
 
+.edit-tripcabins-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
 .edit-trip-wrapper2 {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
 .edit-trip-cbwrapper {
   display: flex;
   flex-direction: row;
-
   margin-bottom: 1rem;
+  padding: 1rem;
 }
 
 .edit-trip-input {
@@ -108,6 +116,21 @@
   margin-bottom: 1rem;
 }
 
+.editsoknad-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  grid-gap: 1rem;
+}
+
+.editsoknad-buttons .btn-smaller {
+  width: 200px;
+  height: 50px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
 @media only screen and (max-width: 1216px) {
   .edit-trip-container {
     width: 50%;
@@ -127,10 +150,25 @@
 }
 
 @media only screen and (max-width: 700px) {
+  .edit-trip-container {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 612px) {
   .edit-trip-grid {
     grid-template-columns: 1fr;
   }
+  .edit-tripcabins-wrapper {
+    grid-template-columns: 1fr;
+  }
   .edit-trip-container {
-    width: 40%;
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .edit-trip-container {
+    width: 70%;
   }
 }

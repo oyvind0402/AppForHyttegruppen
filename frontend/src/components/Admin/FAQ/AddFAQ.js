@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
@@ -7,6 +8,12 @@ import './AddFAQ.css';
 const AddFAQ = () => {
   const [visible, setVisible] = useState(false);
   const [errors, setErrors] = useState({});
+  const [saved, setSaved] = useState(false);
+  const history = useHistory();
+
+  const handleSaved = () => {
+    setSaved(!saved);
+  };
 
   const handleVisibility = () => {
     let _errors = {};
@@ -44,15 +51,14 @@ const AddFAQ = () => {
         answer: answer,
       }),
     });
-    const data = response.json();
     if (response.ok) {
-      console.log(data);
+      setSaved(true);
     }
   };
 
   return (
     <>
-      <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
+      <BackButton name="Tilbake til endre FAQ" link="admin/endrefaqs" />
       <HeroBanner name="Legg til ofte stilte spørsmål og svar" />
       <div className="add-faq-container">
         <div className="add-faq-wrapper">
@@ -89,6 +95,20 @@ const AddFAQ = () => {
           positiveAction="Ja"
           cancelMethod={handleVisibility}
           acceptMethod={addQuestionAndAnswer}
+          show={visible}
+        />
+      )}
+      {saved && (
+        <AlertPopup
+          title={'FAQ lagret!'}
+          description="Spørsmålet og svaret har blitt lagret. Vil du bli sendt til oversikten over FAQ?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleSaved}
+          acceptMethod={() => {
+            setSaved(false);
+            history.push('/admin/endrefaqs');
+          }}
           show={visible}
         />
       )}
