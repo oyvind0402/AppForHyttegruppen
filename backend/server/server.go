@@ -128,8 +128,8 @@ func setRouter(r repo) *gin.Engine {
 
 	picturesapi := router.Group("/pictures")
 	{
+		picturesapi.POST("/main", middleware.Authenticate(), r.PostMainPicture)
 		picturesapi.POST("/one", middleware.Authenticate(), r.PostOnePicture)
-		picturesapi.POST("/many", middleware.Authenticate(), r.PostManyPictures)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
