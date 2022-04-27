@@ -109,8 +109,17 @@ const Applications = () => {
     {
       Header: 'Periode',
       accessor: 'period.name',
-      Cell: ({ cell: { value } }) => {
-        return <span>{value}</span>;
+      Cell: (props) => {
+        return (
+          <span>
+            {props.row.original.period.name +
+              ' (' +
+              getFormattedDate(props.row.original.period.start) +
+              ' - ' +
+              getFormattedDate(props.row.original.period.end) +
+              ')'}
+          </span>
+        );
       },
     },
     {
@@ -143,8 +152,9 @@ const Applications = () => {
         let winner = props.row.original.winner;
         if (winner) {
           let end = new Date(props.row.original.period.end);
+          let start = new Date(props.row.original.period.start);
           let now = new Date();
-          if (end > now) {
+          if (start > now) {
             return (
               <>
                 <input
@@ -300,7 +310,6 @@ const Applications = () => {
           .then((data) => console.log(data))
           .catch((error) => console.log(error));
       });
-      localStorage.setItem('assignedCabins', _cabinWinners);
       fetchApplications();
       setAssigned(true);
     } else if (
@@ -342,13 +351,14 @@ const Applications = () => {
   useEffect(() => {
     setApplications(futurePending);
     document.getElementById('futurePending').checked = true;
+    document.getElementById('futureWinning').checked = false;
   }, [futurePending]);
 
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
       <HeroBanner name="Alle søknader" />
-      {/* <ExcelConverter /> */}
+      {applications !== null && <ExcelConverter data={applications} />}
       {applications === null && (
         <p className="application-title">Søknader / turer (0)</p>
       )}
@@ -453,7 +463,8 @@ const Applications = () => {
         {applications !== null &&
           applications.length !== 0 &&
           applications !== pastPending &&
-          applications !== pastWinning && (
+          applications !== pastWinning &&
+          applications !== currentWinning && (
             <button
               onClick={() => postWinners(_cabinWinners)}
               className="btn big"
@@ -476,6 +487,7 @@ const Applications = () => {
           acceptMethod={() => {
             setApplications(futureWinning);
             document.getElementById('futureWinning').checked = true;
+            document.getElementById('futurePending').checked = false;
             setAssigned(false);
           }}
         />
