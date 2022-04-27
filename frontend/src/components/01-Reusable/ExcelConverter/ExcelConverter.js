@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 
 const ExcelConverter = (props) => {
-  const [tempApplications, setTempApplications] = useState([]);
   const [applications, setApplications] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -36,14 +35,10 @@ const ExcelConverter = (props) => {
   ];
 
   useEffect(() => {
-    setTempApplications(props.data);
-  }, []);
-
-  useEffect(() => {
-    if (tempApplications.length > 0) {
+    if (props.data.length > 0) {
       const newApplications = [];
 
-      tempApplications.forEach((application) => {
+      props.data.forEach((application) => {
         let newApplication = {
           applicationId: application.applicationId,
           user: application.user.firstname + ' ' + application.user.lastname,
@@ -79,12 +74,11 @@ const ExcelConverter = (props) => {
           });
           newApplication.cabinsWon = stringCabin;
         }
-        console.log(newApplication);
         newApplications.push(newApplication);
       });
       setApplications(newApplications);
     }
-  }, [tempApplications]);
+  }, [props.data]);
 
   useEffect(() => {
     if (applications !== null) {
