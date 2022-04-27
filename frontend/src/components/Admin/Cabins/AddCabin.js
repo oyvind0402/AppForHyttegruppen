@@ -36,7 +36,7 @@ const AddCabin = () => {
   };
 
   const handleSavedVisibility = () => {
-    setSaved(!saved);
+    setSaved(false);
     window.location.href = '/hytter';
   };
 
@@ -146,7 +146,6 @@ const AddCabin = () => {
     if (document.getElementById('add-recycling').value.length === 0) {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
-    console.log(document.getElementById('mainPicture').value);
 
     if (document.getElementById('mainPicture').value.length === 0) {
       _errors.mainPicture = 'Husk å legge til et hovedbilde!';
@@ -233,7 +232,6 @@ const AddCabin = () => {
         kildesortering: document.getElementById('add-recycling').value,
       },
     };
-    console.log(cabin);
 
     const response = await fetch('/cabin/post', {
       method: 'POST',
@@ -242,7 +240,6 @@ const AddCabin = () => {
     });
     const data = await response.json();
     if (response.ok) {
-      setSaved(true);
       uploadMainPicture();
     } else {
       setError(data.err);
@@ -254,6 +251,7 @@ const AddCabin = () => {
     const files = document.getElementById('mainPicture').files[0];
     const formData = new FormData();
     formData.append('file', files);
+    formData.append('altText', document.getElementById('mainPicture').value);
     formData.append('cabinName', document.getElementById('add-name').value);
 
     if (typeof files === 'undefined') {
@@ -270,6 +268,41 @@ const AddCabin = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    fetch('/pictures/replace', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    setSaved(true);
+  };
+
+  const uploadOtherPictures = async (formData) => {
+    console.log(formData);
+    fetch('/pictures/replace', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setSaved(true);
       })
       .catch((error) => {
         console.error(error);
@@ -556,7 +589,10 @@ const AddCabin = () => {
           description="Vil du lagre flere bilder av hytta?"
           negativeAction="Nei"
           positiveAction="Ja"
-          cancelMethod={handleSavedVisibility}
+          cancelMethod={() => {
+            setSaved(false);
+            history.push('/admin/endrehytter');
+          }}
           acceptMethod={() => {
             setSaved(false);
             history.push(
