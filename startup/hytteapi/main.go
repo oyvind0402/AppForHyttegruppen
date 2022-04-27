@@ -5,13 +5,30 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"regexp"
+
+	"github.com/jasonlvhit/gocron"
 )
 
+func task() {
+	_, err := http.Get("http://localhost:8080/application/all")
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
 func main() {
+
 	// Get arguments (passed + processed)
 	args := getArgs()
+
+	//Start cron job
+	go func() {
+		gocron.Every(1).Minute().Do(task)
+		<-gocron.Start()
+	}()
 
 	//Start server
 	server.Start(args)
