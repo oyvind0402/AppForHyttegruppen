@@ -572,18 +572,13 @@ const AddCabin = () => {
           positiveAction="Ja"
           cancelMethod={() => {
             setSaved(false);
-            window.location.href = '/admin/endrehytter';
-            //history.push('/admin/endrehytter');
+            history.replace('/admin/endrehytter');
           }}
           acceptMethod={() => {
             setSaved(false);
-            window.location.href =
-              '/admin/lastoppbilde/' +
-              document.getElementById('add-name').value;
-
-            /*history.push(
+            history.replace(
               '/admin/lastoppbilde/' + document.getElementById('add-name').value
-            );*/
+            );
           }}
         />
       )}
