@@ -1,70 +1,9 @@
 import { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 
-const ExcelConverter = () => {
-  const [applicationData, setApplicationData] = useState('');
-  const [tempApplicationData, setTempApplicationData] = useState('');
+const ExcelConverter = (props) => {
+  const [applications, setApplications] = useState([]);
   const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      fetch('/application/all')
-        .then((response) => response.json())
-        .then((data) => setTempApplicationData(data))
-        .catch((error) => console.log(error));
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (tempApplicationData !== '') {
-      /* CONVERT THE DATA */
-      const newApllicationData = [];
-      for (let index in tempApplicationData) {
-        let newApplication = {
-          applicationId: tempApplicationData[index].applicationId,
-          userId: tempApplicationData[index].user.userId,
-          accentureId: tempApplicationData[index].accentureId,
-          tripPurpose: tempApplicationData[index].tripPurpose,
-          period: tempApplicationData[index].period.name,
-          numberOfCabins: tempApplicationData[index].numberOfCabins,
-          cabinAssignment: tempApplicationData[index].cabinAssignment,
-          cabins: '',
-          cabinsWon: '',
-          winner: tempApplicationData[index].winner,
-        };
-
-        //Convert all requested cabins to one string
-        let requestedCabins = '';
-        for (let cabin in tempApplicationData[index].cabins) {
-          requestedCabins +=
-            tempApplicationData[index].cabins[cabin].cabinName + ', ';
-        }
-        requestedCabins = requestedCabins.slice(0, -2);
-        newApplication.cabins = requestedCabins;
-
-        //If the application has won before the cabins that have been won will be added to the object2
-        if (tempApplicationData[index].winner === true) {
-          let stringCabin = '';
-          for (let cabin in tempApplicationData[index].cabinsWon) {
-            stringCabin +=
-              tempApplicationData[index].cabinsWon[cabin].cabinName;
-          }
-          newApplication.cabinsWon = stringCabin;
-        }
-
-        //Adding application to newApplicationData
-        newApllicationData.push(newApplication);
-      }
-      setApplicationData(newApllicationData);
-    }
-  }, [tempApplicationData]);
-
-  useEffect(() => {
-    if (applicationData !== '') {
-      setLoaded(true);
-    }
-  }, [applicationData]);
 
   function getFormattedDate(inDate) {
     let date = new Date(inDate);
@@ -82,17 +21,70 @@ const ExcelConverter = () => {
   }
 
   const headers = [
-    { label: 'ID', key: 'applicationId' },
-    { label: 'BrukerID', key: 'userId' },
+    { label: 'Navn', key: 'user' },
     { label: 'Enterprise ID', key: 'accentureId' },
+    { label: 'Ansattnummer/WBS', key: 'ansattnummerWBS' },
     { label: 'Type tur', key: 'tripPurpose' },
     { label: 'Periode', key: 'period' },
     { label: 'Antall hytter', key: 'numberOfCabins' },
-    { label: 'Hyttetildeling', key: 'cabinAssignment' },
-    { label: 'Hytter valgt', key: 'cabins' },
-    { label: 'Hytter vunnet', key: 'cabinsWon' },
+    { label: 'Tildeling', key: 'cabinAssignment' },
+    { label: 'Hytter ønsket', key: 'cabins' },
+    { label: 'Kommentar', key: 'kommentar' },
+    { label: 'Tildelt', key: 'cabinsWon' },
     { label: 'Vinner', key: 'winner' },
   ];
+
+  useEffect(() => {
+    if (props.data.length > 0) {
+      const newApplications = [];
+
+      props.data.forEach((application) => {
+        let newApplication = {
+          applicationId: application.applicationId,
+          user: application.user.firstname + ' ' + application.user.lastname,
+          ansattnummerWBS: application.ansattnummerWBS,
+          accentureId: application.accentureId,
+          tripPurpose: application.tripPurpose,
+          period:
+            application.period.name +
+            ' (' +
+            getFormattedDate(application.period.start) +
+            ' - ' +
+            getFormattedDate(application.period.end) +
+            ')',
+          numberOfCabins: application.numberOfCabins,
+          cabinAssignment: application.cabinAssignment,
+          cabins: '',
+          cabinsWon: '',
+          kommentar: application.kommentar,
+          winner: application.winner,
+        };
+
+        let requestedCabins = '';
+        application.cabins.forEach((cabin) => {
+          requestedCabins += cabin.cabinName + ', ';
+        });
+        requestedCabins = requestedCabins.slice(0, -2);
+        newApplication.cabins = requestedCabins;
+
+        if (application.winner) {
+          let stringCabin = '';
+          application.cabinsWon.forEach((cabin) => {
+            stringCabin += cabin.cabinName;
+          });
+          newApplication.cabinsWon = stringCabin;
+        }
+        newApplications.push(newApplication);
+      });
+      setApplications(newApplications);
+    }
+  }, [props.data]);
+
+  useEffect(() => {
+    if (applications !== null) {
+      setLoaded(true);
+    }
+  }, [applications]);
 
   const now = new Date();
 
@@ -101,7 +93,7 @@ const ExcelConverter = () => {
       {loaded && (
         <CSVLink
           headers={headers}
-          data={applicationData}
+          data={applications}
           filename={'hyttesøknader' + getFormattedDate(now) + '.csv'}
         >
           Konverter søknader til Excel (.csv fil)
