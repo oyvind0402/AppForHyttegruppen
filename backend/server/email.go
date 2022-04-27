@@ -16,7 +16,8 @@ import (
 //creates email body
 var htmlBody strings.Builder
 
-func (r repo) SendEmailAfterSøknad(ctx *gin.Context) {
+//enpoint to send email after application was sent and registered
+func (r repo) AfterApplication(ctx *gin.Context) {
 	//create html body
 	htmlBody.WriteString(`<html>
 <head>
@@ -24,13 +25,14 @@ func (r repo) SendEmailAfterSøknad(ctx *gin.Context) {
    <title>Automatic email from go</title>
 </head>
 <body>
-   <p>periods you applied for:</p>
+   <p>Perioder du har søkt:</p>
 	`)
 
 	type FormData struct {
 		UserId  string        `json:"userId"`
 		Periods []data.Period `json:"periods"`
 	}
+	//reads data sent from the client
 	var inData = new(FormData)
 	err := ctx.BindJSON(inData)
 	if err != nil {
@@ -39,16 +41,61 @@ func (r repo) SendEmailAfterSøknad(ctx *gin.Context) {
 		return
 	}
 
-	htmlBody.WriteString(`</body></html>`)
 	for _, period := range inData.Periods {
 		htmlBody.WriteString(`<p>`)
 		htmlBody.WriteString(fmt.Sprintf("%s", period.Name))
 		htmlBody.WriteString(`</p>`)
 	}
 
+	htmlBody.WriteString(`<p>Du vil motta en epost dersom din søknad har blitt godkjent </p>`)
+	htmlBody.WriteString(`</body></html>`)
+
 	var userEmail = new(string)
 
 	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, inData.UserId)
+	err = row.Scan(
+		&userEmail,
+	)
+	if err != nil {
+		fmt.Println("from error in querry: ")
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("From SendEmailToUser():  " + *userEmail)
+	SendEmail(*userEmail)
+
+}
+
+//endpont to send email after application was approved
+func (r repo) ApplicationApproved(ctx *gin.Context) {
+	//create html body
+	htmlBody.WriteString(`<html>
+	<head>
+   		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   		<title>Automatic email from go</title>
+	</head>
+	<body>
+   		<p>Dine søknader ble godkjent:</p>
+	`)
+
+	//gets the data from the client
+	//TODO double check type of data that is sent in
+	type IncomingData struct {
+		aplication []data.Application
+	}
+	var inData = new(IncomingData)
+
+	err := ctx.BindJSON(inData)
+	if err != nil {
+		fmt.Println("from error inData: ")
+		fmt.Println(err)
+		return
+	}
+
+	var userEmail = new(string)
+
+	//TODO get email from application if possible?
+	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, inData.aplication)
 	err = row.Scan(
 		&userEmail,
 	)
@@ -81,8 +128,7 @@ func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
 	return smtpClient
 }
 
-//create endpoint
-
+//Send email
 func SendEmail(userEmail string) {
 	path := os.Getenv("hyttecreds")
 	if path == "" {
