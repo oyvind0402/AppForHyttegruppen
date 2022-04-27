@@ -22,7 +22,7 @@ const Step3 = (props) => {
   //Fetching
   useEffect(() => {
     async function fetchData() {
-      fetch('/cabin/all')
+      fetch('/cabin/active')
         .then((response) => response.json())
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));
@@ -40,6 +40,7 @@ const Step3 = (props) => {
       });
       setPickedCabins(newPickedCabins);
     }
+    console.log(cabins);
   }, [cabins]);
 
   function updatePickedCabin(picked, index) {

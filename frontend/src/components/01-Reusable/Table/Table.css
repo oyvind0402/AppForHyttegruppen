@@ -73,9 +73,13 @@
   }
 }
 
-@media only screen and (max-width: 915px) {
+@media only screen and (max-width: 940px) {
   .cell5,
   .react-table-header5 {
+    display: none;
+  }
+  .cell1,
+  .react-table-header1 {
     display: none;
   }
 }

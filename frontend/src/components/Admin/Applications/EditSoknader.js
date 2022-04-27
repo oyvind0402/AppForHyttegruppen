@@ -74,24 +74,13 @@ const Applications = () => {
     }
   };
 
-  function getFormattedDate(inDate) {
-    let date = new Date(inDate);
-    let year = date.getFullYear();
-
-    let month = (1 + date.getMonth()).toString();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    let day = date.getDate().toString();
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    return day + '/' + month + '/' + year;
-  }
-
   const pendingColumns = useMemo(() => [
     {
       Header: 'Enterprise ID',
+      accessor: 'accentureId',
+    },
+    {
+      Header: 'Ansattnummer',
       accessor: 'ansattnummerWBS',
     },
     {
@@ -110,16 +99,7 @@ const Applications = () => {
       Header: 'Periode',
       accessor: 'period.name',
       Cell: (props) => {
-        return (
-          <span>
-            {props.row.original.period.name +
-              ' (' +
-              getFormattedDate(props.row.original.period.start) +
-              ' - ' +
-              getFormattedDate(props.row.original.period.end) +
-              ')'}
-          </span>
-        );
+        return <span>{props.row.original.period.name}</span>;
       },
     },
     {
@@ -149,6 +129,7 @@ const Applications = () => {
     {
       Header: 'Tildelt',
       Cell: (props) => {
+        console.log(props.row.original);
         let winner = props.row.original.winner;
         if (winner) {
           let end = new Date(props.row.original.period.end);
