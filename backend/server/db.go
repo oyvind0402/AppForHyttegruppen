@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/url"
+	"os"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -16,15 +17,19 @@ import (
 // Defines all databases
 // IMPORTANT: if changing databases, remember to change close statements in server.go > Start()
 type repo struct {
-	sqlDb     *sql.DB
-	noSqlDb   *mongo.Client
-	credsPath string
+	sqlDb   *sql.DB
+	noSqlDb *mongo.Client
 }
 
-func startDB(path string) repo {
+func startDB() repo {
+	path := os.Getenv("hyttecreds")
+	if path == "" {
+		panic("Environment variable for credentials path not set")
+	}
+
 	sqlDb := startSqlDB(path)
 	noSqlDb := startNoSqlDB(path)
-	r := repo{sqlDb, noSqlDb, path}
+	r := repo{sqlDb, noSqlDb}
 	return r
 }
 

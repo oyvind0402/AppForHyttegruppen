@@ -6,6 +6,7 @@ import (
 	"bachelorprosjekt/backend/data"
 	"bachelorprosjekt/backend/utils"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -59,7 +60,7 @@ func (r repo) SendEmailToUser(ctx *gin.Context) {
 		return
 	}
 	fmt.Println("From SendEmailToUser():  " + *userEmail)
-	SendEmail(*userEmail, r.credsPath)
+	SendEmail(*userEmail)
 
 }
 
@@ -88,7 +89,12 @@ func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
 
 //create endpoint
 
-func SendEmail(userEmail string, path string) {
+func SendEmail(userEmail string) {
+	path := os.Getenv("hyttecreds")
+	if path == "" {
+		panic("Environment variable for credentials path not set")
+	}
+
 	//reads email credentials from a file e-creds
 	username, passwd := utils.GetCreds(fmt.Sprintf("%s/e-creds", path))
 
