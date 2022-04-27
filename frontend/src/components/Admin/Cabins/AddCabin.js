@@ -145,6 +145,13 @@ const AddCabin = () => {
     if (document.getElementById('add-recycling').value.length === 0) {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
+    console.log(document.getElementById('mainPicture').value);
+
+    if (document.getElementById('mainPicture').value.length === 0) {
+      _errors.mainPicture = 'Husk å legge til et hovedbilde!';
+    } else if (document.getElementById('mainPicture').value.indexOf(' ') > -1) {
+      _errors.mainPicture = 'Det er ikke lov med mellomrom i bilde navn!';
+    }
 
     setErrors(_errors);
 
@@ -161,7 +168,8 @@ const AddCabin = () => {
       _errors.bathrooms ||
       _errors.sleepingslots ||
       _errors.bedrooms ||
-      _errors.recycling
+      _errors.recycling ||
+      _errors.mainPicture
     ) {
       return;
     }
@@ -233,10 +241,38 @@ const AddCabin = () => {
     const data = await response.json();
     if (response.ok) {
       setSaved(true);
+      uploadMainPicture();
     } else {
       setError(data.err);
       setErrorVisible(true);
     }
+  };
+
+  const uploadMainPicture = async () => {
+    const files = document.getElementById('mainPicture').files[0];
+    const formData = new FormData();
+    formData.append('file', files);
+    formData.append('cabinName', document.getElementById('add-name').value);
+
+    if (typeof files === 'undefined') {
+      return;
+    }
+
+    fetch('/pictures/main', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        console.log('UPLOADED - REDIRECT TO HYTTE PAGE');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -465,6 +501,22 @@ const AddCabin = () => {
         <div className="add-remove-item">
           <IoMdAddCircle onClick={handleAddItem} />
           <IoIosRemoveCircle onClick={removeItem} />
+        </div>
+
+        <div className="add-cabin-wrapper">
+          <label className="add-cabin-label">
+            Legg til hovedbildet til hytte
+          </label>
+          <input
+            className="upload-input"
+            type="file"
+            id="mainPicture"
+            name="mainPicture"
+            accept=".jpg,.png"
+          />
+          {errors.mainPicture && (
+            <span className="login-error">{errors.mainPicture}</span>
+          )}
         </div>
 
         <button onClick={handleVisibility} className="btn big">
