@@ -244,67 +244,73 @@ const AddCabin = () => {
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <HeroBanner name="Legg til hytte" />
       <div className="add-cabin-container">
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-name">
-            Navn
-          </label>
-          <input
-            placeholder="Skriv inn navnet.."
-            className="add-cabin-input"
-            type="text"
-            id="add-name"
-          />
-          {errors.name && <span className="login-error">{errors.name}</span>}
+        <div className="add-cabin-1-3">
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-name">
+              Navn
+            </label>
+            <input
+              placeholder="Skriv inn navnet.."
+              className="add-cabin-input"
+              type="text"
+              id="add-name"
+            />
+            {errors.name && <span className="login-error">{errors.name}</span>}
+          </div>
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-address">
+              Adresse
+            </label>
+            <input
+              placeholder="Skriv inn adressen.."
+              className="add-cabin-input"
+              type="text"
+              id="add-address"
+            />
+            {errors.address && (
+              <span className="login-error">{errors.address}</span>
+            )}
+          </div>
         </div>
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-address">
-            Adresse
-          </label>
-          <input
-            placeholder="Skriv inn adressen.."
-            className="add-cabin-input"
-            type="text"
-            id="add-address"
-          />
-          {errors.address && (
-            <span className="login-error">{errors.address}</span>
-          )}
+
+        <div className="add-cabin-2-2">
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-latitude">
+              Breddegrad
+            </label>
+            <input
+              placeholder="Skriv inn breddegraden.."
+              className="add-cabin-input"
+              type="text"
+              id="add-latitude"
+            />
+            {errors.latitude && (
+              <span className="login-error">{errors.latitude}</span>
+            )}
+          </div>
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-longitude">
+              Lengdegrad
+            </label>
+            <input
+              placeholder="Skriv inn lengdegraden.."
+              className="add-cabin-input"
+              type="text"
+              id="add-longitude"
+            />
+            {errors.longitude && (
+              <span className="login-error">{errors.longitude}</span>
+            )}
+          </div>
         </div>
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-latitude">
-            Breddegrad
-          </label>
-          <input
-            placeholder="Skriv inn breddegraden.."
-            className="add-cabin-input"
-            type="text"
-            id="add-latitude"
-          />
-          {errors.latitude && (
-            <span className="login-error">{errors.latitude}</span>
-          )}
-        </div>
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-longitude">
-            Lengdegrad
-          </label>
-          <input
-            placeholder="Skriv inn lengdegraden.."
-            className="add-cabin-input"
-            type="text"
-            id="add-longitude"
-          />
-          {errors.longitude && (
-            <span className="login-error">{errors.longitude}</span>
-          )}
-        </div>
+
         <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="add-directions">
             Veibeskrivelse
           </label>
           <textarea
             placeholder="Skriv inn veibeskrivelsen.."
-            className="add-cabin-input-long"
+            className="add-cabin-input input-long"
             id="add-directions"
           />
           {errors.directions && (
@@ -317,7 +323,7 @@ const AddCabin = () => {
           </label>
           <textarea
             placeholder="Skriv inn en kort beskrivelse.."
-            className="add-cabin-input-short"
+            className="add-cabin-input input-short"
             id="add-shortdesc"
           />
           {errors.shortdesc && (
@@ -330,7 +336,7 @@ const AddCabin = () => {
           </label>
           <textarea
             placeholder="Skriv inn en lang beskrivelse.."
-            className="add-cabin-input-long"
+            className="add-cabin-input input-long"
             id="add-longdesc"
           />
           {errors.longdesc && (
@@ -338,101 +344,106 @@ const AddCabin = () => {
           )}
         </div>
         <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-price">
-            Pris
-          </label>
-          <input
-            defaultValue={1200}
-            className="add-cabin-input"
-            type="number"
-            id="add-price"
-          />
-          {errors.price && <span className="login-error">{errors.price}</span>}
-        </div>
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-cleaningprice">
-            Vaskepris
-          </label>
-          <input
-            defaultValue={1200}
-            className="add-cabin-input"
-            type="number"
-            id="add-cleaningprice"
-          />
-          {errors.cleaningprice && (
-            <span className="login-error">{errors.cleaningprice}</span>
-          )}
-        </div>
-
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label2" htmlFor={'add-bad'}>
-            Bad
-          </label>
-          <input
-            className="add-cabin-input"
-            type="number"
-            defaultValue={1}
-            id={'add-bad'}
-          />
-          {errors.bathrooms && (
-            <span className="login-error">{errors.bathrooms}</span>
-          )}
-        </div>
-
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label2" htmlFor={'add-soveplasser'}>
-            Soveplasser
-          </label>
-          <input
-            className="add-cabin-input"
-            type="number"
-            defaultValue={1}
-            id={'add-soveplasser'}
-          />
-          {errors.sleepingslots && (
-            <span className="login-error">{errors.sleepingslots}</span>
-          )}
-        </div>
-
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label2" htmlFor={'add-soverom'}>
-            Soverom
-          </label>
-          <input
-            className="add-cabin-input"
-            type="number"
-            defaultValue={1}
-            id={'add-soverom'}
-          />
-          {errors.bedrooms && (
-            <span className="login-error">{errors.bedrooms}</span>
-          )}
-        </div>
-
-        <div className="input-function">
-          <label className="add-cabin-label2" htmlFor={'add-wifi'}>
-            Wifi
-          </label>
-          <input
-            className="add-cabin-checkbox"
-            type="checkbox"
-            id={'add-wifi'}
-            name={'wifi'}
-          />
-        </div>
-        <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="add-recycling">
             Kildesortering info
           </label>
           <textarea
             placeholder="Skriv inn info om kildesortering.."
-            className="add-cabin-input-long"
+            className="add-cabin-input input-long"
             id="add-recycling"
           />
           {errors.recycling && (
             <span className="login-error">{errors.recycling}</span>
           )}
         </div>
+        <div className="add-cabin-1-1-1">
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-price">
+              Pris
+            </label>
+            <input
+              defaultValue={1200}
+              className="add-cabin-input"
+              type="number"
+              id="add-price"
+            />
+            {errors.price && (
+              <span className="login-error">{errors.price}</span>
+            )}
+          </div>
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-cleaningprice">
+              Vaskepris
+            </label>
+            <input
+              defaultValue={1200}
+              className="add-cabin-input"
+              type="number"
+              id="add-cleaningprice"
+            />
+            {errors.cleaningprice && (
+              <span className="login-error">{errors.cleaningprice}</span>
+            )}
+          </div>
+
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label2" htmlFor={'add-bad'}>
+              Bad
+            </label>
+            <input
+              className="add-cabin-input"
+              type="number"
+              defaultValue={1}
+              id={'add-bad'}
+            />
+            {errors.bathrooms && (
+              <span className="login-error">{errors.bathrooms}</span>
+            )}
+          </div>
+
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label2" htmlFor={'add-soveplasser'}>
+              Soveplasser
+            </label>
+            <input
+              className="add-cabin-input"
+              type="number"
+              defaultValue={1}
+              id={'add-soveplasser'}
+            />
+            {errors.sleepingslots && (
+              <span className="login-error">{errors.sleepingslots}</span>
+            )}
+          </div>
+
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label2" htmlFor={'add-soverom'}>
+              Soverom
+            </label>
+            <input
+              className="add-cabin-input"
+              type="number"
+              defaultValue={1}
+              id={'add-soverom'}
+            />
+            {errors.bedrooms && (
+              <span className="login-error">{errors.bedrooms}</span>
+            )}
+          </div>
+
+          <div className="input-function">
+            <label className="add-cabin-label2" htmlFor={'add-wifi'}>
+              Wifi
+            </label>
+            <input
+              className="add-cabin-checkbox"
+              type="checkbox"
+              id={'add-wifi'}
+              name={'wifi'}
+            />
+          </div>
+        </div>
+
         <div className="add-cabin-cbwrapper">
           <label className="add-cabin-label" htmlFor="add-active">
             Kan søkes på

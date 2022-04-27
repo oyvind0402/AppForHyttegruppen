@@ -31,20 +31,37 @@ const UploadCabinPic = () => {
 
     handleShowingPictures(files);
 
-    // fetch('/pictures/one', {
-    //   method: 'POST',
-    //   body: formData,
-    //   headers: {
-    //     token: localStorage.getItem('refresh_token'),
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+    fetch('/pictures/one', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    /*
+      fetch('/pictures/main', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      */
     document.getElementById('image').value = null;
     console.log(uploadedImages);
   };
