@@ -290,25 +290,6 @@ const AddCabin = () => {
     setSaved(true);
   };
 
-  const uploadOtherPictures = async (formData) => {
-    console.log(formData);
-    fetch('/pictures/replace', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        token: localStorage.getItem('refresh_token'),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setSaved(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
@@ -591,13 +572,18 @@ const AddCabin = () => {
           positiveAction="Ja"
           cancelMethod={() => {
             setSaved(false);
-            history.push('/admin/endrehytter');
+            window.location.href = '/admin/endrehytter';
+            //history.push('/admin/endrehytter');
           }}
           acceptMethod={() => {
             setSaved(false);
-            history.push(
+            window.location.href =
+              '/admin/lastoppbilde/' +
+              document.getElementById('add-name').value;
+
+            /*history.push(
               '/admin/lastoppbilde/' + document.getElementById('add-name').value
-            );
+            );*/
           }}
         />
       )}
