@@ -1,20 +1,12 @@
 package main
 
 import (
-<<<<<<< HEAD
-=======
 	"bachelorprosjekt/backend/server"
->>>>>>> main
 	"flag"
 	"fmt"
 	"log"
 	"os"
 	"regexp"
-<<<<<<< HEAD
-
-	"bachelorprosjekt/backend/server"
-=======
->>>>>>> main
 )
 
 func main() {
@@ -40,35 +32,6 @@ func getArgs() server.Args {
 
 	// Check if creds path is passed; if not, $path/credentials
 	creds = getCreds(path, creds)
-<<<<<<< HEAD
-
-	return server.Args{RootPath: path, CredsPath: creds}
-}
-
-// Retrieve path to project root
-func getRoot(path string) string {
-	root := path
-	// If -p argument not passed, fetch as pwd
-	if root == "" {
-		// Get working directory
-		wd, err := os.Getwd()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		// Remove all content after "AppForHyttegruppen" (/ for Unix, \ for Windows)
-		re := regexp.MustCompile(`(?m)^(.*AppForHyttegruppen[/\\]).*`)
-		root = re.ReplaceAllString(wd, "${1}")
-	}
-	return root
-}
-
-// Retrieve path to credentials
-func getCreds(rootPath string, credsPath string) string {
-	if credsPath != "" {
-		return credsPath
-	}
-=======
 
 	return server.Args{RootPath: path, CredsPath: creds}
 }
@@ -98,6 +61,5 @@ func getCreds(rootPath string, credsPath string) string {
 		return credsPath
 	}
 
->>>>>>> main
 	return fmt.Sprintf("%s/credentials", rootPath)
 }
