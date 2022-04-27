@@ -42,8 +42,8 @@ CREATE TABLE Users(
 CREATE TABLE Applications(
     application_id SERIAL PRIMARY KEY,
     user_id char(22) NOT NULL,
-    employee_id varchar(40) NOT NULL,
     ansattnummerWBS varchar(40) NOT NULL,
+    employee_id varchar(40) NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
     kommentar TEXT,
