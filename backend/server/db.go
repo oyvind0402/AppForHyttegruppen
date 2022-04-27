@@ -16,14 +16,15 @@ import (
 // Defines all databases
 // IMPORTANT: if changing databases, remember to change close statements in server.go > Start()
 type repo struct {
-	sqlDb   *sql.DB
-	noSqlDb *mongo.Client
+	sqlDb     *sql.DB
+	noSqlDb   *mongo.Client
+	credsPath string
 }
 
 func startDB(path string) repo {
 	sqlDb := startSqlDB(path)
 	noSqlDb := startNoSqlDB(path)
-	r := repo{sqlDb, noSqlDb}
+	r := repo{sqlDb, noSqlDb, path}
 	return r
 }
 

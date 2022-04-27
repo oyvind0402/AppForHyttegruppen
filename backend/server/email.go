@@ -59,7 +59,7 @@ func (r repo) SendEmailToUser(ctx *gin.Context) {
 		return
 	}
 	fmt.Println("From SendEmailToUser():  " + *userEmail)
-	SendEmail(*userEmail)
+	SendEmail(*userEmail, r.credsPath)
 
 }
 
@@ -88,9 +88,9 @@ func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
 
 //create endpoint
 
-func SendEmail(userEmail string) {
+func SendEmail(userEmail string, path string) {
 	//reads email credentials from a file e-creds
-	username, passwd := utils.GetCreds("../../credentials/e-creds")
+	username, passwd := utils.GetCreds(fmt.Sprintf("%s/e-creds", path))
 
 	smtpClient := connectToEmailService(username, passwd)
 
