@@ -3,7 +3,7 @@ import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import './AddCabin.css';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { BrowserRouter, useHistory } from 'react-router-dom';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 
@@ -37,6 +37,7 @@ const AddCabin = () => {
 
   const handleSavedVisibility = () => {
     setSaved(!saved);
+    window.location.href = '/hytter';
   };
 
   const handleVisibility = () => {
@@ -182,6 +183,7 @@ const AddCabin = () => {
   };
 
   const addCabin = async () => {
+    setVisible(false);
     let inputliste = document
       .getElementById('todolist')
       .getElementsByTagName('input');
@@ -216,13 +218,13 @@ const AddCabin = () => {
       },
       pictures: {
         mainPicture: {
-          filename: 'Utsikten-Main.JPEG',
-          altText: 'Main Utsikten',
+          filename: '',
+          altText: '',
         },
         otherPictures: [
           {
-            filename: 'Utsikten-utsikt1.JPEG',
-            altText: 'Utsikten utsikt',
+            filename: '',
+            altText: '',
           },
         ],
       },
@@ -268,7 +270,6 @@ const AddCabin = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        console.log('UPLOADED - REDIRECT TO HYTTE PAGE');
       })
       .catch((error) => {
         console.error(error);
@@ -552,13 +553,15 @@ const AddCabin = () => {
       {saved && (
         <AlertPopup
           title="Hytte lagret!"
-          description="Hytten ble lagret i databasen! Vil du bli sendt til oversikten over hytter?"
+          description="Vil du lagre flere bilder av hytta?"
           negativeAction="Nei"
           positiveAction="Ja"
           cancelMethod={handleSavedVisibility}
           acceptMethod={() => {
             setSaved(false);
-            history.push('/admin/endrehytter');
+            history.push(
+              '/admin/lastoppbilde/' + document.getElementById('add-name').value
+            );
           }}
         />
       )}
