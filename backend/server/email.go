@@ -16,7 +16,7 @@ import (
 //creates email body
 var htmlBody strings.Builder
 
-func (r repo) SendEmailToUser(ctx *gin.Context) {
+func (r repo) SendEmailAfterSøknad(ctx *gin.Context) {
 	//create html body
 	htmlBody.WriteString(`<html>
 <head>
@@ -26,8 +26,6 @@ func (r repo) SendEmailToUser(ctx *gin.Context) {
 <body>
    <p>periods you applied for:</p>
 	`)
-	//FIXME error from inData => bad request: invalid character '-' in numeric literal.
-	//TODO https://stackoverflow.com/questions/57015479/post-api-getting-invalid-character-in-numeric-literal
 
 	type FormData struct {
 		UserId  string        `json:"userId"`
@@ -63,10 +61,6 @@ func (r repo) SendEmailToUser(ctx *gin.Context) {
 	SendEmail(*userEmail)
 
 }
-
-// var periods = new(interface{})
-
-//periods  := inData.periods
 
 func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
 
