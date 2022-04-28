@@ -38,8 +38,9 @@ func sendEmailNotification() {
 
 	for i := range applications {
 		diff := now.Sub(*applications[i].Period.Start)
+		// If there is an application that has start date in 2 days
 		if int(((diff.Hours()/24)*-1)+1) == 2 {
-			// Send email here with information to the user (applications[i].user.email) about the trip
+			// TODO Send email here with information to the user (applications[i].user.email) about the trip
 		}
 	}
 }
@@ -65,9 +66,10 @@ func sendFeedbackInfo() {
 
 	for i := range applications {
 		diff := now.Sub(*applications[i].Period.End)
+		// If its 2 days after the trip and the user hasnt sent feedback
 		if int((diff.Hours() / 24)) == 2 {
 			if !applications[i].FeedbackSent {
-				// Send email to admin about feedback not sent for a specific application,
+				// TODO Send email to admin about feedback not sent for a specific application,
 				// if its two days since the trip and they havent sent feedback
 			}
 		}

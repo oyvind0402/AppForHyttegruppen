@@ -208,7 +208,7 @@ const FeedbackForm = (props) => {
       });
 
       if (feedbackSent) {
-        // Send email to admin here, the function sendEmail has the content of the email
+        // TODO Send email to admin here, the function sendEmail has the content of the email
         setVisible(true);
       } else {
         setVisible(true);
