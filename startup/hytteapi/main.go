@@ -39,7 +39,7 @@ func sendEmailNotification() {
 	for i := range applications {
 		diff := now.Sub(*applications[i].Period.Start)
 		if int(((diff.Hours()/24)*-1)+1) == 2 {
-			// Send an email here with information
+			// Send email here with information
 		}
 	}
 }
