@@ -126,8 +126,8 @@ INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, nu
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1','kommentar' ,'Tilfeldig', '1', TRUE, FALSE), /*Won in the past*/
 ('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '2', TRUE, FALSE),
 ('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '4', TRUE, FALSE),
-('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '4', FALSE, FALSE),
-('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', TRUE, FALSE);
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '5', FALSE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKB','654321','admin.adminer', 'Prosjekt', '1', 'Vil ha en tilfeldig hytte, det er det samme hvilken','Tilfeldig', '3', TRUE, FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', TRUE),
