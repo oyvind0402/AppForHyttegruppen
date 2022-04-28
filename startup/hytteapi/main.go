@@ -1,21 +1,76 @@
 package main
 
 import (
+	"bachelorprosjekt/backend/data"
 	"bachelorprosjekt/backend/server"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"regexp"
+	"time"
 
 	"github.com/jasonlvhit/gocron"
 )
 
-func task() {
-	_, err := http.Get("http://localhost:8080/application/all")
+// Function to send an email to any winning application 2 days before the trip
+func sendEmailNotification() {
+	resp, err := http.Get("http://localhost:8080/application/winners/future")
 	if err != nil {
-		log.Fatalln(err)
+		panic(err.Error())
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var applications []data.Application
+
+	json.Unmarshal(body, &applications)
+
+	loc, _ := time.LoadLocation("UTC")
+	now := time.Now().In(loc)
+
+	for i := range applications {
+		diff := now.Sub(*applications[i].Period.Start)
+		if int(((diff.Hours()/24)*-1)+1) == 2 {
+			// Send an email here with information
+		}
+	}
+}
+
+func sendFeedbackInfo() {
+	resp, err := http.Get("http://localhost:8080/application/winners/past")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var applications []data.Application
+
+	json.Unmarshal(body, &applications)
+
+	loc, _ := time.LoadLocation("UTC")
+	now := time.Now().In(loc)
+
+	for i := range applications {
+		diff := now.Sub(*applications[i].Period.End)
+		if int((diff.Hours() / 24)) == 2 {
+			if !applications[i].FeedbackSent {
+				// Send email to admin about feedback not sent
+				// if its two days since the trip and they havent sent feedback
+			}
+		}
 	}
 }
 
@@ -24,9 +79,17 @@ func main() {
 	// Get arguments (passed + processed)
 	args := getArgs()
 
-	//Start cron job
+	// Start cron jobs
+
+	// Every day check if new trips are coming up
 	go func() {
-		gocron.Every(1).Minute().Do(task)
+		gocron.Every(1).Day().At("10:30").Do(sendEmailNotification)
+		<-gocron.Start()
+	}()
+
+	// Every day check if feedback is not sent for past trips
+	go func() {
+		gocron.Every(1).Day().At("10:30").Do(sendFeedbackInfo)
 		<-gocron.Start()
 	}()
 
