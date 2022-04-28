@@ -39,7 +39,7 @@ func sendEmailNotification() {
 	for i := range applications {
 		diff := now.Sub(*applications[i].Period.Start)
 		if int(((diff.Hours()/24)*-1)+1) == 2 {
-			// Send email here with information
+			// Send email here with information to the user (applications[i].user.email) about the trip
 		}
 	}
 }
@@ -67,7 +67,7 @@ func sendFeedbackInfo() {
 		diff := now.Sub(*applications[i].Period.End)
 		if int((diff.Hours() / 24)) == 2 {
 			if !applications[i].FeedbackSent {
-				// Send email to admin about feedback not sent
+				// Send email to admin about feedback not sent for a specific application,
 				// if its two days since the trip and they havent sent feedback
 			}
 		}

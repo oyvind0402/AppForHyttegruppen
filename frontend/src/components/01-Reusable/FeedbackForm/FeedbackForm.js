@@ -194,6 +194,7 @@ const FeedbackForm = (props) => {
         }
       });
       console.log(email);
+      return email;
     }
   };
 
@@ -207,7 +208,7 @@ const FeedbackForm = (props) => {
       });
 
       if (feedbackSent) {
-        // Send an email to admin here
+        // Send email to admin here, the function sendEmail has the content of the email
         setVisible(true);
       } else {
         setVisible(true);
