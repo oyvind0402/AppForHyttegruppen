@@ -11,9 +11,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func Start() {
+type Args struct {
+	RootPath  string
+	CredsPath string
+}
+
+func Start(args Args) {
 	// Handle databases
-	r := startDB()
+	r := startDB(args.CredsPath)
 	defer r.sqlDb.Close()
 	defer r.noSqlDb.Disconnect(context.Background())
 	router := setRouter(r)
@@ -85,6 +90,7 @@ func setRouter(r repo) *gin.Engine {
 		cabinsapi.POST("/post", middleware.Authenticate(), r.PostCabin)
 		cabinsapi.PATCH("/updatefield", middleware.Authenticate(), r.UpdateCabinField)
 		cabinsapi.PUT("/update", middleware.Authenticate(), r.UpdateCabin)
+		cabinsapi.PUT("/updateWithPicture", middleware.Authenticate(), r.UpdateCabinWithPicture)
 		cabinsapi.DELETE("/delete", middleware.Authenticate(), r.DeleteCabin)
 	}
 
@@ -132,8 +138,10 @@ func setRouter(r repo) *gin.Engine {
 
 	picturesapi := router.Group("/pictures")
 	{
+		picturesapi.POST("/main", middleware.Authenticate(), r.PostMainPicture)
 		picturesapi.POST("/one", middleware.Authenticate(), r.PostOnePicture)
-		picturesapi.POST("/many", middleware.Authenticate(), r.PostManyPictures)
+		picturesapi.POST("/replace", middleware.Authenticate(), r.PostReplaceRestPicture)
+		picturesapi.POST("/replaceFirst", middleware.Authenticate(), r.PostReplaceFirstRestPicture)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })

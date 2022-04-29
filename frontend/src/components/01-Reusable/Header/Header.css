@@ -107,7 +107,7 @@
   transition: background 0.3s linear;
   margin-left: 5%;
   line-height: 1.5rem;
-  padding-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .active {
@@ -180,10 +180,6 @@
 
   .nav-list-smaller {
     grid-template-columns: repeat(4, auto);
-  }
-
-  .nav-list-item {
-    padding: 0.3125rem;
   }
 }
 
