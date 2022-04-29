@@ -66,6 +66,13 @@
   flex-direction: column;
 }
 
+.hidden-text {
+  color: transparent;
+  margin: 0;
+  line-height: 1rem;
+  height: 1.3125rem;
+}
+
 @media only screen and (max-width: 720px) {
   .checkbox-trip-container {
     font-size: 0.8rem;

@@ -346,7 +346,11 @@ const Applications = () => {
     <>
       <BackButton name="Tilbake til admin" link="admin" />
       <HeroBanner name="Alle søknader" />
-      {applications !== null && <ExcelConverter data={applications} />}
+      {applications !== null ? (
+        <ExcelConverter data={applications} />
+      ) : (
+        <p className="hidden-text"></p>
+      )}
       {applications === null && (
         <p className="application-title">Søknader / turer (0)</p>
       )}
