@@ -15,12 +15,8 @@ const Admin = () => {
           Alle søknader
         </Link>
         <Link className="btn-link big btn" to="/admin/endringer">
-          Endre innhold på siden
+          Endre nettsidens innhold
         </Link>
-        <div
-          className="admin-picture"
-          style={{ backgroundImage: 'url(' + AdminImg + ')' }}
-        ></div>
       </div>
     </>
   );

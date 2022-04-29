@@ -396,7 +396,7 @@ const Applications = () => {
             }}
           />
           <label htmlFor="pastPending" className="checkbox-trip-label">
-            Tidligere søknader
+            Ikke tildelte søknader
           </label>
         </div>
         <div className="checkbox-trip-container" id="chckb3">
@@ -461,7 +461,9 @@ const Applications = () => {
               onClick={() => postWinners(_cabinWinners)}
               className="btn big"
             >
-              {applications === futurePending ? 'Tildel hytter' : 'Endre turer'}
+              {applications === futurePending
+                ? 'Tildel hytter'
+                : 'Lagre endringer'}
             </button>
           )}
 
