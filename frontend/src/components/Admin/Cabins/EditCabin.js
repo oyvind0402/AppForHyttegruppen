@@ -589,7 +589,7 @@ const EditCabin = () => {
           cancelMethod={handleSavedVisibility}
           acceptMethod={() => {
             setSaved(false);
-            history.push('/admin/endrehytter');
+            window.location.href = '/admin/endrehytter';
           }}
         />
       )}
