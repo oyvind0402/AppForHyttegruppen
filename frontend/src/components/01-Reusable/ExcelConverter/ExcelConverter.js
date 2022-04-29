@@ -69,9 +69,12 @@ const ExcelConverter = (props) => {
 
         if (application.winner) {
           let stringCabin = '';
-          application.cabinsWon.forEach((cabin) => {
-            stringCabin += cabin.cabinName;
-          });
+          try {
+            application.cabinsWon.forEach((cabin) => {
+              stringCabin += cabin.cabinName;
+            });
+          } catch (error) {}
+
           newApplication.cabinsWon = stringCabin;
         }
         newApplications.push(newApplication);

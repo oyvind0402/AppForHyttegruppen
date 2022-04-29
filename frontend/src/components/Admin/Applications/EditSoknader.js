@@ -154,7 +154,14 @@ const Applications = () => {
               </>
             );
           } else {
-            if (props.row.original.cabinsWon.length > 1) {
+            let cabinWonLenght;
+            try {
+              cabinWonLenght = props.row.original.cabinsWon.length;
+            } catch (error) {
+              //Empty
+              return <span></span>;
+            }
+            if (cabinWonLenght > 1) {
               return (
                 <span>
                   {props.row.original.cabinsWon[0].map((cabin) => {
@@ -163,7 +170,7 @@ const Applications = () => {
                 </span>
               );
             }
-            if (props.row.original.cabinsWon.length === 1) {
+            if (cabinWonLenght === 1) {
               return <span>{props.row.original.cabinsWon[0].cabinName}</span>;
             }
           }
