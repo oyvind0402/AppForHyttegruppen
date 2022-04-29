@@ -158,6 +158,10 @@ const EditCabin = () => {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
 
+    if (document.getElementById('mainPictureEndre').value.indexOf(' ') > -1) {
+      _errors.mainPicture = 'Det er ikke lov med mellomrom i bilde navn!';
+    }
+
     setErrorMessage(_errors);
 
     if (
@@ -173,7 +177,8 @@ const EditCabin = () => {
       _errors.bathrooms ||
       _errors.sleepingslots ||
       _errors.bedrooms ||
-      _errors.recycling
+      _errors.recycling ||
+      _errors.mainPicture
     ) {
       return;
     }
@@ -550,6 +555,9 @@ const EditCabin = () => {
             name="mainPictureEndre"
             accept=".jpg,.png"
           />
+          {errorMessage.mainPicture && (
+            <span className="login-error">{errorMessage.mainPicture}</span>
+          )}
         </div>
 
         <button className="btn big" onClick={handleVisibility}>
