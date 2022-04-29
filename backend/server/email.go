@@ -84,6 +84,7 @@ func (r repo) ApplicationApproved(ctx *gin.Context) {
 		aplication []data.Application
 	}
 	var inData = new(IncomingData)
+	//email := inData.aplication.User.email
 
 	err := ctx.BindJSON(inData)
 	if err != nil {
