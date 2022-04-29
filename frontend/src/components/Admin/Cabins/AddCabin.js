@@ -148,7 +148,6 @@ const AddCabin = () => {
     }
 
     const huskeliste = document.getElementById('todolist').childNodes;
-
     for (let i = 1; i < huskeliste.length; i++) {
       if (huskeliste[i].value === '') {
         _errors.huskeliste = 'Det er ikke lov med tome verdier!';
@@ -419,7 +418,7 @@ const AddCabin = () => {
         <div className="add-cabin-1-1-1">
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-price">
-              Pris
+              Leiepris
             </label>
             <input
               defaultValue={1200}
@@ -512,6 +511,7 @@ const AddCabin = () => {
             className="add-cabin-checkbox"
             type="checkbox"
             id="add-active"
+            checked={true}
           />
         </div>
         <div className="add-cabin-wrapper" id="todolist">
