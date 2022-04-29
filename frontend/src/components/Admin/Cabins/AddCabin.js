@@ -147,6 +147,13 @@ const AddCabin = () => {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
 
+    const huskeliste = document.getElementById('todolist').childNodes;
+    for (let i = 1; i < huskeliste.length; i++) {
+      if (huskeliste[i].value === '') {
+        _errors.huskeliste = 'Det er ikke lov med tome verdier!';
+      }
+    }
+
     if (document.getElementById('mainPicture').value.length === 0) {
       _errors.mainPicture = 'Husk å legge til et hovedbilde!';
     } else if (document.getElementById('mainPicture').value.indexOf(' ') > -1) {
@@ -169,6 +176,7 @@ const AddCabin = () => {
       _errors.sleepingslots ||
       _errors.bedrooms ||
       _errors.recycling ||
+      _errors.huskeliste ||
       _errors.mainPicture
     ) {
       return;
@@ -410,7 +418,7 @@ const AddCabin = () => {
         <div className="add-cabin-1-1-1">
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-price">
-              Pris
+              Leiepris
             </label>
             <input
               defaultValue={1200}
@@ -503,6 +511,7 @@ const AddCabin = () => {
             className="add-cabin-checkbox"
             type="checkbox"
             id="add-active"
+            checked={true}
           />
         </div>
         <div className="add-cabin-wrapper" id="todolist">
@@ -512,6 +521,9 @@ const AddCabin = () => {
             className="add-cabin-input"
             placeholder="Skriv inn noe brukeren må huske på.."
           />
+          {errors.huskeliste && (
+            <span className="login-error">{errors.huskeliste}</span>
+          )}
         </div>
         <div className="add-remove-item">
           <IoMdAddCircle onClick={handleAddItem} />

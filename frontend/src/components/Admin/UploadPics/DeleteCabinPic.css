@@ -1,0 +1,46 @@
+.delete-picture-list {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: auto auto auto;
+}
+
+.delete-picture-element {
+  border-radius: 5px;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.delete-picture-element:hover {
+  background-color: #eaddff;
+  cursor: pointer;
+}
+
+.delete-picture-element input {
+  margin-right: 3rem;
+}
+
+.delete-picture-element img {
+  height: 12rem;
+  width: 12rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  .delete-picture-list {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .delete-picture-list {
+    grid-template-columns: auto;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .delete-picture-element img {
+    height: 6rem;
+    width: 6rem;
+  }
+}

@@ -5,7 +5,7 @@ import AdminPictureCabinCardBig from '../../01-Reusable/CabinCard/AdminPictureCa
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import './UploadCabinPics.css';
 
-const UploadCabinPics = () => {
+const UploadOrDeleteCabinsPics = () => {
   const [cabins, setCabins] = useState([]);
 
   const getCabin = async () => {
@@ -25,15 +25,14 @@ const UploadCabinPics = () => {
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <HeroBanner name="Last opp bilder" />
-      <p className="upload-pics-title">Last opp bilder for:</p>
-      <div className="cabins-display">
-        {cabins.length > 0 &&
-          cabins.map((cabin, index) => {
-            return <AdminPictureCabinCardBig key={index} cabin={cabin} />;
-          })}
-      </div>
+      <Link className="btn-link big btn" to="/admin/lastoppbilder">
+        Legg til bilder
+      </Link>
+      <Link className="btn-link big btn" to="/admin/slettbilder">
+        Fjern bilder
+      </Link>
     </>
   );
 };
 
-export default UploadCabinPics;
+export default UploadOrDeleteCabinsPics;

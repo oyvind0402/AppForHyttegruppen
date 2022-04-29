@@ -28,6 +28,10 @@
   overflow: hidden;
 }
 
+.admin-card-picture {
+  height: 250px;
+}
+
 .admin-card:hover {
   cursor: pointer;
   background-color: #eaddff;
@@ -47,14 +51,30 @@
   border-radius: 5px 5px 0 0;
 }
 
+.admin-picture {
+  height: 75%;
+}
+
 .card-content {
   height: 50%;
   width: 100%;
   padding-left: 2px;
   vertical-align: baseline;
 }
+.card-content-picture {
+  padding-left: 2px;
+  vertical-align: baseline;
+}
 
 .card-content .card-title {
+  font-size: 24px;
+  color: #8900c5;
+  font-weight: 750;
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+
+.card-title-picture {
   font-size: 24px;
   color: #8900c5;
   font-weight: 750;

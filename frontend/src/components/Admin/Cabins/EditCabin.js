@@ -158,6 +158,13 @@ const EditCabin = () => {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
 
+    const huskeliste = document.getElementById('todolist').childNodes;
+    for (let i = 1; i < huskeliste.length; i++) {
+      if (huskeliste[i].value === '') {
+        _errors.huskeliste = 'Det er ikke lov med tome verdier!';
+      }
+    }
+
     if (document.getElementById('mainPictureEndre').value.indexOf(' ') > -1) {
       _errors.mainPicture = 'Det er ikke lov med mellomrom i bilde navn!';
     }
@@ -178,6 +185,7 @@ const EditCabin = () => {
       _errors.sleepingslots ||
       _errors.bedrooms ||
       _errors.recycling ||
+      _errors.huskeliste ||
       _errors.mainPicture
     ) {
       return;
@@ -540,6 +548,9 @@ const EditCabin = () => {
                 );
               })
             : null}
+          {errorMessage.huskeliste && (
+            <span className="login-error">{errorMessage.huskeliste}</span>
+          )}
         </div>
         <div className="add-remove-item">
           <IoMdAddCircle onClick={handleAddItem} />

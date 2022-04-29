@@ -37,6 +37,8 @@ const AddFAQ = () => {
   const addQuestionAndAnswer = async () => {
     const question = document.getElementById('add-question').value;
     const answer = document.getElementById('add-answer').value;
+    document.getElementById('add-question').value = '';
+    document.getElementById('add-answer').value = '';
 
     setVisible(false);
     if (question.length === 0 || answer.length === 0) {
