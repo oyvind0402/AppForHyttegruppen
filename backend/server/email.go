@@ -17,7 +17,7 @@ import (
 var htmlBody strings.Builder
 
 //enpoint to send email after application was sent and registered
-func (r repo) AfterApplication(ctx *gin.Context) {
+func (r repo) AfterApplicationSent(ctx *gin.Context) {
 	//create html body
 	htmlBody.WriteString(`<html>
 <head>
@@ -32,6 +32,7 @@ func (r repo) AfterApplication(ctx *gin.Context) {
 		UserId  string        `json:"userId"`
 		Periods []data.Period `json:"periods"`
 	}
+
 	//reads data sent from the client
 	var inData = new(FormData)
 	err := ctx.BindJSON(inData)
@@ -67,7 +68,7 @@ func (r repo) AfterApplication(ctx *gin.Context) {
 }
 
 //endpont to send email after application was approved
-func (r repo) ApplicationApproved(ctx *gin.Context) {
+func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	//create html body
 	htmlBody.WriteString(`<html>
 	<head>
@@ -81,7 +82,7 @@ func (r repo) ApplicationApproved(ctx *gin.Context) {
 	//gets the data from the client
 	//TODO double check type of data that is sent in
 	type IncomingData struct {
-		aplication []data.Application
+		application data.Application
 	}
 	var inData = new(IncomingData)
 	//email := inData.aplication.User.email
@@ -96,7 +97,7 @@ func (r repo) ApplicationApproved(ctx *gin.Context) {
 	var userEmail = new(string)
 
 	//TODO get email from application if possible?
-	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, inData.aplication)
+	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, inData.application)
 	err = row.Scan(
 		&userEmail,
 	)
