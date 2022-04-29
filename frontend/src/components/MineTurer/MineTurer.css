@@ -21,7 +21,7 @@
   flex-direction: column;
   padding-left: 10%;
   padding-right: 10%;
-  min-height: 25rem;
+  min-height: 20rem;
 }
 
 .mintur-link {
@@ -90,7 +90,7 @@ hr {
 }
 
 .mytrip-types {
-  width: 99vw;
+  width: 99%;
   margin: 0 auto;
   position: absolute;
   bottom: 10%;
@@ -101,7 +101,7 @@ hr {
 }
 
 .mytrip-type {
-  width: 33vw;
+  width: 33%;
   display: flex;
   align-items: flex-end;
   justify-content: center;
