@@ -17,6 +17,10 @@ const EditSite = () => {
         Endre hytter
       </Link>
 
+      <Link className="btn-link btn big" to="/admin/lastoppbilder">
+        Last opp bilder
+      </Link>
+
       <Link className="btn-link btn big" to="/admin/endrefaqs">
         Rediger FAQ
       </Link>
@@ -24,12 +28,6 @@ const EditSite = () => {
       <Link className="btn-link btn big" to="/admin/endreperioder">
         Endre perioder
       </Link>
-
-      {
-        <Link className="btn-link btn big" to="/admin/lastoppbilder">
-          Last opp bilder
-        </Link>
-      }
     </>
   );
 };

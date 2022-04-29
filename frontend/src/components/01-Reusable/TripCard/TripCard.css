@@ -397,24 +397,34 @@
 }
 
 @media only screen and (max-width: 395px) {
+  .season-date-wrapper {
+    margin-top: 0.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    grid-gap: 0.2rem;
+  }
+  .season-date-wrapper p {
+    margin: 0;
+  }
+
   .card-season {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .card-date {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .pending-text {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .pending-date {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .cancel-text {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .cancel-icon {
@@ -426,14 +436,18 @@
   }
 
   .warning-text {
-    font-size: 0.5rem;
+    font-size: 0rem;
+  }
+  .handling-info {
+    padding: 0;
   }
 
   .warning-icon {
-    width: 1rem;
+    margin-bottom: 0.35rem;
   }
 
   .pending-icon {
+    margin-top: 0.35rem;
     font-size: 1rem;
   }
 }
