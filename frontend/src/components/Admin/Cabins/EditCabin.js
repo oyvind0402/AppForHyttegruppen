@@ -235,13 +235,64 @@ const EditCabin = () => {
 
     const data = await response.json();
     if (response.ok) {
-      setSaved(true);
+      if (document.getElementById('mainPictureEndre').value !== '') {
+        uploadMainPicture();
+      } else {
+        setSaved(true);
+      }
     } else {
       setError(data.err);
       setErrorVisible(true);
     }
     setVisible(false);
+    return;
   }
+
+  const uploadMainPicture = async () => {
+    const files = document.getElementById('mainPictureEndre').files[0];
+    const formData = new FormData();
+    formData.append('file', files);
+    formData.append(
+      'altText',
+      document.getElementById('mainPictureEndre').value
+    );
+    formData.append('cabinName', document.getElementById('edit-name').value);
+
+    if (typeof files === 'undefined') {
+      return;
+    }
+
+    fetch('/pictures/main', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    fetch('/pictures/replace', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    setSaved(true);
+  };
 
   return (
     <>

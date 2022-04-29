@@ -81,6 +81,7 @@ func setRouter(r repo) *gin.Engine {
 		cabinsapi.POST("/post", middleware.Authenticate(), r.PostCabin)
 		cabinsapi.PATCH("/updatefield", middleware.Authenticate(), r.UpdateCabinField)
 		cabinsapi.PUT("/update", middleware.Authenticate(), r.UpdateCabin)
+		cabinsapi.PUT("/updateWithPicture", middleware.Authenticate(), r.UpdateCabinWithPicture)
 		cabinsapi.DELETE("/delete", middleware.Authenticate(), r.DeleteCabin)
 	}
 
