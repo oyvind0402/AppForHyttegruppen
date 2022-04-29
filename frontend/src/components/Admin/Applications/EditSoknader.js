@@ -74,24 +74,13 @@ const Applications = () => {
     }
   };
 
-  function getFormattedDate(inDate) {
-    let date = new Date(inDate);
-    let year = date.getFullYear();
-
-    let month = (1 + date.getMonth()).toString();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    let day = date.getDate().toString();
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    return day + '/' + month + '/' + year;
-  }
-
   const pendingColumns = useMemo(() => [
     {
       Header: 'Enterprise ID',
+      accessor: 'accentureId',
+    },
+    {
+      Header: 'Ansattnummer',
       accessor: 'ansattnummerWBS',
     },
     {
@@ -109,8 +98,8 @@ const Applications = () => {
     {
       Header: 'Periode',
       accessor: 'period.name',
-      Cell: ({ cell: { value } }) => {
-        return <span>{value}</span>;
+      Cell: (props) => {
+        return <span>{props.row.original.period.name}</span>;
       },
     },
     {
@@ -140,11 +129,13 @@ const Applications = () => {
     {
       Header: 'Tildelt',
       Cell: (props) => {
+        console.log(props.row.original);
         let winner = props.row.original.winner;
         if (winner) {
           let end = new Date(props.row.original.period.end);
+          let start = new Date(props.row.original.period.start);
           let now = new Date();
-          if (end > now) {
+          if (start > now) {
             return (
               <>
                 <input
@@ -163,7 +154,14 @@ const Applications = () => {
               </>
             );
           } else {
-            if (props.row.original.cabinsWon.length > 1) {
+            let cabinWonLenght;
+            try {
+              cabinWonLenght = props.row.original.cabinsWon.length;
+            } catch (error) {
+              //Empty
+              return <span></span>;
+            }
+            if (cabinWonLenght > 1) {
               return (
                 <span>
                   {props.row.original.cabinsWon[0].map((cabin) => {
@@ -172,7 +170,7 @@ const Applications = () => {
                 </span>
               );
             }
-            if (props.row.original.cabinsWon.length === 1) {
+            if (cabinWonLenght === 1) {
               return <span>{props.row.original.cabinsWon[0].cabinName}</span>;
             }
           }
@@ -300,7 +298,6 @@ const Applications = () => {
           .then((data) => console.log(data))
           .catch((error) => console.log(error));
       });
-      localStorage.setItem('assignedCabins', _cabinWinners);
       fetchApplications();
       setAssigned(true);
     } else if (
@@ -342,13 +339,14 @@ const Applications = () => {
   useEffect(() => {
     setApplications(futurePending);
     document.getElementById('futurePending').checked = true;
+    document.getElementById('futureWinning').checked = false;
   }, [futurePending]);
 
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
       <HeroBanner name="Alle søknader" />
-      {/* <ExcelConverter /> */}
+      {applications !== null && <ExcelConverter data={applications} />}
       {applications === null && (
         <p className="application-title">Søknader / turer (0)</p>
       )}
@@ -453,7 +451,8 @@ const Applications = () => {
         {applications !== null &&
           applications.length !== 0 &&
           applications !== pastPending &&
-          applications !== pastWinning && (
+          applications !== pastWinning &&
+          applications !== currentWinning && (
             <button
               onClick={() => postWinners(_cabinWinners)}
               className="btn big"
@@ -476,6 +475,7 @@ const Applications = () => {
           acceptMethod={() => {
             setApplications(futureWinning);
             document.getElementById('futureWinning').checked = true;
+            document.getElementById('futurePending').checked = false;
             setAssigned(false);
           }}
         />

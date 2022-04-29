@@ -103,6 +103,7 @@ db.cabins.insertMany([
     pictures: {
       mainPicture: { filename: "Utsikten-Main.JPEG", altText: "Main Utsikten" },
       otherPictures: [
+        { filename: "Utsikten-Main.JPEG", altText: "Main Utsikten" },
         { filename: "Utsikten-utsikt1.JPEG", altText: "Utsikten utsikt" },
         { filename: "Utsikten-utsikt2.JPEG", altText: "Utsikten utsikt" },
         { filename: "Utsikten-utenfor.JPEG", altText: "Utsikten utenfor" },
