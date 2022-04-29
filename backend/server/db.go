@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/url"
+	"os"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -20,7 +21,12 @@ type repo struct {
 	noSqlDb *mongo.Client
 }
 
-func startDB(path string) repo {
+func startDB() repo {
+	path := os.Getenv("hyttecreds")
+	if path == "" {
+		panic("Environment variable for credentials path not set")
+	}
+
 	sqlDb := startSqlDB(path)
 	noSqlDb := startNoSqlDB(path)
 	r := repo{sqlDb, noSqlDb}

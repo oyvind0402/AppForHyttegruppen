@@ -62,7 +62,7 @@ const Soknad = () => {
         console.log(formData.period);
         console.log(emailData);
         console.log(JSON.stringify(emailData));
-        fetch('/email/post', {
+        fetch('/email/afterApplication', {
           method: 'POST',
           body: JSON.stringify(emailData),
           // headers: {

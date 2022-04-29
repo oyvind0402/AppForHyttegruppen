@@ -11,15 +11,15 @@ import (
 )
 
 func main() {
-	// Get arguments (passed + processed)
-	args := getArgs()
+	//Create environment variables
+	getArgs()
 
 	//Start server
-	server.Start(args)
+	server.Start()
 }
 
 // Get arguments from flags and process accordingly
-func getArgs() server.Args {
+func getArgs() {
 	var path string
 	var creds string
 
@@ -34,7 +34,8 @@ func getArgs() server.Args {
 	// Check if creds path is passed; if not, $path/credentials
 	creds = getCreds(path, creds)
 
-	return server.Args{RootPath: path, CredsPath: creds}
+	os.Setenv("hytteroot", path)
+	os.Setenv("hyttecreds", creds)
 }
 
 // Retrieve path to project root

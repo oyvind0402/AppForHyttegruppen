@@ -11,14 +11,9 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type Args struct {
-	RootPath  string
-	CredsPath string
-}
-
-func Start(args Args) {
+func Start() {
 	// Handle databases
-	r := startDB(args.CredsPath)
+	r := startDB()
 	defer r.sqlDb.Close()
 	defer r.noSqlDb.Disconnect(context.Background())
 	router := setRouter(r)
@@ -41,7 +36,12 @@ func setRouter(r repo) *gin.Engine {
 
 	emailapi := router.Group("/email")
 	{
-		emailapi.POST("/post", r.SendEmailToUser)
+		emailapi.POST("/afterApplication", r.AfterApplication)
+		emailapi.POST("/applicationApproved")
+		emailapi.POST("/openPeriod")
+		emailapi.POST("/periodIsClosing")
+		emailapi.POST("/upcomingTrip")
+		emailapi.POST("/fillFeedback")
 	}
 	// Create API route groups
 	periodapi := router.Group("/period")
