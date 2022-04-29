@@ -1,6 +1,7 @@
 .delete-picture-list {
-  display: flex;
-  float: left;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: auto auto auto;
 }
 
 .delete-picture-element {
@@ -21,5 +22,25 @@
 }
 
 .delete-picture-element img {
-  max-height: 12rem;
+  height: 12rem;
+  width: 12rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  .delete-picture-list {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .delete-picture-list {
+    grid-template-columns: auto;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .delete-picture-element img {
+    height: 6rem;
+    width: 6rem;
+  }
 }
