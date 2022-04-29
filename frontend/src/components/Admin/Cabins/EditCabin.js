@@ -277,7 +277,7 @@ const EditCabin = () => {
         console.error(error);
       });
 
-    fetch('/pictures/replace', {
+    fetch('/pictures/replaceFirst', {
       method: 'POST',
       body: formData,
       headers: {
