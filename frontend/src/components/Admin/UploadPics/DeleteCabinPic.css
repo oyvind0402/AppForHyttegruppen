@@ -1,0 +1,25 @@
+.delete-picture-list {
+  display: flex;
+  float: left;
+}
+
+.delete-picture-element {
+  border-radius: 5px;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.delete-picture-element:hover {
+  background-color: #eaddff;
+  cursor: pointer;
+}
+
+.delete-picture-element input {
+  margin-right: 3rem;
+}
+
+.delete-picture-element img {
+  max-height: 12rem;
+}
