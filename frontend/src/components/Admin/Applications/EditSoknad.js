@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknad.css';
 
 const Application = () => {
+  const history = useHistory();
   const link = window.location.href;
   const tripID = link.split('/')[5];
   let selectedCabins = [];
@@ -12,12 +14,49 @@ const Application = () => {
   const [trip, setTrip] = useState({});
   const [cabins, setCabins] = useState([]);
   const [periods, setPeriods] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
   const [updated, setUpdated] = useState(false);
+  const [deletion, setDeletion] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleVisibility = () => {
+    let _errors = {};
+    let _cabins = [];
+    const utsikten = document.getElementById('Utsikten');
+    const knausen = document.getElementById('Knausen');
+    const fanitullen = document.getElementById('Fanitullen');
+    const storeG = document.getElementById('Store Grøndalen');
+
+    if (utsikten.checked) {
+      _cabins.push({ cabinName: utsikten.value });
+    }
+
+    if (knausen.checked) {
+      _cabins.push({ cabinName: knausen.value });
+    }
+
+    if (fanitullen.checked) {
+      _cabins.push({ cabinName: fanitullen.value });
+    }
+
+    if (storeG.checked) {
+      _cabins.push({ cabinName: storeG.value });
+    }
+
+    if (_cabins.length === 0) {
+      _errors.chosenCabin = 'Du må velge en hytte å tildele!';
+    }
+
+    setErrors(_errors);
+
+    if (_errors.chosenCabin) {
+      setUpdated(false);
+      return;
+    }
     setUpdated(!updated);
+  };
+
+  const handleDeletionVisibility = () => {
+    setDeletion(!deletion);
   };
 
   function getFormattedDate(inDate) {
@@ -41,18 +80,6 @@ const Application = () => {
     if (response.ok) {
       setTrip(data);
     }
-  };
-
-  const getUsers = () => {
-    fetch('/user/all')
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
-  };
-
-  const getUser = () => {
-    fetch('/user/' + localStorage.getItem('tripUser'))
-      .then((response) => response.json())
-      .then((data) => setUser(data));
   };
 
   const getCabinNames = async () => {
@@ -95,6 +122,10 @@ const Application = () => {
       _cabins.push({ cabinName: storeG.value });
     }
 
+    if (_cabins.length === 0) {
+      return;
+    }
+
     const _application = trip;
     _application.cabinsWon = _cabins;
     _application.winner = winner;
@@ -105,9 +136,20 @@ const Application = () => {
       body: JSON.stringify(_application),
     });
 
-    const data = await response.json();
     if (response.ok) {
       setUpdated(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    setDeletion(false);
+    const response = await fetch('/application/delete', {
+      method: 'DELETE',
+      body: JSON.stringify(id),
+      headers: { token: localStorage.getItem('refresh_token') },
+    });
+    if (response.ok) {
+      history.replace('/admin/endresoknader');
     }
   };
 
@@ -115,8 +157,6 @@ const Application = () => {
     getCabinNames();
     getPeriods();
     getTrip();
-    getUsers();
-    getUser();
   }, []);
 
   return (
@@ -131,25 +171,17 @@ const Application = () => {
           <div>
             <div className="edit-trip-wrapper">
               <label className="edit-trip-label" htmlFor="edit-accentureid">
-                Accenture ID
+                Enterprise ID
               </label>
               <p className="edit-trip-info">{trip.accentureId}</p>
             </div>
             <div className="edit-trip-wrapper">
-              <p className="edit-trip-title">Bruker:</p>
-              {users?.map((_user, index) => {
-                if (_user.userId === user.userId) {
-                  return (
-                    <p key={index} className="edit-trip-info">
-                      {_user.firstname +
-                        ' ' +
-                        _user.lastname +
-                        ' - ' +
-                        _user.email}
-                    </p>
-                  );
-                }
-              })}
+              <p className="edit-trip-title">Navn:</p>
+
+              <p className="edit-trip-info">
+                {typeof trip.user !== 'undefined' &&
+                  trip.user.firstname + ' ' + trip.user.lastname}
+              </p>
             </div>
 
             <div className="edit-trip-wrapper">
@@ -192,29 +224,46 @@ const Application = () => {
           </div>
         </div>
 
-        <div className="edit-trip-wrapper2">
-          <p className="edit-trip-title">Valgte hytter</p>
-          {cabins?.map((cabin, i) => {
-            trip.cabins?.forEach((chosenCabin) => {
-              if (cabin === chosenCabin.cabinName) {
-                selectedCabins.push(cabin);
+        <div className="edit-tripcabins-wrapper">
+          <div>
+            <p className="edit-trip-title">Søkte hytter</p>
+            {cabins?.map((cabin, i) => {
+              trip.cabins?.forEach((chosenCabin) => {
+                if (cabin === chosenCabin.cabinName) {
+                  selectedCabins.push(cabin);
+                }
+              });
+              if (selectedCabins.includes(cabin)) {
+                return (
+                  <div className="edit-trip-cabins" key={i}>
+                    <input
+                      defaultChecked={true}
+                      name={cabin}
+                      type="checkbox"
+                      className="edit-trip-input-checkbox2"
+                      value={cabin}
+                    />
+                    <label className="edit-trip-cabinslabel">{cabin}</label>
+                  </div>
+                );
+              } else {
+                return (
+                  <div className="edit-trip-cabins" key={i}>
+                    <input
+                      name={cabin}
+                      className="edit-trip-input-checkbox2"
+                      type="checkbox"
+                      value={cabin}
+                    />
+                    <label className="edit-trip-cabinslabel">{cabin}</label>
+                  </div>
+                );
               }
-            });
-            if (selectedCabins.includes(cabin)) {
-              return (
-                <div className="edit-trip-cabins" key={i}>
-                  <input
-                    defaultChecked={true}
-                    name={cabin}
-                    type="checkbox"
-                    className="edit-trip-input-checkbox2"
-                    id={cabin}
-                    value={cabin}
-                  />
-                  <label className="edit-trip-cabinslabel">{cabin}</label>
-                </div>
-              );
-            } else {
+            })}
+          </div>
+          <div>
+            <p className="edit-trip-title">Hytter for tildeling</p>
+            {cabins?.map((cabin, i) => {
               return (
                 <div className="edit-trip-cabins" key={i}>
                   <input
@@ -227,13 +276,17 @@ const Application = () => {
                   <label className="edit-trip-cabinslabel">{cabin}</label>
                 </div>
               );
-            }
-          })}
+            })}
+            {errors.chosenCabin && (
+              <span className="login-error">{errors.chosenCabin}</span>
+            )}
+          </div>
         </div>
         {trip.winner ? (
           <div className="edit-trip-wrapper2">
             <p className="edit-trip-title">Hytte(r) vunnet:</p>
             {trip.cabinsWon.map((cabin, i) => {
+              console.log(cabin);
               return (
                 <div key={i}>
                   <p className="edit-trip-info">{cabin.cabinName}</p>
@@ -253,9 +306,14 @@ const Application = () => {
             id="edit-winner"
           />
         </div>
-        <button onClick={handleVisibility} className="btn big">
-          Endre
-        </button>
+        <div className="editsoknad-buttons">
+          <button onClick={handleVisibility} className="btn-smaller">
+            Endre
+          </button>
+          <button className="btn-smaller" onClick={handleDeletionVisibility}>
+            Slett
+          </button>
+        </div>
       </div>
       {updated && (
         <AlertPopup
@@ -265,6 +323,16 @@ const Application = () => {
           positiveAction="Ja"
           cancelMethod={handleVisibility}
           acceptMethod={editApplication}
+        />
+      )}
+      {deletion && (
+        <AlertPopup
+          title={'Sletting av søknad'}
+          description="Er du sikker på at du vil slette søknaden?"
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleDeletionVisibility}
+          acceptMethod={() => handleDelete(trip.applicationId)}
         />
       )}
     </>

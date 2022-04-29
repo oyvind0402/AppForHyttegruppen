@@ -1,8 +1,17 @@
+.huskeliste {
+  padding: 2rem 0;
+}
+.huskeliste-titel {
+  color: var(--purple);
+}
+
 .huskeliste-items {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(2, auto);
   column-gap: calc(2rem + 5vw);
-  justify-content: space-between;
+  justify-content: center;
+  line-height: 1.5;
+  list-style-type: symbols(-);
 }
 
 .huskeliste-item {

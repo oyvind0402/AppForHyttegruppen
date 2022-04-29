@@ -14,13 +14,13 @@ const MapCabins = (props) => {
   useEffect(() => {
     function handleResize() {
       let map = document.evaluate(
-        '//*[@id="root"]/main/div/div[2]/div[5]/div',
+        '//*[@id="root"]/main/div/div[3]/div',
         document,
         null,
         XPathResult.FIRST_ORDERED_NODE_TYPE,
         null
       ).singleNodeValue;
-      map.style.width = '100%';
+      if (map !== null) map.style.width = '80%';
     }
 
     window.addEventListener('resize', handleResize);

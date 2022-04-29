@@ -24,11 +24,12 @@ const Huskeliste = (props) => {
   }, []);
 
   return props.cabinData.other.huskeliste !== undefined ? (
-    <div>
-      <p>Det bør du ta med: </p>
+    <div className="huskeliste">
       <ul className="huskeliste-items" id="huskeliste">
         {props.cabinData.other.huskeliste.map((item) => (
-          <li className="huskeliste-item">{item}</li>
+          <>
+            <li className="huskeliste-item">{item}</li>
+          </>
         ))}
       </ul>
     </div>

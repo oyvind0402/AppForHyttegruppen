@@ -43,11 +43,14 @@ CREATE TABLE Applications(
     application_id SERIAL PRIMARY KEY,
     user_id char(22) NOT NULL,
     employee_id varchar(40) NOT NULL,
+    ansattnummerWBS varchar(40) NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
+    kommentar TEXT,
     cabin_assignment varchar(10) NOT NULL,
     period_id int NOT NULL,
     winner boolean NOT NULL,
+    feedback boolean NOT NULL,
 
     CONSTRAINT fk_user
         FOREIGN KEY(user_id)
@@ -87,6 +90,7 @@ VALUES('Vinter 2022','2022-01-01', '2022-03-15', '2021-12-20', '2021-12-31'),
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
 VALUES ('Uke 1', '2022-01-03', '2022-01-11', 'Vinter 2022'),
+('Forever Active', '2022-01-29', '2022-12-05', 'Høst 2022'),
 ('Uke 35', '2022-08-29', '2022-09-05', 'Høst 2022'),
 ('Uke 36', '2022-09-05', '2022-09-12', 'Høst 2022'),
 ('Uke 37', '2022-09-12', '2022-09-19', 'Høst 2022'),
@@ -117,10 +121,11 @@ INSERT INTO Users
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4uHEb2bdYRKt4OuX9xye5U8PkVSH.WJRS', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RAdGV0ZXIuY29tIiwiZXhwIjoxNjUwMDQzODMzfQ.dr6LP-qRSzmr5-VsDr6PptjvP8OtPyzp1pHpCvv1RK0', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjIzM30.xPsuMjr1qbJBBjIhLiGGNecYaj8ZaFeA0Y9qpf4bQvM', 'test', 'tester', FALSE),
 ('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$PsxqvC8fkSF6sEu9DF45/.N/eZLZyj8.K9k/BDsz7C/FqyMOdtH/S', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluQGFkbWluci5jb20iLCJleHAiOjE2NTAwNDM3MzN9.IKFVQxDWaVKYDLemALfx3Ck7hXL_jnz8N-aSTW0S7NE', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjEzM30.kwwObYPLJrDkk0pxCquhsf666_FWl7biWNC7LCrDrVg','Admin', 'Adminer', TRUE);
 
-INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'Privat', '1', 'Tilfeldig', '1', TRUE), /*Won in the past*/
-('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'Privat', '1', 'Tilfeldig', '2', TRUE),
-('Z5CBgnCHiFsYXMmNdBYmKA','mark.v.d.baan', 'Privat', '1', 'Tilfeldig', '3', FALSE);
+INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner, feedback)
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1','kommentar' ,'Tilfeldig', '1', TRUE, FALSE), /*Won in the past*/
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '2', TRUE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', TRUE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', FALSE, FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', TRUE),
@@ -129,10 +134,14 @@ VALUES ('1', 'Utsikten', TRUE),
 ('2', 'Fanitullen', FALSE),
 ('2', 'Knausen', TRUE),
 ('2', 'Store Grøndalen', FALSE),
-('3', 'Utsikten', FALSE),
+('3', 'Utsikten', TRUE),
 ('3', 'Fanitullen', FALSE),
-('3', 'Knausen', FALSE),
-('3', 'Store Grøndalen', FALSE);
+('3', 'Knausen', False),
+('3', 'Store Grøndalen', FALSE),
+('4', 'Utsikten', FALSE),
+('4', 'Fanitullen', FALSE),
+('4', 'Knausen', FALSE),
+('4', 'Store Grøndalen', FALSE);
 
 INSERT INTO Faq (question, answer) 
 VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine turer eller ved å ta kontakt med hyttekomiteen@accenture.com. Dersom man avbestiller senere enn to uker før avreise blir det en ekstra kostnad på 500 NOK.'),

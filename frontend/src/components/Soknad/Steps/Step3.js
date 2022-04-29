@@ -13,10 +13,12 @@ const Step3 = (props) => {
   const [cabinAssigment, setCabinAssigment] = useState(
     props.formData.cabinAssigment
   );
+  const [kommentar, setKommentar] = useState(props.formData.kommentar);
   const [showFeedBackNumber, setShowFeedBackNumber] = useState(false);
 
   const [cabins, setCabins] = useState([]);
-  let pickedCabins = [];
+  const [pickedCabins, setPickedCabins] = useState([]);
+
   //Fetching
   useEffect(() => {
     async function fetchData() {
@@ -30,13 +32,17 @@ const Step3 = (props) => {
 
   //No cabin is picked yet
   useEffect(() => {
-    cabins.map((cabin) => {
-      pickedCabins.push(false);
-      return '';
-    });
+    if (pickedCabins.length === 0) {
+      let newPickedCabins = [];
+      cabins.map((cabin) => {
+        newPickedCabins.push(false);
+        return '';
+      });
+      setPickedCabins(newPickedCabins);
+    }
   }, [cabins]);
 
-  function setPickedCabin(picked, index) {
+  function updatePickedCabin(picked, index) {
     pickedCabins[index] = picked;
   }
 
@@ -64,6 +70,7 @@ const Step3 = (props) => {
       numberOfCabins: numberOfCabins,
       cabinAssigment: cabinAssigment,
       cabins: valgteCabins,
+      kommentar: kommentar,
     };
     return step3Data;
   };
@@ -96,7 +103,7 @@ const Step3 = (props) => {
         {showExtraInfo && (
           <div className="step-extra-info-div">
             <p className="step-extra-info-p">
-              Tilfeldig tildeling betyr at du muligens vil få en av hyttene.
+              Tilfeldig tildeling betyr at du søker på alle hyttene.
             </p>
             <p className="step-extra-info-p">
               Dersom du ønsker å velge selv kan du velge de hyttene som du vil
@@ -158,18 +165,33 @@ const Step3 = (props) => {
         )}
 
         {numberOfCabins > 0 && cabinAssigment === 'Spesifikk' && (
-          <div className="soknad-step3-cabins">
-            {cabins.map((cabin, index) => {
-              return (
-                <CabinCardSmall
-                  key={cabin.name}
-                  index={index}
-                  cabin={cabin}
-                  setPicked={setPickedCabin}
-                />
-              );
-            })}
-          </div>
+          <>
+            <div className="soknad-step3-cabins">
+              {cabins.map((cabin, index) => {
+                return (
+                  <CabinCardSmall
+                    key={cabin.name}
+                    index={index}
+                    cabin={cabin}
+                    updatePickedCabin={updatePickedCabin}
+                  />
+                );
+              })}
+            </div>
+            <div className="soknad-step3-antall">
+              <label className="soknad-label" htmlFor="comments">
+                Kommentar
+              </label>
+              <textarea
+                className="soknad-input"
+                name="comments"
+                id="comments"
+                value={kommentar}
+                placeholder="Skriv en kommentar her..."
+                onChange={(e) => setKommentar(e.target.value)}
+              ></textarea>
+            </div>
+          </>
         )}
       </div>
       <div className="soknad-btn">

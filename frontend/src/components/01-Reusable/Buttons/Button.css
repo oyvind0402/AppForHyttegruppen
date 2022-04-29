@@ -21,6 +21,21 @@
   border: 3px solid var(--purple);
 }
 
+.btn-tiny {
+  background-color: var(--purple);
+  border-radius: 5px;
+  border: 0;
+  color: var(--white);
+  font-weight: 700;
+  padding: 0.3rem;
+  cursor: pointer;
+}
+
+.btn-tiny:hover {
+  background-color: var(--light-purple);
+  color: var(--black);
+}
+
 .btn-link {
   color: var(--white);
   text-decoration: none;
@@ -77,17 +92,6 @@
   border: 3px solid var(--purple);
 }
 
-.admin-edit-btn:hover {
-  cursor: pointer;
-  background-color: var(--light-purple);
-  color: var(--black);
-}
-
-.admin-edit-btn a {
-  text-decoration: none;
-  color: var(--white);
-}
-
 .back-btn {
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
@@ -132,17 +136,30 @@
   outline: 3px solid var(--purple);
 }
 
+.feedback-btn {
+  color: var(--white);
+  background-color: var(--purple);
+  padding: 1.5rem;
+  cursor: pointer;
+  border: none;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  font-weight: 750;
+  width: 125px;
+  text-align: center;
+}
+
 .tabbtn {
   color: var(--black);
   background-color: transparent;
-  border-color: transparent;
-  font-size: 0.7rem;
+  border: 1px solid var(--purple);
+  font-size: 1rem;
   display: inline-block;
   box-sizing: border-box;
   padding: 0.3rem 2vw;
-  width: calc(5rem + 8vw);
+  width: calc(5rem + 10vw);
   min-width: fit-content;
-  max-width: 90vw;
+  margin: 0 auto;
 }
 
 .tabbtn.activetab {
@@ -163,7 +180,6 @@
 
   .tabbtn {
     padding: 0.3rem 2vw;
-    font-size: 0.7rem;
   }
 }
 

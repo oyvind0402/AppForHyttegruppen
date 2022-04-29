@@ -32,15 +32,19 @@ const Step2 = (props) => {
       fetch(`/application/byuser/${props.formData.userId}`)
         .then((response) => response.json())
         .then((data) => {
-          newMuligePerioder = tempPerioder.filter((period) => {
-            let match = false;
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].period.id === period.id) match = true;
-            }
-            if (!match) return period;
-            return '';
-          });
-          setPerioder(newMuligePerioder);
+          if (data !== null) {
+            newMuligePerioder = tempPerioder.filter((period) => {
+              let match = false;
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].period.id === period.id) match = true;
+              }
+              if (!match) return period;
+              return '';
+            });
+            setPerioder(newMuligePerioder);
+          } else {
+            setPerioder(tempPerioder);
+          }
         })
         .catch((error) => console.log(error));
     }
@@ -167,7 +171,7 @@ const Step2 = (props) => {
                   </div>
                 ))
               ) : (
-                <p>Vi fant ingen perioder</p>
+                <p>Ingen perioder funnet</p>
               )}
             </div>
           </div>

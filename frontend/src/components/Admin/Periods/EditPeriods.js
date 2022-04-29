@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
-import PeriodCard from '../PeriodCard';
 import InfoPopupNoBg from '../../01-Reusable/PopUp/InfoPopupNoOverlay';
 import './EditPeriods.css';
+import { Link } from 'react-router-dom';
+import Table2 from '../../01-Reusable/Table/Table2';
 
 const EditPeriods = () => {
   const [periods, setPeriods] = useState([]);
@@ -32,24 +33,6 @@ const EditPeriods = () => {
     return day + '/' + month + '/' + year;
   }
 
-  /**
-   * @param {*} date A date in string format
-   * @returns A date object made from the parameter
-   */
-  const setDateObject = (date) => {
-    const newDate = new Date(date);
-    return newDate;
-  };
-
-  /**
-   * @param {*} date A date
-   * @returns A date in string format
-   */
-  const setDefaultDateValue = (date) => {
-    const newDate = new Date(date);
-    return newDate.toLocaleDateString('en-CA');
-  };
-
   const getPeriods = async () => {
     const response = await fetch('/period/all');
     const data = await response.json();
@@ -58,21 +41,58 @@ const EditPeriods = () => {
     }
   };
 
-  const handleEdit = async (period) => {
-    const response = await fetch('/period/update', {
-      method: 'PUT',
-      headers: { token: localStorage.getItem('refresh_token') },
-      body: JSON.stringify(period),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      console.log(data);
-      setVisible(true);
-    } else {
-      console.log(data);
-    }
-  };
+  const periodColumns = useMemo(() => [
+    {
+      Header: 'Navn',
+      accessor: 'name',
+    },
+    {
+      Header: 'Startdato',
+      accessor: 'start',
+      Cell: ({ cell: { value } }) => {
+        return (
+          <>
+            <span>{getFormattedDate(value)}</span>
+          </>
+        );
+      },
+    },
+    {
+      Header: 'Sluttdato',
+      accessor: 'end',
+      Cell: ({ cell: { value } }) => {
+        return (
+          <>
+            <span>{getFormattedDate(value)}</span>
+          </>
+        );
+      },
+    },
+    {
+      Header: 'Sesong',
+      accessor: 'season',
+      Cell: ({ cell: { value } }) => {
+        return (
+          <>
+            <span>{value.seasonName}</span>
+          </>
+        );
+      },
+    },
+    {
+      Header: 'Endre',
+      Cell: (props) => {
+        return (
+          <Link
+            className="btn link"
+            to={'/admin/endreperiode/' + props.row.original.id}
+          >
+            Endre
+          </Link>
+        );
+      },
+    },
+  ]);
 
   useEffect(() => {
     getPeriods();
@@ -83,80 +103,9 @@ const EditPeriods = () => {
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <HeroBanner name="Endre perioder" />
       <div className="edit-periods-container">
-        {periods?.map((period, index) => {
-          return (
-            <PeriodCard key={index}>
-              <p className="edit-period-week">{period.name}</p>
-              <p className="edit-period-date">
-                {getFormattedDate(period.start) +
-                  ' - ' +
-                  getFormattedDate(period.end)}
-              </p>
-
-              <div className="edit-period-wrapper">
-                <p className="edit-period-title">Navn</p>
-                <input
-                  type="text"
-                  className="edit-period-input"
-                  value={period.name}
-                  onChange={(e) => {
-                    if (e.target.value.length > 0) {
-                      period.name = e.target.value;
-                      setPeriods([...periods]);
-                    }
-                  }}
-                  id="edit-period-name"
-                />
-              </div>
-
-              <div className="edit-period-wrapper">
-                <p className="edit-period-title">Startdato</p>
-                <input
-                  type="date"
-                  className="edit-period-input"
-                  value={setDefaultDateValue(period.start)}
-                  onChange={(e) => {
-                    if (
-                      setDateObject(e.target.value).toString() !==
-                      'Invalid Date'
-                    ) {
-                      period.start = setDateObject(e.target.value);
-                      setPeriods([...periods]);
-                    }
-                  }}
-                  id="edit-period-startdate"
-                />
-              </div>
-
-              <div className="edit-period-wrapper">
-                <p className="edit-period-title">Sluttdato</p>
-                <input
-                  type="date"
-                  className="edit-period-input"
-                  value={setDefaultDateValue(period.end)}
-                  onChange={(e) => {
-                    if (
-                      setDateObject(e.target.value).toString() !==
-                      'Invalid Date'
-                    ) {
-                      period.end = setDateObject(e.target.value);
-                      setPeriods([...periods]);
-                    }
-                  }}
-                  id="edit-period-enddate"
-                />
-              </div>
-              <div>
-                <button
-                  onClick={() => handleEdit(period)}
-                  className="btn-smaller edit-period-btn"
-                >
-                  Endre
-                </button>
-              </div>
-            </PeriodCard>
-          );
-        })}
+        {periods !== null && periods.length !== 0 && (
+          <Table2 columns={periodColumns} data={periods} />
+        )}
       </div>
       {visible && (
         <InfoPopupNoBg

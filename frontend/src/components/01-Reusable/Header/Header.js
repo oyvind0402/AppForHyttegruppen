@@ -76,7 +76,7 @@ const Header = () => {
           </div>
         </div>
         <div className={loggedIn ? 'nav-list' : 'nav-list-smaller'}>
-          <p>
+          <p className="nav-text">
             <NavLink
               exact={true}
               activeClassName="active"
@@ -87,7 +87,7 @@ const Header = () => {
             </NavLink>
           </p>
           {loggedIn && (
-            <p>
+            <p className="nav-text">
               <NavLink
                 activeClassName="active"
                 className="nav-list-item"
@@ -98,7 +98,7 @@ const Header = () => {
             </p>
           )}
           {loggedIn && (
-            <p>
+            <p className="nav-text">
               <NavLink
                 activeClassName="active"
                 className="nav-list-item"
@@ -108,7 +108,7 @@ const Header = () => {
               </NavLink>
             </p>
           )}
-          <p>
+          <p className="nav-text">
             <NavLink
               activeClassName="active"
               className="nav-list-item"
@@ -117,7 +117,7 @@ const Header = () => {
               Hytter
             </NavLink>
           </p>
-          <p>
+          <p className="nav-text">
             <NavLink
               activeClassName="active"
               className="nav-list-item"
@@ -126,7 +126,7 @@ const Header = () => {
               Hemsedal
             </NavLink>
           </p>
-          <p>
+          <p className="nav-text">
             <NavLink
               activeClassName="active"
               className="nav-list-item"
@@ -138,9 +138,9 @@ const Header = () => {
         </div>
         <div className="right-side">
           {loggedIn && (
-            <a className="nav-list-logout" onClick={logoutHandler}>
+            <button className="nav-list-logout" onClick={logoutHandler}>
               Logg ut
-            </a>
+            </button>
           )}
           {!loggedIn && (
             <Link className="nav-list-logout" to="/login">

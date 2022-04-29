@@ -29,6 +29,7 @@ import AddFAQ from './components/Admin/FAQ/AddFAQ';
 import EditFAQs from './components/Admin/FAQ/EditFAQs';
 import EditFAQ from './components/Admin/FAQ/EditFAQ';
 import SoknadStengtPage from './pages/SoknadStengtPage';
+import EditPeriod from './components/Admin/Periods/EditPeriod';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -84,6 +85,10 @@ function App() {
           {loginContext.adminAccess && <EditPeriods />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
+        <Route path="/admin/endreperiode">
+          {loginContext.adminAccess && <EditPeriod />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
         <Route path="/admin/endresoknader">
           {loginContext.adminAccess && <Applications />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
@@ -135,9 +140,11 @@ function App() {
         <Route path="/hytteomraade">
           <HytteomraadePage />
         </Route>
-        <Route path="/soknad">
-          <SoknadPage />
-        </Route>
+        {soknadOpen && (
+          <Route path="/soknad">
+            <SoknadPage />
+          </Route>
+        )}
         <Route path="/mineturer">
           {loginContext.loggedIn && <MineTurerPage />}
           {!loginContext.loggedIn && <Redirect to="/login" />}

@@ -23,7 +23,7 @@ const ExcelConverter = () => {
       for (let index in tempApplicationData) {
         let newApplication = {
           applicationId: tempApplicationData[index].applicationId,
-          userId: tempApplicationData[index].userId,
+          userId: tempApplicationData[index].user.userId,
           accentureId: tempApplicationData[index].accentureId,
           tripPurpose: tempApplicationData[index].tripPurpose,
           period: tempApplicationData[index].period.name,

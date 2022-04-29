@@ -52,6 +52,9 @@
 }
 
 .handling-info {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
   display: grid;
   grid-template-areas:
     'a'
@@ -63,12 +66,18 @@
   height: 100%;
   align-items: flex-end;
   justify-content: flex-end;
-  padding-right: 10%;
+  padding-right: 3%;
 }
 
 .warning {
   text-align: center;
   grid-area: f;
+}
+
+.warning:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: red;
 }
 
 .warning-icon {

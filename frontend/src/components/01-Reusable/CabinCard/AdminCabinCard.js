@@ -3,26 +3,20 @@ import { BiBed } from 'react-icons/bi';
 import { BiBath } from 'react-icons/bi';
 import { GrMoney } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
-import LoginContext from '../../../LoginContext/login-context';
-import { useContext } from 'react';
 
 const AdminCabinCardBig = (props) => {
-  const loginContext = useContext(LoginContext);
-
   return (
     <>
-      <button className="card">
+      <Link
+        className="admin-card link"
+        to={'/admin/endrehytte/' + props.cabin.name}
+      >
         <img
           className="card-picture"
           src={`${process.env.PUBLIC_URL}/assets/pictures/${props.cabin.pictures.mainPicture.filename}`}
           alt={props.cabin.pictures.mainPicture.altText}
         />
-        {loginContext.adminAccess && (
-          <Link to={'/admin/endrehytte/' + props.cabin.name}>
-            <span className="admin-edit-btn">Endre</span>
-          </Link>
-        )}
-
+        <span className="admin-edit-btn">Endre</span>
         <div className="card-content">
           <h2 className="card-title">{props.cabin.name}</h2>
           <p className="card-address">{props.cabin.address}</p>
@@ -45,7 +39,7 @@ const AdminCabinCardBig = (props) => {
             </p>
           </div>
         </div>
-      </button>
+      </Link>
     </>
   );
 };
