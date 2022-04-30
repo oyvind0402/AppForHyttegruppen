@@ -1,13 +1,19 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
-import CarouselFromProps from '../../01-Reusable/ImageCarousel/CarouselFromProps';
 import './UploadCabinPic.css';
 import './DeleteCabinPic.css';
+import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
+import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 
 const DeleteCabinPic = () => {
   const [cabinData, setCabinData] = useState('');
-  const [value, setValue] = useState(0); // integer state
+  const [counter, setCounter] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorVisible, setErrorVisible] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const link = window.location.href;
   const pageID = link.split('/');
@@ -22,7 +28,7 @@ const DeleteCabinPic = () => {
         .catch((error) => console.log(error));
     }
     getCabin(pageID[pageID.length - 1]);
-  }, [value]);
+  }, [counter]);
 
   const checkCheckBox = (e) => {
     if (e.target.tagName.toUpperCase() === 'INPUT') {
@@ -39,10 +45,10 @@ const DeleteCabinPic = () => {
   };
 
   const deleteChosenPictures = () => {
+    setVisible(false);
     const deletePicture = document.querySelectorAll(
       'input[type=radio]:checked'
     );
-    console.log(deletePicture[0].value);
     const formData = new FormData();
     formData.append('file', deletePicture[0].value);
     formData.append('cabinName', cabinData.name);
@@ -54,13 +60,39 @@ const DeleteCabinPic = () => {
         token: localStorage.getItem('refresh_token'),
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        setValue((value) => value + 1);
+      .then((response) => {
+        if (response.ok) {
+          setSaved(true);
+        } else {
+          setErrorMessage(
+            'En feil har oppstått bildet ble ikke slettet men vil heller ikke være synlig lenger.'
+          );
+        }
       })
       .catch((error) => {
-        console.error(error);
+        setErrorMessage(error);
       });
+  };
+
+  const selectedPicture = () => {
+    const deletePicture = document.querySelectorAll(
+      'input[type=radio]:checked'
+    );
+
+    if (deletePicture.length > 0) {
+      setVisible(true);
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
+  const handleVisibility = () => {
+    setVisible(!visible);
+  };
+
+  const handleErrorVisibility = () => {
+    setErrorMessage('');
   };
 
   return (
@@ -101,9 +133,45 @@ const DeleteCabinPic = () => {
               })}
           </div>
 
-          <button onClick={deleteChosenPictures} className="btn big">
+          {error && <p className="login-error">Velg et bilde!</p>}
+          <button onClick={selectedPicture} className="btn big">
             Slett bilde
           </button>
+
+          {visible && (
+            <AlertPopup
+              title={'Slette bilde'}
+              description={'Er du sikker på at du vil slette dette bildet?'}
+              negativeAction="Nei"
+              positiveAction="Ja"
+              cancelMethod={handleVisibility}
+              acceptMethod={deleteChosenPictures}
+            />
+          )}
+          {errorMessage !== '' && (
+            <InfoPopup
+              btnText="Ok"
+              hideMethod={handleErrorVisibility}
+              title="Feil med sletting av bilde"
+              description={errorMessage}
+            />
+          )}
+          {saved && (
+            <AlertPopup
+              title="Bilde slettet!"
+              description="Vil du slette flere bilder av hytta?"
+              negativeAction="Nei"
+              positiveAction="Ja"
+              cancelMethod={() => {
+                setSaved(false);
+                window.location.href = '/admin';
+              }}
+              acceptMethod={() => {
+                setSaved(false);
+                setCounter((counter) => counter + 1);
+              }}
+            />
+          )}
         </div>
       </div>
     </>
