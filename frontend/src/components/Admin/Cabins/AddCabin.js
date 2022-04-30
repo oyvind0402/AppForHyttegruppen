@@ -23,15 +23,10 @@ const AddCabin = () => {
   };
 
   const removeItem = () => {
-    if (document.getElementById('todolist').hasChildNodes()) {
-      if (
-        document.getElementById('todolist').lastChild.className !==
-        'add-cabin-label'
-      ) {
-        document
-          .getElementById('todolist')
-          .removeChild(document.getElementById('todolist').lastChild);
-      }
+    if (document.getElementById('todolist').childNodes.length > 1) {
+      document
+        .getElementById('todolist')
+        .removeChild(document.getElementById('todolist').lastChild);
     }
   };
 
