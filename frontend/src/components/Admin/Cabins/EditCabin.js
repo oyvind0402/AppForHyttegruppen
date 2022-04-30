@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import { BsQuestionCircle } from 'react-icons/bs';
 import './EditCabin.css';
 
 const EditCabin = () => {
@@ -13,6 +14,7 @@ const EditCabin = () => {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
   const [errorMessage, setErrorMessage] = useState({});
+  const [explanation, setExplanation] = useState(false);
   const link = window.location.href;
   const history = useHistory();
 
@@ -307,6 +309,10 @@ const EditCabin = () => {
     setSaved(true);
   };
 
+  const handleExplanation = () => {
+    setExplanation(!explanation);
+  };
+
   return (
     <>
       <BackButton name="Tilbake til endre hytter" link="admin/endrehytter" />
@@ -532,6 +538,15 @@ const EditCabin = () => {
             id="edit-active"
             defaultChecked={cabin.length !== 0 ? cabin[0].active : null}
           />
+          <BsQuestionCircle
+            className="add-cabin-comment add-question"
+            onClick={handleExplanation}
+          />
+          {explanation && (
+            <p className="add-cabin-comment">
+              Dersom hukket av vil hytte være synlig under Hytter i menyen
+            </p>
+          )}
         </div>
         <div className="edit-cabin-wrapper" id="todolist">
           <label className="edit-cabin-label">Huskeliste</label>

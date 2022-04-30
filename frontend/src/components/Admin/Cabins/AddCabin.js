@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { BrowserRouter, useHistory } from 'react-router-dom';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import { BsQuestionCircle } from 'react-icons/bs';
 
 const AddCabin = () => {
   const history = useHistory();
@@ -14,6 +15,7 @@ const AddCabin = () => {
   const [saved, setSaved] = useState(false);
   const [errors, setErrors] = useState({});
   const [error, setError] = useState('');
+  const [explanation, setExplanation] = useState(false);
 
   const handleAddItem = () => {
     const node = document.createElement('input');
@@ -293,6 +295,10 @@ const AddCabin = () => {
     setSaved(true);
   };
 
+  const handleExplanation = () => {
+    setExplanation(!explanation);
+  };
+
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
@@ -506,8 +512,17 @@ const AddCabin = () => {
             className="add-cabin-checkbox"
             type="checkbox"
             id="add-active"
-            checked={true}
+            defaultChecked
           />
+          <BsQuestionCircle
+            className="add-cabin-comment add-question"
+            onClick={handleExplanation}
+          />
+          {explanation && (
+            <p className="add-cabin-comment">
+              Dersom hukket av vil hytte være synlig under Hytter i menyen
+            </p>
+          )}
         </div>
         <div className="add-cabin-wrapper" id="todolist">
           <label className="add-cabin-label">Huskeliste</label>

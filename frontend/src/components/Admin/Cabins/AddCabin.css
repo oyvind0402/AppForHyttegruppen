@@ -118,6 +118,21 @@
   margin-bottom: 1rem;
 }
 
+.add-cabin-comment {
+  margin: 0;
+  margin-left: 2rem;
+}
+
+.add-question {
+  height: 2rem;
+  width: 2rem;
+}
+
+.add-question:hover {
+  cursor: pointer;
+  color: #bd00ff;
+}
+
 @media only screen and (max-width: 760px) {
   .add-cabin-container {
     width: 75%;
