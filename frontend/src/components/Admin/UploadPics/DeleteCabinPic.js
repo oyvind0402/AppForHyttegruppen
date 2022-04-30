@@ -12,7 +12,6 @@ const DeleteCabinPic = () => {
 
   useEffect(() => {
     async function getCabin(pageId) {
-      console.log(pageId);
       fetch(`/cabin/${pageId}`, {
         method: 'GET',
       })
@@ -22,7 +21,6 @@ const DeleteCabinPic = () => {
     }
     getCabin(pageID[pageID.length - 1]);
   }, []);
-  console.log(cabinData);
 
   const checkCheckBox = (e) => {
     if (e.target.tagName.toUpperCase() === 'INPUT') {
@@ -39,15 +37,28 @@ const DeleteCabinPic = () => {
   };
 
   const deleteChosenPictures = () => {
-    const checkedCheckboxes = document.querySelectorAll(
-      'input[type="checkbox"]:checked'
+    const deletePicture = document.querySelectorAll(
+      'input[type=radio]:checked'
     );
+    console.log(deletePicture[0].value);
+    const formData = new FormData();
+    formData.append('file', deletePicture[0].value);
+    formData.append('cabinName', cabinData.name);
 
-    //Offset by one since the
-    for (let i = 0; i < checkedCheckboxes.length; i++) {
-      console.log(cabinData.pictures.otherPictures[i + 1]);
-      //Remove each picture at the time
-    }
+    fetch('/pictures/deletepictures', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -68,16 +79,17 @@ const DeleteCabinPic = () => {
                 if (index !== 0) {
                   return (
                     <div
+                      key={index}
                       className="delete-picture-element"
                       onClick={(e) => checkCheckBox(e)}
                     >
                       <input
-                        type="checkbox"
+                        type="radio"
                         className="edit-cabin-checkbox"
                         name="delete-picture"
+                        value={element.filename}
                       ></input>
                       <img
-                        key={index}
                         src={`${process.env.PUBLIC_URL}/assets/pictures/${element.filename}`}
                         alt={element.altText}
                       />
@@ -88,7 +100,7 @@ const DeleteCabinPic = () => {
           </div>
 
           <button onClick={deleteChosenPictures} className="btn big">
-            Fjern valgte bilder
+            Slett bilde
           </button>
         </div>
       </div>
