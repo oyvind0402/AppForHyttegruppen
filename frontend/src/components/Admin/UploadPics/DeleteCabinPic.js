@@ -7,6 +7,8 @@ import './DeleteCabinPic.css';
 
 const DeleteCabinPic = () => {
   const [cabinData, setCabinData] = useState('');
+  const [value, setValue] = useState(0); // integer state
+
   const link = window.location.href;
   const pageID = link.split('/');
 
@@ -20,7 +22,7 @@ const DeleteCabinPic = () => {
         .catch((error) => console.log(error));
     }
     getCabin(pageID[pageID.length - 1]);
-  }, []);
+  }, [value]);
 
   const checkCheckBox = (e) => {
     if (e.target.tagName.toUpperCase() === 'INPUT') {
@@ -54,7 +56,7 @@ const DeleteCabinPic = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        setValue((value) => value + 1);
       })
       .catch((error) => {
         console.error(error);
