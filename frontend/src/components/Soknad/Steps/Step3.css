@@ -30,6 +30,14 @@
   grid-template-columns: auto auto auto auto;
   margin: 2rem;
 }
+.textarea-soknad {
+  margin-bottom: 0;
+}
+.step3-italic {
+  font-style: italic;
+  margin: 0;
+  font-size: 0.75rem;
+}
 
 @media only screen and (max-width: 1300px) {
   .soknad-step3-cabins {
