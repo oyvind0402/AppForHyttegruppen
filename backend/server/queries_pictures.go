@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -419,8 +420,6 @@ func (r repo) DeletePictures(ctx *gin.Context) {
 		}
 
 		newArray = RemoveIndex(newArray, index)
-		fmt.Println(cabins[0].Pictures.Other)
-
 	} else {
 		ctx.JSON(http.StatusNoContent, nil)
 	}
@@ -471,18 +470,11 @@ func (r repo) DeletePictures(ctx *gin.Context) {
 	}
 
 	// Delete the picture
-	/*
-			err := os.Remove("./frontend/public/assets/pictures/"+file)  // remove a single file
-		  if err != nil {
-		    ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		  }
-	*/
-	/*ctx, status, err := SaveFile(ctx, file)
-	if err != nil {
-		// If saving fails, abort transaction for MongoDB
-		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
-		return
-	}*/
+	path := "./frontend/public/assets/pictures/" + file
+	error := os.Remove(path) // remove a single file
+	if error != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+	}
 
 	// On success, commit and return success
 	session.CommitTransaction(mongoCtx)
