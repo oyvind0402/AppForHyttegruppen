@@ -1,11 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import ExcelConverter from '../../01-Reusable/ExcelConverter/ExcelConverter';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknader.css';
 import Table from '../../01-Reusable/Table/Table';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import ExcelConverterPayCheck from '../../01-Reusable/ExcelConverter/ExcelPaycheckConverter';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const Applications = () => {
   const [allApplications, setAllApplications] = useState([]);
@@ -345,9 +346,17 @@ const Applications = () => {
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
-      <HeroBanner name="Alle søknader" />
+      <AdminBanner name="Alle søknader" />
       {applications !== null ? (
         <ExcelConverter data={applications} />
+      ) : (
+        <p className="hidden-text"></p>
+      )}
+      {applications !== null && applications === pastWinning ? (
+        <>
+          <br />
+          <ExcelConverterPayCheck data={applications} />
+        </>
       ) : (
         <p className="hidden-text"></p>
       )}

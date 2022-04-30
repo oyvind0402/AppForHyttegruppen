@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
 import { Link, useHistory } from 'react-router-dom';
 import AlertPopup from '../PopUp/AlertPopup';
+import InfoPopup from '../PopUp/InfoPopup';
 import './TripCard.css';
 
 const TripCardActive = (props) => {
   const history = useHistory();
   const [visible, setVisible] = useState(false);
+  const [tooLateError, setTooLateError] = useState(false);
 
   if (props.data.length === 0) {
     return <></>;
@@ -31,10 +33,27 @@ const TripCardActive = (props) => {
     setVisible(!visible);
   };
 
+  const handleTooLateError = () => {
+    setTooLateError(!tooLateError);
+  };
+
   const cancelTrip = async () => {
-    //Should add a way to send an email to admins if its cancelled close to the start date
-    //Should also add a date thats the latest you can cancel a trip
     setVisible(false);
+    let diffTime = Math.abs(
+      Date.now() - new Date(props.data.period.start).getTime()
+    );
+    if (Date.now() > new Date(props.data.period.start).getTime()) {
+      diffTime = diffTime * -1;
+    }
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    console.log(diffDays);
+
+    if (diffDays <= 7) {
+      setTooLateError(true);
+      return;
+    }
+
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(props.data.applicationId),
@@ -43,7 +62,7 @@ const TripCardActive = (props) => {
 
     const data = await response.json();
     if (response.ok) {
-      console.log(data);
+      // TODO Send email to admin here if the user cancels their trip
       history.go(0);
     }
   };
@@ -83,6 +102,14 @@ const TripCardActive = (props) => {
           cancelMethod={handleVisibility}
           negativeAction="Avbryt"
           positiveAction="Avbestill"
+        />
+      )}
+      {tooLateError && (
+        <InfoPopup
+          title="Avbestilling av tur"
+          description="Du kan ikke avbestille en tur som har startdato innen 7 dager, eller som allerede har begynt! Kontakt oss hvis du fortsatt vil avbestille."
+          hideMethod={handleTooLateError}
+          btnText="Ok"
         />
       )}
     </>

@@ -1,12 +1,12 @@
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import './AddCabin.css';
 import { useState } from 'react';
-import { BrowserRouter, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 import { BsQuestionCircle } from 'react-icons/bs';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const AddCabin = () => {
   const history = useHistory();
@@ -302,7 +302,7 @@ const AddCabin = () => {
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Legg til hytte" />
+      <AdminBanner name="Legg til hytte" />
       <div className="add-cabin-container">
         <div className="add-cabin-1-3">
           <div className="add-cabin-wrapper">

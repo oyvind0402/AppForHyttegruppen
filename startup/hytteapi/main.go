@@ -76,6 +76,36 @@ func sendFeedbackInfo() {
 	}
 }
 
+func sendFeedbackReminder() {
+	resp, err := http.Get("http://localhost:8080/application/winners/current")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var applications []data.Application
+
+	json.Unmarshal(body, &applications)
+
+	loc, _ := time.LoadLocation("UTC")
+	now := time.Now().In(loc)
+
+	for i := range applications {
+		diff := now.Sub(*applications[i].Period.End)
+		// If its at the end of the the trip and the user hasnt sent feedback
+		if int((diff.Hours() / 24)) == 0 {
+			if !applications[i].FeedbackSent {
+				// TODO Send email to user reminding them to fill in the feedback form
+			}
+		}
+	}
+}
+
 func main() {
 
 	// Get arguments (passed + processed)
@@ -92,6 +122,12 @@ func main() {
 	// Every day check if feedback is not sent for past trips
 	go func() {
 		gocron.Every(1).Day().At("10:30").Do(sendFeedbackInfo)
+		<-gocron.Start()
+	}()
+
+	// Every day check if feedback is not sent for past trips
+	go func() {
+		gocron.Every(1).Day().At("10:30").Do(sendFeedbackReminder)
 		<-gocron.Start()
 	}()
 

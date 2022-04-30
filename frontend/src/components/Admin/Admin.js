@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
+import AdminBanner from '../01-Reusable/HeroBanner/AdminBanner';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './Admin.css';
-import AdminImg from '../../Images/TripHistory.svg';
 
 const Admin = () => {
   return (
     <>
-      <HeroBanner name="Admin" />
+      <AdminBanner name="Admin" />
       <div className="admin-container">
         <Link className="btn-link big btn" to="/admin/startsoknad">
           Åpne søknadsperiode

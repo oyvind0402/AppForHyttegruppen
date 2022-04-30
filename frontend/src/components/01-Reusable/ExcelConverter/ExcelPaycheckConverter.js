@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 
-const ExcelConverter = (props) => {
+const ExcelConverterPayCheck = (props) => {
   const [applications, setApplications] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -22,16 +22,11 @@ const ExcelConverter = (props) => {
 
   const headers = [
     { label: 'Navn', key: 'user' },
-    { label: 'Enterprise ID', key: 'accentureId' },
-    { label: 'Ansattnummer/WBS', key: 'ansattnummerWBS' },
-    { label: 'Type tur', key: 'tripPurpose' },
+    { label: 'Privat/Prosjekt', key: 'tripPurpose' },
     { label: 'Periode', key: 'period' },
-    { label: 'Antall hytter', key: 'numberOfCabins' },
-    { label: 'Tildeling', key: 'cabinAssignment' },
-    { label: 'Hytter ønsket', key: 'cabins' },
+    { label: 'WBS', key: 'ansattnummerWBS' },
     { label: 'Kommentar', key: 'kommentar' },
     { label: 'Tildelt', key: 'cabinsWon' },
-    { label: 'Vinner', key: 'winner' },
   ];
 
   useEffect(() => {
@@ -40,10 +35,8 @@ const ExcelConverter = (props) => {
 
       props.data.forEach((application) => {
         let newApplication = {
-          applicationId: application.applicationId,
           user: application.user.firstname + ' ' + application.user.lastname,
           ansattnummerWBS: application.ansattnummerWBS,
-          accentureId: application.accentureId,
           tripPurpose: application.tripPurpose,
           period:
             application.period.name +
@@ -52,12 +45,8 @@ const ExcelConverter = (props) => {
             ' - ' +
             getFormattedDate(application.period.end) +
             ')',
-          numberOfCabins: application.numberOfCabins,
-          cabinAssignment: application.cabinAssignment,
-          cabins: '',
           cabinsWon: '',
           kommentar: application.kommentar,
-          winner: application.winner,
         };
 
         let requestedCabins = '';
@@ -99,11 +88,11 @@ const ExcelConverter = (props) => {
           data={applications}
           filename={'hyttesøknader' + getFormattedDate(now) + '.csv'}
         >
-          Konverter søknader/turer til Excel (.csv fil)
+          Konverter tidligere turer til Excel lønnsslipp (.csv fil)
         </CSVLink>
       )}
     </>
   );
 };
 
-export default ExcelConverter;
+export default ExcelConverterPayCheck;

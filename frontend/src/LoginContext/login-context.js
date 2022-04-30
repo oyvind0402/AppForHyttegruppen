@@ -60,7 +60,6 @@ export const LoginContextProvider = (props) => {
     if (localStorage.getItem('refresh_token')) {
       const jwtPayload = JSON.parse(window.atob(refreshToken.split('.')[1]));
       if (Date.now() >= jwtPayload.exp * 1000) {
-        logout();
       }
     }
   });

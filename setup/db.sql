@@ -92,7 +92,7 @@ INSERT INTO Periods (period_name, starting, ending, season_name)
 VALUES ('Uke 1', '2022-01-03', '2022-01-11', 'Vinter 2022'),
 ('Forever Active', '2022-01-29', '2022-12-05', 'Høst 2022'),
 ('Uke 14', '2022-04-19', '2022-04-26', 'Vinter 2022'),
-('Uke 35', '2022-08-29', '2022-09-05', 'Høst 2022'),
+('Uke 35', '2022-05-01', '2022-09-05', 'Høst 2022'),
 ('Uke 36', '2022-09-05', '2022-09-12', 'Høst 2022'),
 ('Uke 37', '2022-09-12', '2022-09-19', 'Høst 2022'),
 ('Uke 38', '2022-09-19', '2022-09-26', 'Høst 2022'),
@@ -147,7 +147,7 @@ VALUES ('1', 'Utsikten', TRUE),
 ('5', 'Utsikten', FALSE),
 ('5', 'Fanitullen', FALSE),
 ('5', 'Knausen', FALSE),
-('5', 'Store Grøndalen', FALSE);
+('5', 'Store Grøndalen', TRUE);
 
 
 INSERT INTO Faq (question, answer) 

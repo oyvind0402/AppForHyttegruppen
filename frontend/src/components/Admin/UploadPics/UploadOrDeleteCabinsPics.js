@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AdminPictureCabinCardBig from '../../01-Reusable/CabinCard/AdminPictureCabinCard';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import './UploadCabinPics.css';
 
 const UploadOrDeleteCabinsPics = () => {
@@ -24,7 +24,7 @@ const UploadOrDeleteCabinsPics = () => {
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Last opp bilder" />
+      <AdminBanner name="Last opp bilder" />
       <Link className="btn-link big btn" to="/admin/lastoppbilder">
         Legg til bilder
       </Link>

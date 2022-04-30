@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import './UploadCabinPic.css';
 import './DeleteCabinPic.css';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const DeleteCabinPic = () => {
   const [cabinData, setCabinData] = useState('');
@@ -101,7 +101,7 @@ const DeleteCabinPic = () => {
         name="Tilbake til last opp bilder"
         link="admin/lastoppbilder"
       />
-      <HeroBanner name={'Last opp bilder'} />
+      <AdminBanner name={'Last opp bilder'} />
       <div className="upload-cabin-pic-container">
         <div className="image-upload-wrapper">
           {cabinData !== '' && (

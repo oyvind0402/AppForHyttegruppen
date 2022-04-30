@@ -6,6 +6,7 @@ import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 import { BsQuestionCircle } from 'react-icons/bs';
 import './EditCabin.css';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
@@ -316,6 +317,7 @@ const EditCabin = () => {
   return (
     <>
       <BackButton name="Tilbake til endre hytter" link="admin/endrehytter" />
+      <AdminBanner name="Endre hytte" />
       <div className="edit-cabin-container">
         <div className="edit-cabin-1-3">
           <div className="edit-cabin-wrapper">

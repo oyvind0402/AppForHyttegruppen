@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import CarouselFromProps from '../../01-Reusable/ImageCarousel/CarouselFromProps';
 import './UploadCabinPic.css';
 
@@ -79,7 +79,7 @@ const UploadCabinPic = () => {
         name="Tilbake til last opp bilder"
         link="admin/lastoppbilder"
       />
-      <HeroBanner name={'Last opp bilder'} />
+      <AdminBanner name={'Last opp bilder'} />
       <div className="upload-cabin-pic-container">
         <div className="image-upload-wrapper">
           <p className="upload-title">Last opp bilder for {cabinName}</p>

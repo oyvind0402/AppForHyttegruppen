@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import InfoPopupNoBg from '../../01-Reusable/PopUp/InfoPopupNoOverlay';
 import './EditPeriods.css';
 import { Link } from 'react-router-dom';
 import Table2 from '../../01-Reusable/Table/Table2';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const EditPeriods = () => {
   const [periods, setPeriods] = useState([]);
@@ -101,7 +101,7 @@ const EditPeriods = () => {
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Endre perioder" />
+      <AdminBanner name="Endre perioder" />
       <div className="edit-periods-container">
         {periods !== null && periods.length !== 0 && (
           <Table2 columns={periodColumns} data={periods} />

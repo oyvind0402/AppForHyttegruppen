@@ -17,6 +17,30 @@
   position: relative;
 }
 
+.react-table th::before {
+  position: absolute;
+  right: 5px;
+  top: 16px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.react-table th.sort-asc::before {
+  border-bottom: 5px solid var(--purple);
+}
+.react-table th.sort-desc::before {
+  border-top: 5px solid var(--purple);
+}
+
+.react-table th.sort-asc2::before {
+  border-bottom: 5px solid var(--purple);
+}
+.react-table th.sort-desc2::before {
+  border-top: 5px solid var(--purple);
+}
+
 .react-table th {
   background-color: #eaddff;
 }
@@ -74,12 +98,12 @@
 }
 
 @media only screen and (max-width: 940px) {
-  .cell5,
-  .react-table-header5 {
+  .cell6,
+  #react-table-header6 {
     display: none;
   }
   .cell1,
-  .react-table-header1 {
+  #react-table-header1 {
     display: none;
   }
 }
@@ -109,8 +133,8 @@
 }
 
 @media only screen and (max-width: 472px) {
-  .cell6,
-  .react-table-header6 {
+  .cell8,
+  #react-table-header8 {
     display: none;
   }
 }
