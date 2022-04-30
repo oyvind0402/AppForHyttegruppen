@@ -58,6 +58,11 @@
     margin-top: 10px;
     font-size: 2rem;
   }
+
+  .admin-hero-text {
+    margin-top: 10px;
+    font-size: 2rem;
+  }
 }
 
 @media only screen and (max-width: 400px) {
@@ -70,7 +75,16 @@
     width: auto;
   }
 
+  .admin-hero-picture {
+    height: 100px;
+    width: auto;
+  }
+
   .hero-text {
+    font-size: 1.5rem;
+  }
+
+  .admin-hero-text {
     font-size: 1.5rem;
   }
 }
