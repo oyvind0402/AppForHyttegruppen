@@ -289,12 +289,15 @@ const AdminSettings = () => {
   useEffect(() => {
     fetchUsers();
     fetchEmails();
+  }, []);
+
+  useEffect(() => {
     if (userMode) {
       document.getElementById('edit-users').checked = true;
     } else {
       document.getElementById('edit-emails').checked = true;
     }
-  }, []);
+  }, [users, emails]);
 
   return (
     <>
