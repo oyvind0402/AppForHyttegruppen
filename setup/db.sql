@@ -84,6 +84,11 @@ CREATE TABLE Faq(
     answer text NOT NULL
 );
 
+CREATE TABLE AdminEmails(
+    email_id SERIAL PRIMARY KEY,
+    email varchar(40) NOT NULL
+);
+
 INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
 VALUES('Vinter 2022','2022-01-01', '2022-03-15', '2021-12-20', '2021-12-31'),
 ('Høst 2022','2022-08-29', '2023-01-02', '2022-01-02', '2023-08-14');
@@ -92,7 +97,7 @@ INSERT INTO Periods (period_name, starting, ending, season_name)
 VALUES ('Uke 1', '2022-01-03', '2022-01-11', 'Vinter 2022'),
 ('Forever Active', '2022-01-29', '2022-12-05', 'Høst 2022'),
 ('Uke 14', '2022-04-19', '2022-04-26', 'Vinter 2022'),
-('Uke 35', '2022-05-01', '2022-09-05', 'Høst 2022'),
+('Uke 35', '2022-08-29', '2022-09-05', 'Høst 2022'),
 ('Uke 36', '2022-09-05', '2022-09-12', 'Høst 2022'),
 ('Uke 37', '2022-09-12', '2022-09-19', 'Høst 2022'),
 ('Uke 38', '2022-09-19', '2022-09-26', 'Høst 2022'),
@@ -156,3 +161,6 @@ VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine tu
 ('Hvordan betaler jeg for en hyttetur?', '1200 NOK blir trukket fra din lønnsslipp og 1200 NOK må vippses til vaskebyrået.'),
 ('Noe ble ødelagt, hvordan sier jeg fra?', 'Du kan enten fylle ut et tilbakemeldingskjema under mine turer, dersom det haster kan du ta kontakt på: 123 456 78'),
 ('Hvem kontakter jeg dersom jeg har et spørsmål?', 'Dersom du har et spørsmål kan du ta kontakt med hyttekomiteen@accenture.com');
+
+INSERT INTO AdminEmails (email)
+VALUES ('oyvind0402@gmail.com');
