@@ -188,7 +188,7 @@ const Step3 = (props) => {
                 name="comments"
                 id="comments"
                 value={kommentar}
-                placeholder="Skriv gjerne de hyttene man ønsker eller spesifike krav"
+                placeholder="Skriv gjerne hytteprioritet eller spesifikke ønsker.."
                 onChange={(e) => setKommentar(e.target.value)}
               ></textarea>
             </div>

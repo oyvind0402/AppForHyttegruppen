@@ -39,6 +39,10 @@
   font-size: 0.75rem;
 }
 
+#comments {
+  height: 200px;
+}
+
 @media only screen and (max-width: 1300px) {
   .soknad-step3-cabins {
     grid-template-columns: auto auto;
