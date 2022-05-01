@@ -207,7 +207,6 @@ const Applications = () => {
 
   const addChangedTrip = (id) => {
     let winner = document.getElementById('winnercheck' + id).checked;
-    console.log(winner);
     let trip = {};
     allApplications.forEach((item) => {
       if (item.applicationId === id) {
@@ -215,8 +214,6 @@ const Applications = () => {
       }
     });
     trip.winner = winner;
-
-    console.log(trip.winner);
 
     let contains = false;
 
@@ -235,7 +232,6 @@ const Applications = () => {
     } else {
       _changedTrips.push(trip);
     }
-    console.log(_changedTrips);
   };
 
   const addAssignment = (id) => {
