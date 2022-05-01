@@ -520,7 +520,7 @@ const AddCabin = () => {
           />
           {explanation && (
             <p className="add-cabin-comment">
-              Dersom hukket av vil hytte være synlig under Hytter i menyen
+              Dersom huket av vil hytten være mulig å søkes på
             </p>
           )}
         </div>
