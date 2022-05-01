@@ -49,19 +49,21 @@ const NeedsAttentionTrips = () => {
           </div>
           <div className="trip-row-wrapper">
             {pastTrips.map((trip, index) => {
-              console.log(trip);
               if (!trip.feedback) {
                 anyFeedback = true;
                 return <TripCardActionReq key={index} data={trip} />;
               }
             })}
           </div>
-
-          {!anyFeedback && (
-            <p className="empty-trip">Ingen turer trenger oppmerksomhet</p>
-          )}
         </div>
-      ) : null}
+      ) : (
+        <>
+          <div className={'mytrip-card-wrapper'}>
+            <p className="mytrip-title-empty">Krever handling:</p>
+            <p className="empty-trip">Ingen turer trenger oppmerksomhet</p>
+          </div>
+        </>
+      )}
     </>
   );
 };
