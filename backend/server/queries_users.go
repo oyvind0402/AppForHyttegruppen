@@ -79,7 +79,7 @@ func (r repo) GetUser(ctx *gin.Context) {
 // Retrieve all users in database (receives NOTHING; returns []User)
 func (r repo) GetAllUsers(ctx *gin.Context) {
 	// Get all users from database
-	rows, err := r.sqlDb.Query(`SELECT * FROM Users`)
+	rows, err := r.sqlDb.Query(`SELECT * FROM Users ORDER BY user_id`)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -291,4 +291,48 @@ func (r repo) SignIn(ctx *gin.Context) {
 		"userId":       user.Id,
 		"adminAccess":  user.AdminAccess,
 	})
+}
+
+// Update one users admin rights
+func (r repo) UpdateUserAdminAccess(ctx *gin.Context) {
+	type AdminUser struct {
+		UserId      string `json:"userId"`
+		AdminAccess bool   `json:"adminAccess"`
+	}
+
+	tx, err := r.sqlDb.BeginTx(ctx, nil)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer tx.Rollback()
+
+	adminUser := new(AdminUser)
+	if err = ctx.BindJSON(adminUser); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Update the users AdminAccess bool
+	res, err := tx.Exec(`UPDATE Users SET admin_access = $1 WHERE user_id = $2`, adminUser.AdminAccess, adminUser.UserId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Get rows affected
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Commit transaction
+	if err = tx.Commit(); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Return number of users updated
+	ctx.JSON(200, rowsAffected)
 }

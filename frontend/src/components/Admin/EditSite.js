@@ -29,8 +29,8 @@ const EditSite = () => {
         Endre perioder
       </Link>
 
-      <Link className="btn-link btn big" to="/admin/endrebrukere">
-        Endre brukere
+      <Link className="btn-link btn big" to="/admin/innstillinger">
+        Admin innstillinger
       </Link>
     </>
   );

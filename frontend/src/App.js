@@ -33,6 +33,7 @@ import EditPeriod from './components/Admin/Periods/EditPeriod';
 import UploadOrDeleteCabinsPics from './components/Admin/UploadPics/UploadOrDeleteCabinsPics';
 import DeleteCabinPic from './components/Admin/UploadPics/DeleteCabinPic';
 import DeleteCabinsPic from './components/Admin/UploadPics/DeleteCabinsPic';
+import AdminSettings from './components/Admin/AdminSettings/AdminSettings';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -140,6 +141,11 @@ function App() {
           {loginContext.adminAccess && <AddFAQ />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
+        <Route path="/admin/innstillinger">
+          {loginContext.adminAccess && <AdminSettings />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+
         {!soknadOpen && (
           <Route path="/stengt">
             <SoknadStengtPage />

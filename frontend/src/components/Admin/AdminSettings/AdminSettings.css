@@ -1,0 +1,191 @@
+.edit-user-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.edit-user-container button {
+  margin-bottom: 0;
+}
+
+.edit-user-title {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.edit-user-checkbox {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.edit-user-btns {
+  display: flex;
+  flex-direction: row;
+  grid-gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.change-setting-type {
+  width: 100%;
+  height: 0px;
+  visibility: hidden;
+}
+
+.checkbox-settings-label {
+  background-color: #eaddff;
+  color: black;
+  padding: 0.5rem;
+  font-weight: 700;
+  border-radius: 5px;
+}
+
+.change-setting-type:checked ~ .checkbox-settings-label {
+  background-color: #bc01ff;
+  color: white;
+}
+
+.checkbox-settings-label:hover {
+  cursor: pointer;
+}
+
+/** Email mode */
+.edit-emails-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.linethrough {
+  width: 98%;
+  margin-top: 2rem;
+}
+
+.edit-email-title {
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.edit-email-title2 {
+  margin-top: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.edit-emails-container table {
+  width: 685px;
+}
+
+.edit-emails-container .react-table-header31 {
+  width: 142px;
+}
+
+.edit-emails-container .react-table-header32 {
+  width: 142px;
+}
+
+.inputwrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-email-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.add-email-container button {
+  margin: 1rem;
+  padding: 0.8rem;
+  margin-bottom: 0;
+}
+
+.add-email-input {
+  width: 300px;
+  height: 25px;
+  font-size: 1rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 0.5rem;
+}
+
+.add-email-label {
+  font-size: 1rem;
+}
+
+@media only screen and (max-width: 800px) {
+  .edit-emails-container table {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .edit-emails-container table {
+    width: 560px;
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 622px) {
+  .edit-emails-container table {
+    width: 450px;
+    font-size: 0.8rem;
+  }
+
+  .cell31 button,
+  .cell32 button {
+    margin: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 525px) {
+  .edit-emails-container table {
+    width: 75%;
+  }
+
+  .cell31 button,
+  .cell32 button {
+    padding: 0.3rem;
+    width: 75px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .edit-user-title,
+  .edit-email-title,
+  .edit-email-title2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .add-email-container table {
+    font-size: 0.6rem;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  .add-email-input {
+    height: 20px;
+    width: 200px;
+  }
+
+  .cell31 button,
+  .cell32 button {
+    margin: 0.5rem;
+    font-size: 0.7rem;
+  }
+}
