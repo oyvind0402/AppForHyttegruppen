@@ -5,6 +5,7 @@
 
 .link {
   color: black;
+  font-weight: 500 !important;
 }
 
 .link-white {
@@ -23,7 +24,7 @@
   content: '>';
 
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 0.75rem;
   transform: translateY(-50%);
 
