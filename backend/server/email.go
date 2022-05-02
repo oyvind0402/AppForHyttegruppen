@@ -5,19 +5,21 @@ import (
 
 	"bachelorprosjekt/backend/data"
 	"bachelorprosjekt/backend/utils"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	mail "github.com/xhit/go-simple-mail/v2"
 )
 
-//creates email body
-var htmlBody strings.Builder
-
 //enpoint to send email after application was sent and registered
 func (r repo) AfterApplicationSent(ctx *gin.Context) {
+	var htmlBody strings.Builder
 	//create html body
 	htmlBody.WriteString(`<html>
 <head>
@@ -25,7 +27,7 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
    <title>Automatic email from go</title>
 </head>
 <body>
-   <p>Perioder du har søkt:</p>
+   <p>Perioder du har søkt på:</p>
 	`)
 
 	type FormData struct {
@@ -44,11 +46,11 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 
 	for _, period := range inData.Periods {
 		htmlBody.WriteString(`<p>`)
-		htmlBody.WriteString(fmt.Sprintf("%s", period.Name))
+		htmlBody.WriteString(period.Name)
 		htmlBody.WriteString(`</p>`)
 	}
 
-	htmlBody.WriteString(`<p>Du vil motta en epost dersom din søknad har blitt godkjent </p>`)
+	htmlBody.WriteString(`<p>Du vil motta en epost dersom din søknad har blitt godkjent.</p>`)
 	htmlBody.WriteString(`</body></html>`)
 
 	var userEmail = new(string)
@@ -57,18 +59,19 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 	err = row.Scan(
 		&userEmail,
 	)
+
 	if err != nil {
 		fmt.Println("from error in querry: ")
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("From SendEmailToUser():  " + *userEmail)
-	SendEmail(*userEmail)
-
+	//TODO change the email to userEmail
+	SendEmail("oyvind0402@gmail.com", htmlBody, "Kvittering for søknaden din")
 }
 
 //endpont to send email after application was approved
 func (r repo) AfterApplicationApproved(ctx *gin.Context) {
+	var htmlBody strings.Builder
 	//create html body
 	htmlBody.WriteString(`<html>
 	<head>
@@ -76,39 +79,53 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
    		<title>Automatic email from go</title>
 	</head>
 	<body>
-   		<p>Dine søknader ble godkjent:</p>
+   		<p>Din søknad ble godkjent:</p>
 	`)
 
-	//gets the data from the client
-	//TODO double check type of data that is sent in
-	type IncomingData struct {
-		application data.Application
-	}
-	var inData = new(IncomingData)
-	//email := inData.aplication.User.email
+	//gets the data from the frontend
+	var applicationId = new(int)
 
-	err := ctx.BindJSON(inData)
+	err := ctx.BindJSON(applicationId)
 	if err != nil {
 		fmt.Println("from error inData: ")
 		fmt.Println(err)
 		return
 	}
 
-	var userEmail = new(string)
-
-	//TODO get email from application if possible?
-	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, inData.application)
-	err = row.Scan(
-		&userEmail,
-	)
+	//get the application based on applicationId
+	i := strconv.Itoa(*applicationId)
+	resp, err := http.Get(`http://localhost:8080/application/` + i)
 	if err != nil {
-		fmt.Println("from error in querry: ")
-		fmt.Println(err)
-		return
+		panic(err.Error())
 	}
-	fmt.Println("From SendEmailToUser():  " + *userEmail)
-	SendEmail(*userEmail)
 
+	//getting the application from the response
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err.Error())
+	}
+	var application data.Application
+	json.Unmarshal(body, &application)
+
+	//writing the email
+	htmlBody.WriteString(`<p>`)
+	htmlBody.WriteString("Periode godkjent: " + application.Period.Name + " " + "(" + application.Period.Start.Format("2006-01-02") + " - " + application.Period.End.Format("2006-01-02") + ")")
+	htmlBody.WriteString(`<br />`)
+	htmlBody.WriteString("Hytte(r) tildelt: ")
+	for i, cabin := range application.CabinsWon {
+		if i == len(application.CabinsWon)-1 {
+			htmlBody.WriteString(cabin.Name)
+		} else {
+			htmlBody.WriteString(cabin.Name)
+			htmlBody.WriteString(", ")
+		}
+	}
+
+	htmlBody.WriteString(`</p>`)
+
+	//sending the email
+	//TODO change the email used to application.User.Email
+	SendEmail("oyvind0402@gmail.com", htmlBody, "Søknad godkjent!")
 }
 
 func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
@@ -131,7 +148,7 @@ func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
 }
 
 //Send email
-func SendEmail(userEmail string) {
+func SendEmail(userEmail string, htmlBody strings.Builder, subject string) {
 	path := os.Getenv("hyttecreds")
 	if path == "" {
 		panic("Environment variable for credentials path not set")
@@ -142,11 +159,11 @@ func SendEmail(userEmail string) {
 
 	smtpClient := connectToEmailService(username, passwd)
 
-	//ceate email
+	//create email
 	email := mail.NewMSG()
 	email.SetFrom("From Hytteappen <hytteappen@gmail.com>")
 	email.AddTo(userEmail)
-	email.SetSubject("Kvitering for din søknad")
+	email.SetSubject("Kvittering for din søknad")
 
 	email.SetBody(mail.TextHTML, htmlBody.String())
 
@@ -158,4 +175,5 @@ func SendEmail(userEmail string) {
 
 		utils.Panicker(err, "Could not send email")
 	}
+	htmlBody.Reset()
 }

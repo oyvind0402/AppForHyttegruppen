@@ -49,7 +49,7 @@ const Soknad = () => {
           body: JSON.stringify(JsonBody),
           headers: { token: localStorage.getItem('refresh_token') },
         })
-          .then((response) => console.log(response))
+          .then((response) => response.json())
           .catch((error) => {
             postSuccessful = false;
             console.log(error);
@@ -57,20 +57,16 @@ const Soknad = () => {
       });
       //post for email. Sends in user id
       if (postSuccessful) {
-        const emailData = {};
-        emailData['userId'] = formData.userId; //returns id
-        emailData['periods'] = formData.period; //returns object
-        console.log(formData.period);
-        console.log(emailData);
-        console.log(JSON.stringify(emailData));
+        const emailData = {
+          userId: formData.userId,
+          periods: formData.period,
+        };
+
         fetch('/email/afterApplication', {
           method: 'POST',
           body: JSON.stringify(emailData),
-          // headers: {
-          //   Accept: 'application/json',
-          // },
         })
-          .then((response) => console.log(response))
+          .then((response) => response.json())
           .catch((error) => {
             console.log(error);
           });
@@ -79,7 +75,7 @@ const Soknad = () => {
       //Everything is set back to the initial start position
       setFormCompleted(false);
       setPage(1);
-      // nullstillForm();
+      nullstillForm();
     }
   }, [formData, formCompleted]);
 

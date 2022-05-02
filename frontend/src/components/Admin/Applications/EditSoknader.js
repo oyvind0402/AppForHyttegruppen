@@ -22,6 +22,8 @@ const Applications = () => {
   const [cabins, setCabins] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [errors, setErrors] = useState({});
+  const [cabinWinners, setCabinWinners] = useState([]);
+  const [changedTrips, setChangedTrips] = useState([]);
   let _cabinWinners = [];
   let _changedTrips = [];
 
@@ -287,7 +289,7 @@ const Applications = () => {
     console.log(_cabinWinners);
   };
 
-  const postWinners = () => {
+  const handleApplications = () => {
     if (applications === futurePending) {
       let _errors = {};
       if (_cabinWinners.length === 0) {
@@ -301,17 +303,7 @@ const Applications = () => {
         return;
       }
 
-      _cabinWinners.forEach((cabinWinner) => {
-        fetch('/application/setwinner', {
-          method: 'PATCH',
-          headers: { token: localStorage.getItem('refresh_token') },
-          body: JSON.stringify(cabinWinner),
-        })
-          .then((response) => response.json())
-          .then((data) => console.log(data))
-          .catch((error) => console.log(error));
-      });
-      fetchApplications();
+      setCabinWinners(_cabinWinners);
       setAssigned(true);
     } else if (
       applications === pastPending ||
@@ -329,19 +321,54 @@ const Applications = () => {
         return;
       }
 
-      _changedTrips.forEach((application) => {
-        fetch('/application/update', {
-          method: 'PUT',
-          headers: { token: localStorage.getItem('refresh_token') },
-          body: JSON.stringify(application),
+      setChangedTrips(_changedTrips);
+      setEdited(true);
+    }
+  };
+
+  const assignCabins = () => {
+    let postSuccessful = true;
+
+    cabinWinners.forEach((cabinWinner) => {
+      fetch('/application/setwinner', {
+        method: 'PATCH',
+        headers: { token: localStorage.getItem('refresh_token') },
+        body: JSON.stringify(cabinWinner),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => {
+          console.log(error);
+          postSuccessful = false;
+        });
+    });
+    if (postSuccessful) {
+      cabinWinners.forEach((cabinWinner) => {
+        fetch('/email/applicationApproved', {
+          method: 'POST',
+          body: JSON.stringify(cabinWinner.applicationId),
         })
-          .then((response) => response.json())
           .then((data) => console.log(data))
           .catch((error) => console.log(error));
       });
-      fetchApplications();
-      setEdited(true);
     }
+    fetchApplications();
+    setAssigned(false);
+  };
+
+  const editApplications = () => {
+    changedTrips.forEach((application) => {
+      fetch('/application/update', {
+        method: 'PUT',
+        headers: { token: localStorage.getItem('refresh_token') },
+        body: JSON.stringify(application),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+    });
+    fetchApplications();
+    setEdited(false);
   };
 
   const filterSeason = (type) => {
@@ -517,7 +544,7 @@ const Applications = () => {
           applications !== pastWinning &&
           applications !== currentWinning && (
             <button
-              onClick={() => postWinners(_cabinWinners)}
+              onClick={() => handleApplications(_cabinWinners)}
               className="btn big"
             >
               {applications === futurePending
@@ -532,25 +559,22 @@ const Applications = () => {
       </div>
       {assigned && (
         <AlertPopup
-          title="Hytter tildelt"
-          description="Hytter ble tildelt og lagret i databasen, vil du se en oversikt over fremtidige turer?"
+          title="Tildeling av hytter"
+          description="Er du sikker på at du vil tildele hyttene?"
           negativeAction="Nei"
           positiveAction="Ja"
           cancelMethod={handleVisibility}
-          acceptMethod={() => {
-            setApplications(futureWinning);
-            document.getElementById('futureWinning').checked = true;
-            document.getElementById('futurePending').checked = false;
-            setAssigned(false);
-          }}
+          acceptMethod={assignCabins}
         />
       )}
       {edited && (
-        <InfoPopup
-          title="Hytter endret"
-          description="Hytte(r) ble endret og lagret i databasen, du vil nå bli sendt til alle søknader."
-          btnText="Ok"
-          hideMethod={handleEdited}
+        <AlertPopup
+          title="Endre vinner"
+          description="Er du sikker på at du vil endre turen til å ikke ha tildelt en hytte? Dette vil gjøre så turen ikke er satt som vinner lenger."
+          negativeAction="Nei"
+          positiveAction="Ja"
+          cancelMethod={handleEdited}
+          acceptMethod={editApplications}
         />
       )}
     </>
