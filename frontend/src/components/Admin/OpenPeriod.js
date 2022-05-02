@@ -342,12 +342,12 @@ const OpenPeriod = () => {
       <HeroBanner name="Åpne søknads periode" />
       <div className="open-period-container">
         <p className="open-period-title">
-          Velg start og sluttdato for søknadsperioden
+          Velg start og sluttdato for sesongen
         </p>
 
         <div className="date-wrapper">
           <label className="date-title" htmlFor="seasonname">
-            Navn til søknadsperioden
+            Sesongnavn
           </label>
           <input
             placeholder="F.eks 'Vår 2022'"
@@ -408,13 +408,15 @@ const OpenPeriod = () => {
           <AiOutlineQuestionCircle />
         </div>
         <p className={visible ? 'open-period-text' : 'no-show'}>
+          Ingenting vil være lagret før du trykker på åpne søknadsperioden.{' '}
+          <br />
+          <br />
           Når du trykker på generer vil det lages ukentlige perioder fra mandag
           til mandag basert på start og sluttdato. <br /> Første periode vil
           altså bli første mandag etter startdato, og siste periode vil slutte
           siste mandag før sluttdato. <br />
-          De vil ikke være lagret enda. Kan søkes på fra / til tilsier når
-          brukere kan søke på hytter for de periodene, før det skal trekkes
-          vinnere.
+          Kan søkes på fra / til tilsier når brukere kan søke på hytter for de
+          periodene, før det skal trekkes vinnere.
         </p>
 
         <button onClick={generatePeriods} className="btn big soknadbtn">

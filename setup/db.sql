@@ -42,8 +42,8 @@ CREATE TABLE Users(
 CREATE TABLE Applications(
     application_id SERIAL PRIMARY KEY,
     user_id char(22) NOT NULL,
-    employee_id varchar(40) NOT NULL,
     ansattnummerWBS varchar(40) NOT NULL,
+    employee_id varchar(40) NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
     kommentar TEXT,
@@ -84,6 +84,11 @@ CREATE TABLE Faq(
     answer text NOT NULL
 );
 
+CREATE TABLE AdminEmails(
+    email_id SERIAL PRIMARY KEY,
+    email varchar(40) NOT NULL
+);
+
 INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
 VALUES('Vinter 2022','2022-01-01', '2022-03-15', '2021-12-20', '2021-12-31'),
 ('Høst 2022','2022-08-29', '2023-01-02', '2022-01-02', '2023-08-14');
@@ -91,6 +96,7 @@ VALUES('Vinter 2022','2022-01-01', '2022-03-15', '2021-12-20', '2021-12-31'),
 INSERT INTO Periods (period_name, starting, ending, season_name) 
 VALUES ('Uke 1', '2022-01-03', '2022-01-11', 'Vinter 2022'),
 ('Forever Active', '2022-01-29', '2022-12-05', 'Høst 2022'),
+('Uke 14', '2022-04-19', '2022-04-26', 'Vinter 2022'),
 ('Uke 35', '2022-08-29', '2022-09-05', 'Høst 2022'),
 ('Uke 36', '2022-09-05', '2022-09-12', 'Høst 2022'),
 ('Uke 37', '2022-09-12', '2022-09-19', 'Høst 2022'),
@@ -124,8 +130,9 @@ VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4
 INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner, feedback)
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1','kommentar' ,'Tilfeldig', '1', TRUE, FALSE), /*Won in the past*/
 ('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '2', TRUE, FALSE),
-('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', TRUE, FALSE),
-('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '3', FALSE, FALSE);
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '4', TRUE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '5', FALSE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKB','654321','admin.adminer', 'Prosjekt', '1', 'Vil ha en tilfeldig hytte, det er det samme hvilken','Tilfeldig', '3', TRUE, FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
 VALUES ('1', 'Utsikten', TRUE),
@@ -141,7 +148,12 @@ VALUES ('1', 'Utsikten', TRUE),
 ('4', 'Utsikten', FALSE),
 ('4', 'Fanitullen', FALSE),
 ('4', 'Knausen', FALSE),
-('4', 'Store Grøndalen', FALSE);
+('4', 'Store Grøndalen', FALSE),
+('5', 'Utsikten', FALSE),
+('5', 'Fanitullen', FALSE),
+('5', 'Knausen', FALSE),
+('5', 'Store Grøndalen', TRUE);
+
 
 INSERT INTO Faq (question, answer) 
 VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine turer eller ved å ta kontakt med hyttekomiteen@accenture.com. Dersom man avbestiller senere enn to uker før avreise blir det en ekstra kostnad på 500 NOK.'),
@@ -149,3 +161,6 @@ VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine tu
 ('Hvordan betaler jeg for en hyttetur?', '1200 NOK blir trukket fra din lønnsslipp og 1200 NOK må vippses til vaskebyrået.'),
 ('Noe ble ødelagt, hvordan sier jeg fra?', 'Du kan enten fylle ut et tilbakemeldingskjema under mine turer, dersom det haster kan du ta kontakt på: 123 456 78'),
 ('Hvem kontakter jeg dersom jeg har et spørsmål?', 'Dersom du har et spørsmål kan du ta kontakt med hyttekomiteen@accenture.com');
+
+INSERT INTO AdminEmails (email)
+VALUES ('oyvind0402@gmail.com');

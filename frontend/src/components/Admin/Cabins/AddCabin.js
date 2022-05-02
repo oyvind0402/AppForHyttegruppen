@@ -1,11 +1,12 @@
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import './AddCabin.css';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import { BsQuestionCircle } from 'react-icons/bs';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const AddCabin = () => {
   const history = useHistory();
@@ -14,6 +15,7 @@ const AddCabin = () => {
   const [saved, setSaved] = useState(false);
   const [errors, setErrors] = useState({});
   const [error, setError] = useState('');
+  const [explanation, setExplanation] = useState(false);
 
   const handleAddItem = () => {
     const node = document.createElement('input');
@@ -23,20 +25,16 @@ const AddCabin = () => {
   };
 
   const removeItem = () => {
-    if (document.getElementById('todolist').hasChildNodes()) {
-      if (
-        document.getElementById('todolist').lastChild.className !==
-        'add-cabin-label'
-      ) {
-        document
-          .getElementById('todolist')
-          .removeChild(document.getElementById('todolist').lastChild);
-      }
+    if (document.getElementById('todolist').childNodes.length > 1) {
+      document
+        .getElementById('todolist')
+        .removeChild(document.getElementById('todolist').lastChild);
     }
   };
 
   const handleSavedVisibility = () => {
-    setSaved(!saved);
+    setSaved(false);
+    window.location.href = '/hytter';
   };
 
   const handleVisibility = () => {
@@ -146,6 +144,19 @@ const AddCabin = () => {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
 
+    const huskeliste = document.getElementById('todolist').childNodes;
+    for (let i = 1; i < huskeliste.length; i++) {
+      if (huskeliste[i].value === '') {
+        _errors.huskeliste = 'Det er ikke lov med tome verdier!';
+      }
+    }
+
+    if (document.getElementById('mainPicture').value.length === 0) {
+      _errors.mainPicture = 'Husk å legge til et hovedbilde!';
+    } else if (document.getElementById('mainPicture').value.indexOf(' ') > -1) {
+      _errors.mainPicture = 'Det er ikke lov med mellomrom i bilde navn!';
+    }
+
     setErrors(_errors);
 
     if (
@@ -161,7 +172,9 @@ const AddCabin = () => {
       _errors.bathrooms ||
       _errors.sleepingslots ||
       _errors.bedrooms ||
-      _errors.recycling
+      _errors.recycling ||
+      _errors.huskeliste ||
+      _errors.mainPicture
     ) {
       return;
     }
@@ -174,6 +187,7 @@ const AddCabin = () => {
   };
 
   const addCabin = async () => {
+    setVisible(false);
     let inputliste = document
       .getElementById('todolist')
       .getElementsByTagName('input');
@@ -208,13 +222,13 @@ const AddCabin = () => {
       },
       pictures: {
         mainPicture: {
-          filename: 'Utsikten-Main.JPEG',
-          altText: 'Main Utsikten',
+          filename: '',
+          altText: '',
         },
         otherPictures: [
           {
-            filename: 'Utsikten-utsikt1.JPEG',
-            altText: 'Utsikten utsikt',
+            filename: '',
+            altText: '',
           },
         ],
       },
@@ -223,7 +237,6 @@ const AddCabin = () => {
         kildesortering: document.getElementById('add-recycling').value,
       },
     };
-    console.log(cabin);
 
     const response = await fetch('/cabin/post', {
       method: 'POST',
@@ -232,79 +245,132 @@ const AddCabin = () => {
     });
     const data = await response.json();
     if (response.ok) {
-      setSaved(true);
+      uploadMainPicture();
     } else {
       setError(data.err);
       setErrorVisible(true);
     }
   };
 
+  const uploadMainPicture = async () => {
+    const files = document.getElementById('mainPicture').files[0];
+    const formData = new FormData();
+    formData.append('file', files);
+    formData.append('altText', document.getElementById('mainPicture').value);
+    formData.append('cabinName', document.getElementById('add-name').value);
+
+    if (typeof files === 'undefined') {
+      return;
+    }
+
+    fetch('/pictures/main', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    fetch('/pictures/replace', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    setSaved(true);
+  };
+
+  const handleExplanation = () => {
+    setExplanation(!explanation);
+  };
+
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Legg til hytte" />
+      <AdminBanner name="Legg til hytte" />
       <div className="add-cabin-container">
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-name">
-            Navn
-          </label>
-          <input
-            placeholder="Skriv inn navnet.."
-            className="add-cabin-input"
-            type="text"
-            id="add-name"
-          />
-          {errors.name && <span className="login-error">{errors.name}</span>}
+        <div className="add-cabin-1-3">
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-name">
+              Navn
+            </label>
+            <input
+              placeholder="Skriv inn navnet.."
+              className="add-cabin-input"
+              type="text"
+              id="add-name"
+            />
+            {errors.name && <span className="login-error">{errors.name}</span>}
+          </div>
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-address">
+              Adresse
+            </label>
+            <input
+              placeholder="Skriv inn adressen.."
+              className="add-cabin-input"
+              type="text"
+              id="add-address"
+            />
+            {errors.address && (
+              <span className="login-error">{errors.address}</span>
+            )}
+          </div>
         </div>
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-address">
-            Adresse
-          </label>
-          <input
-            placeholder="Skriv inn adressen.."
-            className="add-cabin-input"
-            type="text"
-            id="add-address"
-          />
-          {errors.address && (
-            <span className="login-error">{errors.address}</span>
-          )}
+
+        <div className="add-cabin-2-2">
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-latitude">
+              Breddegrad
+            </label>
+            <input
+              placeholder="Skriv inn breddegraden.."
+              className="add-cabin-input"
+              type="text"
+              id="add-latitude"
+            />
+            {errors.latitude && (
+              <span className="login-error">{errors.latitude}</span>
+            )}
+          </div>
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-longitude">
+              Lengdegrad
+            </label>
+            <input
+              placeholder="Skriv inn lengdegraden.."
+              className="add-cabin-input"
+              type="text"
+              id="add-longitude"
+            />
+            {errors.longitude && (
+              <span className="login-error">{errors.longitude}</span>
+            )}
+          </div>
         </div>
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-latitude">
-            Breddegrad
-          </label>
-          <input
-            placeholder="Skriv inn breddegraden.."
-            className="add-cabin-input"
-            type="text"
-            id="add-latitude"
-          />
-          {errors.latitude && (
-            <span className="login-error">{errors.latitude}</span>
-          )}
-        </div>
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-longitude">
-            Lengdegrad
-          </label>
-          <input
-            placeholder="Skriv inn lengdegraden.."
-            className="add-cabin-input"
-            type="text"
-            id="add-longitude"
-          />
-          {errors.longitude && (
-            <span className="login-error">{errors.longitude}</span>
-          )}
-        </div>
+
         <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="add-directions">
             Veibeskrivelse
           </label>
           <textarea
             placeholder="Skriv inn veibeskrivelsen.."
-            className="add-cabin-input-long"
+            className="add-cabin-input input-long"
             id="add-directions"
           />
           {errors.directions && (
@@ -317,7 +383,7 @@ const AddCabin = () => {
           </label>
           <textarea
             placeholder="Skriv inn en kort beskrivelse.."
-            className="add-cabin-input-short"
+            className="add-cabin-input input-short"
             id="add-shortdesc"
           />
           {errors.shortdesc && (
@@ -330,7 +396,7 @@ const AddCabin = () => {
           </label>
           <textarea
             placeholder="Skriv inn en lang beskrivelse.."
-            className="add-cabin-input-long"
+            className="add-cabin-input input-long"
             id="add-longdesc"
           />
           {errors.longdesc && (
@@ -338,101 +404,106 @@ const AddCabin = () => {
           )}
         </div>
         <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-price">
-            Pris
-          </label>
-          <input
-            defaultValue={1200}
-            className="add-cabin-input"
-            type="number"
-            id="add-price"
-          />
-          {errors.price && <span className="login-error">{errors.price}</span>}
-        </div>
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label" htmlFor="add-cleaningprice">
-            Vaskepris
-          </label>
-          <input
-            defaultValue={1200}
-            className="add-cabin-input"
-            type="number"
-            id="add-cleaningprice"
-          />
-          {errors.cleaningprice && (
-            <span className="login-error">{errors.cleaningprice}</span>
-          )}
-        </div>
-
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label2" htmlFor={'add-bad'}>
-            Bad
-          </label>
-          <input
-            className="add-cabin-input"
-            type="number"
-            defaultValue={1}
-            id={'add-bad'}
-          />
-          {errors.bathrooms && (
-            <span className="login-error">{errors.bathrooms}</span>
-          )}
-        </div>
-
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label2" htmlFor={'add-soveplasser'}>
-            Soveplasser
-          </label>
-          <input
-            className="add-cabin-input"
-            type="number"
-            defaultValue={1}
-            id={'add-soveplasser'}
-          />
-          {errors.sleepingslots && (
-            <span className="login-error">{errors.sleepingslots}</span>
-          )}
-        </div>
-
-        <div className="add-cabin-wrapper">
-          <label className="add-cabin-label2" htmlFor={'add-soverom'}>
-            Soverom
-          </label>
-          <input
-            className="add-cabin-input"
-            type="number"
-            defaultValue={1}
-            id={'add-soverom'}
-          />
-          {errors.bedrooms && (
-            <span className="login-error">{errors.bedrooms}</span>
-          )}
-        </div>
-
-        <div className="input-function">
-          <label className="add-cabin-label2" htmlFor={'add-wifi'}>
-            Wifi
-          </label>
-          <input
-            className="add-cabin-checkbox"
-            type="checkbox"
-            id={'add-wifi'}
-            name={'wifi'}
-          />
-        </div>
-        <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="add-recycling">
             Kildesortering info
           </label>
           <textarea
             placeholder="Skriv inn info om kildesortering.."
-            className="add-cabin-input-long"
+            className="add-cabin-input input-long"
             id="add-recycling"
           />
           {errors.recycling && (
             <span className="login-error">{errors.recycling}</span>
           )}
         </div>
+        <div className="add-cabin-1-1-1">
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-price">
+              Leiepris
+            </label>
+            <input
+              defaultValue={1200}
+              className="add-cabin-input"
+              type="number"
+              id="add-price"
+            />
+            {errors.price && (
+              <span className="login-error">{errors.price}</span>
+            )}
+          </div>
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label" htmlFor="add-cleaningprice">
+              Vaskepris
+            </label>
+            <input
+              defaultValue={1200}
+              className="add-cabin-input"
+              type="number"
+              id="add-cleaningprice"
+            />
+            {errors.cleaningprice && (
+              <span className="login-error">{errors.cleaningprice}</span>
+            )}
+          </div>
+
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label2" htmlFor={'add-bad'}>
+              Bad
+            </label>
+            <input
+              className="add-cabin-input"
+              type="number"
+              defaultValue={1}
+              id={'add-bad'}
+            />
+            {errors.bathrooms && (
+              <span className="login-error">{errors.bathrooms}</span>
+            )}
+          </div>
+
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label2" htmlFor={'add-soveplasser'}>
+              Soveplasser
+            </label>
+            <input
+              className="add-cabin-input"
+              type="number"
+              defaultValue={1}
+              id={'add-soveplasser'}
+            />
+            {errors.sleepingslots && (
+              <span className="login-error">{errors.sleepingslots}</span>
+            )}
+          </div>
+
+          <div className="add-cabin-wrapper">
+            <label className="add-cabin-label2" htmlFor={'add-soverom'}>
+              Soverom
+            </label>
+            <input
+              className="add-cabin-input"
+              type="number"
+              defaultValue={1}
+              id={'add-soverom'}
+            />
+            {errors.bedrooms && (
+              <span className="login-error">{errors.bedrooms}</span>
+            )}
+          </div>
+
+          <div className="input-function">
+            <label className="add-cabin-label2" htmlFor={'add-wifi'}>
+              Wifi
+            </label>
+            <input
+              className="add-cabin-checkbox"
+              type="checkbox"
+              id={'add-wifi'}
+              name={'wifi'}
+            />
+          </div>
+        </div>
+
         <div className="add-cabin-cbwrapper">
           <label className="add-cabin-label" htmlFor="add-active">
             Kan søkes på
@@ -441,7 +512,17 @@ const AddCabin = () => {
             className="add-cabin-checkbox"
             type="checkbox"
             id="add-active"
+            defaultChecked
           />
+          <BsQuestionCircle
+            className="add-cabin-comment add-question"
+            onClick={handleExplanation}
+          />
+          {explanation && (
+            <p className="add-cabin-comment">
+              Dersom huket av vil hytten være mulig å søkes på
+            </p>
+          )}
         </div>
         <div className="add-cabin-wrapper" id="todolist">
           <label className="add-cabin-label">Huskeliste</label>
@@ -450,10 +531,29 @@ const AddCabin = () => {
             className="add-cabin-input"
             placeholder="Skriv inn noe brukeren må huske på.."
           />
+          {errors.huskeliste && (
+            <span className="login-error">{errors.huskeliste}</span>
+          )}
         </div>
         <div className="add-remove-item">
           <IoMdAddCircle onClick={handleAddItem} />
           <IoIosRemoveCircle onClick={removeItem} />
+        </div>
+
+        <div className="add-cabin-wrapper">
+          <label className="add-cabin-label">
+            Legg til hovedbildet til hytte
+          </label>
+          <input
+            className="upload-input"
+            type="file"
+            id="mainPicture"
+            name="mainPicture"
+            accept=".jpg,.png"
+          />
+          {errors.mainPicture && (
+            <span className="login-error">{errors.mainPicture}</span>
+          )}
         </div>
 
         <button onClick={handleVisibility} className="btn big">
@@ -489,13 +589,18 @@ const AddCabin = () => {
       {saved && (
         <AlertPopup
           title="Hytte lagret!"
-          description="Hytten ble lagret i databasen! Vil du bli sendt til oversikten over hytter?"
+          description="Vil du lagre flere bilder av hytta?"
           negativeAction="Nei"
           positiveAction="Ja"
-          cancelMethod={handleSavedVisibility}
+          cancelMethod={() => {
+            setSaved(false);
+            window.location.href = '/admin/endrehytter';
+          }}
           acceptMethod={() => {
             setSaved(false);
-            history.push('/admin/endrehytter');
+            window.location.href =
+              '/admin/lastoppbilde/' +
+              document.getElementById('add-name').value;
           }}
         />
       )}

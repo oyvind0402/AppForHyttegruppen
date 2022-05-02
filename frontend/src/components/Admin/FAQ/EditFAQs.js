@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import './EditFAQs.css';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const EditFAQs = () => {
   const [FAQs, setFAQs] = useState([]);
@@ -24,7 +24,7 @@ const EditFAQs = () => {
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Endre spørsmål og svar" />
+      <AdminBanner name="Endre spørsmål og svar" />
       <div className="edit-faqs-container">
         {FAQs
           ? FAQs.map((FAQ) => {

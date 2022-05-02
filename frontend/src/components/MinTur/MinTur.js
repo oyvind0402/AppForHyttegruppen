@@ -15,6 +15,7 @@ import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
 import { useHistory } from 'react-router-dom';
 import AlertPopup from '../01-Reusable/PopUp/AlertPopup';
 import BackButton from '../01-Reusable/Buttons/BackButton';
+import InfoPopup from '../01-Reusable/PopUp/InfoPopup';
 
 const MinTur = () => {
   const history = useHistory();
@@ -29,6 +30,7 @@ const MinTur = () => {
   const [end, setEnd] = useState(new Date());
   const [start, setStart] = useState(new Date());
   const [visible, setVisible] = useState(false);
+  const [tooLateError, setTooLateError] = useState(false);
 
   function getFormattedDate(date, pending) {
     if (pending) {
@@ -58,50 +60,24 @@ const MinTur = () => {
     return day + '/' + month + '/' + year;
   }
 
-  async function getTrip() {
-    const response = await fetch('/application/' + pageID);
-
-    const data = await response.json();
-    if (response.ok) {
-      setTrip(data);
-
-      const start = new Date(data.period.start);
-      const end = new Date(data.period.end);
-      setEnd(end);
-      setStart(start);
-
-      if (start > Date.now() && !data.winner) {
-        setPending(true);
-        setFuture(false);
-        setCurrent(false);
-        setFormer(false);
-      } else if (start < Date.now() && end > Date.now() && data.winner) {
-        setCurrent(true);
-        setFuture(false);
-        setPending(false);
-        setFormer(false);
-      } else if (end < Date.now() && data.winner) {
-        setFormer(true);
-        setCurrent(false);
-        setPending(false);
-        setFuture(false);
-      } else if (start > Date.now() && data.winner) {
-        setFuture(true);
-        setCurrent(false);
-        setPending(false);
-        setFormer(false);
-      }
-    } else {
-      history.goBack();
-    }
-  }
-
   const handleVisibility = () => {
     setVisible(!visible);
   };
 
+  const handleTooLateError = () => {
+    setTooLateError(!tooLateError);
+  };
+
   const cancelTrip = async () => {
     setVisible(false);
+    const diffTime = Math.abs(Date.now() - new Date(trip.period.start));
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 7) {
+      setTooLateError(true);
+      return;
+    }
+
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(pageID),
@@ -111,13 +87,52 @@ const MinTur = () => {
     const data = await response.json();
     if (response.ok) {
       console.log(data);
+      // TODO Send email to admin here if the user cancels their trip
       history.goBack();
     }
   };
 
   useEffect(() => {
+    async function getTrip() {
+      const response = await fetch('/application/' + pageID);
+
+      const data = await response.json();
+      if (response.ok) {
+        setTrip(data);
+
+        const start = new Date(data.period.start);
+        const end = new Date(data.period.end);
+        setEnd(end);
+        setStart(start);
+
+        if (start > Date.now() && !data.winner) {
+          setPending(true);
+          setFuture(false);
+          setCurrent(false);
+          setFormer(false);
+        } else if (start <= Date.now() && end >= Date.now() && data.winner) {
+          setCurrent(true);
+          setFuture(false);
+          setPending(false);
+          setFormer(false);
+        } else if (end < Date.now() && data.winner) {
+          setFormer(true);
+          setCurrent(false);
+          setPending(false);
+          setFuture(false);
+        } else if (start > Date.now() && data.winner) {
+          setFuture(true);
+          setCurrent(false);
+          setPending(false);
+          setFormer(false);
+        }
+      } else {
+        history.goBack();
+      }
+    }
+
     getTrip();
-  }, []);
+  }, [pageID, history]);
 
   if (future && trip.winner) {
     return (
@@ -246,6 +261,14 @@ const MinTur = () => {
             cancelMethod={handleVisibility}
             negativeAction="Avbryt"
             positiveAction="Avbestill"
+          />
+        )}
+        {tooLateError && (
+          <InfoPopup
+            title="Avbestilling av tur"
+            description="Du kan ikke avbestille en tur som har startdato innen 7 dager! Kontakt oss hvis du fortsatt vil avbestille."
+            hideMethod={handleTooLateError}
+            btnText="Ok"
           />
         )}
       </>

@@ -38,10 +38,10 @@ export default function Table({ columns, data }) {
                 if (column.Header === 'Tildelt') {
                   let winner = data[0].winner;
                   if (winner) {
-                    let end = new Date(data[0].period.end);
+                    let start = new Date(data[0].period.start);
                     let now = new Date();
 
-                    if (end > now) {
+                    if (start > now) {
                       column.Header = 'Vinner';
                     } else {
                       column.Header = 'Tildelt';
@@ -51,7 +51,14 @@ export default function Table({ columns, data }) {
 
                 return (
                   <th
-                    className={'react-table-header' + index}
+                    id={'react-table-header' + index}
+                    className={
+                      column.isSorted
+                        ? column.isSortedDesc
+                          ? 'sort-desc2'
+                          : 'sort-asc2'
+                        : ''
+                    }
                     key={index}
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                   >

@@ -4,7 +4,9 @@ import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import { BsQuestionCircle } from 'react-icons/bs';
 import './EditCabin.css';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
@@ -13,6 +15,7 @@ const EditCabin = () => {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
   const [errorMessage, setErrorMessage] = useState({});
+  const [explanation, setExplanation] = useState(false);
   const link = window.location.href;
   const history = useHistory();
 
@@ -158,6 +161,17 @@ const EditCabin = () => {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
 
+    const huskeliste = document.getElementById('todolist').childNodes;
+    for (let i = 1; i < huskeliste.length; i++) {
+      if (huskeliste[i].value === '') {
+        _errors.huskeliste = 'Det er ikke lov med tome verdier!';
+      }
+    }
+
+    if (document.getElementById('mainPictureEndre').value.indexOf(' ') > -1) {
+      _errors.mainPicture = 'Det er ikke lov med mellomrom i bilde navn!';
+    }
+
     setErrorMessage(_errors);
 
     if (
@@ -173,7 +187,9 @@ const EditCabin = () => {
       _errors.bathrooms ||
       _errors.sleepingslots ||
       _errors.bedrooms ||
-      _errors.recycling
+      _errors.recycling ||
+      _errors.huskeliste ||
+      _errors.mainPicture
     ) {
       return;
     }
@@ -226,7 +242,6 @@ const EditCabin = () => {
         kildesortering: document.getElementById('edit-recycling').value,
       },
     };
-    console.log(cabin2);
 
     const response = await fetch('/cabin/update', {
       method: 'PUT',
@@ -236,84 +251,146 @@ const EditCabin = () => {
 
     const data = await response.json();
     if (response.ok) {
-      setSaved(true);
+      if (document.getElementById('mainPictureEndre').value !== '') {
+        uploadMainPicture();
+      } else {
+        setSaved(true);
+      }
     } else {
       setError(data.err);
       setErrorVisible(true);
     }
     setVisible(false);
+    return;
   }
+
+  const uploadMainPicture = async () => {
+    const files = document.getElementById('mainPictureEndre').files[0];
+    const formData = new FormData();
+    formData.append('file', files);
+    formData.append(
+      'altText',
+      document.getElementById('mainPictureEndre').value
+    );
+    formData.append('cabinName', document.getElementById('edit-name').value);
+
+    if (typeof files === 'undefined') {
+      return;
+    }
+
+    fetch('/pictures/main', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    fetch('/pictures/replaceFirst', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    setSaved(true);
+  };
+
+  const handleExplanation = () => {
+    setExplanation(!explanation);
+  };
 
   return (
     <>
       <BackButton name="Tilbake til endre hytter" link="admin/endrehytter" />
+      <AdminBanner name="Endre hytte" />
       <div className="edit-cabin-container">
-        <div className="edit-cabin-wrapper">
-          <label className="edit-cabin-label" htmlFor="edit-name">
-            Navn
-          </label>
-          <input
-            className="edit-cabin-input"
-            defaultValue={cabin.length !== 0 ? cabin[0].name : ''}
-            type="text"
-            id="edit-name"
-          />
-          {errorMessage.name && (
-            <span className="login-error">{errorMessage.name}</span>
-          )}
+        <div className="edit-cabin-1-3">
+          <div className="edit-cabin-wrapper">
+            <label className="edit-cabin-label" htmlFor="edit-name">
+              Navn
+            </label>
+            <input
+              className="edit-cabin-input"
+              defaultValue={cabin.length !== 0 ? cabin[0].name : ''}
+              type="text"
+              id="edit-name"
+            />
+            {errorMessage.name && (
+              <span className="login-error">{errorMessage.name}</span>
+            )}
+          </div>
+          <div className="edit-cabin-wrapper">
+            <label className="edit-cabin-label" htmlFor="edit-address">
+              Adresse
+            </label>
+            <input
+              className="edit-cabin-input"
+              defaultValue={cabin.length !== 0 ? cabin[0].address : ''}
+              type="text"
+              id="edit-address"
+            />
+            {errorMessage.address && (
+              <span className="login-error">{errorMessage.address}</span>
+            )}
+          </div>
         </div>
-        <div className="edit-cabin-wrapper">
-          <label className="edit-cabin-label" htmlFor="edit-address">
-            Adresse
-          </label>
-          <input
-            className="edit-cabin-input"
-            defaultValue={cabin.length !== 0 ? cabin[0].address : ''}
-            type="text"
-            id="edit-address"
-          />
-          {errorMessage.address && (
-            <span className="login-error">{errorMessage.address}</span>
-          )}
+
+        <div className="edit-cabin-2-2">
+          <div className="edit-cabin-wrapper">
+            <label className="edit-cabin-label" htmlFor="edit-latitude">
+              Breddegrad
+            </label>
+            <input
+              className="edit-cabin-input"
+              defaultValue={
+                cabin.length !== 0 ? cabin[0].coordinates.latitude : ''
+              }
+              type="text"
+              id="edit-latitude"
+            />
+            {errorMessage.latitude && (
+              <span className="login-error">{errorMessage.latitude}</span>
+            )}
+          </div>
+          <div className="edit-cabin-wrapper">
+            <label className="edit-cabin-label" htmlFor="edit-longitude">
+              Lengdegrad
+            </label>
+            <input
+              className="edit-cabin-input"
+              defaultValue={
+                cabin.length !== 0 ? cabin[0].coordinates.longitude : ''
+              }
+              type="text"
+              id="edit-longitude"
+            />
+            {errorMessage.longitude && (
+              <span className="login-error">{errorMessage.longitude}</span>
+            )}
+          </div>
         </div>
-        <div className="edit-cabin-wrapper">
-          <label className="edit-cabin-label" htmlFor="edit-latitude">
-            Breddegrad
-          </label>
-          <input
-            className="edit-cabin-input"
-            defaultValue={
-              cabin.length !== 0 ? cabin[0].coordinates.latitude : ''
-            }
-            type="text"
-            id="edit-latitude"
-          />
-          {errorMessage.latitude && (
-            <span className="login-error">{errorMessage.latitude}</span>
-          )}
-        </div>
-        <div className="edit-cabin-wrapper">
-          <label className="edit-cabin-label" htmlFor="edit-longitude">
-            Lengdegrad
-          </label>
-          <input
-            className="edit-cabin-input"
-            defaultValue={
-              cabin.length !== 0 ? cabin[0].coordinates.longitude : ''
-            }
-            type="text"
-            id="edit-longitude"
-          />
-          {errorMessage.longitude && (
-            <span className="login-error">{errorMessage.longitude}</span>
-          )}
-        </div>
+
         <div className="edit-cabin-wrapper">
           <label className="edit-cabin-label" htmlFor="edit-directions">
             Veibeskrivelse
           </label>
           <textarea
-            className="edit-cabin-input-long"
+            className="edit-cabin-input input-long"
             defaultValue={cabin.length !== 0 ? cabin[0].directions : ''}
             id="edit-directions"
           />
@@ -326,7 +403,7 @@ const EditCabin = () => {
             Kort beskrivelse
           </label>
           <textarea
-            className="edit-cabin-input-short"
+            className="edit-cabin-input input-short"
             defaultValue={cabin.length !== 0 ? cabin[0].shortDescription : ''}
             id="edit-shortdesc"
           />
@@ -339,7 +416,7 @@ const EditCabin = () => {
             Lang beskrivelse
           </label>
           <textarea
-            className="edit-cabin-input-long"
+            className="edit-cabin-input input-long"
             defaultValue={cabin.length !== 0 ? cabin[0].longDescription : ''}
             id="edit-longdesc"
           />
@@ -348,58 +425,93 @@ const EditCabin = () => {
           )}
         </div>
         <div className="edit-cabin-wrapper">
-          <label className="edit-cabin-label" htmlFor="edit-price">
-            Pris
+          <label className="edit-cabin-label" htmlFor="edit-recycling">
+            Kildesortering info
           </label>
-          <input
-            className="edit-cabin-input"
-            defaultValue={cabin.length !== 0 ? cabin[0].price : ''}
-            type="number"
-            id="edit-price"
+          <textarea
+            className="edit-cabin-input input-long"
+            defaultValue={
+              cabin.length !== 0 ? cabin[0].other.kildesortering : ''
+            }
+            id="edit-recycling"
           />
-          {errorMessage.price && (
-            <span className="login-error">{errorMessage.price}</span>
+          {errorMessage.recycling && (
+            <span className="login-error">{errorMessage.recycling}</span>
           )}
         </div>
-        <div className="edit-cabin-wrapper">
-          <label className="edit-cabin-label" htmlFor="edit-cleaningprice">
-            Vaskepris
-          </label>
-          <input
-            className="edit-cabin-input"
-            defaultValue={cabin.length !== 0 ? cabin[0].cleaningPrice : ''}
-            type="number"
-            id="edit-cleaningprice"
-          />
-          {errorMessage.cleaningprice && (
-            <span className="login-error">{errorMessage.cleaningprice}</span>
-          )}
-        </div>
-        {cabin.length !== 0
-          ? Object.entries(cabin[0].features).map(([key, value]) => {
-              if (typeof value == 'number') {
-                return (
-                  <div className="edit-cabin-wrapper" key={key}>
-                    <label
-                      className="edit-cabin-label2"
-                      htmlFor={'edit-' + key}
-                    >
-                      {key}
-                    </label>
-                    <input
-                      className="edit-cabin-input"
-                      defaultValue={value}
-                      type="number"
-                      id={'edit-' + key}
-                    />
-                    {errorMessage.numbers && (
-                      <span className="login-error">
-                        {errorMessage.numbers}
-                      </span>
-                    )}
-                  </div>
-                );
-              } else {
+        <div className="edit-cabin-1-1-1">
+          <div className="edit-cabin-wrapper">
+            <label className="edit-cabin-label" htmlFor="edit-price">
+              Pris
+            </label>
+            <input
+              className="edit-cabin-input"
+              defaultValue={cabin.length !== 0 ? cabin[0].price : ''}
+              type="number"
+              id="edit-price"
+            />
+            {errorMessage.price && (
+              <span className="login-error">{errorMessage.price}</span>
+            )}
+          </div>
+          <div className="edit-cabin-wrapper">
+            <label className="edit-cabin-label" htmlFor="edit-cleaningprice">
+              Vaskepris
+            </label>
+            <input
+              className="edit-cabin-input"
+              defaultValue={cabin.length !== 0 ? cabin[0].cleaningPrice : ''}
+              type="number"
+              id="edit-cleaningprice"
+            />
+            {errorMessage.cleaningprice && (
+              <span className="login-error">{errorMessage.cleaningprice}</span>
+            )}
+          </div>
+          {cabin.length !== 0
+            ? Object.entries(cabin[0].features).map(([key, value]) => {
+                if (typeof value == 'number') {
+                  return (
+                    <div className="edit-cabin-wrapper" key={key}>
+                      <label
+                        className="edit-cabin-label2"
+                        htmlFor={'edit-' + key}
+                      >
+                        {key}
+                      </label>
+                      <input
+                        className="edit-cabin-input"
+                        defaultValue={value}
+                        type="number"
+                        id={'edit-' + key}
+                      />
+                      {errorMessage.numbers && (
+                        <span className="login-error">
+                          {errorMessage.numbers}
+                        </span>
+                      )}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div className="input-function" key={key}>
+                      <label className="edit-cabin-label2" htmlFor={key}>
+                        {key}
+                      </label>
+                      <input
+                        className="edit-cabin-checkbox"
+                        type="checkbox"
+                        id={key}
+                        name={key}
+                        defaultChecked={value}
+                      />
+                    </div>
+                  );
+                }
+              })
+            : null}
+          {cabin.length !== 0 && typeof cabin[0].features.other !== 'undefined'
+            ? Object.entries(cabin[0].features.other).map(([key, value]) => {
                 return (
                   <div className="input-function" key={key}>
                     <label className="edit-cabin-label2" htmlFor={key}>
@@ -410,46 +522,14 @@ const EditCabin = () => {
                       type="checkbox"
                       id={key}
                       name={key}
-                      defaultChecked={value}
+                      defaultChecked={value.toString()}
                     />
                   </div>
                 );
-              }
-            })
-          : null}
-        {cabin.length !== 0 && typeof cabin[0].features.other !== 'undefined'
-          ? Object.entries(cabin[0].features.other).map(([key, value]) => {
-              return (
-                <div className="input-function" key={key}>
-                  <label className="edit-cabin-label2" htmlFor={key}>
-                    {key}
-                  </label>
-                  <input
-                    className="edit-cabin-checkbox"
-                    type="checkbox"
-                    id={key}
-                    name={key}
-                    defaultChecked={value.toString()}
-                  />
-                </div>
-              );
-            })
-          : null}
-        <div className="edit-cabin-wrapper">
-          <label className="edit-cabin-label" htmlFor="edit-recycling">
-            Kildesortering info
-          </label>
-          <textarea
-            className="edit-cabin-input-long"
-            defaultValue={
-              cabin.length !== 0 ? cabin[0].other.kildesortering : ''
-            }
-            id="edit-recycling"
-          />
-          {errorMessage.recycling && (
-            <span className="login-error">{errorMessage.recycling}</span>
-          )}
+              })
+            : null}
         </div>
+
         <div className="edit-cabin-cbwrapper">
           <label className="edit-cabin-label" htmlFor="edit-active">
             Kan søkes på
@@ -460,6 +540,15 @@ const EditCabin = () => {
             id="edit-active"
             defaultChecked={cabin.length !== 0 ? cabin[0].active : null}
           />
+          <BsQuestionCircle
+            className="add-cabin-comment add-question"
+            onClick={handleExplanation}
+          />
+          {explanation && (
+            <p className="add-cabin-comment">
+              Dersom huket av vil hytten være mulig å søkes på
+            </p>
+          )}
         </div>
         <div className="edit-cabin-wrapper" id="todolist">
           <label className="edit-cabin-label">Huskeliste</label>
@@ -476,10 +565,27 @@ const EditCabin = () => {
                 );
               })
             : null}
+          {errorMessage.huskeliste && (
+            <span className="login-error">{errorMessage.huskeliste}</span>
+          )}
         </div>
         <div className="add-remove-item">
           <IoMdAddCircle onClick={handleAddItem} />
           <IoIosRemoveCircle onClick={removeItem} />
+        </div>
+
+        <div className="add-cabin-wrapper">
+          <label className="add-cabin-label">Endre hovedbildet til hytte</label>
+          <input
+            className="upload-input"
+            type="file"
+            id="mainPictureEndre"
+            name="mainPictureEndre"
+            accept=".jpg,.png"
+          />
+          {errorMessage.mainPicture && (
+            <span className="login-error">{errorMessage.mainPicture}</span>
+          )}
         </div>
 
         <button className="btn big" onClick={handleVisibility}>
@@ -519,7 +625,7 @@ const EditCabin = () => {
           cancelMethod={handleSavedVisibility}
           acceptMethod={() => {
             setSaved(false);
-            history.push('/admin/endrehytter');
+            window.location.href = '/admin/endrehytter';
           }}
         />
       )}

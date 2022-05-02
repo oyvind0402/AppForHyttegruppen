@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditPeriod.css';
 
@@ -111,7 +111,7 @@ const EditPeriod = () => {
         name="Tilbake til endre perioder"
         link="admin/endreperioder"
       />
-      <HeroBanner name="Endre periode" />
+      <AdminBanner name="Endre periode" />
       <div className="endreperiode-container">
         <div className="edit-input-wrapper">
           <p className="edit-period-title">Navn</p>

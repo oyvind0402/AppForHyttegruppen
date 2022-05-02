@@ -67,10 +67,8 @@ func removeCabins(tx *sql.Tx, application data.Application) (*sql.Tx, error) {
 // Add/Update application cabins from a list
 func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, applicationId int, won bool) (*sql.Tx, error, int) {
 	var err error
-	//fmt.Println(cabins)
 
 	for _, cabin := range cabins {
-		//fmt.Println("from addOrUpdateCabins " + cabin.Name)
 		_, err = tx.Exec(
 			`INSERT INTO ApplicationCabins 
 			VALUES($1, $2, $3)
@@ -466,7 +464,7 @@ func (r repo) GetCurrentApplications(ctx *gin.Context) {
 // Retrieve all applications in database (receives NOTHING; returns []Application)
 func (r repo) GetAllApplications(ctx *gin.Context) {
 	// Get all applications from database
-	stmt := `SELECT * FROM Applications`
+	stmt := `SELECT * FROM Applications ORDER BY application_id`
 	args := []interface{}{}
 
 	applications, err, status := r.getApplications(ctx, stmt, args)

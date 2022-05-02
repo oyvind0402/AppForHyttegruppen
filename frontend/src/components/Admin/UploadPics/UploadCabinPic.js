@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import CarouselFromProps from '../../01-Reusable/ImageCarousel/CarouselFromProps';
 import './UploadCabinPic.css';
 
@@ -31,20 +31,37 @@ const UploadCabinPic = () => {
 
     handleShowingPictures(files);
 
-    // fetch('/pictures/one', {
-    //   method: 'POST',
-    //   body: formData,
-    //   headers: {
-    //     token: localStorage.getItem('refresh_token'),
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+    fetch('/pictures/one', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    /*
+      fetch('/pictures/main', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        token: localStorage.getItem('refresh_token'),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      */
     document.getElementById('image').value = null;
     console.log(uploadedImages);
   };
@@ -62,7 +79,7 @@ const UploadCabinPic = () => {
         name="Tilbake til last opp bilder"
         link="admin/lastoppbilder"
       />
-      <HeroBanner name={'Last opp bilder'} />
+      <AdminBanner name={'Last opp bilder'} />
       <div className="upload-cabin-pic-container">
         <div className="image-upload-wrapper">
           <p className="upload-title">Last opp bilder for {cabinName}</p>

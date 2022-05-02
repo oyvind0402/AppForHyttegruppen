@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './AddFAQ.css';
 
@@ -37,6 +37,8 @@ const AddFAQ = () => {
   const addQuestionAndAnswer = async () => {
     const question = document.getElementById('add-question').value;
     const answer = document.getElementById('add-answer').value;
+    document.getElementById('add-question').value = '';
+    document.getElementById('add-answer').value = '';
 
     setVisible(false);
     if (question.length === 0 || answer.length === 0) {
@@ -59,7 +61,7 @@ const AddFAQ = () => {
   return (
     <>
       <BackButton name="Tilbake til endre FAQ" link="admin/endrefaqs" />
-      <HeroBanner name="Legg til ofte stilte spørsmål og svar" />
+      <AdminBanner name="Legg til ofte stilte spørsmål og svar" />
       <div className="add-faq-container">
         <div className="add-faq-wrapper">
           <label className="add-faq-label">Spørsmål</label>

@@ -1,11 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import ExcelConverter from '../../01-Reusable/ExcelConverter/ExcelConverter';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknader.css';
 import Table from '../../01-Reusable/Table/Table';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import ExcelConverterPayCheck from '../../01-Reusable/ExcelConverter/ExcelPaycheckConverter';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const Applications = () => {
   const [allApplications, setAllApplications] = useState([]);
@@ -74,24 +75,13 @@ const Applications = () => {
     }
   };
 
-  function getFormattedDate(inDate) {
-    let date = new Date(inDate);
-    let year = date.getFullYear();
-
-    let month = (1 + date.getMonth()).toString();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    let day = date.getDate().toString();
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    return day + '/' + month + '/' + year;
-  }
-
   const pendingColumns = useMemo(() => [
     {
       Header: 'Enterprise ID',
+      accessor: 'accentureId',
+    },
+    {
+      Header: 'Ansattnummer',
       accessor: 'ansattnummerWBS',
     },
     {
@@ -109,8 +99,8 @@ const Applications = () => {
     {
       Header: 'Periode',
       accessor: 'period.name',
-      Cell: ({ cell: { value } }) => {
-        return <span>{value}</span>;
+      Cell: (props) => {
+        return <span>{props.row.original.period.name}</span>;
       },
     },
     {
@@ -140,11 +130,13 @@ const Applications = () => {
     {
       Header: 'Tildelt',
       Cell: (props) => {
+        console.log(props.row.original);
         let winner = props.row.original.winner;
         if (winner) {
           let end = new Date(props.row.original.period.end);
+          let start = new Date(props.row.original.period.start);
           let now = new Date();
-          if (end > now) {
+          if (start > now) {
             return (
               <>
                 <input
@@ -163,7 +155,14 @@ const Applications = () => {
               </>
             );
           } else {
-            if (props.row.original.cabinsWon.length > 1) {
+            let cabinWonLenght;
+            try {
+              cabinWonLenght = props.row.original.cabinsWon.length;
+            } catch (error) {
+              //Empty
+              return <span></span>;
+            }
+            if (cabinWonLenght > 1) {
               return (
                 <span>
                   {props.row.original.cabinsWon[0].map((cabin) => {
@@ -172,7 +171,7 @@ const Applications = () => {
                 </span>
               );
             }
-            if (props.row.original.cabinsWon.length === 1) {
+            if (cabinWonLenght === 1) {
               return <span>{props.row.original.cabinsWon[0].cabinName}</span>;
             }
           }
@@ -208,7 +207,6 @@ const Applications = () => {
 
   const addChangedTrip = (id) => {
     let winner = document.getElementById('winnercheck' + id).checked;
-    console.log(winner);
     let trip = {};
     allApplications.forEach((item) => {
       if (item.applicationId === id) {
@@ -216,8 +214,6 @@ const Applications = () => {
       }
     });
     trip.winner = winner;
-
-    console.log(trip.winner);
 
     let contains = false;
 
@@ -236,7 +232,6 @@ const Applications = () => {
     } else {
       _changedTrips.push(trip);
     }
-    console.log(_changedTrips);
   };
 
   const addAssignment = (id) => {
@@ -300,7 +295,6 @@ const Applications = () => {
           .then((data) => console.log(data))
           .catch((error) => console.log(error));
       });
-      localStorage.setItem('assignedCabins', _cabinWinners);
       fetchApplications();
       setAssigned(true);
     } else if (
@@ -342,13 +336,26 @@ const Applications = () => {
   useEffect(() => {
     setApplications(futurePending);
     document.getElementById('futurePending').checked = true;
+    document.getElementById('futureWinning').checked = false;
   }, [futurePending]);
 
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
-      <HeroBanner name="Alle søknader" />
-      {/* <ExcelConverter /> */}
+      <AdminBanner name="Alle søknader" />
+      {applications !== null ? (
+        <ExcelConverter data={applications} />
+      ) : (
+        <p className="hidden-text"></p>
+      )}
+      {applications !== null && applications === pastWinning ? (
+        <>
+          <br />
+          <ExcelConverterPayCheck data={applications} />
+        </>
+      ) : (
+        <p className="hidden-text"></p>
+      )}
       {applications === null && (
         <p className="application-title">Søknader / turer (0)</p>
       )}
@@ -394,7 +401,7 @@ const Applications = () => {
             }}
           />
           <label htmlFor="pastPending" className="checkbox-trip-label">
-            Tidligere søknader
+            Ikke tildelte søknader
           </label>
         </div>
         <div className="checkbox-trip-container" id="chckb3">
@@ -453,12 +460,15 @@ const Applications = () => {
         {applications !== null &&
           applications.length !== 0 &&
           applications !== pastPending &&
-          applications !== pastWinning && (
+          applications !== pastWinning &&
+          applications !== currentWinning && (
             <button
               onClick={() => postWinners(_cabinWinners)}
               className="btn big"
             >
-              {applications === futurePending ? 'Tildel hytter' : 'Endre turer'}
+              {applications === futurePending
+                ? 'Tildel hytter'
+                : 'Lagre endringer'}
             </button>
           )}
 
@@ -476,6 +486,7 @@ const Applications = () => {
           acceptMethod={() => {
             setApplications(futureWinning);
             document.getElementById('futureWinning').checked = true;
+            document.getElementById('futurePending').checked = false;
             setAssigned(false);
           }}
         />

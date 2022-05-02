@@ -60,9 +60,10 @@ const Step1 = (props) => {
     setEnterpriseId(document.getElementById('EnterpriseID').value);
   };
 
-  const handleEnterpriseId = (e) => {
+  //Can be used once login solution is in place
+  /*const handleEnterpriseId = (e) => {
     setEnterpriseId(e.target.value);
-  };
+  };*/
 
   return (
     <>

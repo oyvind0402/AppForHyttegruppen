@@ -365,6 +365,66 @@ func (r repo) UpdateCabin(ctx *gin.Context) {
 	ctx.JSON(200, preUpdateDoc)
 }
 
+func (r repo) UpdateCabinWithPicture(ctx *gin.Context) {
+	cabin := new(data.Cabin)
+	err := ctx.BindJSON(cabin)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	validated := utils.CheckCabinValidation(cabin.Name,
+		cabin.Address,
+		cabin.Coordinates.Latitude,
+		cabin.Coordinates.Longitude,
+		cabin.Directions,
+		cabin.LongDescription,
+		cabin.ShortDescription,
+		cabin.Price,
+		cabin.CleaningPrice,
+		cabin.Features.Bathrooms,
+		cabin.Features.SleepingSlots,
+		cabin.Features.Bedrooms)
+	if !validated {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Cabin input not valid!"})
+		return
+	}
+
+	var idlessCabin map[string]interface{}
+	inCabin, err := json.Marshal(cabin)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	if err = json.Unmarshal(inCabin, &idlessCabin); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"err": err.Error()})
+		return
+	}
+	delete(idlessCabin, "name")
+
+	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	filter := bson.D{primitive.E{Key: "_id", Value: cabin.Name}}
+	res := collection.FindOneAndReplace(
+		context.Background(), filter, idlessCabin)
+	if res.Err() == mongo.ErrNoDocuments {
+		ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"err": res.Err().Error()})
+		return
+	}
+	if res.Err() != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": res.Err().Error()})
+		return
+	}
+
+	// Retrieve response value
+	var preUpdateDoc data.Cabin
+	if err := res.Decode(&preUpdateDoc); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, preUpdateDoc)
+}
+
 //delete one cabin by name
 func (r repo) DeleteCabin(ctx *gin.Context) {
 	// Get cabin name from context

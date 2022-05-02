@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditFAQ.css';
 
@@ -91,7 +91,7 @@ const EditFAQ = () => {
         name="Tilbake til endre spørsmål og svar"
         link="admin/endrefaqs"
       />
-      <HeroBanner name="Endre FAQ" />
+      <AdminBanner name="Endre FAQ" />
       <div className="edit-faq-container">
         <div className="edit-faq-box">
           <label className="faq-title">Spørsmål</label>

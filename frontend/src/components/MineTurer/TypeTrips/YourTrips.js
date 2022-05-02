@@ -52,27 +52,27 @@ const YourTrips = () => {
   };
   return (
     <>
-      {futureTrips !== null ? (
+      {currentTrips !== null ? (
         <div className="mytrip-card-wrapper">
-          <p className="mytrip-title-empty">Dine godkjente turer:</p>
+          <p className="mytrip-title-empty">Dine nåværende turer:</p>
           <div className="trip-row-wrapper">
-            {futureTrips.map((trip, index) => (
+            {currentTrips.map((trip, index) => (
               <TripCardActive key={index} data={trip} />
             ))}
           </div>
         </div>
       ) : (
         <div className="mytrip-card-wrapper">
-          <p className="mytrip-title-empty">Dine godkjente turer:</p>
-          <p className="empty-trip">Ingen godkjente turer</p>
+          <p className="mytrip-title-empty">Dine nåværende turer:</p>
+          <p className="empty-trip">Ingen nåværende turer</p>
         </div>
       )}
-
-      {currentTrips !== null ? (
+      <hr />
+      {futureTrips !== null ? (
         <div className="mytrip-card-wrapper">
-          <p className="mytrip-title-empty">Dine nåværende turer:</p>
+          <p className="mytrip-title-empty">Dine godkjente turer:</p>
           <div className="trip-row-wrapper">
-            {currentTrips.map((trip, index) => (
+            {futureTrips.map((trip, index) => (
               <TripCardActive key={index} data={trip} />
             ))}
           </div>

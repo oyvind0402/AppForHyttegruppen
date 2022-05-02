@@ -22,7 +22,7 @@ const Step3 = (props) => {
   //Fetching
   useEffect(() => {
     async function fetchData() {
-      fetch('/cabin/all')
+      fetch('/cabin/active')
         .then((response) => response.json())
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));
@@ -40,7 +40,8 @@ const Step3 = (props) => {
       });
       setPickedCabins(newPickedCabins);
     }
-  }, [cabins]);
+    console.log(cabins);
+  }, [cabins, pickedCabins]);
 
   function updatePickedCabin(picked, index) {
     pickedCabins[index] = picked;
@@ -187,7 +188,7 @@ const Step3 = (props) => {
                 name="comments"
                 id="comments"
                 value={kommentar}
-                placeholder="Skriv en kommentar her..."
+                placeholder="Skriv gjerne hytteprioritet eller spesifikke ønsker.."
                 onChange={(e) => setKommentar(e.target.value)}
               ></textarea>
             </div>
