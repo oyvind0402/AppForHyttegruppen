@@ -27,7 +27,7 @@ func CreateTokens(email string) (signedToken string, signedRefreshToken string, 
 
 	refreshTokenClaims := &SignedDetails{
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(3000)).Unix(),
+			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(24) * 3000).Unix(),
 		},
 	}
 
