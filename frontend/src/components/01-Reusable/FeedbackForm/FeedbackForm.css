@@ -1,3 +1,10 @@
+.empty-btn {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background-color: none;
+}
+
 .feedback-container {
   display: grid;
   grid-template-columns: 1fr;
