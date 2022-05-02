@@ -1,5 +1,7 @@
 .FAQ {
   margin: 20px 0 20px 0;
+  width: 100%;
+  text-align: left;
   padding: 15px;
   background-color: #f4f4f4;
   border-radius: 2px;
@@ -21,20 +23,11 @@
 .FAQs .FAQ .FAQ-question::after {
   content: '>';
 
-  /*Instead of the content we can use the logo right here*/
-  /*
-    background-image: url('');
-	background-position: center;
-	background-size: contain;
-	background-repeat: no-repeat;
-  */
-
   position: absolute;
   top: 50%;
   left: 0px;
   transform: translateY(-50%);
   width: 30px;
-  height: 30px;
 
   color: #d182ff;
   font-weight: bold;

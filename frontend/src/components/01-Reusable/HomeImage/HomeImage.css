@@ -24,9 +24,10 @@
   content: '>';
 
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 0.75rem;
   transform: translateY(-50%);
+  height: 3rem;
 
   font-size: 2rem;
 
