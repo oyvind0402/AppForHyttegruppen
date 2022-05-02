@@ -160,6 +160,7 @@ const Step3 = (props) => {
                 onChange={(event) => {
                   setCabinAssigment(event.target.value);
                   setShowFeedbackAssignment(false);
+                  setShowFeedbackCabins(false);
                 }}
               />
               <label htmlFor="random">Jeg ønsker tilfeldig tildeling</label>
@@ -174,6 +175,7 @@ const Step3 = (props) => {
                 onChange={(event) => {
                   setCabinAssigment(event.target.value);
                   setShowFeedbackAssignment(false);
+                  setShowFeedbackCabins(false);
                 }}
               />
               <label htmlFor="pickSelf">Jeg ønsker å velge hyttene selv</label>
