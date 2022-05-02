@@ -1,7 +1,4 @@
 import './CabinCard.css';
-import { BiBed } from 'react-icons/bi';
-import { BiBath } from 'react-icons/bi';
-import { GrMoney } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 
 const AdminPictureSlettCabinCard = (props) => {

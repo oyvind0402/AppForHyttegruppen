@@ -41,7 +41,7 @@ const SignupForm = () => {
 
     if (!values.email.trim()) {
       errors.email = 'Epost må fylles inn!';
-    } else if (!/^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/i.test(values.email)) {
+    } else if (!/^([\w.-]+)@([\w-]+)((.(\w){2,3})+)$/i.test(values.email)) {
       errors.email = 'Feil format på epost!';
     }
 

@@ -41,7 +41,7 @@ const Step3 = (props) => {
       setPickedCabins(newPickedCabins);
     }
     console.log(cabins);
-  }, [cabins]);
+  }, [cabins, pickedCabins]);
 
   function updatePickedCabin(picked, index) {
     pickedCabins[index] = picked;

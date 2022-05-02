@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import AdminBanner from '../01-Reusable/HeroBanner/AdminBanner';
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './Admin.css';
 
 const Admin = () => {

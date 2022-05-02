@@ -45,6 +45,7 @@ const NeedsAttentionTrips = () => {
                 anyFeedback = true;
                 return <TripCardActionReq key={index} data={trip} />;
               }
+              return <></>;
             })}
           </div>
           <div className="trip-row-wrapper">
@@ -53,6 +54,7 @@ const NeedsAttentionTrips = () => {
                 anyFeedback = true;
                 return <TripCardActionReq key={index} data={trip} />;
               }
+              return <></>;
             })}
           </div>
         </div>

@@ -10,7 +10,6 @@ const MapCabins = (props) => {
 
   const cabins = props.cabins;
   const [cabinCard, setCabinCard] = useState('');
-  const [, updateState] = useState();
 
   useEffect(() => {
     function handleResize() {

@@ -60,44 +60,6 @@ const MinTur = () => {
     return day + '/' + month + '/' + year;
   }
 
-  async function getTrip() {
-    const response = await fetch('/application/' + pageID);
-
-    const data = await response.json();
-    if (response.ok) {
-      setTrip(data);
-
-      const start = new Date(data.period.start);
-      const end = new Date(data.period.end);
-      setEnd(end);
-      setStart(start);
-
-      if (start > Date.now() && !data.winner) {
-        setPending(true);
-        setFuture(false);
-        setCurrent(false);
-        setFormer(false);
-      } else if (start <= Date.now() && end >= Date.now() && data.winner) {
-        setCurrent(true);
-        setFuture(false);
-        setPending(false);
-        setFormer(false);
-      } else if (end < Date.now() && data.winner) {
-        setFormer(true);
-        setCurrent(false);
-        setPending(false);
-        setFuture(false);
-      } else if (start > Date.now() && data.winner) {
-        setFuture(true);
-        setCurrent(false);
-        setPending(false);
-        setFormer(false);
-      }
-    } else {
-      history.goBack();
-    }
-  }
-
   const handleVisibility = () => {
     setVisible(!visible);
   };
@@ -124,14 +86,53 @@ const MinTur = () => {
 
     const data = await response.json();
     if (response.ok) {
+      console.log(data);
       // TODO Send email to admin here if the user cancels their trip
       history.goBack();
     }
   };
 
   useEffect(() => {
+    async function getTrip() {
+      const response = await fetch('/application/' + pageID);
+
+      const data = await response.json();
+      if (response.ok) {
+        setTrip(data);
+
+        const start = new Date(data.period.start);
+        const end = new Date(data.period.end);
+        setEnd(end);
+        setStart(start);
+
+        if (start > Date.now() && !data.winner) {
+          setPending(true);
+          setFuture(false);
+          setCurrent(false);
+          setFormer(false);
+        } else if (start <= Date.now() && end >= Date.now() && data.winner) {
+          setCurrent(true);
+          setFuture(false);
+          setPending(false);
+          setFormer(false);
+        } else if (end < Date.now() && data.winner) {
+          setFormer(true);
+          setCurrent(false);
+          setPending(false);
+          setFuture(false);
+        } else if (start > Date.now() && data.winner) {
+          setFuture(true);
+          setCurrent(false);
+          setPending(false);
+          setFormer(false);
+        }
+      } else {
+        history.goBack();
+      }
+    }
+
     getTrip();
-  }, []);
+  }, [pageID, history]);
 
   if (future && trip.winner) {
     return (
