@@ -15,20 +15,25 @@ const Cabin = () => {
   const [cabinData, setCabinData] = useState('');
   const [cabins, setCabins] = useState([]);
   const [infoTab, setInfoTab] = useState(0);
+  const [pageID, setPageID] = useState('');
 
-  const link = window.location.href;
-  const pageID = link.split('/');
+  useEffect(() => {
+    const link = window.location.href;
+    const hytte = link.split('/')[4];
+    setPageID(hytte);
+  }, []);
 
   useEffect(() => {
     async function getCabin(pageId) {
-      fetch(`/cabin/${pageId}`, {
-        method: 'GET',
-      })
+      fetch(`/cabin/` + pageId)
         .then((response) => response.json())
         .then((data) => setCabinData(data))
         .catch((error) => console.log(error));
     }
-    getCabin(pageID[pageID.length - 1]);
+
+    if (pageID !== '') {
+      getCabin(pageID);
+    }
   }, [pageID]);
 
   useEffect(() => {

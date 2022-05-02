@@ -16,6 +16,7 @@ export const TabPicker = (props) => {
             }
             name={val}
             onClick={() => props.setInfoTab(index)}
+            key={index}
           />
         );
       })}
