@@ -68,13 +68,13 @@ const Step1 = (props) => {
   return (
     <>
       <div className="step-soknad">
-        <div
+        <button
           className="stepQuestion"
           onClick={() => setShowExtraInfo(!showExtraInfo)}
         >
           <BsQuestionCircle className="soknad-question-icon" />
           <p className="soknad-question-text">Hva er grunnen for oppholdet</p>
-        </div>
+        </button>
         {showExtraInfo && (
           <div className="step-extra-info-div">
             <p className="step-extra-info-p">
@@ -94,10 +94,15 @@ const Step1 = (props) => {
               checked={radioPrivatProject === 'Privat'}
               onChange={(e) => handleTypeTrip(e)}
             />
-            <label className="soknad-radio-text" htmlFor="privat">
-              <RiSuitcase2Line className="soknad-step1-icon" />
-              Privat
-            </label>
+            <button
+              className="step1-radiobutton"
+              onClick={() => setRadioPrivatProject('Privat')}
+            >
+              <label className="soknad-radio-text" htmlFor="privat">
+                <RiSuitcase2Line className="soknad-step1-icon" />
+                Privat
+              </label>
+            </button>
           </div>
           <div>
             <input
@@ -109,9 +114,14 @@ const Step1 = (props) => {
               checked={radioPrivatProject === 'Prosjekt'}
               onChange={(e) => handleTypeTrip(e)}
             />
-            <label className="soknad-radio-text" htmlFor="prosjekt">
-              <RiSuitcaseLine className="soknad-step1-icon" /> Prosjekt
-            </label>
+            <button
+              className="step1-radiobutton"
+              onClick={() => setRadioPrivatProject('Prosjekt')}
+            >
+              <label className="soknad-radio-text" htmlFor="prosjekt">
+                <RiSuitcaseLine className="soknad-step1-icon" /> Prosjekt
+              </label>
+            </button>
           </div>
         </div>
 

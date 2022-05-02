@@ -7,63 +7,63 @@ const Progressbar = (props) => {
 
   if (props.page === 1) {
     step1 = (
-      <p id="step1" className="progress-step activeProgress">
+      <button id="step1" className="progress-step activeProgress">
         1. Info
-      </p>
+      </button>
     );
     step2 = (
-      <p id="step2" className="progress-step not-activeProgress">
+      <button id="step2" className="progress-step not-activeProgress">
         2. Perioder
-      </p>
+      </button>
     );
     step3 = (
-      <p id="step3" className="progress-step not-activeProgress">
+      <button id="step3" className="progress-step not-activeProgress">
         3. Hytter
-      </p>
+      </button>
     );
   } else if (props.page === 2) {
     step1 = (
-      <p
+      <button
         id="step1"
         className="progress-step passedProgress"
         onClick={() => props.clickOnProgressbar(1)}
       >
         1. Info
-      </p>
+      </button>
     );
     step2 = (
-      <p id="step2" className="progress-step activeProgress">
+      <button id="step2" className="progress-step activeProgress">
         2. Perioder
-      </p>
+      </button>
     );
     step3 = (
-      <p id="step3" className="progress-step not-activeProgress">
+      <button id="step3" className="progress-step not-activeProgress">
         3. Hytter
-      </p>
+      </button>
     );
   } else {
     step1 = (
-      <p
+      <button
         id="step1"
         className="progress-step passedProgress"
         onClick={() => props.clickOnProgressbar(1)}
       >
         1. Info
-      </p>
+      </button>
     );
     step2 = (
-      <p
+      <button
         id="step2"
         className="progress-step passedProgress"
         onClick={() => props.clickOnProgressbar(2)}
       >
         2. Perioder
-      </p>
+      </button>
     );
     step3 = (
-      <p id="step3" className="progress-step activeProgress">
+      <button id="step3" className="progress-step activeProgress">
         3. Hytter
-      </p>
+      </button>
     );
   }
 

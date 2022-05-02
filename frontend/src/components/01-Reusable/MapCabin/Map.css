@@ -14,7 +14,7 @@
 
 .map-elements {
   width: 80%;
-  margin: 40px auto 20px auto;
+  margin: 150px auto -80px auto;
 }
 
 .map-zoom-elements {
@@ -32,13 +32,41 @@
   width: 5rem;
   background-color: white;
   border-radius: 0.25rem;
-  border-color: #bd00ff;
+  border: 2px solid #bd00ff;
+  box-shadow: 0px 0px 2px 2px #e5e5e5;
   font-size: 3rem;
 }
 
 .map-zoom-btn:hover {
   cursor: pointer;
   background-color: #eaddff;
+}
+
+.cabincardmap-btn {
+  border-radius: 100rem;
+  background-color: white;
+  border: none;
+  font-size: 3rem;
+  height: fit-content;
+  width: fit-content;
+  margin: 0.5rem;
+  padding: 1px 0;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 0px 2px 2px #e5e5e5;
+}
+
+.cabincardmap-btn:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+}
+
+.cabincardmap-btn:hover svg polyline {
+  stroke: black;
+}
+
+.cabincardmap-btn svg polyline {
+  stroke: #bd00ff;
 }
 
 @media only screen and (max-width: 900px) {
