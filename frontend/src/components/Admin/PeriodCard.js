@@ -26,7 +26,13 @@ const PeriodCard = (props) => {
         {props.children[3]}
         {props.children[4]}
         <div className="justify-end-expanded">
-          <button className="btn-tiny" onClick={handleExpanded}>
+          <button
+            className="btn-tiny"
+            onClick={() => {
+              props.method();
+              handleExpanded();
+            }}
+          >
             Lagre
           </button>
         </div>
