@@ -36,7 +36,7 @@
 }
 
 .FAQs .FAQ.open .FAQ-question::after {
-  transform: translateY(-40%) rotate(90deg);
+  transform: translateY(-40%) translateX(-25%) rotate(90deg);
 }
 
 .FAQs .FAQ .FAQ-answer {
