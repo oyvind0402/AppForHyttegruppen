@@ -74,7 +74,7 @@ const Cabin = () => {
             <div className="map-elements">
               <MapSingleCabin
                 cabins={cabins}
-                pickedCabin={cabins[0]}
+                pickedCabin={cabinData}
                 zoom={zoom}
                 setZoom={setZoom}
               />

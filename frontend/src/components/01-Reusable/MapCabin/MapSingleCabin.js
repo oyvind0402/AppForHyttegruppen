@@ -8,7 +8,7 @@ import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 const MapCabins = (props) => {
   const color = `hsl(271, 76%, 53%)`;
   const cabins = props.cabins;
-  const [pickedCabin, setPickedCabin] = useState(cabins[0]);
+  const [pickedCabin, setPickedCabin] = useState(props.pickedCabin);
   const [cabinCard, setCabinCard] = useState(pickedCabin);
   const [center, setCenter] = useState([
     cabinCard.coordinates.latitude,
