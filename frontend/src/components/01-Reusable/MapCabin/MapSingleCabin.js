@@ -3,17 +3,26 @@ import { Map, Marker } from 'pigeon-maps';
 import Cluster from 'pigeon-cluster';
 import CabinCardMap from '../CabinCard/CabinCardMap';
 import { useState, useEffect } from 'react';
+import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 
 const MapCabins = (props) => {
   const color = `hsl(271, 76%, 53%)`;
   const cabins = props.cabins;
-  const [cabinCard, setCabinCard] = useState(props.pickedCabin);
-  const pickedCabin = props.pickedCabin;
+  const [pickedCabin, setPickedCabin] = useState(cabins[0]);
+  const [cabinCard, setCabinCard] = useState(pickedCabin);
   const [center, setCenter] = useState([
-    pickedCabin.coordinates.latitude,
-    pickedCabin.coordinates.longitude,
+    cabinCard.coordinates.latitude,
+    cabinCard.coordinates.longitude,
   ]);
   const zoom = props.zoom;
+
+  useEffect(() => {
+    setPickedCabin(props.pickedCabin);
+  });
+
+  useEffect(() => {
+    setPickedCabin(cabinCard);
+  }, [cabinCard]);
 
   useEffect(() => {
     function handleResize() {
@@ -29,6 +38,42 @@ const MapCabins = (props) => {
 
     window.addEventListener('resize', handleResize);
   });
+
+  const nextCabin = () => {
+    let newCabin;
+    if (cabins.indexOf(cabinCard) === cabins.length - 1) {
+      newCabin = cabins[0];
+    } else {
+      newCabin = cabins[cabins.indexOf(cabinCard) + 1];
+    }
+    setCabinCard(newCabin);
+    setCenter([newCabin.coordinates.latitude, newCabin.coordinates.longitude]);
+    resetMarkers();
+  };
+
+  const prevCabin = () => {
+    let newCabin;
+    if (cabins.indexOf(cabinCard) === 0) {
+      newCabin = cabins[cabins.length - 1];
+    } else {
+      newCabin = cabins[cabins.indexOf(cabinCard) - 1];
+    }
+    setCabinCard(newCabin);
+    setCenter([newCabin.coordinates.latitude, newCabin.coordinates.longitude]);
+    resetMarkers();
+  };
+
+  const resetMarkers = () => {
+    const listMarkers = document.getElementsByClassName('clicked');
+    console.log(listMarkers);
+    for (let i = 0; i < listMarkers.length; i++) {
+      try {
+        listMarkers[i].classList.remove('clicked');
+      } catch (error) {
+        //no sush class
+      }
+    }
+  };
 
   return (
     <>
@@ -47,11 +92,7 @@ const MapCabins = (props) => {
               {cabins.map((cabin, index) => {
                 let cabinPicked = false;
                 //if cabin is same as picked and the cabinCard name = picked than the color is set to gray
-                if (
-                  cabin.name === pickedCabin.name &&
-                  cabinCard.name === pickedCabin.name
-                )
-                  cabinPicked = true;
+                if (cabin.name === cabinCard.name) cabinPicked = true;
                 return (
                   <Marker
                     key={index}
@@ -87,11 +128,17 @@ const MapCabins = (props) => {
         </Map>
       </div>
       <div className="cabincardmap">
+        <button className="cabincardmap-btn" onClick={prevCabin}>
+          <GrFormPrevious />
+        </button>
         {cabinCard.name === pickedCabin.name ? (
           <CabinCardMap cabin={cabinCard} showSeeMore={true} />
         ) : (
           <CabinCardMap cabin={cabinCard} showSeeMore={true} />
         )}
+        <button className="cabincardmap-btn" onClick={nextCabin}>
+          <GrFormNext />
+        </button>
       </div>
     </>
   );
