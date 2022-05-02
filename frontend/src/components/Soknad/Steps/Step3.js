@@ -94,11 +94,11 @@ const Step3 = (props) => {
       return;
     }
 
+    const step3Data = getCurrentData();
     if (cabinAssigment === 'Spesifikk' && valgteCabins.length === 0) {
       setShowFeedbackCabins(true);
       return;
     }
-    const step3Data = getCurrentData();
     props.completeForm(step3Data);
   };
 
