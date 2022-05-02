@@ -37,13 +37,16 @@
 
 .soknad-step2-checkbox {
   width: 100%;
-  visibility: hidden;
   height: 0px;
 }
 
 .soknad-step2-checkbox:checked ~ .soknad-step2-label {
   background-color: #bc01ff;
   color: white;
+}
+
+.soknad-step2-checkbox:focus-visible ~ .soknad-step2-label {
+  outline: black 2px solid;
 }
 
 .soknad-step2-btns {

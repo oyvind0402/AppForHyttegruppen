@@ -163,6 +163,10 @@ const Step2 = (props) => {
                       type="checkbox"
                       id={period.id}
                       name={period.id}
+                      tabIndex={'0'}
+                      onKeyPress={(e) => {
+                        e.target.checked = !e.target.checked;
+                      }}
                     />
                     <label className="soknad-step2-label" htmlFor={period.id}>
                       {period.name} ({changeDate(period.start)} -{' '}
