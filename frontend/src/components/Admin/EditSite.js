@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import BackButton from '../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../01-Reusable/HeroBanner/AdminBanner';
 import './EditSite.css';
 
 const EditSite = () => {
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
-      <HeroBanner name="Endre sideinnhold" />
+      <AdminBanner name="Endre sideinnhold" />
 
       <Link className="btn-link btn big" to="/admin/leggtilhytte">
         Legg til hytte
