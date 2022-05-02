@@ -12,6 +12,7 @@ const Applications = () => {
   const [allApplications, setAllApplications] = useState([]);
   const [applications, setApplications] = useState([]);
   const [pastWinning, setPastWinning] = useState([]);
+  const [pastWinningCopy, setPastWinningCopy] = useState([]);
   const [futureWinning, setFutureWinning] = useState([]);
   const [currentWinning, setCurrentWinning] = useState([]);
   const [pastPending, setPastPending] = useState([]);
@@ -19,6 +20,7 @@ const Applications = () => {
   const [assigned, setAssigned] = useState(false);
   const [edited, setEdited] = useState(false);
   const [cabins, setCabins] = useState([]);
+  const [seasons, setSeasons] = useState([]);
   const [errors, setErrors] = useState({});
   let _cabinWinners = [];
   let _changedTrips = [];
@@ -29,6 +31,14 @@ const Applications = () => {
 
   const handleEdited = () => {
     setEdited(!edited);
+  };
+
+  const fetchSeasons = async () => {
+    const response = await fetch('/season/all');
+    const data = await response.json();
+    if (response.ok) {
+      setSeasons(data);
+    }
   };
 
   const fetchApplications = async () => {
@@ -52,6 +62,7 @@ const Applications = () => {
 
     if (pastWinners.ok) {
       setPastWinning(pastWinnersData);
+      setPastWinningCopy(pastWinnersData);
     }
     if (futureWinners.ok) {
       setFutureWinning(futureWinnersData);
@@ -130,7 +141,6 @@ const Applications = () => {
     {
       Header: 'Tildelt',
       Cell: (props) => {
-        console.log(props.row.original);
         let winner = props.row.original.winner;
         if (winner) {
           let end = new Date(props.row.original.period.end);
@@ -147,9 +157,11 @@ const Applications = () => {
                     addChangedTrip(props.row.original.applicationId);
                   }}
                 />
+                <br />
                 <span>
+                  Tildelte hytte(r): <br />
                   {props.row.original.cabinsWon.map((cabin) => {
-                    return cabin.cabinName;
+                    return cabin.cabinName + ' ';
                   })}
                 </span>
               </>
@@ -328,9 +340,25 @@ const Applications = () => {
     }
   };
 
+  const filterSeason = (type) => {
+    if (type === 'all') {
+      setPastWinning(pastWinningCopy);
+      setApplications(pastWinningCopy);
+    } else {
+      const filteredTrips = pastWinningCopy.filter((trip) => {
+        if (trip.period.season.seasonName === type) {
+          return trip;
+        }
+      });
+      setApplications(filteredTrips);
+      setPastWinning(filteredTrips);
+    }
+  };
+
   useEffect(() => {
     fetchApplications();
     fetchCabins();
+    fetchSeasons();
   }, []);
 
   useEffect(() => {
@@ -348,7 +376,9 @@ const Applications = () => {
       ) : (
         <p className="hidden-text"></p>
       )}
-      {applications !== null && applications === pastWinning ? (
+      {applications !== null &&
+      applications === pastWinning &&
+      pastWinning.length !== 0 ? (
         <>
           <br />
           <ExcelConverterPayCheck data={applications} />
@@ -450,6 +480,26 @@ const Applications = () => {
           </label>
         </div>
       </div>
+
+      {applications !== null &&
+        applications === pastWinning &&
+        seasons !== null && (
+          <div className="filter-container">
+            <select
+              onChange={(e) => filterSeason(e.target.value)}
+              className="season-filter"
+            >
+              <option value="all">Alle sesonger</option>
+              {seasons.map((season, index) => {
+                return (
+                  <option key={index} value={season.seasonName}>
+                    {season.seasonName}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        )}
 
       <div>
         {applications !== null && applications.length !== 0 ? (
