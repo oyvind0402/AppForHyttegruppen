@@ -11,6 +11,11 @@
   margin: -1.5rem 0 0 0;
 }
 
+.soknad-error-cabins {
+  text-align: center;
+  margin-top: 0;
+}
+
 .step3-radio {
   margin-bottom: 4.75rem;
 }

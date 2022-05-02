@@ -15,10 +15,13 @@ const Step3 = (props) => {
   );
   const [kommentar, setKommentar] = useState(props.formData.kommentar);
   const [showFeedBackNumber, setShowFeedBackNumber] = useState(false);
+  const [showFeedbackAssignment, setShowFeedbackAssignment] = useState(false);
+  const [showFeedbackCabins, setShowFeedbackCabins] = useState(false);
 
   const [cabins, setCabins] = useState([]);
   const [pickedCabins, setPickedCabins] = useState([]);
 
+  let valgteCabins = [];
   //Fetching
   useEffect(() => {
     async function fetchData() {
@@ -44,12 +47,11 @@ const Step3 = (props) => {
 
   function updatePickedCabin(picked, index) {
     pickedCabins[index] = picked;
+    setShowFeedbackCabins(false);
   }
 
   //Getting current input data
   const getCurrentData = () => {
-    let valgteCabins = [];
-
     if (cabinAssigment === 'Tilfeldig') {
       valgteCabins = cabins.map((cabin) => {
         return { cabinName: cabin.name };
@@ -86,7 +88,17 @@ const Step3 = (props) => {
       setShowFeedBackNumber(true);
       return;
     }
+
+    if (cabinAssigment === 'random') {
+      setShowFeedbackAssignment(true);
+      return;
+    }
+
     const step3Data = getCurrentData();
+    if (cabinAssigment === 'Spesifikk' && valgteCabins.length === 0) {
+      setShowFeedbackCabins(true);
+      return;
+    }
     props.completeForm(step3Data);
   };
 
@@ -146,7 +158,11 @@ const Step3 = (props) => {
                 name="cabinChoice"
                 value="Tilfeldig"
                 checked={cabinAssigment === 'Tilfeldig' ? true : false}
-                onChange={(event) => setCabinAssigment(event.target.value)}
+                onChange={(event) => {
+                  setCabinAssigment(event.target.value);
+                  setShowFeedbackAssignment(false);
+                  setShowFeedbackCabins(false);
+                }}
               />
               <label htmlFor="random">Jeg ønsker tilfeldig tildeling</label>
             </div>
@@ -157,10 +173,19 @@ const Step3 = (props) => {
                 name="cabinChoice"
                 value="Spesifikk"
                 checked={cabinAssigment === 'Spesifikk' ? true : false}
-                onChange={(event) => setCabinAssigment(event.target.value)}
+                onChange={(event) => {
+                  setCabinAssigment(event.target.value);
+                  setShowFeedbackAssignment(false);
+                  setShowFeedbackCabins(false);
+                }}
               />
               <label htmlFor="pickSelf">Jeg ønsker å velge hyttene selv</label>
             </div>
+            {showFeedbackAssignment && (
+              <p className="soknad-error">
+                <BsExclamationTriangle /> Du må velge type tildeling!
+              </p>
+            )}
           </div>
         )}
 
@@ -178,6 +203,11 @@ const Step3 = (props) => {
                 );
               })}
             </div>
+            {showFeedbackCabins && (
+              <p className="soknad-error soknad-error-cabins">
+                <BsExclamationTriangle /> Du må velge minst en hytte!
+              </p>
+            )}
             <div className="soknad-step3-antall">
               <label className="soknad-label" htmlFor="comments">
                 Kommentar
@@ -187,7 +217,7 @@ const Step3 = (props) => {
                 name="comments"
                 id="comments"
                 value={kommentar}
-                placeholder="Skriv gjerne hytteprioritet eller spesifikke ønsker.."
+                placeholder="Skriv gjerne hytteprioritet eller spesifikke ønsker hvis du vil.."
                 onChange={(e) => setKommentar(e.target.value)}
               ></textarea>
             </div>
