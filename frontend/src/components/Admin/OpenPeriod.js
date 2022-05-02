@@ -320,6 +320,16 @@ const OpenPeriod = () => {
     setPeriods([..._periods]);
   };
 
+  const handleSaveEditing = (period) => {
+    const name = document.getElementById('gen-period-name').value;
+    const startdate = document.getElementById('gen-period-startdate').value;
+    const enddate = document.getElementById('gen-period-enddate').value;
+    period.name = name;
+    period.start = setDateObject(startdate);
+    period.end = setDateObject(enddate);
+    setPeriods([...periods]);
+  };
+
   /**
    * Setting initial values to the date input fields
    */
@@ -434,7 +444,7 @@ const OpenPeriod = () => {
               console.log(period);
               return (
                 <div key={index} className="periodcard-container">
-                  <PeriodCard>
+                  <PeriodCard method={() => handleSaveEditing(period)}>
                     <p className="gen-period-week">{period.name}</p>
                     <p className="gen-period-date">
                       {getFormattedDate(period.start) +
@@ -448,13 +458,7 @@ const OpenPeriod = () => {
                       <input
                         type="text"
                         className="gen-period-input"
-                        value={period.name}
-                        onChange={(e) => {
-                          if (e.target.value.length > 0) {
-                            period.name = e.target.value;
-                            setPeriods([...periods]);
-                          }
-                        }}
+                        defaultValue={period.name}
                         id="gen-period-name"
                       />
                     </div>
@@ -464,16 +468,7 @@ const OpenPeriod = () => {
                       <input
                         type="date"
                         id="gen-period-startdate"
-                        value={setDefaultDateValue(period.start)}
-                        onChange={(e) => {
-                          if (
-                            setDateObject(e.target.value).toString() !==
-                            'Invalid Date'
-                          ) {
-                            period.start = setDateObject(e.target.value);
-                            setPeriods([...periods]);
-                          }
-                        }}
+                        defaultValue={setDefaultDateValue(period.start)}
                         className="gen-period-input"
                       />
                     </div>
@@ -483,16 +478,7 @@ const OpenPeriod = () => {
                         type="date"
                         id="gen-period-enddate"
                         className="gen-period-input"
-                        value={setDefaultDateValue(period.end)}
-                        onChange={(e) => {
-                          if (
-                            setDateObject(e.target.value).toString() !==
-                            'Invalid Date'
-                          ) {
-                            period.end = setDateObject(e.target.value);
-                            setPeriods([...periods]);
-                          }
-                        }}
+                        defaultValue={setDefaultDateValue(period.end)}
                       />
                     </div>
                   </PeriodCard>
