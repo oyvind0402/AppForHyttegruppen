@@ -7,7 +7,7 @@ const EditSite = () => {
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
-      <AdminBanner name="Endre sideinnhold" />
+      <AdminBanner name="Endre nettside innhold" />
 
       <Link className="btn-link btn big" to="/admin/leggtilhytte">
         Legg til hytte
