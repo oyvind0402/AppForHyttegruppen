@@ -3,25 +3,30 @@ import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
 import HomeImage from '../01-Reusable/HomeImage/HomeImage';
 import { FaRegUserCircle, FaQuestionCircle } from 'react-icons/fa';
 import './Home.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import LoginContext from '../../LoginContext/login-context';
 
 const Home = () => {
-  const [soknadOpen, setSoknadOpen] = useState(true);
+  const [soknadOpen, setSoknadOpen] = useState(false);
   const [soknadEndDate, setsoknadEndDate] = useState('');
+  const loginContext = useContext(LoginContext);
 
-  useEffect(async () => {
+  useEffect(() => {
     async function fetchData() {
-      fetch('/season/getcurrentopen')
-        .then((response) => response.json())
-        .then((data) => {
-          setSoknadOpen(data.isOpen);
+      const response = await fetch('/season/open');
+      const data = await response.json();
+      if (response.ok) {
+        setSoknadOpen(data.isOpen);
+        if (data.isOpen) {
           let date;
-          date = data.seasons[0].lastDay.replace('T00:00:00Z', '');
+          date = data.seasons[0].applyUntil.replace('T00:00:00Z', '');
           const dates = date.split('-');
           setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
-        })
-        .catch((error) => console.log(error));
+        }
+      } else {
+        console.log(response);
+      }
     }
     fetchData();
   }, []);
@@ -31,18 +36,36 @@ const Home = () => {
       <HeroBanner />
       <div className="home-display">
         <div className="home-application">
-          <h2 className="home-h2">Søknadsperiod er</h2>
+          <h2 className="home-h2">Søknadsperioden er</h2>
           <h2 className="home-h2 soknad-open">
             {soknadOpen ? 'åpen' : 'stengt'}
           </h2>
-          {soknadOpen ? (
+          {soknadOpen && loginContext.loggedIn ? (
             <BigButtonLink name="Søk på hytte" link="/soknad" />
           ) : (
             ''
           )}
-          {soknadOpen ? (
+          {!soknadOpen && loginContext.adminAccess ? (
+            <BigButtonLink
+              name="Åpne søknadsperiode"
+              link="/admin/startsoknad"
+            />
+          ) : null}
+          {soknadOpen && !loginContext.loggedIn ? (
+            <BigButtonLink name="Logg inn" link="/login" />
+          ) : null}
+          {soknadOpen && loginContext.loggedIn ? (
             <p className="home-soknad-closes">
               Søknadsperioden stenger {soknadEndDate}
+            </p>
+          ) : (
+            ''
+          )}
+          {soknadOpen && !loginContext.loggedIn ? (
+            <p className="home-soknad-closes">
+              Søknadsperioden stenger {soknadEndDate}
+              <br />
+              Logg inn for å søke på hytter!
             </p>
           ) : (
             ''

@@ -48,6 +48,17 @@
   grid-template-columns: repeat(6, auto);
 }
 
+.nav-list-smaller {
+  text-align: center;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+}
+
+.nav-text {
+  padding-bottom: 4px;
+}
+
 .nav-list-item {
   text-decoration: none;
   font-size: 1.5rem;
@@ -69,6 +80,9 @@
   text-decoration: none;
   font-size: 1.5rem;
   color: black;
+  border: none;
+  padding: 0;
+  background-color: transparent;
   transition: border 500s ease-in;
   background-size: 0% 3px;
   background-position: 0% 100%;
@@ -92,6 +106,8 @@
   background-image: linear-gradient(black, black);
   transition: background 0.3s linear;
   margin-left: 5%;
+  line-height: 1.5rem;
+  margin-bottom: 3px;
 }
 
 .active {
@@ -112,7 +128,7 @@
 
 .right-side {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   padding-right: 1.875rem;
 }
@@ -161,13 +177,18 @@
   .nav-list {
     grid-template-columns: repeat(3, auto);
   }
-  .nav-list-item {
-    padding: 0.3125rem;
+
+  .nav-list-smaller {
+    grid-template-columns: repeat(4, auto);
   }
 }
 
-@media only screen and (max-width: 835px) {
+@media only screen and (max-width: 715px) {
   .nav-list {
+    display: none;
+  }
+
+  .nav-list-smaller {
     display: none;
   }
 
@@ -244,7 +265,7 @@
     font-size: 3rem;
     color: #bd00ff;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .active:hover {
@@ -254,5 +275,11 @@
   .active {
     text-decoration: underline;
     color: #8900c5;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .mobile-menu span {
+    font-size: 2rem;
   }
 }

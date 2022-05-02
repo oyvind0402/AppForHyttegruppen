@@ -41,7 +41,7 @@
 .season-date-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   grid-gap: 0.625rem;
 }
@@ -52,6 +52,9 @@
 }
 
 .handling-info {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
   display: grid;
   grid-template-areas:
     'a'
@@ -62,13 +65,19 @@
     'f';
   height: 100%;
   align-items: flex-end;
-  justify-content: end;
-  padding-right: 10%;
+  justify-content: flex-end;
+  padding-right: 3%;
 }
 
 .warning {
   text-align: center;
   grid-area: f;
+}
+
+.warning:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: red;
 }
 
 .warning-icon {
@@ -93,8 +102,8 @@
     'b'
     'c'
     'd';
-  justify-content: end;
-  align-items: end;
+  justify-content: flex-end;
+  align-items: flex-end;
   padding-right: 10%;
 }
 
@@ -110,19 +119,26 @@
 .pending-container {
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .pending-icon {
   font-size: 2.5rem;
 }
 
+.relative-container {
+  position: relative;
+}
+
 .cancel-container {
   display: flex;
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   grid-area: d;
+  margin-bottom: 0.5rem;
 }
 
 .cancel-icon {
@@ -132,7 +148,16 @@
 
 .cancel-text {
   font-weight: 700;
+  margin: 0;
+  line-height: 1rem;
+  font-size: 1rem;
+  height: 1rem;
+}
+
+.cancel-container:hover {
   text-decoration: underline;
+  color: red;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 1795px) {
@@ -372,24 +397,34 @@
 }
 
 @media only screen and (max-width: 395px) {
+  .season-date-wrapper {
+    margin-top: 0.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    grid-gap: 0.2rem;
+  }
+  .season-date-wrapper p {
+    margin: 0;
+  }
+
   .card-season {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .card-date {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .pending-text {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .pending-date {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .cancel-text {
-    font-size: 0.5rem;
+    font-size: 0.75rem;
   }
 
   .cancel-icon {
@@ -401,14 +436,18 @@
   }
 
   .warning-text {
-    font-size: 0.5rem;
+    font-size: 0rem;
+  }
+  .handling-info {
+    padding: 0;
   }
 
   .warning-icon {
-    width: 1rem;
+    margin-bottom: 0.35rem;
   }
 
   .pending-icon {
+    margin-top: 0.35rem;
     font-size: 1rem;
   }
 }

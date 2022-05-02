@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
-import LoginContext from '../../LoginContext/login-context';
+import { useEffect, useState } from 'react';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import PopupApplication from '../01-Reusable/PopUp/PopupApplication';
 import Progressbar from './Progressbar';
@@ -9,20 +8,20 @@ import Step3 from './Steps/Step3';
 import './Soknad.css';
 
 const Soknad = () => {
-  const loginContext = useContext(LoginContext);
-  const loggedIn = loginContext.loggedIn;
   const [page, setPage] = useState(1);
   const [popup, setPopup] = useState(false);
   const [popupResponse, setPopupResponse] = useState('');
   const [formCompleted, setFormCompleted] = useState(false);
   const [formData, setFormData] = useState({
-    userId: '',
+    userId: localStorage.getItem('userID'),
+    ansattnummerWBS: '',
     accentureId: '',
-    tripPurpose: '',
+    tripPurpose: 'Privat',
     period: [],
-    numberOfCabins: 1,
-    cabinAssigment: '',
+    numberOfCabins: 0,
+    cabinAssigment: 'random',
     cabins: [],
+    kommentar: '',
     winner: false,
   });
 
@@ -31,20 +30,22 @@ const Soknad = () => {
     if (formCompleted) {
       formData.period.forEach((period) => {
         let JsonBody = {
-          //userId: localStorage.getItem('userID'),
-          userId: formData.userId,
+          userId: localStorage.getItem('userID'),
+          ansattnummerWBS: formData.ansattnummerWBS,
           accentureId: formData.accentureId,
           tripPurpose: formData.tripPurpose,
           period: period,
           numberOfCabins: formData.numberOfCabins,
           cabinAssignment: formData.cabinAssigment,
           cabins: formData.cabins,
+          kommentar: formData.kommentar,
           winner: false,
         };
 
         fetch('/application/post', {
           method: 'POST',
           body: JSON.stringify(JsonBody),
+          headers: { token: localStorage.getItem('refresh_token') },
         })
           .then((response) => console.log(response))
           .catch((error) => console.log(error));
@@ -70,11 +71,11 @@ const Soknad = () => {
     if (popupResponse !== '') setPopup(true);
   }, [popupResponse]);
 
-  const nextPage = (data) => {
+  const updateForm = (data) => {
     if (page === 1) {
       setFormData({
         ...formData,
-        userId: data.userId,
+        ansattnummerWBS: data.ansattnummerWBS,
         accentureId: data.accentureId,
         tripPurpose: data.tripPurpose,
       });
@@ -89,19 +90,23 @@ const Soknad = () => {
       }
     }
 
-    if (page < 3) setPage(page + 1);
-  };
-
-  function previousPage(data) {
     if (page === 3) {
       setFormCompleted(false);
       setFormData({
         ...formData,
-        numberOfCabins: data.numberOfCabins,
+        numberOfCabins: parseInt(data.numberOfCabins),
         cabinAssigment: data.cabinAssigment,
         cabins: data.cabins,
+        kommentar: data.kommentar,
       });
     }
+  };
+
+  const nextPage = () => {
+    if (page < 3) setPage(page + 1);
+  };
+
+  function previousPage(data) {
     if (page !== 1) setPage(page - 1);
   }
 
@@ -111,13 +116,15 @@ const Soknad = () => {
 
   function nullstillForm() {
     setFormData({
-      userId: '',
+      userId: localStorage.getItem('userID'),
+      ansattnummerWBS: '',
       accentureId: '',
-      tripPurpose: '',
+      tripPurpose: 'Privat',
       period: [],
       numberOfCabins: 1,
       cabinAssigment: '',
       cabins: [],
+      kommentar: '',
       winner: false,
     });
   }
@@ -127,9 +134,10 @@ const Soknad = () => {
       setFormCompleted(true);
       setFormData({
         ...formData,
-        numberOfCabins: data.numberOfCabins,
+        numberOfCabins: parseInt(data.numberOfCabins),
         cabinAssigment: data.cabinAssigment,
         cabins: data.cabins,
+        kommentar: data.kommentar,
       });
     }
   };
@@ -141,6 +149,7 @@ const Soknad = () => {
       <div className="content-soknad">
         {page === 1 && (
           <Step1
+            updateForm={updateForm}
             nextPage={nextPage}
             nullstillForm={nullstillForm}
             formData={formData}
@@ -148,6 +157,7 @@ const Soknad = () => {
         )}
         {page === 2 && (
           <Step2
+            updateForm={updateForm}
             nextPage={nextPage}
             previousPage={previousPage}
             formData={formData}
@@ -155,6 +165,7 @@ const Soknad = () => {
         )}
         {page === 3 && (
           <Step3
+            updateForm={updateForm}
             completeForm={completeForm}
             previousPage={previousPage}
             formData={formData}

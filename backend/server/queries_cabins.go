@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"bachelorprosjekt/backend/data"
@@ -14,33 +15,121 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+func (r repo) syncDBs() (httpStatus int, err error) {
+	tx, err := r.sqlDb.BeginTx(context.Background(), nil)
+	if err != nil {
+		return http.StatusFailedDependency, err
+	}
+	defer tx.Rollback()
+
+	// Gets cabin names from psql
+	rows, err := tx.Query(`SELECT * FROM Cabins`)
+	if err != nil {
+		return http.StatusFailedDependency, err
+	}
+	defer rows.Close()
+
+	// Add the cabin names from the rows to the list
+	sqlCabins := make(map[string]bool)
+	for rows.Next() {
+		var cabin data.CabinShort
+		err = rows.Scan(&cabin.Name, &cabin.Active)
+		if err != nil {
+			return
+		}
+		sqlCabins[cabin.Name] = cabin.Active
+	}
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	cursor, err := collection.Find(
+		context.Background(),
+		bson.D{},
+	)
+	if err != nil {
+		return http.StatusFailedDependency, err
+	}
+
+	var res []data.CabinShort
+	if err = cursor.All(context.Background(), &res); err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	stmt := `
+		INSERT INTO Cabins (cabin_name, active)
+		VALUES ($1, $2)
+		ON CONFLICT (cabin_name) DO UPDATE SET active = $2
+	`
+
+	for _, nosqlCabin := range res {
+		if _, err = tx.Exec(stmt, nosqlCabin.Name, nosqlCabin.Active); err != nil {
+			return http.StatusFailedDependency, err
+		}
+		delete(sqlCabins, nosqlCabin.Name)
+	}
+
+	if len(sqlCabins) > 0 {
+		stmtDel := `DELETE FROM Cabins WHERE cabin_name IN (`
+
+		i := 0
+		var args []interface{}
+		for k := range sqlCabins {
+			if i != 0 {
+				stmtDel += ", "
+			}
+			i++
+			stmtDel += fmt.Sprintf("$%d", i)
+			args = append(args, k)
+		}
+		stmtDel += `)`
+		if _, err := tx.Exec(stmtDel, args...); err != nil {
+			return http.StatusFailedDependency, err
+		}
+	}
+
+	if err = tx.Commit(); err != nil {
+		return http.StatusFailedDependency, err
+	}
+
+	return http.StatusOK, err
+}
+
 //Retrieves one cabin by given name("_id") (returns Cabin)
 func (r repo) GetCabin(ctx *gin.Context) {
 	//Gets cabin name
-	cabinName := new(string)
-	err := ctx.BindJSON(cabinName)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	cabinName := ctx.Param("name")
 
-	var cabin []bson.M
+	var cabins []data.Cabin
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	//finds the document with the right cabin name
 	cursor, err := collection.Find(
 		context.Background(),
-		bson.D{primitive.E{Key: "_id", Value: cabinName}},
+		bson.D{primitive.E{Key: "_id", Value: primitive.Regex{Pattern: fmt.Sprintf("^%s$", cabinName), Options: "i"}}},
 	)
-	cursor.All(context.Background(), &cabin)
+	cursor.All(context.Background(), &cabins)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
-	ctx.JSON(200, cabin)
+
+	if len(cabins) == 1 {
+		ctx.JSON(http.StatusOK, cabins[0])
+	} else {
+		ctx.JSON(http.StatusNoContent, nil)
+	}
 }
 
 //Retrieve cabins that are set to be active, (returns list of cabin names)
 func (r repo) GetActiveCabinNames(ctx *gin.Context) {
+
+	status, err := r.syncDBs()
+	if err != nil {
+		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
+		return
+	}
+
 	// Gets cabin names from psql that are set to active
 	rows, err := r.sqlDb.Query(`SELECT cabin_name FROM Cabins WHERE active = TRUE`)
 	if err != nil {
@@ -127,6 +216,24 @@ func (r repo) PostCabin(ctx *gin.Context) {
 		return
 	}
 
+	validated := utils.CheckCabinValidation(cabin.Name,
+		cabin.Address,
+		cabin.Coordinates.Latitude,
+		cabin.Coordinates.Longitude,
+		cabin.Directions,
+		cabin.LongDescription,
+		cabin.ShortDescription,
+		cabin.Price,
+		cabin.CleaningPrice,
+		cabin.Features.Bathrooms,
+		cabin.Features.SleepingSlots,
+		cabin.Features.Bedrooms)
+
+	if !validated {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Cabin input is not valid!"})
+		return
+	}
+
 	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
 	res, err := collection.InsertOne(
 		context.Background(),
@@ -203,6 +310,83 @@ func (r repo) UpdateCabin(ctx *gin.Context) {
 	err := ctx.BindJSON(cabin)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	validated := utils.CheckCabinValidation(cabin.Name,
+		cabin.Address,
+		cabin.Coordinates.Latitude,
+		cabin.Coordinates.Longitude,
+		cabin.Directions,
+		cabin.LongDescription,
+		cabin.ShortDescription,
+		cabin.Price,
+		cabin.CleaningPrice,
+		cabin.Features.Bathrooms,
+		cabin.Features.SleepingSlots,
+		cabin.Features.Bedrooms)
+	if !validated {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Cabin input not valid!"})
+		return
+	}
+
+	var idlessCabin map[string]interface{}
+	inCabin, err := json.Marshal(cabin)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	if err = json.Unmarshal(inCabin, &idlessCabin); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"err": err.Error()})
+		return
+	}
+	delete(idlessCabin, "name")
+
+	collection := r.noSqlDb.Database("hyttegruppen").Collection("cabins")
+	filter := bson.D{primitive.E{Key: "_id", Value: cabin.Name}}
+	res := collection.FindOneAndReplace(
+		context.Background(), filter, idlessCabin)
+	if res.Err() == mongo.ErrNoDocuments {
+		ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"err": res.Err().Error()})
+		return
+	}
+	if res.Err() != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": res.Err().Error()})
+		return
+	}
+
+	// Retrieve response value
+	var preUpdateDoc data.Cabin
+	if err := res.Decode(&preUpdateDoc); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, preUpdateDoc)
+}
+
+func (r repo) UpdateCabinWithPicture(ctx *gin.Context) {
+	cabin := new(data.Cabin)
+	err := ctx.BindJSON(cabin)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	validated := utils.CheckCabinValidation(cabin.Name,
+		cabin.Address,
+		cabin.Coordinates.Latitude,
+		cabin.Coordinates.Longitude,
+		cabin.Directions,
+		cabin.LongDescription,
+		cabin.ShortDescription,
+		cabin.Price,
+		cabin.CleaningPrice,
+		cabin.Features.Bathrooms,
+		cabin.Features.SleepingSlots,
+		cabin.Features.Bedrooms)
+	if !validated {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Cabin input not valid!"})
 		return
 	}
 

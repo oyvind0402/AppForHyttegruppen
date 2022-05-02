@@ -1,0 +1,177 @@
+.react-table {
+  border-spacing: 0;
+  border: 1px solid #ededed;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 0.5rem;
+}
+.react-table tr:last-child td {
+  border-bottom: 0;
+}
+.react-table th,
+.react-table td {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ededed;
+  border-right: 1px solid #ededed;
+  position: relative;
+}
+
+.react-table th::before {
+  position: absolute;
+  right: 5px;
+  top: 16px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.react-table th.sort-asc::before {
+  border-bottom: 5px solid var(--purple);
+}
+.react-table th.sort-desc::before {
+  border-top: 5px solid var(--purple);
+}
+
+.react-table th.sort-asc2::before {
+  border-bottom: 5px solid var(--purple);
+}
+.react-table th.sort-desc2::before {
+  border-top: 5px solid var(--purple);
+}
+
+.react-table th {
+  background-color: #eaddff;
+}
+.react-table td {
+  text-align: center;
+}
+
+.react-table th:last-child,
+.react-table td:last-child {
+  border-right: 0;
+}
+
+.react-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.react-table select {
+  width: 100%;
+}
+
+.react-table option:hover {
+  background-color: #eaddff;
+}
+
+.react-table-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-table-input {
+  margin-bottom: 1rem;
+  width: 665px;
+  height: 30px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 0.3rem 0.5rem;
+}
+
+@media only screen and (max-width: 800px) {
+  .react-table {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .react-table select {
+    overflow: scroll;
+    font-size: 0.8rem;
+  }
+
+  .react-table-input {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 940px) {
+  .cell6,
+  #react-table-header6 {
+    display: none;
+  }
+  .cell1,
+  #react-table-header1 {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 730px) {
+  .react-table-input {
+    width: 560px;
+  }
+}
+
+@media only screen and (max-width: 615px) {
+  .react-table td,
+  .react-table th {
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 622px) {
+  .react-table-input {
+    width: 450px;
+  }
+}
+
+@media only screen and (max-width: 525px) {
+  .react-table-input {
+    width: 75%;
+  }
+
+  .react-table-center {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 472px) {
+  .cell8,
+  #react-table-header8 {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 422px) {
+  .react-table-input {
+    width: 300px;
+  }
+}
+
+@media only screen and (max-width: 394px) {
+  .react-table select {
+    font-size: 0.7rem;
+  }
+
+  .react-table {
+    font-size: 0.7rem;
+  }
+}
+
+@media only screen and (max-width: 354px) {
+  .react-table select {
+    font-size: 0.6rem;
+  }
+
+  .react-table {
+    font-size: 0.6rem;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  .react-table-input {
+    height: 20px;
+    width: 200px;
+  }
+}

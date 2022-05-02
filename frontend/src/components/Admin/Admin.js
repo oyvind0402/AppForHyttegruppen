@@ -1,21 +1,22 @@
-import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
+import { Link } from 'react-router-dom';
+import AdminBanner from '../01-Reusable/HeroBanner/AdminBanner';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
-import HomeImage from '../01-Reusable/HomeImage/HomeImage';
 import './Admin.css';
 
 const Admin = () => {
   return (
     <>
-      <HeroBanner name="Admin" />
+      <AdminBanner name="Admin" />
       <div className="admin-container">
-        <BigButtonLink name="Åpne søknadsperiode" link="/startsoknad" />
-        <BigButtonLink name="Endre innhold på siden" link="/endringer" />
-        <HomeImage
-          imageLink="TripHistory.svg"
-          imageAlt="A history of trips"
-          buttonText="Se Turhistorikk"
-          link="/historikk"
-        />
+        <Link className="btn-link big btn" to="/admin/startsoknad">
+          Åpne søknadsperiode
+        </Link>
+        <Link className="btn-link big btn" to="/admin/endresoknader">
+          Alle søknader
+        </Link>
+        <Link className="btn-link big btn" to="/admin/endringer">
+          Endre nettsidens innhold
+        </Link>
       </div>
     </>
   );

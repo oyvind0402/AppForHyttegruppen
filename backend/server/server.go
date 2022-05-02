@@ -3,6 +3,7 @@ package server
 import (
 	//"bachelorprosjekt/backend/data"
 
+	"bachelorprosjekt/backend/middleware"
 	"context"
 	"net/http"
 
@@ -10,14 +11,19 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func Start() {
+type Args struct {
+	RootPath  string
+	CredsPath string
+}
+
+func Start(args Args) {
 	// Handle databases
-	r := startDB()
+	r := startDB(args.CredsPath)
 	defer r.sqlDb.Close()
 	defer r.noSqlDb.Disconnect(context.Background())
 	router := setRouter(r)
 	// Start listening and serving requests
-	router.Run(":8080")
+	router.Run("127.0.0.1:8080")
 }
 
 func setRouter(r repo) *gin.Engine {
@@ -36,30 +42,31 @@ func setRouter(r repo) *gin.Engine {
 	// Create API route groups
 	periodapi := router.Group("/period")
 	{
-		periodapi.POST("/get", r.GetPeriod)
-		periodapi.POST("/getallinseason", r.GetAllPeriodsInSeason)
-		periodapi.GET("/getall", r.GetAllPeriods)
-		periodapi.POST("/post", r.PostPeriod)
-		periodapi.POST("/postmany", r.PostManyPeriods)
-		periodapi.PUT("/update", r.UpdatePeriod)
-		periodapi.DELETE("/delete", r.DeletePeriod)
-		periodapi.DELETE("/deletemany", r.DeleteManyPeriods)
+		periodapi.GET("/:id", r.GetPeriod)
+		periodapi.GET("/inseason/:season", r.GetAllPeriodsInSeason)
+		periodapi.GET("/inseason/open", r.GetAllPeriodsInOpenSeason)
+		periodapi.GET("/all", r.GetAllPeriods)
+		periodapi.POST("/post", middleware.Authenticate(), r.PostPeriod)
+		periodapi.POST("/postmany", middleware.Authenticate(), r.PostManyPeriods)
+		periodapi.PUT("/update", middleware.Authenticate(), r.UpdatePeriod)
+		periodapi.DELETE("/delete", middleware.Authenticate(), r.DeletePeriod)
+		periodapi.DELETE("/deletemany", middleware.Authenticate(), r.DeleteManyPeriods)
 	}
 
 	seasonapi := router.Group("/season")
 	{
-		seasonapi.POST("/get", r.GetSeason)
-		seasonapi.GET("/getcurrentopen", r.GetCurrentOpenSeason)
-		seasonapi.GET("/getall", r.GetAllSeasons)
-		seasonapi.POST("/post", r.PostSeason)
-		seasonapi.PUT("/update", r.UpdateSeason)
-		seasonapi.DELETE("/delete", r.DeleteSeason)
-		seasonapi.DELETE("/deleteolder", r.DeleteOlderSeasons)
+		seasonapi.GET("/:name", r.GetSeason)
+		seasonapi.GET("/open", r.GetCurrentOpenSeason)
+		seasonapi.GET("/all", r.GetAllSeasons)
+		seasonapi.POST("/post", middleware.Authenticate(), r.PostSeason)
+		seasonapi.PUT("/update", middleware.Authenticate(), r.UpdateSeason)
+		seasonapi.DELETE("/delete", middleware.Authenticate(), r.DeleteSeason)
+		seasonapi.DELETE("/deleteolder", middleware.Authenticate(), r.DeleteOlderSeasons)
 	}
 
 	featureapi := router.Group("/feature")
 	{
-		featureapi.GET("/getall")
+		featureapi.GET("/all")
 		featureapi.PUT("/update")
 		featureapi.DELETE("/delete")
 		featureapi.DELETE("/deletemany")
@@ -67,50 +74,75 @@ func setRouter(r repo) *gin.Engine {
 
 	cabinsapi := router.Group("/cabin")
 	{
-		cabinsapi.POST("/get", r.GetCabin)
-		cabinsapi.GET("/getactivenames", r.GetActiveCabinNames)
-		cabinsapi.GET("/getactive", r.GetActiveCabins)
-		cabinsapi.GET("/getall", r.GetAllCabins)
-		cabinsapi.POST("/post", r.PostCabin)
-		cabinsapi.PATCH("/updatefield", r.UpdateCabinField)
-		cabinsapi.PUT("/update", r.UpdateCabin)
-		cabinsapi.DELETE("/delete", r.DeleteCabin)
+		cabinsapi.GET("/:name", r.GetCabin)
+		cabinsapi.GET("/active/names", r.GetActiveCabinNames)
+		cabinsapi.GET("/active", r.GetActiveCabins)
+		cabinsapi.GET("/all", r.GetAllCabins)
+		cabinsapi.POST("/post", middleware.Authenticate(), r.PostCabin)
+		cabinsapi.PATCH("/updatefield", middleware.Authenticate(), r.UpdateCabinField)
+		cabinsapi.PUT("/update", middleware.Authenticate(), r.UpdateCabin)
+		cabinsapi.PUT("/updateWithPicture", middleware.Authenticate(), r.UpdateCabinWithPicture)
+		cabinsapi.DELETE("/delete", middleware.Authenticate(), r.DeleteCabin)
 	}
 
 	applicationapi := router.Group("/application")
 	{
-		applicationapi.POST("/get", r.GetApplication)
-		applicationapi.POST("/getbyuser", r.GetUserApplications)
-		applicationapi.POST("/getbyuserwon", r.GetPastTripsUserApplications)
-		applicationapi.POST("/getbyuserpending", r.GetPendingUserApplications)
-		applicationapi.POST("/getbyusercurrent", r.GetCurrentTripsUserApplications)
-		applicationapi.POST("/getbyuserfuture", r.GetFutureTripsUserApplications)
-		applicationapi.GET("/getall", r.GetAllApplications)
-		applicationapi.POST("/post", r.PostApplication)
-		applicationapi.PUT("/update", r.UpdateApplication)
-		applicationapi.PATCH("/setwinner", r.UpdateApplicationWinner)
-		applicationapi.DELETE("/delete", r.DeleteApplication)
-		applicationapi.DELETE("/deletelosing", r.DeleteLosingApplications)
-		applicationapi.DELETE("/deletemanybyid", r.DeleteApplicationsById)
+		applicationapi.GET("/:id", r.GetApplication)
+		applicationapi.GET("/byuser/:userid", r.GetUserApplications)
+		applicationapi.GET("/byuser/:userid/past", r.GetPastTripsUserApplications)
+		applicationapi.GET("/byuser/:userid/pending", r.GetPendingUserApplications)
+		applicationapi.GET("/byuser/:userid/current", r.GetCurrentTripsUserApplications)
+		applicationapi.GET("/byuser/:userid/future", r.GetFutureTripsUserApplications)
+		applicationapi.GET("/all", r.GetAllApplications)
+		applicationapi.GET("/winners/past", r.GetPastWinnerApplications)
+		applicationapi.GET("/winners/future", r.GetFutureWinnerApplications)
+		applicationapi.GET("/winners/current", r.GetCurrentApplications)
+		applicationapi.GET("/pending/future", r.GetFuturePendingApplications)
+		applicationapi.GET("/pending/past", r.GetPastPendingApplications)
+		applicationapi.POST("/post", middleware.Authenticate(), r.PostApplication)
+		applicationapi.PUT("/update", middleware.Authenticate(), r.UpdateApplication)
+		applicationapi.PATCH("/setwinner", middleware.Authenticate(), r.UpdateApplicationWinner)
+		applicationapi.PATCH("/setfeedback", middleware.Authenticate(), r.UpdateApplicationFeedback)
+		applicationapi.DELETE("/delete", middleware.Authenticate(), r.DeleteApplication)
+		applicationapi.DELETE("/deletelosing", middleware.Authenticate(), r.DeleteLosingApplications)
+		applicationapi.DELETE("/deletemanybyid", middleware.Authenticate(), r.DeleteApplicationsById)
 	}
 
 	userapi := router.Group("/user")
 	{
-		userapi.POST("/get", r.GetUser)
-		userapi.GET("/getall", r.GetAllUsers)
+		userapi.GET("/:id", r.GetUser)
+		userapi.GET("/all", r.GetAllUsers)
 		userapi.POST("/post", r.PostUser)
 		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
 		userapi.POST("/signin", r.SignIn)
+		userapi.PATCH("/setadmin", middleware.Authenticate(), r.UpdateUserAdminAccess)
 	}
 
 	faqapi := router.Group("/faq")
 	{
-		faqapi.POST("/get", r.GetOneFAQ)
-		faqapi.GET("/getall", r.GetAllFAQs)
-		faqapi.POST("/post", r.PostFAQ)
-		faqapi.PUT("/update", r.UpdateFAQ)
-		faqapi.DELETE("/delete", r.DeleteFAQ)
+		faqapi.GET("/:id", r.GetOneFAQ)
+		faqapi.GET("/all", r.GetAllFAQs)
+		faqapi.POST("/post", middleware.Authenticate(), r.PostFAQ)
+		faqapi.PUT("/update", middleware.Authenticate(), r.UpdateFAQ)
+		faqapi.DELETE("/delete", middleware.Authenticate(), r.DeleteFAQ)
+	}
+
+	picturesapi := router.Group("/pictures")
+	{
+		picturesapi.POST("/main", middleware.Authenticate(), r.PostMainPicture)
+		picturesapi.POST("/one", middleware.Authenticate(), r.PostOnePicture)
+		picturesapi.POST("/replace", middleware.Authenticate(), r.PostReplaceRestPicture)
+		picturesapi.POST("/replaceFirst", middleware.Authenticate(), r.PostReplaceFirstRestPicture)
+		picturesapi.POST("/deletepictures", middleware.Authenticate(), r.DeletePictures)
+	}
+
+	adminapi := router.Group("/admin_email")
+	{
+		adminapi.GET("/all", r.GetAllAdminEmailAddresses)
+		adminapi.POST("/post", middleware.Authenticate(), r.PostAdminEmailAddress)
+		adminapi.PUT("/update", middleware.Authenticate(), r.UpdateAdminEmailAddress)
+		adminapi.DELETE("/delete", middleware.Authenticate(), r.DeleteAdminEmailAddress)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })

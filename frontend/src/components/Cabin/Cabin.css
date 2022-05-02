@@ -1,0 +1,31 @@
+:root {
+  --dark-pink: #bd00ff;
+  --light-pink: #eaddff;
+}
+
+.cabin-display {
+  width: 60%;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+@media only screen and (max-width: 1600px) {
+  .cabin-display {
+    width: 80%;
+    margin: auto;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .cabin-display {
+    width: 80%;
+    margin: auto;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .cabin-display {
+    width: auto;
+    grid-template-columns: auto;
+  }
+}

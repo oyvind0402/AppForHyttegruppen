@@ -1,47 +1,25 @@
 import './CabinCard.css';
 import { BiBed } from 'react-icons/bi';
 import { BiBath } from 'react-icons/bi';
-import { GiTakeMyMoney } from 'react-icons/gi';
-import { Link } from 'react-router-dom';
-import LoginContext from '../../../LoginContext/login-context';
-import { useContext } from 'react';
-
-const card = {
-  picture: [
-    {
-      Name: 'Utsikten',
-      Address: 'Grøndalsvegen 764',
-      Bedrooms: '5',
-      SleepingSlots: '10',
-      Bathrooms: '1',
-      Price: '1200',
-      CleaningPrice: '1200',
-      src: './cabin-main.jpg',
-      alt: 'Picture of utsikten',
-    },
-  ],
-};
+import { GrMoney } from 'react-icons/gr';
 
 const CabinCardBig = (props) => {
-  console.log(props);
-  const loginContext = useContext(LoginContext);
-
   return (
     <>
-      <button className="card">
+      <button
+        className="card"
+        onClick={(e) => {
+          e.preventDefault();
+          window.location.href = `/hytte/${props.cabin.name}`;
+        }}
+      >
         <img
           className="card-picture"
-          src={`${process.env.PUBLIC_URL}/assets/pictures/cabin-main.jpg`}
-          alt={card.picture[0].alt}
+          src={`${process.env.PUBLIC_URL}/assets/pictures/${props.cabin.pictures.mainPicture.filename}`}
+          alt={props.cabin.pictures.mainPicture.altText}
         />
-        {loginContext.adminAccess && (
-          <Link to={'/endrehytte/' + props.cabin._id}>
-            <span className="admin-edit-btn">Endre</span>
-          </Link>
-        )}
-
         <div className="card-content">
-          <h2 className="card-title">{props.cabin._id}</h2>
+          <h2 className="card-title">{props.cabin.name}</h2>
           <p className="card-address">{props.cabin.address}</p>
 
           <div className="card-features">
@@ -56,8 +34,10 @@ const CabinCardBig = (props) => {
             <BiBath className="card-icon bath" />
             <p className="card-text badrooms">{props.cabin.features.bad} Bad</p>
 
-            <GiTakeMyMoney className="card-icon money" />
-            <p className="card-text moneyText">{props.cabin.price} Kroner</p>
+            <GrMoney className="card-icon money" />
+            <p className="card-text moneyText">
+              {props.cabin.price} + {props.cabin.cleaningPrice} NOK
+            </p>
           </div>
         </div>
       </button>

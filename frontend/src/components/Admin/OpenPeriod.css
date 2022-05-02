@@ -1,0 +1,257 @@
+.open-period-container {
+  width: 75%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.open-period-title {
+  font-weight: 700;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.open-period-text {
+  margin: 0;
+  text-align: center;
+}
+
+.no-show {
+  display: none;
+}
+
+.date-wrapper {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+
+.date-title {
+  font-weight: 700;
+}
+
+.open-period-date {
+  height: 1.5rem;
+  border: 2px solid gray;
+  border-radius: 5px;
+}
+
+.period-info-button {
+  margin-top: 1rem;
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.period-info-button:hover {
+  color: #bd00ff;
+}
+
+::-webkit-calendar-picker-indicator {
+  padding-right: 0.5rem;
+  background-size: 1rem;
+}
+
+.gen-seasonname {
+  font-weight: 700;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+.gen-seasondate {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.gen-period-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid gray;
+  padding: 1rem;
+}
+
+.periodcard-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+
+.periodcard-container button {
+  width: 100px;
+  height: 35px;
+}
+
+.gen-period-week {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.gen-period-date {
+  font-size: 1rem;
+}
+
+.gen-period-arrow-down {
+  font-size: 3.5rem;
+  cursor: pointer;
+  color: #d182ff;
+}
+
+.justify-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.justify-end-expanded {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.gen-period-container-expanded {
+  display: grid;
+  grid-template-columns: 1.7fr 1.7fr 1.7fr 1fr;
+  align-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid gray;
+  padding: 1rem;
+}
+
+.gen-period-arrow-up {
+  font-size: 3.5rem;
+  cursor: pointer;
+  color: #d182ff;
+}
+
+.gen-period-title {
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.gen-period-input {
+  width: 125px;
+  margin-right: 1rem;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+.add-remove-period {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 2rem;
+  padding: 0.1rem;
+}
+
+.period-button {
+  cursor: pointer;
+}
+
+.period-button:hover {
+  opacity: 0.8;
+}
+
+.openperiod-button-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.openperiod-button-container button {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: 1100px) {
+  .date-wrapper {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .gen-period-container {
+    width: 80%;
+    grid-template-columns: 1fr 3fr 1fr;
+  }
+
+  .gen-period-date {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+  .soknadbtn {
+    font-size: 1rem;
+    width: 40%;
+    padding: 0.8rem;
+  }
+
+  .open-period-title {
+    font-size: 1.5rem;
+  }
+
+  .gen-seasonname {
+    font-size: 1.5rem;
+  }
+
+  .gen-period-container {
+    width: 80%;
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+
+  .gen-period-container-expanded {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gen-period-input {
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+
+  .justify-end-expanded {
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .gen-period-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .soknadbtn {
+    font-size: 0.8rem;
+    width: 176px;
+    margin: auto;
+    margin-bottom: 2rem;
+  }
+}
+
+@media only screen and (max-width: 470px) {
+  .gen-period-container {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    text-align: center;
+  }
+
+  .justify-end {
+    justify-content: center;
+  }
+
+  .gen-period-date {
+    font-size: 0.8rem;
+  }
+}

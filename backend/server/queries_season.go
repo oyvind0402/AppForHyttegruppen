@@ -13,15 +13,10 @@ import (
 // Retrieves one season by season name (receives season_name: string; returns Seasons)
 func (r repo) GetSeason(ctx *gin.Context) {
 	// Retrieve season name/id from context
-	seasonName := new(string)
-	err := ctx.BindJSON(seasonName)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
-		return
-	}
+	seasonName := ctx.Param("name")
 
 	// Run select query
-	row := r.sqlDb.QueryRow(`SELECT * FROM Seasons WHERE season_name = $1`, *seasonName)
+	row := r.sqlDb.QueryRow(`SELECT * FROM Seasons WHERE season_name = $1`, seasonName)
 
 	// Read values into object
 	var season data.Season
@@ -114,6 +109,35 @@ func (r repo) PostSeason(ctx *gin.Context) {
 	err := ctx.BindJSON(season)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	//Getting seasons that have a start day or end day in the middle of the posted period
+	gtseason := `SELECT * FROM seasons WHERE (first_day >= $1 AND first_day < $2) OR (last_day > $1 AND last_day <= $2)`
+
+	rows, err := r.sqlDb.Query(gtseason, season.FirstDay, season.LastDay)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	var seasons []data.Season
+	for rows.Next() {
+		// Create Season
+		var season data.Season
+		rows.Scan(&season.Name,
+			&season.FirstDay,
+			&season.LastDay,
+			&season.ApplyFrom,
+			&season.ApplyUntil)
+
+		seasons = append(seasons, season)
+	}
+
+	//If the array is not empty we abort, since there is already an active season
+	if len(seasons) != 0 {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "A season is already created for that timeperiod"})
 		return
 	}
 

@@ -1,0 +1,13 @@
+.feature-icon {
+  display: flex;
+  align-items: center;
+}
+
+.feature-icon p {
+  margin: 1rem;
+}
+
+.feature-icon-svg {
+  width: 100%;
+  height: auto;
+}

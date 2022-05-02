@@ -1,41 +1,70 @@
 import { useEffect, useState } from 'react';
-import { BsQuestionCircle } from 'react-icons/bs';
+import { BsQuestionCircle, BsExclamationTriangle } from 'react-icons/bs';
 import './Steps.css';
 import './Step2.css';
 
 const Step2 = (props) => {
+  const [showExtraInfo, setShowExtraInfo] = useState(false);
+  const [tempPerioder, setTempPerioder] = useState([]);
   const [perioder, setPerioder] = useState([]);
   let newMuligePerioder = [];
   const [muligePerioder, setMuligePerioder] = useState([]);
   const [valgtePerioder, setValgtePerioder] = useState(props.formData.period);
+  const [showFeedBack, setShowFeedBack] = useState(false);
 
-  //Fetching
-  useEffect(async () => {
+  //Fetching all periods
+  useEffect(() => {
     async function fetchData() {
-      fetch('/period/getall')
+      fetch('/period/inseason/open')
         .then((response) => response.json())
-        .then((data) => setPerioder(data))
+        .then((data) => {
+          //setPerioder(data);
+          setTempPerioder(data);
+        })
         .catch((error) => console.log(error));
     }
     fetchData();
   }, []);
 
-  //Everytime perioder updates we run leggTilPerioder
+  //Fetching all previous applied periods
   useEffect(() => {
-    if (perioder !== []) removePerioderBasedOnProps();
-  }, [perioder]);
+    async function fetchAlreadyAplliedPeriods() {
+      fetch(`/application/byuser/${props.formData.userId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data !== null) {
+            newMuligePerioder = tempPerioder.filter((period) => {
+              let match = false;
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].period.id === period.id) match = true;
+              }
+              if (!match) return period;
+              return '';
+            });
+            setPerioder(newMuligePerioder);
+          } else {
+            setPerioder(tempPerioder);
+          }
+        })
+        .catch((error) => console.log(error));
+    }
+    fetchAlreadyAplliedPeriods();
+  }, [tempPerioder]);
 
-  //Divides periods based on previously saved preferenses
-  const removePerioderBasedOnProps = () => {
-    newMuligePerioder = perioder.filter((period) => {
-      let match = false;
-      for (let i = 0; i < props.formData.period.length; i++) {
-        if (props.formData.period[i].id === period.id) match = true;
-      }
-      if (!match) return period;
-    });
-    setMuligePerioder(newMuligePerioder);
-  };
+  //Everytime perioder updates we remove all the periods that are previously selected (saved in props)
+  useEffect(() => {
+    if (perioder !== []) {
+      newMuligePerioder = perioder.filter((period) => {
+        let match = false;
+        for (let i = 0; i < props.formData.period.length; i++) {
+          if (props.formData.period[i].id === period.id) match = true;
+        }
+        if (!match) return period;
+        return '';
+      });
+      setMuligePerioder(newMuligePerioder);
+    }
+  }, [perioder]);
 
   //Add periods to 'Valgete perioder' box and removes them from 'Perioder'
   const addPerioder = () => {
@@ -82,7 +111,13 @@ const Step2 = (props) => {
   };
 
   const submitStep2 = () => {
-    props.nextPage(valgtePerioder);
+    setShowFeedBack(false);
+    props.updateForm(valgtePerioder);
+    if (valgtePerioder.length === 0) {
+      setShowFeedBack(true);
+      return;
+    }
+    props.nextPage();
   };
 
   //Converts the dates received from the backend to day.month.year
@@ -97,29 +132,47 @@ const Step2 = (props) => {
   return (
     <>
       <div className="step-soknad">
-        <div className="stepQuestion">
+        <div
+          className="stepQuestion"
+          onClick={() => setShowExtraInfo(!showExtraInfo)}
+        >
           <BsQuestionCircle className="soknad-question-icon" />
           <p className="soknad-question-text">Velg perioder du vil søke på</p>
         </div>
+        {showExtraInfo && (
+          <div className="step-extra-info-div">
+            <p className="step-extra-info-p">
+              Du kan kun søke en gang per periode.
+            </p>
+            <p className="step-extra-info-p">
+              Har du gjort en feil? Da kan du avbestille turen under min tur og
+              deretter søke på nytt.
+            </p>
+          </div>
+        )}
 
         <div>
           <div>
             <h3 className="input-header">Perioder</h3>
             <div className="perioder-input">
-              {muligePerioder.map((period, index) => (
-                <div className="soknad-step2-period" key={index}>
-                  <input
-                    className="soknad-step2-checkbox add-checkbox"
-                    type="checkbox"
-                    id={period.id}
-                    name={period.id}
-                  />
-                  <label className="soknad-step2-label" htmlFor={period.id}>
-                    {period.name} ({changeDate(period.start)} -{' '}
-                    {changeDate(period.end)})
-                  </label>
-                </div>
-              ))}
+              {muligePerioder.length > 0 ? (
+                muligePerioder.map((period, index) => (
+                  <div className="soknad-step2-period" key={index}>
+                    <input
+                      className="soknad-step2-checkbox add-checkbox"
+                      type="checkbox"
+                      id={period.id}
+                      name={period.id}
+                    />
+                    <label className="soknad-step2-label" htmlFor={period.id}>
+                      {period.name} ({changeDate(period.start)} -{' '}
+                      {changeDate(period.end)})
+                    </label>
+                  </div>
+                ))
+              ) : (
+                <p>Ingen perioder funnet</p>
+              )}
             </div>
           </div>
           <div className="soknad-step2-btns">
@@ -136,6 +189,11 @@ const Step2 = (props) => {
 
           <div>
             <h3 className="input-header">Valgte perioder</h3>
+            {showFeedBack && (
+              <p className="soknad-error step2-error">
+                <BsExclamationTriangle /> Husk å legge til perioder!
+              </p>
+            )}
             <div className="perioder-input">
               {valgtePerioder.map((period, index) => (
                 <div className="soknad-step2-period" key={period.id}>

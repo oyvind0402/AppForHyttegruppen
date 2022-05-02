@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import AlertPopup from '../PopUp/AlertPopup';
 import './FeedbackForm.css';
 import Question1 from './Questions/Question1';
 import Question2 from './Questions/Question2';
@@ -6,51 +7,111 @@ import Question3 from './Questions/Question3';
 import Question4 from './Questions/Question4';
 import Question5 from './Questions/Question5';
 
-const FeedbackForm = () => {
+const FeedbackForm = (props) => {
   const [question, setQuestion] = useState(1);
   const [replyVisibility, setReplyVisibility] = useState();
-  const [replied, setReplied] = useState(false);
-  const [q1Value, setQ1Value] = useState('No answer');
-  const [q2Value, setQ2Value] = useState('No answer');
-  const [q3Value, setQ3Value] = useState('No answer');
-  const [q4Value, setQ4Value] = useState('No answer');
-  const [q5Value, setQ5Value] = useState('No answer');
+  const [yesReplied, setYesReplied] = useState(false);
+  const [noReplied, setNoReplied] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [q1Value, setQ1Value] = useState('');
+  const [q2Value, setQ2Value] = useState('');
+  const [q3Value, setQ3Value] = useState('');
+  const [q4Value, setQ4Value] = useState('');
+  const [q5Value, setQ5Value] = useState('');
+  const [answers, setAnswers] = useState([]);
+  const [visible, setVisible] = useState(false);
+
+  console.log(props.data);
+
+  const handleVisibility = () => {
+    setVisible(!visible);
+  };
 
   const nextQuestion = () => {
-    if (!replied) {
-      alert('Du har ikke svart ja eller nei!');
+    let _errors = {};
+    if (!yesReplied && !noReplied) {
+      _errors.replied = 'Du må velge ja eller nei!';
+    }
+
+    if (
+      document.getElementById('nobtn').checked &&
+      document.getElementById('reply-value').value === ''
+    ) {
+      _errors.written = 'Du må skrive noe hvis du velger nei!';
+    }
+
+    setErrors(_errors);
+
+    if (_errors.replied || _errors.written) {
       return;
     }
+
     if (question < 5) {
       if (question === 1) {
-        setQ1Value(document.getElementById('reply-value').value);
-        localStorage.setItem(
-          'q1Value',
-          document.getElementById('reply-value').value
-        );
+        if (yesReplied) {
+          setQ1Value('');
+        } else {
+          setQ1Value(document.getElementById('reply-value').value);
+        }
+
+        document.getElementById('reply-value').value = q2Value;
       } else if (question === 2) {
-        setQ2Value(document.getElementById('reply-value').value);
+        if (yesReplied) {
+          setQ2Value('');
+        } else {
+          setQ2Value(document.getElementById('reply-value').value);
+        }
+
+        document.getElementById('reply-value').value = q3Value;
       } else if (question === 3) {
-        setQ3Value(document.getElementById('reply-value').value);
+        if (yesReplied) {
+          setQ3Value('');
+        } else {
+          setQ3Value(document.getElementById('reply-value').value);
+        }
+
+        document.getElementById('reply-value').value = q4Value;
       } else if (question === 4) {
-        setQ4Value(document.getElementById('reply-value').value);
+        if (yesReplied) {
+          setQ4Value('');
+        } else {
+          setQ4Value(document.getElementById('reply-value').value);
+        }
+
+        document.getElementById('reply-value').value = q5Value;
       }
       setQuestion(question + 1);
     }
 
     if (question === 5) {
-      setQ5Value(document.getElementById('reply-value').value);
+      if (yesReplied) {
+        setQ5Value('');
+        document.getElementById('reply-value').value = '';
+      } else {
+        setQ5Value(document.getElementById('reply-value').value);
+      }
+
+      let _answers = [
+        q1Value,
+        q2Value,
+        q3Value,
+        q4Value,
+        document.getElementById('reply-value').value,
+      ];
+
+      setAnswers(_answers);
     }
-    document.getElementById('q1yesbtn').style.backgroundColor = '#bd00ff';
-    document.getElementById('q1yesbtn').style.color = 'white';
-    document.getElementById('q1nobtn').style.backgroundColor = '#bd00ff';
-    document.getElementById('q1nobtn').style.color = 'white';
-    document.getElementById('reply-value').value = '';
+
+    document.getElementById('nobtn').checked = false;
+    document.getElementById('yesbtn').checked = false;
+
     setReplyVisibility(false);
-    setReplied(false);
+    setYesReplied(false);
+    setNoReplied(false);
   };
 
   const prevQuestion = () => {
+    setErrors({});
     if (question !== 1) {
       if (question === 2) {
         document.getElementById('reply-value').value = q1Value;
@@ -66,49 +127,101 @@ const FeedbackForm = () => {
   };
 
   const showReply = () => {
-    setReplied(true);
+    setNoReplied(true);
+    setYesReplied(false);
+    setErrors({});
     setReplyVisibility(true);
-    document.getElementById('q1yesbtn').style.backgroundColor = '#bd00ff';
-    document.getElementById('q1yesbtn').style.color = 'white';
-    document.getElementById('q1nobtn').style.backgroundColor = '#eaddff';
-    document.getElementById('q1nobtn').style.color = 'black';
   };
 
   const removeReply = () => {
-    setReplied(true);
+    setYesReplied(true);
+    setNoReplied(false);
+    setErrors({});
     setReplyVisibility(false);
-    document.getElementById('q1yesbtn').style.backgroundColor = '#eaddff';
-    document.getElementById('q1yesbtn').style.color = 'black';
-    document.getElementById('q1nobtn').style.backgroundColor = '#bd00ff';
-    document.getElementById('q1nobtn').style.color = 'white';
+  };
+
+  const sendFeedback = async () => {
+    const response = await fetch('/application/setfeedback', {
+      method: 'PATCH',
+      body: JSON.stringify(props.data.applicationId),
+      headers: { token: localStorage.getItem('refresh_token') },
+    });
+    if (response.ok) {
+      setVisible(false);
+      alert('Tilbakemelding registrert!');
+    }
+  };
+
+  const sendEmail = () => {
+    if (answers.length > 0) {
+      let email =
+        'Bruker med navn ' +
+        props.data.user.firstname +
+        ' ' +
+        props.data.user.lastname +
+        ', og epost ' +
+        props.data.user.email +
+        ' svarte nei på noen spørsmål i tilbakemeldingsskjemaet. Nedenfor sees svarene.';
+      email += '\n\nSpørsmål: Har du vippset 1200,- til vaskebyrået?';
+      answers.forEach((answer, index) => {
+        if (answer.length !== 0) {
+          if (index === 0) {
+            email += '\nSvar: ';
+            email += answer + '\n';
+          }
+          if (index === 1) {
+            email += '\nSpørsmål: Var alt ok da dere ankom hytten?';
+            email += '\nSvar: ';
+            email += answer + '\n';
+          }
+          if (index === 2) {
+            email +=
+              '\nSpørsmål: Var alt ok da dere forlat hytten? (Ble noe ødelagt?)';
+            email += '\nSvar: ';
+            email += answer + '\n';
+          }
+          if (index === 3) {
+            email +=
+              '\nSpørsmål: Har hytten alt av forsyning (toalettpapir, ved, lyspærer, rengjøringsmiddel)?';
+            email += '\nSvar: ';
+            email += answer + '\n';
+          }
+          if (index === 4) {
+            email += '\nSpørsmål: Alt ellers greit?';
+            email += '\nSvar: ';
+            email += answer + '\n';
+          }
+        }
+      });
+      console.log(email);
+      return email;
+    }
   };
 
   useEffect(() => {
-    if (q5Value !== 'No answer') {
-      alert(
-        'You answered: \n' +
-          'Answer 1: ' +
-          q1Value +
-          '\n' +
-          'Answer 2: ' +
-          q2Value +
-          '\n' +
-          'Answer 3: ' +
-          q3Value +
-          '\n' +
-          'Answer 4: ' +
-          q4Value +
-          '\n' +
-          'Answer 5: ' +
-          q5Value
-      );
+    if (answers.length > 0) {
+      let feedbackSent = false;
+      answers.forEach((answer) => {
+        if (answer.length > 0) {
+          feedbackSent = true;
+        }
+      });
+
+      if (feedbackSent) {
+        // TODO Send email to admin here, the function sendEmail has the content of the email
+        setVisible(true);
+      } else {
+        setVisible(true);
+      }
     }
-  }, [q5Value]);
+  }, [answers]);
 
   return (
     <>
       <div className="feedback-container">
-        <p className="feedback-title">Sjekkliste før du reiser hjem</p>
+        <p onClick={sendEmail} className="feedback-title">
+          Sjekkliste før du reiser hjem
+        </p>
         <div className="feedback-form-container">
           {question === 1 && <Question1 />}
           {question === 2 && <Question2 />}
@@ -117,30 +230,73 @@ const FeedbackForm = () => {
           {question === 5 && <Question5 />}
 
           <div className="question-buttons">
-            <button onClick={removeReply} id="q1yesbtn" className="btn small">
-              Ja
-            </button>
-            <button onClick={showReply} id="q1nobtn" className="btn small">
-              Nei
-            </button>
+            <div className="feedback-yesno-container">
+              <input
+                id="yesbtn"
+                className="answer-input"
+                name="feedbackbtns"
+                type="radio"
+              />
+              <label
+                onClick={removeReply}
+                htmlFor="yesbtn"
+                className="yes-no-label"
+              >
+                Ja
+              </label>
+            </div>
+            <div className="feedback-yesno-container">
+              <input
+                id="nobtn"
+                name="feedbackbtns"
+                className="answer-input"
+                type="radio"
+              />
+              <label
+                onClick={showReply}
+                htmlFor="nobtn"
+                className="yes-no-label"
+              >
+                Nei
+              </label>
+            </div>
           </div>
-          <textarea
-            placeholder="Skriv hvorfor her.."
-            id="reply-value"
-            className={replyVisibility ? 'question-reply' : 'no-reply'}
-          />
+          <div className="textarea-error-container">
+            <textarea
+              placeholder="Skriv hvorfor her.."
+              id="reply-value"
+              className={replyVisibility ? 'question-reply' : 'no-reply'}
+            />
+            {errors.written && (
+              <span className="login-error">{errors.written}</span>
+            )}
+          </div>
+
           <div className={question === 1 ? 'onebutton-form' : 'twobutton-form'}>
             {question === 1 ? null : (
-              <button className="btn small" onClick={prevQuestion}>
+              <button className="feedback-btn" onClick={prevQuestion}>
                 Forrige
               </button>
             )}
-            <button className="btn small" onClick={nextQuestion}>
+            <button className="feedback-btn" onClick={nextQuestion}>
               {question === 5 ? 'Fullfør' : 'Neste'}
             </button>
           </div>
+          {errors.replied && (
+            <span className="login-error">{errors.replied}</span>
+          )}
         </div>
       </div>
+      {visible && (
+        <AlertPopup
+          title="Tilbakemelding"
+          description="Er du sikker på at du vil sende inn tilbakemeldingskjemaet?"
+          acceptMethod={sendFeedback}
+          cancelMethod={handleVisibility}
+          negativeAction="Avbryt"
+          positiveAction="Ja"
+        />
+      )}
     </>
   );
 };

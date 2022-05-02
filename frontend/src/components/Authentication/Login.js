@@ -1,17 +1,18 @@
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import LoginContext from '../../LoginContext/login-context';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import { BsExclamationTriangle } from 'react-icons/bs';
+
 import './Authentication.css';
 
 const LoginForm = () => {
   const history = useHistory();
   const username = useRef();
   const password = useRef();
+  const [showFeedback, setShowFeedBack] = useState(false);
 
   const loginContext = useContext(LoginContext);
-
-  const endpoint = '/user/signin';
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -20,7 +21,7 @@ const LoginForm = () => {
     const passwordValue = password.current.value;
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch('/user/signin', {
         method: 'POST',
         body: JSON.stringify({
           email: usernameValue,
@@ -28,22 +29,13 @@ const LoginForm = () => {
         }),
       });
       const data = await response.json();
+      setShowFeedBack(false);
       if (!response.ok) {
-        alert('Something went wrong!');
+        setShowFeedBack(true);
       } else {
-        const userResponse = await fetch('/user/get', {
-          method: 'POST',
-          body: JSON.stringify(data.userId),
-        });
-        const datum = await userResponse.json();
-
-        if (!userResponse.ok) {
-          alert('Something went wrong!');
-        } else {
-          loginContext.login(data.jwt, datum.adminAccess);
-          localStorage.setItem('userID', data.userId);
-          history.replace('/');
-        }
+        loginContext.login(data.token, data.refreshToken, data.adminAccess);
+        localStorage.setItem('userID', data.userId);
+        history.replace('/');
       }
     } catch (error) {
       console.log(error);
@@ -78,6 +70,11 @@ const LoginForm = () => {
             />
           </div>
           <div className="login-buttons">
+            {showFeedback && (
+              <p className="login-error">
+                <BsExclamationTriangle /> Epost eller passord er feil!
+              </p>
+            )}
             <button type="submit" className="btn big">
               Logg inn
             </button>

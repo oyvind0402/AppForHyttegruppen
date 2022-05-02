@@ -1,0 +1,53 @@
+.prices {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  gap: 6rem;
+}
+
+.price-item {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  align-items: center;
+}
+
+.price-text {
+  margin: 0.5rem 1rem;
+}
+
+.price-text p {
+  margin: 0;
+  padding: 0;
+}
+
+@media only screen and (max-width: 1000px) {
+  .info-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .prices {
+    gap: 3rem;
+    justify-content: space-around;
+  }
+  .info-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .prices {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: auto;
+  }
+  .price-item {
+    align-items: center;
+    width: fit-content;
+    margin: auto;
+  }
+  .price-text {
+    margin: 0.5rem;
+  }
+}

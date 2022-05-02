@@ -1,0 +1,41 @@
+.edit-faq-container {
+  width: 50%;
+  margin: auto;
+  padding: 2rem;
+}
+
+.edit-faq-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-input {
+  height: 125px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.faq-area {
+  height: 225px;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.editfaq-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  grid-gap: 0.5rem;
+}
+
+.editfaq-buttons .btn-smaller {
+  width: 200px;
+  height: 50px;
+  margin-top: 1rem;
+}

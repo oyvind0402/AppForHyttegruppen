@@ -7,7 +7,7 @@ const PopupApplication = (props) => {
   useEffect(() => {
     if (!visible) {
       document.getElementById('popup').style.display = 'none';
-      window.location.href = '/';
+      window.location.href = '/mineturer';
     }
   }, [visible]);
 

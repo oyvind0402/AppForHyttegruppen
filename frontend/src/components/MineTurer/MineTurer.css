@@ -13,7 +13,7 @@
   grid-template-columns: 40% 40%;
   grid-gap: 60px;
   justify-content: center;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 }
 
 .mytrip-card-wrapper {
@@ -21,6 +21,7 @@
   flex-direction: column;
   padding-left: 10%;
   padding-right: 10%;
+  min-height: 20rem;
 }
 
 .mintur-link {
@@ -50,15 +51,112 @@ hr {
   display: none;
 }
 
+.mytrip-banner {
+  position: relative;
+  text-align: center;
+}
+
+.mytrip-banner-title {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+
+  text-transform: uppercase;
+  font-size: 3rem;
+  font-weight: 750;
+  letter-spacing: 7px;
+  width: 100%;
+  margin: 3rem 0;
+}
+
+.mytrip-picture-banner {
+  opacity: 0.5;
+  min-height: 400px;
+  width: 100%;
+  object-fit: cover;
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+}
+
+.mytrip-profile-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  opacity: 0.5;
+}
+
+.mytrip-types {
+  width: 99%;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  display: flex;
+  justify-content: space-around;
+}
+
+.mytrip-type {
+  width: 33%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.mytrip-types-btn {
+  border: none;
+  background: transparent;
+  font-size: 2rem;
+  font-weight: 750;
+  border-bottom: 4px solid transparent;
+}
+
+.mytrip-types-btn:hover {
+  cursor: pointer;
+  border-bottom: 4px solid black;
+}
+
+.mytrip-active {
+  border-bottom: 4px solid black;
+}
+
 @media only screen and (max-width: 1220px) {
   .trip-row-wrapper {
     grid-template-columns: 1fr;
   }
 }
 
-@media only screen and (max-width: 500px) {
-  .mytrip-title {
+@media only screen and (max-width: 800px) {
+  .mytrip-types-btn {
     font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .mytrip-types-btn {
+    font-size: 1.25rem;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .mytrip-types {
+    flex-direction: column;
+    bottom: 0%;
+  }
+  .mytrip-type {
+    width: 99vw;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .mytrip-profile-icon {
+    display: none;
   }
 
   .mytrip-title-empty {

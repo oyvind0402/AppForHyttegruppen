@@ -10,6 +10,7 @@ const Header = () => {
   const loginContext = useContext(LoginContext);
   const [click, setClick] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [soknadOpen, setSoknadOpen] = useState(false);
 
   const prevScrollPos = useRef(
     typeof window !== 'undefined' && window.pageYOffset
@@ -17,8 +18,6 @@ const Header = () => {
 
   const loggedIn = loginContext.loggedIn;
   const adminAccess = loginContext.adminAccess;
-
-  const [defaultLocale, setDefaultLocale] = useState(true);
 
   const logoutHandler = () => {
     if (click) {
@@ -28,10 +27,6 @@ const Header = () => {
     loginContext.logout();
     localStorage.removeItem('userID');
     history.replace('/');
-  };
-
-  const changeLanguage = () => {
-    setDefaultLocale(!defaultLocale);
   };
 
   const handleClick = () => {
@@ -55,6 +50,18 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('/season/open');
+      const data = await response.json();
+      if (response.ok) {
+        setSoknadOpen(data.isOpen);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <nav className={visible ? 'nav-container' : 'nav-hide'}>
@@ -68,8 +75,8 @@ const Header = () => {
             </Link>
           </div>
         </div>
-        <div className={'nav-list'}>
-          <p>
+        <div className={loggedIn ? 'nav-list' : 'nav-list-smaller'}>
+          <p className="nav-text">
             <NavLink
               exact={true}
               activeClassName="active"
@@ -79,25 +86,29 @@ const Header = () => {
               Hjem
             </NavLink>
           </p>
-          <p>
-            <NavLink
-              activeClassName="active"
-              className="nav-list-item"
-              to="/mineturer"
-            >
-              Mine Turer
-            </NavLink>
-          </p>
-          <p>
-            <NavLink
-              activeClassName="active"
-              className="nav-list-item"
-              to="/soknad"
-            >
-              Søknad
-            </NavLink>
-          </p>
-          <p>
+          {loggedIn && (
+            <p className="nav-text">
+              <NavLink
+                activeClassName="active"
+                className="nav-list-item"
+                to="/mineturer"
+              >
+                Mine Turer
+              </NavLink>
+            </p>
+          )}
+          {loggedIn && (
+            <p className="nav-text">
+              <NavLink
+                activeClassName="active"
+                className="nav-list-item"
+                to={soknadOpen ? '/soknad' : '/stengt'}
+              >
+                Søknad
+              </NavLink>
+            </p>
+          )}
+          <p className="nav-text">
             <NavLink
               activeClassName="active"
               className="nav-list-item"
@@ -106,7 +117,7 @@ const Header = () => {
               Hytter
             </NavLink>
           </p>
-          <p>
+          <p className="nav-text">
             <NavLink
               activeClassName="active"
               className="nav-list-item"
@@ -115,7 +126,7 @@ const Header = () => {
               Hemsedal
             </NavLink>
           </p>
-          <p>
+          <p className="nav-text">
             <NavLink
               activeClassName="active"
               className="nav-list-item"
@@ -127,9 +138,9 @@ const Header = () => {
         </div>
         <div className="right-side">
           {loggedIn && (
-            <a className="nav-list-logout" onClick={logoutHandler}>
+            <button className="nav-list-logout" onClick={logoutHandler}>
               Logg ut
-            </a>
+            </button>
           )}
           {!loggedIn && (
             <Link className="nav-list-logout" to="/login">
@@ -141,16 +152,6 @@ const Header = () => {
               Admin
             </NavLink>
           )}
-          <img
-            className="language-nor"
-            onClick={changeLanguage}
-            src={
-              defaultLocale
-                ? `${process.env.PUBLIC_URL}/assets/pictures/Norwegian.svg`
-                : `${process.env.PUBLIC_URL}/assets/pictures/English.svg`
-            }
-            alt="Hjemmeikon"
-          />
         </div>
         <div className="mobile-menu">
           <span className="menu-icon">

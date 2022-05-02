@@ -7,8 +7,8 @@ const CabinContent = (props) => {
     <>
       <img
         className="card-picture-small"
-        src={`${process.env.PUBLIC_URL}/assets/pictures/cabin-main.jpg`}
-        alt={'need fixing'}
+        src={`${process.env.PUBLIC_URL}/assets/pictures/${props.cabin.pictures.mainPicture.filename}`}
+        alt={props.cabin.pictures.mainPicture.altText}
       />
       <div className="card-content-small">
         <h2 className="card-title">{props.cabin.name}</h2>

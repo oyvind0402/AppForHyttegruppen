@@ -4,7 +4,15 @@
   flex-wrap: wrap;
   align-content: center;
   width: 80%;
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
+}
+
+.step3-error {
+  margin: -1.5rem 0 0 0;
+}
+
+.step3-radio {
+  margin-bottom: 4.75rem;
 }
 
 .soknad-step3-next {
@@ -21,6 +29,18 @@
   display: grid;
   grid-template-columns: auto auto auto auto;
   margin: 2rem;
+}
+.textarea-soknad {
+  margin-bottom: 0;
+}
+.step3-italic {
+  font-style: italic;
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+#comments {
+  height: 200px;
 }
 
 @media only screen and (max-width: 1300px) {

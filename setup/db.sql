@@ -31,7 +31,9 @@ CREATE TABLE Cabins (
 CREATE TABLE Users(
     user_id char(22) PRIMARY KEY NOT NULL,
     email varchar(40) UNIQUE NOT NULL,
-    passwd varchar(20) NOT NULL, /*deal with hash */
+    hashed_passwd varchar(255) NOT NULL,
+    token varchar(255) NOT NULL,
+    refresh_token varchar(255) NOT NULL,
     firstname varchar(25) NOT NULL, 
     lastname varchar(25) NOT NULL, 
     admin_access boolean NOT NULL
@@ -40,12 +42,15 @@ CREATE TABLE Users(
 CREATE TABLE Applications(
     application_id SERIAL PRIMARY KEY,
     user_id char(22) NOT NULL,
+    ansattnummerWBS varchar(40) NOT NULL,
     employee_id varchar(40) NOT NULL,
     trip_purpose varchar(20) NOT NULL,
     number_of_cabins int NOT NULL,
+    kommentar TEXT,
     cabin_assignment varchar(10) NOT NULL,
     period_id int NOT NULL,
     winner boolean NOT NULL,
+    feedback boolean NOT NULL,
 
     CONSTRAINT fk_user
         FOREIGN KEY(user_id)
@@ -79,49 +84,83 @@ CREATE TABLE Faq(
     answer text NOT NULL
 );
 
+CREATE TABLE AdminEmails(
+    email_id SERIAL PRIMARY KEY,
+    email varchar(40) NOT NULL
+);
+
 INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
-VALUES('winter2022','2022-01-01', '2022-03-30', '2021-10-01', '2021-12-31'),
-('spring2022','2022-07-01', '2022-11-30', '2022-02-01', '2022-05-30');
+VALUES('Vinter 2022','2022-01-01', '2022-03-15', '2021-12-20', '2021-12-31'),
+('Høst 2022','2022-08-29', '2023-01-02', '2022-01-02', '2023-08-14');
 
 INSERT INTO Periods (period_name, starting, ending, season_name) 
-VALUES ('Week 1', '2022-01-03', '2022-01-10', 'winter2022'),
-('Week 2', '2022-01-10', '2022-01-17', 'winter2022'),
-('Week 3', '2022-01-17', '2022-01-24', 'winter2022'),
-('Week 4', '2022-01-24', '2022-01-31', 'winter2022'),
-('Week 5', '2022-01-31', '2022-02-07', 'winter2022'),
-('Week 6', '2022-02-07', '2022-02-14', 'winter2022'),
-('Week 7', '2022-02-14', '2022-02-21', 'winter2022'),
-('Week 8', '2022-02-21', '2022-02-28', 'winter2022'),
-('Week 9', '2022-02-28', '2022-03-07', 'winter2022'),
-('Week 10', '2022-03-07', '2022-03-14', 'winter2022'),
-('Week 11', '2022-03-14', '2022-03-21', 'winter2022'),
-('Week 12', '2022-03-21', '2022-03-28', 'winter2022'),
-('Week 13', '2022-03-28', '2022-04-04', 'winter2022'),
-('Week 14', '2022-04-04', '2022-04-11', 'winter2022'),
-('Week 15', '2022-04-11', '2022-04-18', 'winter2022'),
-('Week 16', '2022-04-18', '2022-04-25', 'winter2022'),
-('Week 17', '2022-04-25', '2022-05-02', 'winter2022'),
-('Week 40', '2022-10-09', '2022-10-16', 'spring2022');
+VALUES ('Uke 1', '2022-01-03', '2022-01-11', 'Vinter 2022'),
+('Forever Active', '2022-01-29', '2022-12-05', 'Høst 2022'),
+('Uke 14', '2022-04-19', '2022-04-26', 'Vinter 2022'),
+('Uke 35', '2022-08-29', '2022-09-05', 'Høst 2022'),
+('Uke 36', '2022-09-05', '2022-09-12', 'Høst 2022'),
+('Uke 37', '2022-09-12', '2022-09-19', 'Høst 2022'),
+('Uke 38', '2022-09-19', '2022-09-26', 'Høst 2022'),
+('Uke 39', '2022-09-26', '2022-10-03', 'Høst 2022'),
+('Uke 40', '2022-10-03', '2022-10-10', 'Høst 2022'),
+('Uke 41', '2022-10-10', '2022-10-17', 'Høst 2022'),
+('Uke 42', '2022-10-17', '2022-10-24', 'Høst 2022'),
+('Uke 43', '2022-10-24', '2022-10-31', 'Høst 2022'),
+('Uke 44', '2022-10-31', '2022-11-07', 'Høst 2022'),
+('Uke 45', '2022-11-07', '2022-11-14', 'Høst 2022'),
+('Uke 46', '2022-11-14', '2022-11-21', 'Høst 2022'),
+('Uke 47', '2022-11-21', '2022-11-28', 'Høst 2022'),
+('Uke 48', '2022-11-28', '2022-12-05', 'Høst 2022'),
+('Uke 49', '2022-12-05', '2022-12-12', 'Høst 2022'),
+('Uke 50', '2022-12-12', '2022-12-19', 'Høst 2022'),
+('Uke 51', '2022-12-19', '2022-12-26', 'Høst 2022'),
+('Uke 52', '2022-12-26', '2023-01-02', 'Høst 2022');
 
 
 INSERT INTO Cabins
 VALUES('Utsikten', TRUE),
-('Store Grøndalen', TRUE),
+('Fanitullen', TRUE),
 ('Knausen', TRUE),
-('Fanitullen', TRUE);
+('Store Grøndalen', TRUE);
 
 INSERT INTO Users 
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com','password123', 'test', 'tester', FALSE),
-('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com','admin', 'Admin', 'Adminer', TRUE);
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4uHEb2bdYRKt4OuX9xye5U8PkVSH.WJRS', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RAdGV0ZXIuY29tIiwiZXhwIjoxNjUwMDQzODMzfQ.dr6LP-qRSzmr5-VsDr6PptjvP8OtPyzp1pHpCvv1RK0', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjIzM30.xPsuMjr1qbJBBjIhLiGGNecYaj8ZaFeA0Y9qpf4bQvM', 'test', 'tester', FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$PsxqvC8fkSF6sEu9DF45/.N/eZLZyj8.K9k/BDsz7C/FqyMOdtH/S', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluQGFkbWluci5jb20iLCJleHAiOjE2NTAwNDM3MzN9.IKFVQxDWaVKYDLemALfx3Ck7hXL_jnz8N-aSTW0S7NE', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IiIsImV4cCI6MTY1MDU2MjEzM30.kwwObYPLJrDkk0pxCquhsf666_FWl7biWNC7LCrDrVg','Admin', 'Adminer', TRUE);
 
-INSERT INTO Applications(user_id, employee_id, trip_purpose, number_of_cabins, cabin_assignment, period_id, winner)
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA','my.id', 'private', '1', 'random', '1', FALSE);
+INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner, feedback)
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1','kommentar' ,'Tilfeldig', '1', TRUE, FALSE), /*Won in the past*/
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '2', TRUE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '4', TRUE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1', '','Tilfeldig', '5', FALSE, FALSE),
+('Z5CBgnCHiFsYXMmNdBYmKB','654321','admin.adminer', 'Prosjekt', '1', 'Vil ha en tilfeldig hytte, det er det samme hvilken','Tilfeldig', '3', TRUE, FALSE);
 
 INSERT INTO ApplicationCabins (application_id, cabin_name, cabin_won) 
-VALUES ('1', 'Utsikten', FALSE),
-('1', 'Fanitullen', FALSE);
+VALUES ('1', 'Utsikten', TRUE),
+('1', 'Fanitullen', FALSE),
+('2', 'Utsikten', FALSE),
+('2', 'Fanitullen', FALSE),
+('2', 'Knausen', TRUE),
+('2', 'Store Grøndalen', FALSE),
+('3', 'Utsikten', TRUE),
+('3', 'Fanitullen', FALSE),
+('3', 'Knausen', False),
+('3', 'Store Grøndalen', FALSE),
+('4', 'Utsikten', FALSE),
+('4', 'Fanitullen', FALSE),
+('4', 'Knausen', FALSE),
+('4', 'Store Grøndalen', FALSE),
+('5', 'Utsikten', FALSE),
+('5', 'Fanitullen', FALSE),
+('5', 'Knausen', FALSE),
+('5', 'Store Grøndalen', TRUE);
+
 
 INSERT INTO Faq (question, answer) 
-VALUES ('Question 1?', 'Hello i am an answer'),
-('Hvor mye koster en hytte?', 'En hytte koster 1200 NOK per uke men pga corona blir det 1200 NOK i tilleg for at hytta skal vaskes.'),
-('Question 2', 'Enda et svar');
+VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine turer eller ved å ta kontakt med hyttekomiteen@accenture.com. Dersom man avbestiller senere enn to uker før avreise blir det en ekstra kostnad på 500 NOK.'),
+('Hvor mye koster en hytte?', 'En hytte koster 1200 NOK per uke, i tillegg koster det 1200 NOK for at hytta skal vaskes. 2400 NOK totalt.'),
+('Hvordan betaler jeg for en hyttetur?', '1200 NOK blir trukket fra din lønnsslipp og 1200 NOK må vippses til vaskebyrået.'),
+('Noe ble ødelagt, hvordan sier jeg fra?', 'Du kan enten fylle ut et tilbakemeldingskjema under mine turer, dersom det haster kan du ta kontakt på: 123 456 78'),
+('Hvem kontakter jeg dersom jeg har et spørsmål?', 'Dersom du har et spørsmål kan du ta kontakt med hyttekomiteen@accenture.com');
+
+INSERT INTO AdminEmails (email)
+VALUES ('oyvind0402@gmail.com');

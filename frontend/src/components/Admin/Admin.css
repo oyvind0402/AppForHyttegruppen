@@ -6,6 +6,43 @@
   padding-bottom: 4rem;
 }
 
-.admin-container img {
-  margin-top: 2rem;
+.admin-picture {
+  margin-top: 4rem;
+  height: 500px;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  background-position: center;
+}
+
+@media only screen and (max-width: 2200px) {
+  .admin-picture-btn {
+    right: 12%;
+  }
+}
+
+@media only screen and (max-width: 1179px) {
+  .admin-container {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .admin-picture {
+    height: 300px;
+    border-radius: 0;
+  }
+
+  .admin-picture-btn {
+    height: 30px;
+  }
+
+  .admin-picture-text {
+    margin: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 382px) {
+  .admin-container {
+    width: 100%;
+  }
 }
