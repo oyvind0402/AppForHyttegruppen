@@ -691,6 +691,21 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 		return
 	}
 
+	//send email to the winners
+	var email string
+	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id IN (select user_id from Applications where application_id = $1)`, application.ApplicationId)
+	err = row.Scan(
+		&email,
+	)
+	if err != nil {
+		fmt.Println("from error in querry: ")
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("printing from UpdateApplicationWinner. Email:  %s", email)
+	AfterApplicationApproved(email)
+
 	// Return number of applications updated
 	ctx.JSON(200, rowsAffected)
 }

@@ -68,7 +68,8 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 }
 
 //endpont to send email after application was approved
-func (r repo) AfterApplicationApproved(ctx *gin.Context) {
+func AfterApplicationApproved(email string) {
+
 	//create html body
 	htmlBody.WriteString(`<html>
 	<head>
@@ -76,38 +77,13 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
    		<title>Automatic email from go</title>
 	</head>
 	<body>
-   		<p>Dine søknader ble godkjent:</p>
+   		<p>Din(e) søknad(er) ble godkjent. Gjerne sjekk HyttePortalen for å få mer informasjon</p>
+	</body>
+	</html>
 	`)
 
-	//gets the data from the client
-	//TODO double check type of data that is sent in
-	type IncomingData struct {
-		application data.Application
-	}
-	var inData = new(IncomingData)
-	//email := inData.aplication.User.email
-
-	err := ctx.BindJSON(inData)
-	if err != nil {
-		fmt.Println("from error inData: ")
-		fmt.Println(err)
-		return
-	}
-
-	var userEmail = new(string)
-
-	//TODO get email from application if possible?
-	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, inData.application)
-	err = row.Scan(
-		&userEmail,
-	)
-	if err != nil {
-		fmt.Println("from error in querry: ")
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("From SendEmailToUser():  " + *userEmail)
-	SendEmail(*userEmail)
+	fmt.Printf("printing from AfterApplicationApproved. Email: %s", email)
+	SendEmail(email)
 
 }
 
