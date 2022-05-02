@@ -3,12 +3,54 @@
 }
 
 .map {
-  margin-top: 40px;
-  margin-bottom: 20px;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .pigeon-map {
   width: 80% !important;
+}
+
+.map-elements {
+  width: 80%;
+  margin: 40px auto 20px auto;
+}
+
+.map-zoom-elements {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  top: -700px;
+}
+
+.map-zoom-btn {
+  padding: 0.5rem;
+  margin: 1rem;
+  width: 5rem;
+  background-color: white;
+  border-radius: 0.25rem;
+  border-color: #bd00ff;
+  font-size: 3rem;
+}
+
+.map-zoom-btn:hover {
+  cursor: pointer;
+  background-color: #eaddff;
+}
+
+@media only screen and (max-width: 900px) {
+  .map-zoom-btn {
+    padding: 0.25rem;
+    width: 3rem;
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .map-elements {
+    width: 100%;
+  }
 }

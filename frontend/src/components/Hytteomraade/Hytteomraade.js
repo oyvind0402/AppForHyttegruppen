@@ -92,15 +92,13 @@ const Hytteomraade = () => {
         </div>
       </div>
 
-      <button className="btn big omraade-btn">
-        <Link
-          className="btn-link"
-          to={{ pathname: 'https://hemsedal.com/' }}
-          target="_blank"
-        >
-          Finn flere aktiviteter
-        </Link>
-      </button>
+      <Link
+        className=" btn big omraade-btn btn-link"
+        to={{ pathname: 'https://hemsedal.com/' }}
+        target="_blank"
+      >
+        Finn flere aktiviteter
+      </Link>
     </>
   );
 };

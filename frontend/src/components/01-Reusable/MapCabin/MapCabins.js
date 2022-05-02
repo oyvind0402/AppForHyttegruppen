@@ -7,9 +7,14 @@ import { useEffect, useState } from 'react';
 
 const MapCabins = (props) => {
   const color = `hsl(271, 76%, 53%)`;
-
   const cabins = props.cabins;
   const [cabinCard, setCabinCard] = useState('');
+  const [center, setCenter] = useState([
+    cabins[0].coordinates.latitude,
+    cabins[0].coordinates.longitude,
+  ]);
+
+  const zoom = props.zoom;
 
   useEffect(() => {
     function handleResize() {
@@ -20,7 +25,7 @@ const MapCabins = (props) => {
         XPathResult.FIRST_ORDERED_NODE_TYPE,
         null
       ).singleNodeValue;
-      if (map !== null) map.style.width = '80%';
+      if (map !== null) map.style.width = '100%';
     }
 
     window.addEventListener('resize', handleResize);
@@ -31,13 +36,13 @@ const MapCabins = (props) => {
       <div className="map">
         <Map
           height={500}
-          width={`80%`}
-          defaultCenter={[
-            cabins[0].coordinates.latitude,
-            cabins[0].coordinates.longitude,
-          ]}
-          defaultZoom={11}
+          center={center}
+          zoom={zoom}
           className={'pigeon-map'}
+          onBoundsChanged={({ center, zoom }) => {
+            setCenter(center);
+            props.setZoom(zoom);
+          }}
         >
           {cabins[0] !== '' && (
             <Cluster>

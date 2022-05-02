@@ -60,6 +60,12 @@
   margin: 0 calc(var(--slick-dot) / 1.5);
 }
 
+.slick-dots li button:focus-visible {
+  outline-color: black;
+  outline-style: solid;
+  outline-width: 2px;
+}
+
 .slick-dots li button::before {
   font-size: var(--slick-dot);
   color: var(--light-pink);
