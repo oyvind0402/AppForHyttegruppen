@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import CabinCardBig from '../01-Reusable/CabinCard/CabinCardBig';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './Cabins.css';
-import MapCabins from '../01-Reusable/MapCabin/MapCabins';
+import '../01-Reusable/MapCabin/Map.css';
+import MapSingleCabin from '../01-Reusable/MapCabin/MapSingleCabin';
 
 const Cabins = () => {
   const [cabins, setCabins] = useState([]);
+  const [zoom, setZoom] = useState(11);
 
   //Fetching
   useEffect(() => {
@@ -28,7 +30,30 @@ const Cabins = () => {
           })}
       </div>
       {cabins.length > 0 && (
-        <MapCabins cabins={cabins} pickedCabin={cabins[0]} />
+        <>
+          <div className="map-elements">
+            <MapSingleCabin
+              cabins={cabins}
+              pickedCabin={cabins[0]}
+              zoom={zoom}
+              setZoom={setZoom}
+            />
+            <div className="map-zoom-elements">
+              <button
+                className="map-zoom-btn"
+                onClick={() => setZoom(zoom + 1)}
+              >
+                +
+              </button>
+              <button
+                className="map-zoom-btn"
+                onClick={() => setZoom(zoom - 1)}
+              >
+                -
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </>
   );

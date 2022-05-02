@@ -16,6 +16,7 @@ const Cabin = () => {
   const [cabins, setCabins] = useState([]);
   const [infoTab, setInfoTab] = useState(0);
   const [pageID, setPageID] = useState('');
+  const [zoom, setZoom] = useState(11);
 
   useEffect(() => {
     const link = window.location.href;
@@ -69,7 +70,31 @@ const Cabin = () => {
         {loadInfoTab(infoTab)}
         <Apply cabinData={cabinData} />
         {cabinData !== '' && (
-          <MapSingleCabin cabins={cabins} pickedCabin={cabinData} />
+          <>
+            <div className="map-elements">
+              <MapSingleCabin
+                cabins={cabins}
+                pickedCabin={cabins[0]}
+                zoom={zoom}
+                setZoom={setZoom}
+              />
+              <div className="map-zoom-elements">
+                <button
+                  className="map-zoom-btn"
+                  onClick={() => setZoom(zoom + 1)}
+                >
+                  +
+                </button>
+                <button
+                  className="map-zoom-btn"
+                  onClick={() => setZoom(zoom - 1)}
+                >
+                  -
+                </button>
+              </div>
+            </div>
+          </>
+          /*<MapSingleCabin cabins={cabins} pickedCabin={cabinData} />*/
         )}
       </div>
     </>
