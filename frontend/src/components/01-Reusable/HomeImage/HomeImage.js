@@ -10,8 +10,8 @@ const HomeImage = (props) => {
           src={`${process.env.PUBLIC_URL}/assets/pictures/${props.imageLink}`}
           alt={props.imageAlt}
         />
-        <Link className="link" to={props.link}>
-          <button className="home-picture-btn">{props.buttonText}</button>{' '}
+        <Link className="link home-picture-btn" to={props.link}>
+          {props.buttonText}
         </Link>
       </div>
     </>
