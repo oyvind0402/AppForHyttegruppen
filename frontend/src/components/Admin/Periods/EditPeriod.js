@@ -45,22 +45,6 @@ const EditPeriod = () => {
   const link = window.location.href;
   let id = link.split('/')[5];
 
-  const fetchPeriod = async () => {
-    const response = await fetch('/period/' + id);
-    const data = await response.json();
-    if (response.ok) {
-      setPeriod(data);
-    }
-  };
-
-  const fetchSeasons = async () => {
-    const response = await fetch('/season/all');
-    const data = await response.json();
-    if (response.ok) {
-      setSeasons(data);
-    }
-  };
-
   /**
    * @param {*} date A date in string format
    * @returns A date object made from the parameter
@@ -101,9 +85,27 @@ const EditPeriod = () => {
   };
 
   useEffect(() => {
+    async function fetchPeriod() {
+      fetch('/period/' + id)
+        .then((response) => response.json())
+        .then((data) => {
+          setPeriod(data);
+        })
+        .catch((error) => console.log(error));
+    }
+
+    async function fetchSeasons() {
+      fetch('/season/all')
+        .then((response) => response.json())
+        .then((data) => {
+          setSeasons(data);
+        })
+        .catch((error) => console.log(error));
+    }
+
     fetchPeriod();
     fetchSeasons();
-  }, []);
+  }, [id]);
 
   return (
     <>

@@ -11,7 +11,6 @@ const DeleteCabinPic = () => {
   const [counter, setCounter] = useState(0);
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState(false);
-  const [errorVisible, setErrorVisible] = useState(false);
   const [saved, setSaved] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -28,7 +27,7 @@ const DeleteCabinPic = () => {
         .catch((error) => console.log(error));
     }
     getCabin(pageID[pageID.length - 1]);
-  }, [counter]);
+  }, [counter, pageID]);
 
   const checkCheckBox = (e) => {
     if (e.target.tagName.toUpperCase() === 'INPUT') {
@@ -130,6 +129,7 @@ const DeleteCabinPic = () => {
                     </div>
                   );
                 }
+                return <></>;
               })}
           </div>
 

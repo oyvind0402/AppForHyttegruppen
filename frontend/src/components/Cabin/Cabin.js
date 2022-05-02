@@ -21,7 +21,6 @@ const Cabin = () => {
 
   useEffect(() => {
     async function getCabin(pageId) {
-      console.log(pageId);
       fetch(`/cabin/${pageId}`, {
         method: 'GET',
       })
@@ -30,7 +29,7 @@ const Cabin = () => {
         .catch((error) => console.log(error));
     }
     getCabin(pageID[pageID.length - 1]);
-  }, []);
+  }, [pageID]);
 
   useEffect(() => {
     async function fetchData() {

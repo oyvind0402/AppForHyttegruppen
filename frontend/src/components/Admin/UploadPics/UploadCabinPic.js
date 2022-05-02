@@ -45,25 +45,7 @@ const UploadCabinPic = () => {
       .catch((error) => {
         console.error(error);
       });
-
-    /*
-      fetch('/pictures/main', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        token: localStorage.getItem('refresh_token'),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-      */
     document.getElementById('image').value = null;
-    console.log(uploadedImages);
   };
 
   const handleChange = (event) => {
@@ -98,7 +80,7 @@ const UploadCabinPic = () => {
             <div>
               <p>Valgt bilde:</p>
               <div className="chosen-image-center">
-                <img className="chosen-image" src={url} />
+                <img className="chosen-image" src={url} alt={url} />
               </div>
             </div>
           </div>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AdminPictureSlettCabinCardBig from '../../01-Reusable/CabinCard/AdminPictureSlettCabinCard';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
