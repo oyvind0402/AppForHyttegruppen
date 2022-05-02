@@ -27,7 +27,6 @@ const Cabins = () => {
             return <CabinCardBig key={index} cabin={cabin} />;
           })}
       </div>
-      {console.log(cabins)}
       {cabins.length > 0 && (
         <MapCabins cabins={cabins} pickedCabin={cabins[0]} />
       )}

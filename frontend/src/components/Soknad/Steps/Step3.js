@@ -40,7 +40,6 @@ const Step3 = (props) => {
       });
       setPickedCabins(newPickedCabins);
     }
-    console.log(cabins);
   }, [cabins, pickedCabins]);
 
   function updatePickedCabin(picked, index) {

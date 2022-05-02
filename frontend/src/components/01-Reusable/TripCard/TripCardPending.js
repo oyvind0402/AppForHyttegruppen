@@ -9,7 +9,6 @@ const TripCardPending = (props) => {
   const history = useHistory();
   const [visible, setVisible] = useState(false);
 
-  console.log(props);
   if (props.data.length === 0) {
     return <></>;
   }

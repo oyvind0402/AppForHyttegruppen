@@ -21,8 +21,6 @@ const FeedbackForm = (props) => {
   const [answers, setAnswers] = useState([]);
   const [visible, setVisible] = useState(false);
 
-  console.log(props.data);
-
   const handleVisibility = () => {
     setVisible(!visible);
   };
