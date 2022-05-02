@@ -78,17 +78,13 @@ const Home = () => {
           link="/hytter"
         />
         <div className="home-buttons">
-          <Link className="link" to="/mineturer">
-            <button className="btn big mine-turer">
-              <FaRegUserCircle className="icon" />
-              <p className="btn-text-home">Mine turer</p>
-            </button>
+          <Link className="btn-link btn big mine-turer" to="/mineturer">
+            <FaRegUserCircle className="icon" />
+            <p className="btn-text-home">Mine turer</p>
           </Link>
-          <Link className="link" to="/faq">
-            <button className="btn big faq">
-              <FaQuestionCircle className="icon" />
-              <p className="btn-text-home">FAQ</p>
-            </button>
+          <Link className="btn-link btn big mine-turer" to="/faq">
+            <FaQuestionCircle className="icon" />
+            <p className="btn-text-home">FAQ</p>
           </Link>
         </div>
         <HomeImage
