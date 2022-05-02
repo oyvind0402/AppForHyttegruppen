@@ -88,7 +88,8 @@ const ExcelConverterPayCheck = (props) => {
           data={applications}
           filename={'hyttesøknader' + getFormattedDate(now) + '.csv'}
         >
-          Konverter tidligere turer til Excel lønnsslipp (.csv fil)
+          Konverter tidligere turer (fra valgt sesong) til Excel lønnsslipp
+          (.csv fil)
         </CSVLink>
       )}
     </>
