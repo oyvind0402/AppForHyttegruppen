@@ -8,6 +8,7 @@ import Step3 from './Steps/Step3';
 import './Soknad.css';
 
 const Soknad = () => {
+  let postSuccessful = true;
   const [page, setPage] = useState(1);
   const [popup, setPopup] = useState(false);
   const [popupResponse, setPopupResponse] = useState('');
@@ -48,12 +49,36 @@ const Soknad = () => {
           headers: { token: localStorage.getItem('refresh_token') },
         })
           .then((response) => console.log(response))
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            postSuccessful = false;
+            console.log(error);
+          });
       });
+      //post for email. Sends in user id
+      if (postSuccessful) {
+        const emailData = {};
+        emailData['userId'] = formData.userId; //returns id
+        emailData['periods'] = formData.period; //returns object
+        console.log(formData.period);
+        console.log(emailData);
+        console.log(JSON.stringify(emailData));
+        fetch('/email/post', {
+          method: 'POST',
+          body: JSON.stringify(emailData),
+          // headers: {
+          //   Accept: 'application/json',
+          // },
+        })
+          .then((response) => console.log(response))
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+
       //Everything is set back to the initial start position
       setFormCompleted(false);
       setPage(1);
-      nullstillForm();
+      // nullstillForm();
     }
   }, [formData]);
 

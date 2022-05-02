@@ -11,6 +11,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// func (r repo) sendEmailToUser(id string) {
+// 	var userEmail = new(string)
+// 	row := r.sqlDb.QueryRow(`SELECT email FROM Users WHERE user_id = $1 LIMIT 1`, id)
+// 	err := row.Scan(
+// 		&userEmail,
+// 	)
+// 	if err != nil {
+// 		fmt.Println("from error: ")
+// 		fmt.Println(err)
+// 		return
+// 	}
+// 	fmt.Println("from send email function:  " + *userEmail)
+// 	SendEmail(*userEmail)
+// }
+
 // Get cabins for a given ID (returns: []cabins, []cabinsWon, err)
 func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cabinsWon []data.CabinShort, err error, requestStatus int) {
 	// Execute query to fetch cabins and won information
