@@ -51,7 +51,14 @@ export default function Table({ columns, data }) {
 
                 return (
                   <th
-                    className={'react-table-header' + index}
+                    id={'react-table-header' + index}
+                    className={
+                      column.isSorted
+                        ? column.isSortedDesc
+                          ? 'sort-desc2'
+                          : 'sort-asc2'
+                        : ''
+                    }
                     key={index}
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                   >

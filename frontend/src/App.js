@@ -30,6 +30,10 @@ import EditFAQs from './components/Admin/FAQ/EditFAQs';
 import EditFAQ from './components/Admin/FAQ/EditFAQ';
 import SoknadStengtPage from './pages/SoknadStengtPage';
 import EditPeriod from './components/Admin/Periods/EditPeriod';
+import UploadOrDeleteCabinsPics from './components/Admin/UploadPics/UploadOrDeleteCabinsPics';
+import DeleteCabinPic from './components/Admin/UploadPics/DeleteCabinPic';
+import DeleteCabinsPic from './components/Admin/UploadPics/DeleteCabinsPic';
+import AdminSettings from './components/Admin/AdminSettings/AdminSettings';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -69,12 +73,24 @@ function App() {
           {loginContext.adminAccess && <AdminPage />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
+        <Route path="/admin/redigerbilder">
+          {loginContext.adminAccess && <UploadOrDeleteCabinsPics />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
         <Route path="/admin/lastoppbilder">
           {loginContext.adminAccess && <UploadCabinPics />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/lastoppbilde">
           {loginContext.adminAccess && <UploadCabinPic />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/slettbilder">
+          {loginContext.adminAccess && <DeleteCabinsPic />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/slettbilde">
+          {loginContext.adminAccess && <DeleteCabinPic />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/startsoknad">
@@ -125,6 +141,11 @@ function App() {
           {loginContext.adminAccess && <AddFAQ />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
+        <Route path="/admin/innstillinger">
+          {loginContext.adminAccess && <AdminSettings />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+
         {!soknadOpen && (
           <Route path="/stengt">
             <SoknadStengtPage />

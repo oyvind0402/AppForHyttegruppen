@@ -18,6 +18,12 @@
   -webkit-filter: blur(1px);
 }
 
+.admin-hero-picture {
+  width: 100%;
+  filter: blur(1px);
+  -webkit-filter: blur(1px);
+}
+
 .hero-text {
   position: absolute;
 
@@ -30,12 +36,30 @@
   letter-spacing: 7px;
 }
 
+.admin-hero-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+
+  text-transform: uppercase;
+  font-size: 3rem;
+  font-weight: 750;
+  letter-spacing: 7px;
+  z-index: 5;
+  color: var(--white);
+}
+
 @media only screen and (max-width: 850px) {
   .hero {
     height: 100px;
   }
 
   .hero-text {
+    margin-top: 10px;
+    font-size: 2rem;
+  }
+
+  .admin-hero-text {
     margin-top: 10px;
     font-size: 2rem;
   }
@@ -51,7 +75,15 @@
     width: auto;
   }
 
+  .admin-hero-picture {
+    width: auto;
+  }
+
   .hero-text {
+    font-size: 1.5rem;
+  }
+
+  .admin-hero-text {
     font-size: 1.5rem;
   }
 }

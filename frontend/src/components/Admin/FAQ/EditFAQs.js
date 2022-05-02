@@ -1,35 +1,34 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import './EditFAQs.css';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const EditFAQs = () => {
   const [FAQs, setFAQs] = useState([]);
 
-  const fetchFAQs = async () => {
-    const response = await fetch('/faq/all');
-    const data = await response.json();
-    if (response.ok) {
-      setFAQs(data);
-    }
-  };
-
   useEffect(() => {
+    async function fetchFAQs() {
+      fetch('/faq/all')
+        .then((response) => response.json())
+        .then((data) => {
+          setFAQs(data);
+        })
+        .catch((error) => console.log(error));
+    }
     fetchFAQs();
-    console.log(FAQs);
   }, []);
 
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Endre spørsmål og svar" />
+      <AdminBanner name="Endre spørsmål og svar" />
       <div className="edit-faqs-container">
         {FAQs
-          ? FAQs.map((FAQ) => {
+          ? FAQs.map((FAQ, index) => {
               return (
-                <div className="faq-wrapper">
+                <div className="faq-wrapper" key={index}>
                   <div className="edit-faq-wrapper">
                     <label className="edit-faq-label">Spørsmål</label>
                     <p className="edit-faq-question">{FAQ.question}</p>

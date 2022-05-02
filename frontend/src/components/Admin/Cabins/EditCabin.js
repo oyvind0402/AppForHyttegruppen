@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
-import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import { BsQuestionCircle } from 'react-icons/bs';
 import './EditCabin.css';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
@@ -13,8 +14,8 @@ const EditCabin = () => {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
   const [errorMessage, setErrorMessage] = useState({});
+  const [explanation, setExplanation] = useState(false);
   const link = window.location.href;
-  const history = useHistory();
 
   let cabinName = link.split('/')[5];
   if (cabinName.includes('%20') || cabinName.includes('%C3%B8')) {
@@ -22,23 +23,19 @@ const EditCabin = () => {
     cabinName = fix.replace('%C3%B8', 'ø');
   }
 
-  const fetchCabin = async () => {
-    const response = await fetch('/cabin/' + cabinName, {
-      method: 'GET',
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      let copy = [];
-      copy.push(data);
-      setCabin(copy);
-    }
-  };
-
   useEffect(() => {
+    async function fetchCabin() {
+      fetch('/cabin/' + cabinName)
+        .then((response) => response.json())
+        .then((data) => {
+          let copy = [];
+          copy.push(data);
+          setCabin(copy);
+        })
+        .catch((error) => console.log(error));
+    }
     fetchCabin();
-    console.log(cabin);
-  }, []);
+  }, [cabinName]);
 
   const handleAddItem = () => {
     const node = document.createElement('input');
@@ -158,6 +155,13 @@ const EditCabin = () => {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
 
+    const huskeliste = document.getElementById('todolist').childNodes;
+    for (let i = 1; i < huskeliste.length; i++) {
+      if (huskeliste[i].value === '') {
+        _errors.huskeliste = 'Det er ikke lov med tome verdier!';
+      }
+    }
+
     if (document.getElementById('mainPictureEndre').value.indexOf(' ') > -1) {
       _errors.mainPicture = 'Det er ikke lov med mellomrom i bilde navn!';
     }
@@ -178,6 +182,7 @@ const EditCabin = () => {
       _errors.sleepingslots ||
       _errors.bedrooms ||
       _errors.recycling ||
+      _errors.huskeliste ||
       _errors.mainPicture
     ) {
       return;
@@ -299,9 +304,14 @@ const EditCabin = () => {
     setSaved(true);
   };
 
+  const handleExplanation = () => {
+    setExplanation(!explanation);
+  };
+
   return (
     <>
       <BackButton name="Tilbake til endre hytter" link="admin/endrehytter" />
+      <AdminBanner name="Endre hytte" />
       <div className="edit-cabin-container">
         <div className="edit-cabin-1-3">
           <div className="edit-cabin-wrapper">
@@ -524,6 +534,15 @@ const EditCabin = () => {
             id="edit-active"
             defaultChecked={cabin.length !== 0 ? cabin[0].active : null}
           />
+          <BsQuestionCircle
+            className="add-cabin-comment add-question"
+            onClick={handleExplanation}
+          />
+          {explanation && (
+            <p className="add-cabin-comment">
+              Dersom huket av vil hytten være mulig å søkes på
+            </p>
+          )}
         </div>
         <div className="edit-cabin-wrapper" id="todolist">
           <label className="edit-cabin-label">Huskeliste</label>
@@ -540,6 +559,9 @@ const EditCabin = () => {
                 );
               })
             : null}
+          {errorMessage.huskeliste && (
+            <span className="login-error">{errorMessage.huskeliste}</span>
+          )}
         </div>
         <div className="add-remove-item">
           <IoMdAddCircle onClick={handleAddItem} />

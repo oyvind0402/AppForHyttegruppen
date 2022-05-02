@@ -99,7 +99,7 @@ const ExcelConverter = (props) => {
           data={applications}
           filename={'hyttesøknader' + getFormattedDate(now) + '.csv'}
         >
-          Konverter søknader til Excel (.csv fil)
+          Konverter søknader/turer til Excel (.csv fil)
         </CSVLink>
       )}
     </>

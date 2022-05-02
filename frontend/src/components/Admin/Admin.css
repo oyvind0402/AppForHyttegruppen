@@ -7,60 +7,11 @@
 }
 
 .admin-picture {
-  position: relative;
   margin-top: 4rem;
-  width: 100%;
-  height: 45vh;
+  height: 500px;
   background-repeat: no-repeat;
   border-radius: 5px;
   background-position: center;
-}
-
-.admin-picture-btn {
-  display: table;
-  position: absolute;
-  bottom: 10%;
-  right: 17%;
-  min-width: 15rem;
-  height: 50px;
-  border-radius: 0.25rem;
-  background-color: #f4f4f4;
-  align-items: center;
-  justify-items: center;
-  font-size: 1.5rem;
-  font-weight: 750;
-}
-
-.admin-picture-text {
-  color: black;
-  align-items: center;
-}
-
-.admin-picture-text::before {
-  content: '>';
-  position: relative;
-  top: 50%;
-  left: -10%;
-  color: #d182ff;
-  vertical-align: 5%;
-}
-
-.admin-picture-icon {
-  font-size: 2rem;
-  color: #d182ff;
-  display: table-cell;
-  line-height: 10px;
-  vertical-align: middle;
-}
-
-.admin-picture-btn:hover > ::before,
-.admin-picture-btn:hover > p {
-  color: white;
-}
-
-.admin-picture-btn:hover {
-  background-color: #bd00ff;
-  cursor: pointer;
 }
 
 @media only screen and (max-width: 2200px) {
@@ -77,7 +28,8 @@
 
 @media only screen and (max-width: 650px) {
   .admin-picture {
-    height: 30vh;
+    height: 300px;
+    border-radius: 0;
   }
 
   .admin-picture-btn {

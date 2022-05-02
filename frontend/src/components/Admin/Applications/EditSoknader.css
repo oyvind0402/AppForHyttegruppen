@@ -66,7 +66,14 @@
   flex-direction: column;
 }
 
-@media only screen and (max-width: 720px) {
+.hidden-text {
+  color: transparent;
+  margin: 0;
+  line-height: 1rem;
+  height: 1.3125rem;
+}
+
+@media only screen and (max-width: 730px) {
   .checkbox-trip-container {
     font-size: 0.8rem;
   }
@@ -84,6 +91,7 @@
   .tab-container {
     grid-template-columns: 1fr 1fr 1fr;
     padding: 3rem;
+    padding-bottom: 0;
   }
 
   .checkbox-trip-label {
@@ -91,14 +99,20 @@
   }
 }
 
-@media only screen and (max-width: 455px) {
+@media only screen and (max-width: 502px) {
   .checkbox-trip-container {
     font-size: 0.6rem;
   }
 }
 
-@media only screen and (max-width: 415px) {
+@media only screen and (max-width: 455px) {
   .tab-container {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 332px) {
+  .tab-container {
+    grid-template-columns: 1fr;
   }
 }

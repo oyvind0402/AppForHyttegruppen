@@ -84,6 +84,11 @@ CREATE TABLE Faq(
     answer text NOT NULL
 );
 
+CREATE TABLE AdminEmails(
+    email_id SERIAL PRIMARY KEY,
+    email varchar(40) NOT NULL
+);
+
 INSERT INTO Seasons (season_name, first_day, last_day, apply_from, apply_until)
 VALUES('Vinter 2022','2022-01-01', '2022-03-15', '2021-12-20', '2021-12-31'),
 ('Høst 2022','2022-08-29', '2023-01-02', '2022-01-02', '2023-08-14');
@@ -147,7 +152,7 @@ VALUES ('1', 'Utsikten', TRUE),
 ('5', 'Utsikten', FALSE),
 ('5', 'Fanitullen', FALSE),
 ('5', 'Knausen', FALSE),
-('5', 'Store Grøndalen', FALSE);
+('5', 'Store Grøndalen', TRUE);
 
 
 INSERT INTO Faq (question, answer) 
@@ -156,3 +161,6 @@ VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine tu
 ('Hvordan betaler jeg for en hyttetur?', '1200 NOK blir trukket fra din lønnsslipp og 1200 NOK må vippses til vaskebyrået.'),
 ('Noe ble ødelagt, hvordan sier jeg fra?', 'Du kan enten fylle ut et tilbakemeldingskjema under mine turer, dersom det haster kan du ta kontakt på: 123 456 78'),
 ('Hvem kontakter jeg dersom jeg har et spørsmål?', 'Dersom du har et spørsmål kan du ta kontakt med hyttekomiteen@accenture.com');
+
+INSERT INTO AdminEmails (email)
+VALUES ('oyvind0402@gmail.com');

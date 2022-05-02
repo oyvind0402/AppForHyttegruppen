@@ -52,7 +52,7 @@ const YourTrips = () => {
   };
   return (
     <>
-      {currentTrips !== null && (
+      {currentTrips !== null ? (
         <div className="mytrip-card-wrapper">
           <p className="mytrip-title-empty">Dine nåværende turer:</p>
           <div className="trip-row-wrapper">
@@ -61,8 +61,13 @@ const YourTrips = () => {
             ))}
           </div>
         </div>
+      ) : (
+        <div className="mytrip-card-wrapper">
+          <p className="mytrip-title-empty">Dine nåværende turer:</p>
+          <p className="empty-trip">Ingen nåværende turer</p>
+        </div>
       )}
-
+      <hr />
       {futureTrips !== null ? (
         <div className="mytrip-card-wrapper">
           <p className="mytrip-title-empty">Dine godkjente turer:</p>

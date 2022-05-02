@@ -1,11 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import ExcelConverter from '../../01-Reusable/ExcelConverter/ExcelConverter';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknader.css';
 import Table from '../../01-Reusable/Table/Table';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import ExcelConverterPayCheck from '../../01-Reusable/ExcelConverter/ExcelPaycheckConverter';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const Applications = () => {
   const [allApplications, setAllApplications] = useState([]);
@@ -206,7 +207,6 @@ const Applications = () => {
 
   const addChangedTrip = (id) => {
     let winner = document.getElementById('winnercheck' + id).checked;
-    console.log(winner);
     let trip = {};
     allApplications.forEach((item) => {
       if (item.applicationId === id) {
@@ -214,8 +214,6 @@ const Applications = () => {
       }
     });
     trip.winner = winner;
-
-    console.log(trip.winner);
 
     let contains = false;
 
@@ -234,7 +232,6 @@ const Applications = () => {
     } else {
       _changedTrips.push(trip);
     }
-    console.log(_changedTrips);
   };
 
   const addAssignment = (id) => {
@@ -345,8 +342,20 @@ const Applications = () => {
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
-      <HeroBanner name="Alle søknader" />
-      {applications !== null && <ExcelConverter data={applications} />}
+      <AdminBanner name="Alle søknader" />
+      {applications !== null ? (
+        <ExcelConverter data={applications} />
+      ) : (
+        <p className="hidden-text"></p>
+      )}
+      {applications !== null && applications === pastWinning ? (
+        <>
+          <br />
+          <ExcelConverterPayCheck data={applications} />
+        </>
+      ) : (
+        <p className="hidden-text"></p>
+      )}
       {applications === null && (
         <p className="application-title">Søknader / turer (0)</p>
       )}
@@ -392,7 +401,7 @@ const Applications = () => {
             }}
           />
           <label htmlFor="pastPending" className="checkbox-trip-label">
-            Tidligere søknader
+            Ikke tildelte søknader
           </label>
         </div>
         <div className="checkbox-trip-container" id="chckb3">
@@ -457,7 +466,9 @@ const Applications = () => {
               onClick={() => postWinners(_cabinWinners)}
               className="btn big"
             >
-              {applications === futurePending ? 'Tildel hytter' : 'Endre turer'}
+              {applications === futurePending
+                ? 'Tildel hytter'
+                : 'Lagre endringer'}
             </button>
           )}
 

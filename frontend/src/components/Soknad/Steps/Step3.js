@@ -41,7 +41,7 @@ const Step3 = (props) => {
       setPickedCabins(newPickedCabins);
     }
     console.log(cabins);
-  }, [cabins]);
+  }, [cabins, pickedCabins]);
 
   function updatePickedCabin(picked, index) {
     pickedCabins[index] = picked;
@@ -188,7 +188,7 @@ const Step3 = (props) => {
                 name="comments"
                 id="comments"
                 value={kommentar}
-                placeholder="Skriv en kommentar her..."
+                placeholder="Skriv gjerne hytteprioritet eller spesifikke ønsker.."
                 onChange={(e) => setKommentar(e.target.value)}
               ></textarea>
             </div>

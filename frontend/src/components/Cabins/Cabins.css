@@ -1,20 +1,21 @@
 .cabins-display {
-  width: 60%;
+  width: 90%;
   margin: 0 auto;
 
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 2rem;
 }
 
 @media only screen and (max-width: 1600px) {
   .cabins-display {
-    width: 80%;
+    grid-template-columns: auto auto auto;
   }
 }
 
 @media only screen and (max-width: 1200px) {
   .cabins-display {
-    width: 100%;
+    grid-template-columns: auto auto;
   }
 }
 

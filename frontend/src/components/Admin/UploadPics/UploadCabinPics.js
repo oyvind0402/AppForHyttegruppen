@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminPictureCabinCardBig from '../../01-Reusable/CabinCard/AdminPictureCabinCard';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import './UploadCabinPics.css';
 
 const UploadCabinPics = () => {
@@ -23,19 +24,13 @@ const UploadCabinPics = () => {
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Last opp bilder" />
+      <AdminBanner name="Last opp bilder" />
       <p className="upload-pics-title">Last opp bilder for:</p>
-      <div className="upload-pics-container">
-        {cabins?.map((cabin) => {
-          return (
-            <Link
-              to={'/admin/lastoppbilde/' + cabin.name}
-              className="btn-smaller link"
-            >
-              {cabin.name}
-            </Link>
-          );
-        })}
+      <div className="cabins-display">
+        {cabins.length > 0 &&
+          cabins.map((cabin, index) => {
+            return <AdminPictureCabinCardBig key={index} cabin={cabin} />;
+          })}
       </div>
     </>
   );

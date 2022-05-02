@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../01-Reusable/HeroBanner/AdminBanner';
 import './Admin.css';
-import AdminImg from '../../Images/TripHistory.svg';
 
 const Admin = () => {
   return (
     <>
-      <HeroBanner name="Admin" />
+      <AdminBanner name="Admin" />
       <div className="admin-container">
         <Link className="btn-link big btn" to="/admin/startsoknad">
           Åpne søknadsperiode
@@ -15,12 +14,8 @@ const Admin = () => {
           Alle søknader
         </Link>
         <Link className="btn-link big btn" to="/admin/endringer">
-          Endre innhold på siden
+          Endre nettsidens innhold
         </Link>
-        <div
-          className="admin-picture"
-          style={{ backgroundImage: 'url(' + AdminImg + ')' }}
-        ></div>
       </div>
     </>
   );

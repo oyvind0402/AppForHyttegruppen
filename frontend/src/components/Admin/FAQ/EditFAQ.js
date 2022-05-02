@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditFAQ.css';
 
@@ -43,14 +43,6 @@ const EditFAQ = () => {
   const link = window.location.href;
   let id = link.split('/')[5];
 
-  const fetchFAQ = async () => {
-    const response = await fetch('/faq/' + id);
-    const data = await response.json();
-    if (response.ok) {
-      setFAQ(data);
-    }
-  };
-
   const editFAQ = async () => {
     const _FAQ = {
       id: parseInt(id),
@@ -82,8 +74,16 @@ const EditFAQ = () => {
   };
 
   useEffect(() => {
+    async function fetchFAQ() {
+      fetch('/faq/' + id)
+        .then((response) => response.json())
+        .then((data) => {
+          setFAQ(data);
+        })
+        .catch((error) => console.log(error));
+    }
     fetchFAQ();
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -91,7 +91,7 @@ const EditFAQ = () => {
         name="Tilbake til endre spørsmål og svar"
         link="admin/endrefaqs"
       />
-      <HeroBanner name="Endre FAQ" />
+      <AdminBanner name="Endre FAQ" />
       <div className="edit-faq-container">
         <div className="edit-faq-box">
           <label className="faq-title">Spørsmål</label>

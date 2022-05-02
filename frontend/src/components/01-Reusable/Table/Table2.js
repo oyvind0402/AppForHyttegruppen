@@ -26,7 +26,7 @@ export default function Table2({ columns, data }) {
           className="react-table-input"
           value={filterBy}
           onChange={handleFiltering}
-          placeholder={'Søk på periode...'}
+          placeholder={'Søk på navn...'}
         />
       </div>
 
@@ -40,7 +40,13 @@ export default function Table2({ columns, data }) {
                 }
                 return (
                   <th
-                    className={'react-table-header2' + index}
+                    className={
+                      column.isSorted
+                        ? column.isSortedDesc
+                          ? 'sort-desc'
+                          : 'sort-asc'
+                        : 'react-table-header2' + index
+                    }
                     key={index}
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                   >

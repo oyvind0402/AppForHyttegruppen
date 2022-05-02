@@ -44,7 +44,7 @@ func (r repo) GetOneFAQ(ctx *gin.Context) {
 // Retrieve all faqs in database (receives NOTHING; returns []FAQ)
 func (r repo) GetAllFAQs(ctx *gin.Context) {
 	// Select all FAQ from database
-	rows, err := r.sqlDb.Query(`SELECT * FROM Faq`)
+	rows, err := r.sqlDb.Query(`SELECT * FROM Faq ORDER BY faq_id`)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return

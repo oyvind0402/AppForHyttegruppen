@@ -146,12 +146,14 @@ db.cabins.insertMany([
     longDescription:
       "Fanitullhytta ligger sentrumsnært i Hemsedal og er bygget i 1997. Hytta har god standard og består av stue, spisestua med kjøkken, 4 soverom (2 med dobbeltseng, 2 med køyeseng), 8 sengeplasser totalt, 2 bad, badstue og bod. Det er trådløst nett på hytta, info om pålogging finner du i gangen.",
     pictures: {
-      mainPicture: { filename: "cabin-main.jpg", altText: "Cabin Main" },
+      mainPicture: { filename: "fanitullen-utside.jpg", altText: "Main Fanitullen" },
       otherPictures: [
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
+        { filename: "fanitullen-utside2.jpg", altText: "Fanitullen utside" },
+        { filename: "fanitullen-stue.jpg", altText: "Fanitullen stue" },
+        { filename: "fanitullen-soverom.jpg", altText: "Fanitullen soverom" },
+        { filename: "fanitullen-kjokken.jpg", altText: "Fanitullen kjøkken" },
+        { filename: "fanitullen-gang.jpg", altText: "Fanitullen gang" },
+        { filename: "fanitullen-bad.jpg", altText: "Fanitullen bad" },
       ],
     },
     address: "Torsetvegen 494",
@@ -191,12 +193,20 @@ db.cabins.insertMany([
     longDescription:
       "Hytta har god standard, bygget i 1991; 4 soverom: 2 m/dobbeltsenger, 1 m/køyer med bred underkøye, 1 m/ køyeseng. Fjærmadrasser, dyner og puter. Stort åpent allrom med stue m/natursteinspeis, TV/parabol, langbord med plass til 10, kjøkken i furu m/komfyr, mikro, kjøl/frys, oppvaskmaskin, kaffetrakter mm. Utstyrt til 10 personer. 1 bad m dusj, badstu, og WC. 1 WC-rom. Entré. God skapplass på alle rommene. Innvendig bodrom. Veranda med utgang fra stua. Alle rom er oppvarmet med gulvvarme. Keramiske fliser på alle rom, eks. soverom. Innvendig panel, og med villmarkspanel i allrommet. Hytta er oppgradert med ny salong og spisestue. Hytta har nå trådløst nett (fiber) og lader til El-bil.",
     pictures: {
-      mainPicture: { filename: "cabin-main.jpg", altText: "Cabin Main" },
+      mainPicture: { filename: "knausen-utsikt-vinter.jpg", altText: "Knausen utsikt vinter" },
       otherPictures: [
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
+        { filename: "knausen-utsikt-sommer.jpg", altText: "Kanusen utsikt sommer" },
+        { filename: "knausen-stue.jpg", altText: "Knausen stue" },
+        { filename: "knausen-spisestue.jpg", altText: "Knausen spisestue" },
+        { filename: "knausen-do.jpg", altText: "Knausen do" },
+        { filename: "knausen-badstue.jpg", altText: "Knausen badstue" },
+        { filename: "knausen-kjokken-stue.jpg", altText: "Kanusen kjokken/stue" },
+        { filename: "knausen-kjokken.jpg", altText: "Kanusen kjokken" },
+        { filename: "knausen-soverom-1.jpg", altText: "Knausen soverom 1" },
+        { filename: "knausen-soverom-2.jpg", altText: "Knausen soverom 2" },
+        { filename: "knausen-soverom-3.jpg", altText: "Knausen soverom 3" },        
+        { filename: "knausen-soverom-4.jpg", altText: "Knausen soverom 4" },
+        { filename: "knausen-soverom-5.jpg", altText: "Knausen soverom 5" },
       ],
     },
     address: "Grøndalsvegen 764",
@@ -228,12 +238,12 @@ db.cabins.insertMany([
     longDescription:
       "«Randen» ligger fint i Grøndalen i Hemsedal. Hytta ble modernisert i 2008 og har god standard. Hytta består av stue, spisestua med kjøkkenR, 4 soverom (2 med dobbeltseng, 1 med køyeseng og 1 med familiekøye) - 8 sengeplasser totalt, 2 bad, badstue og veranda. Hytta har nå trådløst nett (fiber) og lader til El-bil.",
     pictures: {
-      mainPicture: { filename: "cabin-main.jpg", altText: "Cabin Main" },
+      mainPicture: { filename: "store-grondalen-siden.jpg", altText: "Store grøndalen main" },
       otherPictures: [
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
-        { filename: "cabin-main.jpg", altText: "Cabin Main" },
+        { filename: "store-grondalen-utenfra.jpg", altText: "Store grøndalen utenfra" },
+        { filename: "store-grondalen-kjokken-og-stue.jpg", altText: "Store grøndalen kjøkken og stue" },
+        { filename: "store-grondalen-peis.jpg", altText: "Store grøndalen peis" },
+        { filename: "store-grondalen-parkering.jpg", altText: "Store grøndalen parkering" },
       ],
     },
     address: "Grøndalsvegen 762",

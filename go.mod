@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/jasonlvhit/gocron v0.0.1
 	github.com/lib/pq v1.10.4
 	go.mongodb.org/mongo-driver v1.8.4
 )

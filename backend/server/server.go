@@ -125,6 +125,7 @@ func setRouter(r repo) *gin.Engine {
 		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
 		userapi.POST("/signin", r.SignIn)
+		userapi.PATCH("/setadmin", middleware.Authenticate(), r.UpdateUserAdminAccess)
 	}
 
 	faqapi := router.Group("/faq")
@@ -142,6 +143,15 @@ func setRouter(r repo) *gin.Engine {
 		picturesapi.POST("/one", middleware.Authenticate(), r.PostOnePicture)
 		picturesapi.POST("/replace", middleware.Authenticate(), r.PostReplaceRestPicture)
 		picturesapi.POST("/replaceFirst", middleware.Authenticate(), r.PostReplaceFirstRestPicture)
+		picturesapi.POST("/deletepictures", middleware.Authenticate(), r.DeletePictures)
+	}
+
+	adminapi := router.Group("/admin_email")
+	{
+		adminapi.GET("/all", r.GetAllAdminEmailAddresses)
+		adminapi.POST("/post", middleware.Authenticate(), r.PostAdminEmailAddress)
+		adminapi.PUT("/update", middleware.Authenticate(), r.UpdateAdminEmailAddress)
+		adminapi.DELETE("/delete", middleware.Authenticate(), r.DeleteAdminEmailAddress)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })

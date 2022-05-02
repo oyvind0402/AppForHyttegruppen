@@ -1,19 +1,19 @@
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import './AddCabin.css';
 import { useState } from 'react';
-import { BrowserRouter, useHistory } from 'react-router-dom';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
+import { BsQuestionCircle } from 'react-icons/bs';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const AddCabin = () => {
-  const history = useHistory();
   const [visible, setVisible] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [saved, setSaved] = useState(false);
   const [errors, setErrors] = useState({});
   const [error, setError] = useState('');
+  const [explanation, setExplanation] = useState(false);
 
   const handleAddItem = () => {
     const node = document.createElement('input');
@@ -23,21 +23,11 @@ const AddCabin = () => {
   };
 
   const removeItem = () => {
-    if (document.getElementById('todolist').hasChildNodes()) {
-      if (
-        document.getElementById('todolist').lastChild.className !==
-        'add-cabin-label'
-      ) {
-        document
-          .getElementById('todolist')
-          .removeChild(document.getElementById('todolist').lastChild);
-      }
+    if (document.getElementById('todolist').childNodes.length > 1) {
+      document
+        .getElementById('todolist')
+        .removeChild(document.getElementById('todolist').lastChild);
     }
-  };
-
-  const handleSavedVisibility = () => {
-    setSaved(false);
-    window.location.href = '/hytter';
   };
 
   const handleVisibility = () => {
@@ -147,6 +137,13 @@ const AddCabin = () => {
       _errors.recycling = 'Fyll inn kildesortering!';
     }
 
+    const huskeliste = document.getElementById('todolist').childNodes;
+    for (let i = 1; i < huskeliste.length; i++) {
+      if (huskeliste[i].value === '') {
+        _errors.huskeliste = 'Det er ikke lov med tome verdier!';
+      }
+    }
+
     if (document.getElementById('mainPicture').value.length === 0) {
       _errors.mainPicture = 'Husk å legge til et hovedbilde!';
     } else if (document.getElementById('mainPicture').value.indexOf(' ') > -1) {
@@ -169,6 +166,7 @@ const AddCabin = () => {
       _errors.sleepingslots ||
       _errors.bedrooms ||
       _errors.recycling ||
+      _errors.huskeliste ||
       _errors.mainPicture
     ) {
       return;
@@ -290,10 +288,14 @@ const AddCabin = () => {
     setSaved(true);
   };
 
+  const handleExplanation = () => {
+    setExplanation(!explanation);
+  };
+
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Legg til hytte" />
+      <AdminBanner name="Legg til hytte" />
       <div className="add-cabin-container">
         <div className="add-cabin-1-3">
           <div className="add-cabin-wrapper">
@@ -410,7 +412,7 @@ const AddCabin = () => {
         <div className="add-cabin-1-1-1">
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-price">
-              Pris
+              Leiepris
             </label>
             <input
               defaultValue={1200}
@@ -503,7 +505,17 @@ const AddCabin = () => {
             className="add-cabin-checkbox"
             type="checkbox"
             id="add-active"
+            defaultChecked
           />
+          <BsQuestionCircle
+            className="add-cabin-comment add-question"
+            onClick={handleExplanation}
+          />
+          {explanation && (
+            <p className="add-cabin-comment">
+              Dersom huket av vil hytten være mulig å søkes på
+            </p>
+          )}
         </div>
         <div className="add-cabin-wrapper" id="todolist">
           <label className="add-cabin-label">Huskeliste</label>
@@ -512,6 +524,9 @@ const AddCabin = () => {
             className="add-cabin-input"
             placeholder="Skriv inn noe brukeren må huske på.."
           />
+          {errors.huskeliste && (
+            <span className="login-error">{errors.huskeliste}</span>
+          )}
         </div>
         <div className="add-remove-item">
           <IoMdAddCircle onClick={handleAddItem} />

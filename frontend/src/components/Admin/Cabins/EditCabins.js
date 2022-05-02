@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AdminCabinCardBig from '../../01-Reusable/CabinCard/AdminCabinCard';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const EditCabins = () => {
   const [cabins, setCabins] = useState([]);
@@ -20,7 +20,7 @@ const EditCabins = () => {
   return (
     <>
       <BackButton name="Tilbake til sideinnhold" link="admin/endringer" />
-      <HeroBanner name="Endre hytter" />
+      <AdminBanner name="Endre hytter" />
       <div className="cabins-display">
         {cabins.length > 0 &&
           cabins.map((cabin, index) => {

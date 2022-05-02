@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../../01-Reusable/HeroBanner/HeroBanner';
+import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknad.css';
 
@@ -165,7 +165,7 @@ const Application = () => {
         name="Tilbake til endre søknader"
         link="admin/endresoknader"
       />
-      <HeroBanner name="Endre søknad" />
+      <AdminBanner name="Endre søknad" />
       <div className="edit-trip-container">
         <div className="edit-trip-grid">
           <div>
