@@ -62,6 +62,7 @@ const TripCardActive = (props) => {
 
     const data = await response.json();
     if (response.ok) {
+      console.log(data);
       // TODO Send email to admin here if the user cancels their trip
       history.go(0);
     }
