@@ -138,9 +138,14 @@ const Header = () => {
         </div>
         <div className="right-side">
           {loggedIn && (
-            <button className="nav-list-logout" onClick={logoutHandler}>
+            <NavLink
+              activeClassName="active"
+              className="nav-list-logout"
+              to="/login"
+              onClick={logoutHandler}
+            >
               Logg ut
-            </button>
+            </NavLink>
           )}
           {!loggedIn && (
             <Link className="nav-list-logout" to="/login">
