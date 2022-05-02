@@ -43,14 +43,6 @@ const EditFAQ = () => {
   const link = window.location.href;
   let id = link.split('/')[5];
 
-  const fetchFAQ = async () => {
-    const response = await fetch('/faq/' + id);
-    const data = await response.json();
-    if (response.ok) {
-      setFAQ(data);
-    }
-  };
-
   const editFAQ = async () => {
     const _FAQ = {
       id: parseInt(id),
@@ -82,8 +74,16 @@ const EditFAQ = () => {
   };
 
   useEffect(() => {
+    async function fetchFAQ() {
+      fetch('/faq/' + id)
+        .then((response) => response.json())
+        .then((data) => {
+          setFAQ(data);
+        })
+        .catch((error) => console.log(error));
+    }
     fetchFAQ();
-  }, []);
+  }, [id]);
 
   return (
     <>
