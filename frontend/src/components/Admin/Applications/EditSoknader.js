@@ -398,7 +398,7 @@ const Applications = () => {
           {applications === futurePending &&
             'Søknader (' + applications.length + ')'}
           {applications === pastPending &&
-            'Tidligere søknader (' + applications.length + ')'}
+            'Avslåtte søknader (' + applications.length + ')'}
           {applications === pastWinning &&
             'Tidligere turer (' + applications.length + ')'}
           {applications === futureWinning &&
@@ -435,7 +435,7 @@ const Applications = () => {
             }}
           />
           <label htmlFor="pastPending" className="checkbox-trip-label">
-            Ikke tildelte søknader
+            Avslåtte søknader
           </label>
         </div>
         <div className="checkbox-trip-container" id="chckb3">
