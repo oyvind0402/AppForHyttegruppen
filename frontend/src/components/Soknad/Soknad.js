@@ -8,7 +8,6 @@ import Step3 from './Steps/Step3';
 import './Soknad.css';
 
 const Soknad = () => {
-  let postSuccessful = true;
   const [page, setPage] = useState(1);
   const [popup, setPopup] = useState(false);
   const [popupResponse, setPopupResponse] = useState('');
@@ -28,6 +27,8 @@ const Soknad = () => {
 
   //Posting application per period
   useEffect(async () => {
+    let postSuccessful = true;
+
     if (formCompleted) {
       formData.period.forEach((period) => {
         let JsonBody = {
@@ -80,7 +81,7 @@ const Soknad = () => {
       setPage(1);
       // nullstillForm();
     }
-  }, [formData]);
+  }, [formData, formCompleted]);
 
   //Popuprepsone is being set
   //Force scroll up for the popup to show
@@ -89,7 +90,7 @@ const Soknad = () => {
       setPopupResponse(formData.period);
       window.scrollTo(0, 0);
     }
-  }, [formCompleted]);
+  }, [formCompleted, formData.period]);
 
   //Popup will be showing here
   useEffect(() => {
