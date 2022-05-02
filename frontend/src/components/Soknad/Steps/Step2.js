@@ -132,13 +132,13 @@ const Step2 = (props) => {
   return (
     <>
       <div className="step-soknad">
-        <div
+        <button
           className="stepQuestion"
           onClick={() => setShowExtraInfo(!showExtraInfo)}
         >
           <BsQuestionCircle className="soknad-question-icon" />
           <p className="soknad-question-text">Velg perioder du vil søke på</p>
-        </div>
+        </button>
         {showExtraInfo && (
           <div className="step-extra-info-div">
             <p className="step-extra-info-p">
