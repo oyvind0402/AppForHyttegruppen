@@ -297,7 +297,7 @@ const AdminSettings = () => {
     } else {
       document.getElementById('edit-emails').checked = true;
     }
-  }, [users, emails]);
+  }, [users, emails, userMode]);
 
   return (
     <>

@@ -2,14 +2,12 @@ import BackButton from '../../01-Reusable/Buttons/BackButton';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import './AddCabin.css';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 import { BsQuestionCircle } from 'react-icons/bs';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
 const AddCabin = () => {
-  const history = useHistory();
   const [visible, setVisible] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -30,11 +28,6 @@ const AddCabin = () => {
         .getElementById('todolist')
         .removeChild(document.getElementById('todolist').lastChild);
     }
-  };
-
-  const handleSavedVisibility = () => {
-    setSaved(false);
-    window.location.href = '/hytter';
   };
 
   const handleVisibility = () => {

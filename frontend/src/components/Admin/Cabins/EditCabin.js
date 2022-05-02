@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
-import { useHistory } from 'react-router-dom';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
@@ -17,7 +16,6 @@ const EditCabin = () => {
   const [errorMessage, setErrorMessage] = useState({});
   const [explanation, setExplanation] = useState(false);
   const link = window.location.href;
-  const history = useHistory();
 
   let cabinName = link.split('/')[5];
   if (cabinName.includes('%20') || cabinName.includes('%C3%B8')) {
@@ -25,23 +23,19 @@ const EditCabin = () => {
     cabinName = fix.replace('%C3%B8', 'ø');
   }
 
-  const fetchCabin = async () => {
-    const response = await fetch('/cabin/' + cabinName, {
-      method: 'GET',
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      let copy = [];
-      copy.push(data);
-      setCabin(copy);
-    }
-  };
-
   useEffect(() => {
+    async function fetchCabin() {
+      fetch('/cabin/' + cabinName)
+        .then((response) => response.json())
+        .then((data) => {
+          let copy = [];
+          copy.push(data);
+          setCabin(copy);
+        })
+        .catch((error) => console.log(error));
+    }
     fetchCabin();
-    console.log(cabin);
-  }, []);
+  }, [cabinName]);
 
   const handleAddItem = () => {
     const node = document.createElement('input');
