@@ -118,12 +118,16 @@ const Applications = () => {
       Header: 'Hytte(r) ønsket',
       accessor: 'cabins',
       Cell: ({ cell: { value } }) => {
-        return value.map((cabin, i) => {
-          if (i === value.length - 1) {
-            return <span>{cabin.cabinName}</span>;
-          }
-          return <span>{cabin.cabinName + ', '}</span>;
-        });
+        if (value !== null && value.length > 0) {
+          return value.map((cabin, i) => {
+            if (i === value.length - 1) {
+              return <span>{cabin.cabinName}</span>;
+            }
+            return <span>{cabin.cabinName + ', '}</span>;
+          });
+        } else {
+          return <span></span>;
+        }
       },
     },
     {
