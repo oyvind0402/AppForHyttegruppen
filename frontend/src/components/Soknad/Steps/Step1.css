@@ -16,25 +16,43 @@
 }
 
 .soknad-radio {
+  cursor: pointer;
   display: none;
+}
+
+.step1-radiobutton {
+  background-color: transparent;
+  color: black;
+  border: none;
+  margin-right: 0.25rem;
+}
+
+.step1-radiobutton:hover {
+  cursor: pointer;
 }
 
 .soknad-radio-text {
   margin: 5px 10px;
   padding: 5px 10px;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
-.soknad-radio-text:hover {
-  cursor: pointer;
+.step1-radiobutton:hover {
   border-radius: 5px;
   box-shadow: 0 0 2px 2px black;
 }
 
 .soknad-radio:checked ~ .soknad-radio-text {
+  background-color: #bd00ff;
+  color: white;
+  border-radius: 5px;
+}
+
+.soknad-radio:checked ~ .step1-radiobutton {
   background-color: #bd00ff;
   color: white;
   border-radius: 5px;
