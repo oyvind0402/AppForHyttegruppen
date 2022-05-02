@@ -49,12 +49,14 @@ const ExcelConverterPayCheck = (props) => {
           kommentar: application.kommentar,
         };
 
-        let requestedCabins = '';
-        application.cabins.forEach((cabin) => {
-          requestedCabins += cabin.cabinName + ', ';
-        });
-        requestedCabins = requestedCabins.slice(0, -2);
-        newApplication.cabins = requestedCabins;
+        if (application.cabins !== null && application.cabins.length > 0) {
+          let requestedCabins = '';
+          application.cabins.forEach((cabin) => {
+            requestedCabins += cabin.cabinName + ', ';
+          });
+          requestedCabins = requestedCabins.slice(0, -2);
+          newApplication.cabins = requestedCabins;
+        }
 
         if (application.winner) {
           let stringCabin = '';
