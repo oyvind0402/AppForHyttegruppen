@@ -104,6 +104,7 @@ db.cabins.insertMany([
     pictures: {
       mainPicture: { filename: "Utsikten-Main.JPEG", altText: "Main Utsikten" },
       otherPictures: [
+        { filename: "Utsikten-Main.JPEG", altText: "Main Utsikten" },
         { filename: "Utsikten-utsikt1.JPEG", altText: "Utsikten utsikt" },
         { filename: "Utsikten-utsikt2.JPEG", altText: "Utsikten utsikt" },
         { filename: "Utsikten-utenfor.JPEG", altText: "Utsikten utenfor" },
@@ -148,6 +149,7 @@ db.cabins.insertMany([
     pictures: {
       mainPicture: { filename: "fanitullen-utside.jpg", altText: "Main Fanitullen" },
       otherPictures: [
+        { filename: "fanitullen-utside.jpg", altText: "Main Fanitullen" },
         { filename: "fanitullen-utside2.jpg", altText: "Fanitullen utside" },
         { filename: "fanitullen-stue.jpg", altText: "Fanitullen stue" },
         { filename: "fanitullen-soverom.jpg", altText: "Fanitullen soverom" },
@@ -195,6 +197,7 @@ db.cabins.insertMany([
     pictures: {
       mainPicture: { filename: "knausen-utsikt-vinter.jpg", altText: "Knausen utsikt vinter" },
       otherPictures: [
+        { filename: "knausen-utsikt-vinter.jpg", altText: "Knausen utsikt vinter" },
         { filename: "knausen-utsikt-sommer.jpg", altText: "Kanusen utsikt sommer" },
         { filename: "knausen-stue.jpg", altText: "Knausen stue" },
         { filename: "knausen-spisestue.jpg", altText: "Knausen spisestue" },
@@ -240,6 +243,7 @@ db.cabins.insertMany([
     pictures: {
       mainPicture: { filename: "store-grondalen-siden.jpg", altText: "Store grøndalen main" },
       otherPictures: [
+        { filename: "store-grondalen-siden.jpg", altText: "Store grøndalen main" },
         { filename: "store-grondalen-utenfra.jpg", altText: "Store grøndalen utenfra" },
         { filename: "store-grondalen-kjokken-og-stue.jpg", altText: "Store grøndalen kjøkken og stue" },
         { filename: "store-grondalen-peis.jpg", altText: "Store grøndalen peis" },

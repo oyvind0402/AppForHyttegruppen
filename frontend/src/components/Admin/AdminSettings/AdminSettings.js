@@ -97,7 +97,6 @@ const AdminSettings = () => {
     } else {
       _changedUsers.push(user);
     }
-    console.log(_changedUsers);
   };
 
   const checkEmailInput = () => {
@@ -196,7 +195,7 @@ const AdminSettings = () => {
     }
   };
 
-  const userColumns = useMemo(() => [
+  const userColumns = [
     {
       Header: 'Navn',
       accessor: 'firstname',
@@ -227,9 +226,9 @@ const AdminSettings = () => {
         );
       },
     },
-  ]);
+  ];
 
-  const emailColumns = useMemo(() => [
+  const emailColumns = [
     {
       Header: 'Epost',
       accessor: 'email',
@@ -284,7 +283,7 @@ const AdminSettings = () => {
         );
       },
     },
-  ]);
+  ];
 
   useEffect(() => {
     fetchUsers();
