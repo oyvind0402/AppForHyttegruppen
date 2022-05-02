@@ -15,6 +15,7 @@ const Step3 = (props) => {
   );
   const [kommentar, setKommentar] = useState(props.formData.kommentar);
   const [showFeedBackNumber, setShowFeedBackNumber] = useState(false);
+  const [showFeedbackAssignment, setShowFeedbackAssignment] = useState(false);
 
   const [cabins, setCabins] = useState([]);
   const [pickedCabins, setPickedCabins] = useState([]);
@@ -84,6 +85,11 @@ const Step3 = (props) => {
   const sendInApplication = () => {
     if (numberOfCabins === 0) {
       setShowFeedBackNumber(true);
+      return;
+    }
+
+    if (cabinAssigment === 'random') {
+      setShowFeedbackAssignment(true);
       return;
     }
     const step3Data = getCurrentData();
@@ -161,6 +167,11 @@ const Step3 = (props) => {
               />
               <label htmlFor="pickSelf">Jeg ønsker å velge hyttene selv</label>
             </div>
+            {showFeedbackAssignment && (
+              <p className="soknad-error">
+                <BsExclamationTriangle /> Du må velge type tildeling!
+              </p>
+            )}
           </div>
         )}
 
