@@ -47,6 +47,7 @@ const Step3 = (props) => {
 
   function updatePickedCabin(picked, index) {
     pickedCabins[index] = picked;
+    setShowFeedbackCabins(false);
   }
 
   //Getting current input data
