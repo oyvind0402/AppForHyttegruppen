@@ -172,6 +172,7 @@ func (r repo) AfterFeedbackSent(ctx *gin.Context) {
 	htmlBody.WriteString(formData.Feedback)
 	htmlBody.WriteString(`</p>`)
 
+	//TODO send to admin email
 	SendEmail("oyvind0402@gmail.com", htmlBody, "Tilbakemelding mottatt!")
 }
 

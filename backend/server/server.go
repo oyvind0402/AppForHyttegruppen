@@ -24,25 +24,11 @@ func Start() {
 func setRouter(r repo) *gin.Engine {
 	// Creates default gin router with Logger and Recovery middleware already attached
 	router := gin.Default()
-	//config := cors.DefaultConfig()
-	//config.AllowAllOrigins = true
-	//config.AllowedOrigins = []string{"http://localhost:3000"}
-	//config.AllowedMethods = []string{"GET", "POST"}
-	//router.Use(cors.New(config))
 
 	// Enables automatic redirection if the current route can't be matched but a
 	// handler for the path with (without) the trailing slash exists.
 	router.RedirectTrailingSlash = true
 
-	emailapi := router.Group("/email")
-	{
-		emailapi.POST("/afterApplication", r.AfterApplicationSent)
-		emailapi.POST("/applicationApproved", r.AfterApplicationApproved)
-		emailapi.POST("/openPeriod")
-		emailapi.POST("/periodIsClosing")
-		emailapi.POST("/upcomingTrip")
-		emailapi.POST("/filledFeedback", r.AfterFeedbackSent)
-	}
 	// Create API route groups
 	periodapi := router.Group("/period")
 	{
@@ -55,6 +41,15 @@ func setRouter(r repo) *gin.Engine {
 		periodapi.PUT("/update", middleware.Authenticate(), r.UpdatePeriod)
 		periodapi.DELETE("/delete", middleware.Authenticate(), r.DeletePeriod)
 		periodapi.DELETE("/deletemany", middleware.Authenticate(), r.DeleteManyPeriods)
+	}
+
+	emailapi := router.Group("/email")
+	{
+		emailapi.POST("/afterApplication", r.AfterApplicationSent)
+		emailapi.POST("/applicationApproved", r.AfterApplicationApproved)
+		emailapi.POST("/openPeriod")
+		emailapi.POST("/filledFeedback", r.AfterFeedbackSent)
+		emailapi.POST("/cancelledTrip")
 	}
 
 	seasonapi := router.Group("/season")

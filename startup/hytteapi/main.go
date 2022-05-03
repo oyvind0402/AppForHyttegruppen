@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strings"
 	"time"
 
 	"github.com/jasonlvhit/gocron"
@@ -18,6 +19,7 @@ import (
 
 // Function to send an email to any winning application 2 days before the trip
 func sendEmailNotification() {
+	var htmlBody strings.Builder
 	resp, err := http.Get("http://localhost:8080/application/winners/future")
 	if err != nil {
 		panic(err.Error())
@@ -40,12 +42,42 @@ func sendEmailNotification() {
 		diff := now.Sub(*applications[i].Period.Start)
 		// If there is an application that has start date in 2 days
 		if int(((diff.Hours()/24)*-1)+1) == 2 {
-			// TODO Send email here with information to the user (applications[i].user.email) about the trip
+			htmlBody.WriteString(`<html>
+				<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+					<title>Automatic email from go</title>
+				</head>
+				<body>
+			`)
+			htmlBody.WriteString(`<p>`)
+			htmlBody.WriteString("Du har en tur om 2 dager!")
+			htmlBody.WriteString(`</p>`)
+			for _, cabin := range applications[i].CabinsWon {
+				resp, err := http.Get("http://localhost:8080/cabin/" + cabin.Name)
+				if err != nil {
+					panic(err.Error())
+				}
+				body, err := ioutil.ReadAll(resp.Body)
+				if err != nil {
+					panic(err.Error())
+				}
+				var cabin data.Cabin
+				json.Unmarshal(body, &cabin)
+				htmlBody.WriteString(`<br /><p>Huskeliste for ` + cabin.Name + `:`)
+				htmlBody.WriteString(`<br />`)
+				//TODO add trip info to email
+				htmlBody.WriteString("Husk sovepose eller sengetøy!")
+				htmlBody.WriteString(`</p>`)
+			}
+			//TODO add user email instead of this email (application[i].User.Email)
+			server.SendEmail("oyvind0402@gmail.com", htmlBody, "Husk turen om 2 dager!")
+			htmlBody.Reset()
 		}
 	}
 }
 
 func sendFeedbackInfo() {
+	var htmlBody strings.Builder
 	resp, err := http.Get("http://localhost:8080/application/winners/past")
 	if err != nil {
 		panic(err.Error())
@@ -69,14 +101,36 @@ func sendFeedbackInfo() {
 		// If its 2 days after the trip and the user hasnt sent feedback
 		if int((diff.Hours() / 24)) == 2 {
 			if !applications[i].FeedbackSent {
-				// TODO Send email to admin about feedback not sent for a specific application,
-				// if its two days since the trip and they havent sent feedback
+				htmlBody.WriteString(`<html>
+					<head>
+						<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+						<title>Automatic email from go</title>
+					</head>
+					<body>
+				`)
+				htmlBody.WriteString(`<p>`)
+				htmlBody.WriteString("Etter turen til ")
+				for i, cabin := range applications[i].CabinsWon {
+					if i == len(applications[i].CabinsWon) {
+						htmlBody.WriteString(cabin.Name)
+					} else {
+						htmlBody.WriteString(cabin.Name)
+						htmlBody.WriteString(", ")
+					}
+				}
+				htmlBody.WriteString(" i periode " + applications[i].Period.Name + " (" + applications[i].Period.Start.Format("2006-01-02") + " - " + applications[i].Period.End.Format("2006-01-02") + ")")
+				htmlBody.WriteString(" har ikke " + applications[i].User.FirstName + " " + applications[i].User.LastName + " sendt inn tilbakemeldingsskjemaet enda!")
+				htmlBody.WriteString(`</p>`)
+				//TODO add admin email instead of this email
+				server.SendEmail("oyvind0402@gmail.com", htmlBody, "Notifikasjon om for sen tilbakemelding")
+				htmlBody.Reset()
 			}
 		}
 	}
 }
 
 func sendFeedbackReminder() {
+	var htmlBody strings.Builder
 	resp, err := http.Get("http://localhost:8080/application/winners/current")
 	if err != nil {
 		panic(err.Error())
@@ -100,7 +154,21 @@ func sendFeedbackReminder() {
 		// If its at the end of the the trip and the user hasnt sent feedback
 		if int((diff.Hours() / 24)) == 0 {
 			if !applications[i].FeedbackSent {
-				// TODO Send email to user reminding them to fill in the feedback form
+				htmlBody.WriteString(`<html>
+					<head>
+						<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+						<title>Automatic email from go</title>
+					</head>
+					<body>
+				`)
+				htmlBody.WriteString(`<p>`)
+				htmlBody.WriteString("Huske å sende inn tilbakemeldingsskjemaet etter turen er over!")
+				htmlBody.WriteString(`<br />`)
+				htmlBody.WriteString("Skjemaet finnes på 'mine sider -> handling kreves' på hytteportalen sine nettsider.")
+				htmlBody.WriteString(`</p>`)
+				//TODO add user email instead of this email (applications[i].User.Email)
+				server.SendEmail("oyvind0402@gmail.com", htmlBody, "Husk tilbakemeldingsskjema!")
+				htmlBody.Reset()
 			}
 		}
 	}
