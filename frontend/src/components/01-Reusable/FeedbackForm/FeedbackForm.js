@@ -181,34 +181,35 @@ const FeedbackForm = (props) => {
   const sendEmail = () => {
     if (answers.length > 0) {
       let email = '';
-      email += '\n\nSpørsmål: Har du vippset 1200,- til vaskebyrået?';
+
       answers.forEach((answer, index) => {
         if (answer.length !== 0) {
           if (index === 0) {
-            email += '\nSvar: ';
-            email += answer + '<br />';
+            email += 'Spørsmål: Har du vippset 1200,- til vaskebyrået?';
+            email += '<br />Svar: ';
+            email += answer + '<br /><br />';
           }
           if (index === 1) {
-            email += '\nSpørsmål: Var alt ok da dere ankom hytten?';
-            email += '\nSvar: ';
-            email += answer + '<br />';
+            email += 'Spørsmål: Var alt ok da dere ankom hytten?';
+            email += '<br />Svar: ';
+            email += answer + '<br /><br />';
           }
           if (index === 2) {
             email +=
-              '\nSpørsmål: Var alt ok da dere forlat hytten? (Ble noe ødelagt?)';
-            email += '\nSvar: ';
-            email += answer + '<br />';
+              'Spørsmål: Var alt ok da dere forlat hytten? (Ble noe ødelagt?)';
+            email += '<br />Svar: ';
+            email += answer + '<br /><br />';
           }
           if (index === 3) {
             email +=
-              '\nSpørsmål: Har hytten alt av forsyning (toalettpapir, ved, lyspærer, rengjøringsmiddel)?';
-            email += '\nSvar: ';
-            email += answer + '<br />';
+              'Spørsmål: Har hytten alt av forsyning (toalettpapir, ved, lyspærer, rengjøringsmiddel)?';
+            email += '<br />Svar: ';
+            email += answer + '<br /><br />';
           }
           if (index === 4) {
-            email += '\nSpørsmål: Alt ellers greit?';
-            email += '\nSvar: ';
-            email += answer + '<br />';
+            email += 'Spørsmål: Alt ellers greit?';
+            email += '<br />Svar: ';
+            email += answer;
           }
         }
       });
