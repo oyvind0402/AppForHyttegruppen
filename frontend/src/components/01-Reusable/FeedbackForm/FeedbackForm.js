@@ -140,23 +140,24 @@ const FeedbackForm = (props) => {
 
   const sendFeedback = async () => {
     let feedbackSent = false;
+    let sendEmail = false;
     answers.forEach((answer) => {
       if (answer.length > 0) {
         feedbackSent = true;
       }
     });
 
-    //TODO uncomment when finished testing
-    // const response = await fetch('/application/setfeedback', {
-    //   method: 'PATCH',
-    //   body: JSON.stringify(props.data.applicationId),
-    //   headers: { token: localStorage.getItem('refresh_token') },
-    // });
-    // if (response.ok) {
-    //   setVisible(false);
-    // }
+    const response = await fetch('/application/setfeedback', {
+      method: 'PATCH',
+      body: JSON.stringify(props.data.applicationId),
+      headers: { token: localStorage.getItem('refresh_token') },
+    });
+    if (response.ok) {
+      sendEmail = true;
+      setVisible(false);
+    }
 
-    if (feedbackSent) {
+    if (feedbackSent && sendEmail) {
       const feedback = sendEmail();
       const feedbackTitle =
         'Bruker med navn ' +
