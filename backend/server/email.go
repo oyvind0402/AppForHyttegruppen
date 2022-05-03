@@ -39,7 +39,6 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 	var inData = new(FormData)
 	err := ctx.BindJSON(inData)
 	if err != nil {
-		fmt.Println("from error inData: ")
 		fmt.Println(err)
 		return
 	}
@@ -61,7 +60,6 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 	)
 
 	if err != nil {
-		fmt.Println("from error in querry: ")
 		fmt.Println(err)
 		return
 	}
@@ -69,7 +67,7 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 	SendEmail("oyvind0402@gmail.com", htmlBody, "Kvittering for søknaden din")
 }
 
-//endpont to send email after application was approved
+//endpoint to send email after application was approved
 func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	var htmlBody strings.Builder
 	//create html body
@@ -87,7 +85,6 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 
 	err := ctx.BindJSON(applicationId)
 	if err != nil {
-		fmt.Println("from error inData: ")
 		fmt.Println(err)
 		return
 	}
@@ -96,13 +93,15 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	i := strconv.Itoa(*applicationId)
 	resp, err := http.Get(`http://localhost:8080/application/` + i)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
+		return
 	}
 
 	//getting the application from the response
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
+		return
 	}
 	var application data.Application
 	json.Unmarshal(body, &application)
@@ -128,15 +127,61 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	SendEmail("oyvind0402@gmail.com", htmlBody, "Søknad godkjent!")
 }
 
+//endpoint to send email after feedback is sent
+func (r repo) AfterFeedbackSent(ctx *gin.Context) {
+	var htmlBody strings.Builder
+	//create html body
+	htmlBody.WriteString(`<html>
+	<head>
+   		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   		<title>Automatic email from go</title>
+	</head>
+	<body>
+	`)
+
+	type FormData struct {
+		Period        data.Period       `json:"period"`
+		Cabins        []data.CabinShort `json:"cabinsWon"`
+		FeedbackTitle string            `json:"feedbackTitle"`
+		Feedback      string            `json:"feedback"`
+	}
+
+	formData := new(FormData)
+	err := ctx.BindJSON(formData)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	htmlBody.WriteString(`<p>`)
+	htmlBody.WriteString("Tilbakemelding for hytten ")
+	for i, cabin := range formData.Cabins {
+		if i == len(formData.Cabins)-1 {
+			htmlBody.WriteString(cabin.Name)
+		} else {
+			htmlBody.WriteString(cabin.Name)
+			htmlBody.WriteString(", ")
+		}
+	}
+	htmlBody.WriteString(" i perioden " + formData.Period.Name + " (" + formData.Period.Start.Format("2006-01-02") + " - " + formData.Period.End.Format("2006-01-02") + ") mottatt!")
+	htmlBody.WriteString(`</p>`)
+	htmlBody.WriteString(`<p>`)
+	htmlBody.WriteString(formData.FeedbackTitle)
+	htmlBody.WriteString(`</p>`)
+	htmlBody.WriteString(`<p>`)
+	htmlBody.WriteString(formData.Feedback)
+	htmlBody.WriteString(`</p>`)
+
+	SendEmail("oyvind0402@gmail.com", htmlBody, "Tilbakemelding mottatt!")
+}
+
 func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
 
 	server := mail.NewSMTPClient()
 	server.Host = "smtp.gmail.com" //change the server according to which email service is used
 	server.Port = 587              //change port depending on which email service is used
 	server.Username = userName
-	fmt.Println(userName)
 	server.Password = passwd
-	fmt.Println(passwd)
 	server.Encryption = mail.EncryptionTLS
 
 	smtpClient, err := server.Connect()
@@ -163,16 +208,13 @@ func SendEmail(userEmail string, htmlBody strings.Builder, subject string) {
 	email := mail.NewMSG()
 	email.SetFrom("From Hytteappen <hytteappen@gmail.com>")
 	email.AddTo(userEmail)
-	email.SetSubject("Kvittering for din søknad")
+	email.SetSubject(subject)
 
 	email.SetBody(mail.TextHTML, htmlBody.String())
 
 	//send email
 	err := email.Send(smtpClient)
 	if err != nil {
-		fmt.Println("from SendEmail():")
-		fmt.Println(err)
-
 		utils.Panicker(err, "Could not send email")
 	}
 	htmlBody.Reset()

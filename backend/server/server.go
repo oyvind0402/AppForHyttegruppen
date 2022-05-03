@@ -41,7 +41,7 @@ func setRouter(r repo) *gin.Engine {
 		emailapi.POST("/openPeriod")
 		emailapi.POST("/periodIsClosing")
 		emailapi.POST("/upcomingTrip")
-		emailapi.POST("/fillFeedback")
+		emailapi.POST("/filledFeedback", r.AfterFeedbackSent)
 	}
 	// Create API route groups
 	periodapi := router.Group("/period")

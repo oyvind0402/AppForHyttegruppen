@@ -139,20 +139,26 @@ const FeedbackForm = (props) => {
   };
 
   const sendFeedback = async () => {
-    const response = await fetch('/application/setfeedback', {
-      method: 'PATCH',
-      body: JSON.stringify(props.data.applicationId),
-      headers: { token: localStorage.getItem('refresh_token') },
+    let feedbackSent = false;
+    answers.forEach((answer) => {
+      if (answer.length > 0) {
+        feedbackSent = true;
+      }
     });
-    if (response.ok) {
-      setVisible(false);
-      alert('Tilbakemelding registrert!');
-    }
-  };
 
-  const sendEmail = () => {
-    if (answers.length > 0) {
-      let email =
+    //TODO uncomment when finished testing
+    // const response = await fetch('/application/setfeedback', {
+    //   method: 'PATCH',
+    //   body: JSON.stringify(props.data.applicationId),
+    //   headers: { token: localStorage.getItem('refresh_token') },
+    // });
+    // if (response.ok) {
+    //   setVisible(false);
+    // }
+
+    if (feedbackSent) {
+      const feedback = sendEmail();
+      const feedbackTitle =
         'Bruker med navn ' +
         props.data.user.firstname +
         ' ' +
@@ -160,57 +166,59 @@ const FeedbackForm = (props) => {
         ', og epost ' +
         props.data.user.email +
         ' svarte nei på noen spørsmål i tilbakemeldingsskjemaet. Nedenfor sees svarene.';
+      const emailresponse = await fetch('/email/filledFeedback', {
+        method: 'POST',
+        body: JSON.stringify({
+          period: props.data.period,
+          cabinsWon: props.data.cabinsWon,
+          feedbackTitle: feedbackTitle,
+          feedback: feedback,
+        }),
+      });
+    }
+  };
+
+  const sendEmail = () => {
+    if (answers.length > 0) {
+      let email = '';
       email += '\n\nSpørsmål: Har du vippset 1200,- til vaskebyrået?';
       answers.forEach((answer, index) => {
         if (answer.length !== 0) {
           if (index === 0) {
             email += '\nSvar: ';
-            email += answer + '\n';
+            email += answer + '<br />';
           }
           if (index === 1) {
             email += '\nSpørsmål: Var alt ok da dere ankom hytten?';
             email += '\nSvar: ';
-            email += answer + '\n';
+            email += answer + '<br />';
           }
           if (index === 2) {
             email +=
               '\nSpørsmål: Var alt ok da dere forlat hytten? (Ble noe ødelagt?)';
             email += '\nSvar: ';
-            email += answer + '\n';
+            email += answer + '<br />';
           }
           if (index === 3) {
             email +=
               '\nSpørsmål: Har hytten alt av forsyning (toalettpapir, ved, lyspærer, rengjøringsmiddel)?';
             email += '\nSvar: ';
-            email += answer + '\n';
+            email += answer + '<br />';
           }
           if (index === 4) {
             email += '\nSpørsmål: Alt ellers greit?';
             email += '\nSvar: ';
-            email += answer + '\n';
+            email += answer + '<br />';
           }
         }
       });
-      console.log(email);
       return email;
     }
   };
 
   useEffect(() => {
     if (answers.length > 0) {
-      let feedbackSent = false;
-      answers.forEach((answer) => {
-        if (answer.length > 0) {
-          feedbackSent = true;
-        }
-      });
-
-      if (feedbackSent) {
-        // TODO Send email to admin here, the function sendEmail has the content of the email
-        setVisible(true);
-      } else {
-        setVisible(true);
-      }
+      setVisible(true);
     }
   }, [answers]);
 
