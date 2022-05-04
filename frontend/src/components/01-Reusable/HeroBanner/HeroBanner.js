@@ -9,7 +9,8 @@ const HeroBanner = (props) => {
           <img
             className="hero-picture"
             src={`${process.env.PUBLIC_URL}/assets/pictures/herobanner.jpg`}
-            alt={props.name}
+            alt=""
+            aria-label="Hero Banner"
           />
         </div>
       </div>

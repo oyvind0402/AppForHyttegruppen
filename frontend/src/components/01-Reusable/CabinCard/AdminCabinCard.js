@@ -22,7 +22,7 @@ const AdminCabinCardBig = (props) => {
           <p className="card-address">{props.cabin.address}</p>
 
           <div className="card-features">
-            <BiBed className="card-icon bed" />
+            <BiBed className="card-icon bed" aria-label="Bed icon" />
             <p className="card-text bedrooms">
               {props.cabin.features.soverom} soverom
             </p>
@@ -30,10 +30,10 @@ const AdminCabinCardBig = (props) => {
               {props.cabin.features.sengeplasser} sengeplasser
             </p>
 
-            <BiBath className="card-icon bath" />
+            <BiBath className="card-icon bath" aria-label="Bathroom icon" />
             <p className="card-text badrooms">{props.cabin.features.bad} Bad</p>
 
-            <GrMoney className="card-icon money" />
+            <GrMoney className="card-icon money" aria-label="Money icon" />
             <p className="card-text moneyText">
               {props.cabin.price} + {props.cabin.cleaningPrice} NOK
             </p>

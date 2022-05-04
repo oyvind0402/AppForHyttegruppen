@@ -12,13 +12,13 @@ const CabinCardMap = (props) => {
           <p className="card-map-address">{props.cabin.address}</p>
 
           <div className="card-map-features">
-            <BiBed className="card-icon bed" />
+            <BiBed className="card-icon bed" aria-label="Bed icon" />
             <p className="card-map-text bedrooms">
               {props.cabin.features.soverom} soverom /{' '}
               {props.cabin.features.sengeplasser} sengeplasser
             </p>
 
-            <BiBath className="card-icon bath" />
+            <BiBath className="card-icon bath" aria-label="Bathroom icon" />
             <p className="card-map-text badrooms">
               {props.cabin.features.bad} Bad
             </p>

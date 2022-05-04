@@ -39,8 +39,11 @@ const EditFAQs = () => {
                   </div>
                   <div className="edit-button">
                     <div>
-                      <Link to={'/admin/endrefaq/' + FAQ.id} className="link">
-                        <button className="btn-smaller">Endre</button>
+                      <Link
+                        to={'/admin/endrefaq/' + FAQ.id}
+                        className="link-white btn-smaller"
+                      >
+                        Endre
                       </Link>
                     </div>
                   </div>
@@ -51,6 +54,12 @@ const EditFAQs = () => {
         <BsFillPlusCircleFill
           className="endrefaq-add"
           onClick={() => (window.location.href = '/admin/leggtilfaq')}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              window.location.href = '/admin/leggtilfaq';
+            }
+          }}
         />
       </div>
     </>

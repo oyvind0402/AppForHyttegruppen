@@ -84,7 +84,7 @@ const EditPeriods = () => {
       Cell: (props) => {
         return (
           <Link
-            className="btn link"
+            className="btn link-white"
             to={'/admin/endreperiode/' + props.row.original.id}
           >
             Endre
