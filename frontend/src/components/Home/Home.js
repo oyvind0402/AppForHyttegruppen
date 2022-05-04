@@ -79,11 +79,11 @@ const Home = () => {
         />
         <div className="home-buttons">
           <Link className="btn-link btn big mine-turer" to="/mineturer">
-            <FaRegUserCircle className="icon" />
+            <FaRegUserCircle className="icon" aria-label="User Icon" />
             <p className="btn-text-home">Mine turer</p>
           </Link>
           <Link className="btn-link btn big mine-turer" to="/faq">
-            <FaQuestionCircle className="icon" />
+            <FaQuestionCircle className="icon" aria-label="FAQ Icon" />
             <p className="btn-text-home">FAQ</p>
           </Link>
         </div>
