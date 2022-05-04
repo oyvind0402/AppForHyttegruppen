@@ -52,23 +52,14 @@ func sendEmailNotification() {
 			htmlBody.WriteString(`<p>`)
 			htmlBody.WriteString("Du har en tur om 2 dager!")
 			htmlBody.WriteString(`</p>`)
+			htmlBody.WriteString(`<br /><p>Du ble tildelt `)
 			for _, cabin := range applications[i].CabinsWon {
-				resp, err := http.Get("http://localhost:8080/cabin/" + cabin.Name)
-				if err != nil {
-					panic(err.Error())
-				}
-				body, err := ioutil.ReadAll(resp.Body)
-				if err != nil {
-					panic(err.Error())
-				}
-				var cabin data.Cabin
-				json.Unmarshal(body, &cabin)
-				htmlBody.WriteString(`<br /><p>Huskeliste for ` + cabin.Name + `:`)
-				htmlBody.WriteString(`<br />`)
-				//TODO add trip info to email
-				htmlBody.WriteString("Husk sovepose eller sengetøy!")
-				htmlBody.WriteString(`</p>`)
+				htmlBody.WriteString(cabin.Name + " ")
 			}
+			htmlBody.WriteString("i perioden " + applications[i].Period.Name + " (" + applications[i].Period.Start.Format("2006-01-02") + " - " + applications[i].Period.End.Format("2006-01-02") + ")")
+			htmlBody.WriteString(`<br />Husk å sjekk hytteportalen for å se informasjon om hva du må ta med osv!`)
+			htmlBody.WriteString(`</p>`)
+			htmlBody.WriteString(`</body></html>`)
 			//TODO add user email instead of this email (application[i].User.Email)
 			server.SendEmail("oyvind0402@gmail.com", htmlBody, "Husk turen om 2 dager!")
 			htmlBody.Reset()
@@ -121,6 +112,7 @@ func sendFeedbackInfo() {
 				htmlBody.WriteString(" i periode " + applications[i].Period.Name + " (" + applications[i].Period.Start.Format("2006-01-02") + " - " + applications[i].Period.End.Format("2006-01-02") + ")")
 				htmlBody.WriteString(" har ikke " + applications[i].User.FirstName + " " + applications[i].User.LastName + " sendt inn tilbakemeldingsskjemaet enda!")
 				htmlBody.WriteString(`</p>`)
+				htmlBody.WriteString(`</body></html>`)
 				//TODO add admin email instead of this email
 				server.SendEmail("oyvind0402@gmail.com", htmlBody, "Notifikasjon om for sen tilbakemelding")
 				htmlBody.Reset()
@@ -166,6 +158,7 @@ func sendFeedbackReminder() {
 				htmlBody.WriteString(`<br />`)
 				htmlBody.WriteString("Skjemaet finnes på 'mine sider -> handling kreves' på hytteportalen sine nettsider.")
 				htmlBody.WriteString(`</p>`)
+				htmlBody.WriteString(`</body></html>`)
 				//TODO add user email instead of this email (applications[i].User.Email)
 				server.SendEmail("oyvind0402@gmail.com", htmlBody, "Husk tilbakemeldingsskjema!")
 				htmlBody.Reset()
