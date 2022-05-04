@@ -121,6 +121,7 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	}
 
 	htmlBody.WriteString(`</p>`)
+	htmlBody.WriteString(`</body></html>`)
 
 	//sending the email
 	//TODO change the email used to application.User.Email
@@ -171,9 +172,54 @@ func (r repo) AfterFeedbackSent(ctx *gin.Context) {
 	htmlBody.WriteString(`<p>`)
 	htmlBody.WriteString(formData.Feedback)
 	htmlBody.WriteString(`</p>`)
+	htmlBody.WriteString(`</body></html>`)
 
 	//TODO send to admin email
 	SendEmail("oyvind0402@gmail.com", htmlBody, "Tilbakemelding mottatt!")
+}
+
+func (r repo) AfterTripCancelled(ctx *gin.Context) {
+	var htmlBody strings.Builder
+	//create html body
+	htmlBody.WriteString(`<html>
+	<head>
+   		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   		<title>Automatic email from go</title>
+	</head>
+	<body>
+	`)
+
+	type FormData struct {
+		Period data.Period       `json:"period"`
+		Cabins []data.CabinShort `json:"cabinsWon"`
+		User   data.User         `json:"user"`
+	}
+
+	formData := new(FormData)
+	err := ctx.BindJSON(formData)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	htmlBody.WriteString(`<p>`)
+	htmlBody.WriteString("Den fremtidige turen / de fremtidige turene ved ")
+	for i, cabin := range formData.Cabins {
+		if i == len(formData.Cabins)-1 {
+			htmlBody.WriteString(cabin.Name)
+		} else {
+			htmlBody.WriteString(cabin.Name)
+			htmlBody.WriteString(", ")
+		}
+	}
+	htmlBody.WriteString(" ble kansellert av " + formData.User.FirstName + " " + formData.User.LastName + " (" + formData.User.Email + ")")
+	htmlBody.WriteString(`</p>`)
+	htmlBody.WriteString(`<p>`)
+	htmlBody.WriteString("Perioden " + formData.Period.Name + " (" + formData.Period.Start.Format("2006-01-02") + " - " + formData.Period.End.Format("2006-01-02") + ") er altså åpen for den / de hyttene igjen.")
+	htmlBody.WriteString(`</body></html>`)
+
+	//TODO change email to admin email
+	SendEmail("oyvind0402@gmail.com", htmlBody, "Tur kansellert!")
 }
 
 func connectToEmailService(userName string, passwd string) *mail.SMTPClient {

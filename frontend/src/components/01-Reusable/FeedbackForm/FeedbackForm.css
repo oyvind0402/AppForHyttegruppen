@@ -28,7 +28,6 @@
 .answer-input {
   width: 100%;
   height: 0px;
-  visibility: hidden;
 }
 
 .yes-no-label {
@@ -45,6 +44,10 @@
 .answer-input:checked ~ .yes-no-label {
   background-color: #bc01ff;
   color: white;
+}
+
+.answer-input:focus-visible ~ .yes-no-label {
+  outline: 2px solid black;
 }
 
 .yes-no-label:hover {

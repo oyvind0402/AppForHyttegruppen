@@ -440,7 +440,9 @@ const Applications = () => {
             name="tripLink"
             className="change-trip-type"
             type="radio"
+            tabIndex={'0'}
             id="futurePending"
+            aria-label="radio button for applications"
             onChange={() => {
               setApplications(futurePending);
               setErrors({});
@@ -456,6 +458,8 @@ const Applications = () => {
             className="change-trip-type"
             type="radio"
             id="pastPending"
+            tabIndex={'0'}
+            aria-label="radio button for declined applications"
             onChange={() => {
               setApplications(pastPending);
               setErrors({});
@@ -471,6 +475,8 @@ const Applications = () => {
             className="change-trip-type"
             type="radio"
             id="futureWinning"
+            tabIndex={'0'}
+            aria-label="radio button for future won trips"
             onChange={() => {
               setApplications(futureWinning);
               setErrors({});
@@ -486,6 +492,8 @@ const Applications = () => {
             className="change-trip-type"
             type="radio"
             id="pastWinning"
+            tabIndex={'0'}
+            aria-label="radio button for past won trips"
             onChange={() => {
               setApplications(pastWinning);
               setErrors({});
@@ -501,6 +509,8 @@ const Applications = () => {
             className="change-trip-type"
             type="radio"
             id="currentWinning"
+            tabIndex={'0'}
+            aria-label="radio button for current trips"
             onChange={() => {
               setApplications(currentWinning);
               setErrors({});
@@ -560,7 +570,7 @@ const Applications = () => {
       {assigned && (
         <AlertPopup
           title="Tildeling av hytter"
-          description="Er du sikker på at du vil tildele hyttene?"
+          description="Er du sikker på at du vil tildele hyttene? Hvis du trykker ja vil det bli sendt en epost til alle brukerene som vil få tildelt en hytte."
           negativeAction="Nei"
           positiveAction="Ja"
           cancelMethod={handleVisibility}

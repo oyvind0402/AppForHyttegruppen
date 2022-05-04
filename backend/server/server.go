@@ -49,7 +49,7 @@ func setRouter(r repo) *gin.Engine {
 		emailapi.POST("/applicationApproved", r.AfterApplicationApproved)
 		emailapi.POST("/openPeriod")
 		emailapi.POST("/filledFeedback", r.AfterFeedbackSent)
-		emailapi.POST("/cancelledTrip")
+		emailapi.POST("/cancelledTrip", r.AfterTripCancelled)
 	}
 
 	seasonapi := router.Group("/season")

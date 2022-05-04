@@ -60,10 +60,17 @@ const TripCardActive = (props) => {
       headers: { token: localStorage.getItem('refresh_token') },
     });
 
-    const data = await response.json();
     if (response.ok) {
-      console.log(data);
-      // TODO Send email to admin here if the user cancels their trip
+      fetch('/email/cancelledTrip', {
+        method: 'POST',
+        body: JSON.stringify({
+          period: props.data.period,
+          cabinsWon: props.data.cabinsWon,
+          user: props.data.user,
+        }),
+      })
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
       history.go(0);
     }
   };
@@ -108,7 +115,7 @@ const TripCardActive = (props) => {
       {tooLateError && (
         <InfoPopup
           title="Avbestilling av tur"
-          description="Du kan ikke avbestille en tur som har startdato innen 7 dager, eller som allerede har begynt! Kontakt oss hvis du fortsatt vil avbestille."
+          description="Du kan ikke avbestille en tur som har startdato innen 7 dager! Kontakt oss hvis du fortsatt vil avbestille."
           hideMethod={handleTooLateError}
           btnText="Ok"
         />
