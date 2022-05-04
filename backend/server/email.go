@@ -122,7 +122,7 @@ func SendEmail(userEmail string) {
 	email := mail.NewMSG()
 	email.SetFrom("From Hytteappen <hytteappen@gmail.com>")
 	email.AddTo(userEmail)
-	email.SetSubject("Kvitering for din søknad")
+	email.SetSubject("Kvittering for din søknad")
 
 	email.SetBody(mail.TextHTML, htmlBody.String())
 
