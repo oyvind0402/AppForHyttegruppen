@@ -244,6 +244,7 @@ const FeedbackForm = (props) => {
                 className="answer-input"
                 name="feedbackbtns"
                 type="radio"
+                tabIndex={'0'}
               />
               <label
                 onClick={removeReply}
@@ -259,6 +260,7 @@ const FeedbackForm = (props) => {
                 name="feedbackbtns"
                 className="answer-input"
                 type="radio"
+                tabIndex={'0'}
               />
               <label
                 onClick={showReply}
