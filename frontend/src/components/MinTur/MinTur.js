@@ -84,10 +84,17 @@ const MinTur = () => {
       headers: { token: localStorage.getItem('refresh_token') },
     });
 
-    const data = await response.json();
     if (response.ok) {
-      console.log(data);
-      // TODO Send email to admin here if the user cancels their trip
+      fetch('/email/cancelledTrip', {
+        method: 'POST',
+        body: JSON.stringify({
+          period: trip.period,
+          cabinsWon: trip.cabinsWon,
+          user: trip.user,
+        }),
+      })
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
       history.goBack();
     }
   };
@@ -141,7 +148,11 @@ const MinTur = () => {
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
-            <p className="mintur-title">{trip.cabins[0].cabinName}</p>
+            <p className="mintur-title">
+              {trip.cabinsWon.map((cabin) => {
+                return cabin.cabinName + ' ';
+              })}
+            </p>
 
             <img
               src={`${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`}
@@ -326,7 +337,11 @@ const MinTur = () => {
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
-            <p className="mintur-title">{trip.cabins[0].cabinName}</p>
+            <p className="mintur-title">
+              {trip.cabinsWon.map((cabin) => {
+                return cabin.cabinName + ' ';
+              })}
+            </p>
             <img
               src={`${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`}
               className="mintur-picture"

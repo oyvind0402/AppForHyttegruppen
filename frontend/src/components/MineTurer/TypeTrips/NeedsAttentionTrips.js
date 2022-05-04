@@ -42,7 +42,6 @@ const NeedsAttentionTrips = () => {
           <div className="trip-row-wrapper">
             {currentTrips.map((trip, index) => {
               if (!trip.feedback) {
-                anyFeedback = true;
                 return <TripCardActionReq key={index} data={trip} />;
               }
               return <></>;
@@ -51,7 +50,6 @@ const NeedsAttentionTrips = () => {
           <div className="trip-row-wrapper">
             {pastTrips.map((trip, index) => {
               if (!trip.feedback) {
-                anyFeedback = true;
                 return <TripCardActionReq key={index} data={trip} />;
               }
               return <></>;

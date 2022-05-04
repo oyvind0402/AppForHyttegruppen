@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import TripCardActive from '../../01-Reusable/TripCard/TripCardActive';
+import TripCardCurrent from '../../01-Reusable/TripCard/TripCardCurrent';
 
 import TripCardPast from '../../01-Reusable/TripCard/TripCardPast';
 
@@ -57,7 +58,7 @@ const YourTrips = () => {
           <p className="mytrip-title-empty">Dine nåværende turer:</p>
           <div className="trip-row-wrapper">
             {currentTrips.map((trip, index) => (
-              <TripCardActive key={index} data={trip} />
+              <TripCardCurrent key={index} data={trip} />
             ))}
           </div>
         </div>
@@ -70,7 +71,9 @@ const YourTrips = () => {
       <hr />
       {futureTrips !== null ? (
         <div className="mytrip-card-wrapper">
-          <p className="mytrip-title-empty">Dine godkjente turer:</p>
+          <p className="mytrip-title-empty">
+            Dine godkjente (fremtidige) turer:
+          </p>
           <div className="trip-row-wrapper">
             {futureTrips.map((trip, index) => (
               <TripCardActive key={index} data={trip} />
