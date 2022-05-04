@@ -14,12 +14,12 @@ const Hytteomraade = () => {
         <img
           className="omraade-picture omraade-summer"
           src={`${process.env.PUBLIC_URL}/assets/pictures/hemsedal-sommer.jpg`}
-          alt={'Hemsedal Sommer'}
+          alt={'Hemsedal sommer forest'}
         />
         <img
           className="omraade-picture omraade-winter"
           src={`${process.env.PUBLIC_URL}/assets/pictures/hemsedal-winter.jpg`}
-          alt={'Hemsedal winter'}
+          alt={'Hemsedal winter forest'}
         />
         <HemsedalLogo className="omraade-logo" />
       </div>
@@ -66,7 +66,7 @@ const Hytteomraade = () => {
         <img
           className="season-picture omraade-winter"
           src={`${process.env.PUBLIC_URL}/assets/pictures/hemsedal-ski-winter.jpg`}
-          alt={'Hemsedal winter'}
+          alt={'Hemsedal winter skislope'}
         />
       </div>
 
@@ -74,7 +74,7 @@ const Hytteomraade = () => {
         <img
           className="season-picture omraade-summer"
           src={`${process.env.PUBLIC_URL}/assets/pictures/hemsedal-hike-sommer.jpg`}
-          alt={'Hemsedal winter'}
+          alt={'Hemsedal sommer mountain hike'}
         />
         <div className="season-icons">
           <div className="icon-row">
