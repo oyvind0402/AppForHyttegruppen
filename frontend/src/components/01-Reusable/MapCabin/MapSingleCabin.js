@@ -128,16 +128,24 @@ const MapCabins = (props) => {
         </Map>
       </div>
       <div className="cabincardmap">
-        <button className="cabincardmap-btn" onClick={prevCabin}>
-          <GrFormPrevious />
+        <button
+          className="cabincardmap-btn"
+          onClick={prevCabin}
+          aria-label="Previous button"
+        >
+          <GrFormPrevious aria-label="Previous icon" />
         </button>
         {cabinCard.name === pickedCabin.name ? (
           <CabinCardMap cabin={cabinCard} showSeeMore={true} />
         ) : (
           <CabinCardMap cabin={cabinCard} showSeeMore={true} />
         )}
-        <button className="cabincardmap-btn" onClick={nextCabin}>
-          <GrFormNext />
+        <button
+          className="cabincardmap-btn"
+          onClick={nextCabin}
+          aria-label="Next button"
+        >
+          <GrFormNext aria-label="Next icon" />
         </button>
       </div>
     </>

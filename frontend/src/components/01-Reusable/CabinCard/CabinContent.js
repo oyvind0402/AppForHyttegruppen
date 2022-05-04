@@ -15,12 +15,12 @@ const CabinContent = (props) => {
         <p className="card-address">{props.cabin.address}</p>
 
         <div className="card-features-small">
-          <BiBed className="card-icon-small bed" />
+          <BiBed className="card-icon-small bed" aria-label="Bed icon" />
           <p className="card-text sleepingslots">
             {props.cabin.features.sengeplasser} senger
           </p>
 
-          <BiBath className="card-icon-small bath" />
+          <BiBath className="card-icon-small bath" aria-label="Bathroom icon" />
           <p className="card-text badrooms">{props.cabin.features.bad} Bad</p>
         </div>
       </div>
