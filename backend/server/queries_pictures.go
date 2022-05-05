@@ -4,7 +4,6 @@ import (
 	"bachelorprosjekt/backend/data"
 	"bachelorprosjekt/backend/utils"
 	"context"
-	"errors"
 	"fmt"
 	"mime/multipart"
 	"net/http"
@@ -73,7 +72,7 @@ func (r repo) PostMainPicture(ctx *gin.Context) {
 		if modified == 1 {
 			return true, nil
 		} else {
-			return false, errors.New(fmt.Sprintf("%d element(s) modified. Expected: 1", modified))
+			return false, fmt.Errorf("%d element(s) modified. Expected: 1", modified)
 		}
 	}
 
@@ -158,7 +157,7 @@ func (r repo) PostOnePicture(ctx *gin.Context) {
 		if modified == 1 {
 			return true, nil
 		} else {
-			return false, errors.New(fmt.Sprintf("%d element(s) modified. Expected: 1", modified))
+			return false, fmt.Errorf("%d element(s) modified. Expected: 1", modified)
 		}
 	}
 
@@ -247,7 +246,7 @@ func (r repo) PostReplaceRestPicture(ctx *gin.Context) {
 		if modified == 1 {
 			return true, nil
 		} else {
-			return false, errors.New(fmt.Sprintf("%d element(s) modified. Expected: 1", modified))
+			return false, fmt.Errorf("%d element(s) modified. Expected: 1", modified)
 		}
 	}
 
@@ -350,7 +349,7 @@ func (r repo) PostReplaceFirstRestPicture(ctx *gin.Context) {
 		if modified == 1 {
 			return true, nil
 		} else {
-			return false, errors.New(fmt.Sprintf("%d element(s) modified. Expected: 1", modified))
+			return false, fmt.Errorf("%d element(s) modified. Expected: 1", modified)
 		}
 	}
 
@@ -442,7 +441,7 @@ func (r repo) DeletePictures(ctx *gin.Context) {
 		if modified == 1 {
 			return true, nil
 		} else {
-			return false, errors.New(fmt.Sprintf("%d element(s) modified. Expected: 1", modified))
+			return false, fmt.Errorf("%d element(s) modified. Expected: 1", modified)
 		}
 	}
 

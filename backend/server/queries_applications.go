@@ -27,11 +27,11 @@ import (
 // }
 
 // Get cabins for a given ID (returns: []cabins, []cabinsWon, err)
-func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cabinsWon []data.CabinShort, err error, requestStatus int) {
+func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cabinsWon []data.CabinShort, requestStatus int, err error) {
 	// Execute query to fetch cabins and won information
 	cabinRows, err := r.sqlDb.Query(`SELECT cabin_name, cabin_won FROM ApplicationCabins WHERE application_id = $1`, id)
 	if err != nil {
-		return cabins, cabinsWon, err, http.StatusBadRequest
+		return cabins, cabinsWon, http.StatusBadRequest, err
 	}
 	defer cabinRows.Close()
 
@@ -43,7 +43,7 @@ func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cab
 
 		// Map column to Cabin.Name
 		if err = cabinRows.Scan(&cabin.Name, &cabinWon); err != nil {
-			return cabins, cabinsWon, err, http.StatusBadRequest
+			return cabins, cabinsWon, http.StatusBadRequest, err
 		}
 
 		// Append Cabin to Application.Cabins array
@@ -54,7 +54,7 @@ func (r repo) getCabins(ctx *gin.Context, id int) (cabins []data.CabinShort, cab
 			cabinsWon = append(cabinsWon, cabin)
 		}
 	}
-	return cabins, cabinsWon, err, http.StatusOK
+	return cabins, cabinsWon, http.StatusOK, err
 }
 
 // Remove from DB all Cabins associated to an Application
@@ -65,7 +65,7 @@ func removeCabins(tx *sql.Tx, application data.Application) (*sql.Tx, error) {
 }
 
 // Add/Update application cabins from a list
-func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, applicationId int, won bool) (*sql.Tx, error, int) {
+func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, applicationId int, won bool) (*sql.Tx, int, error) {
 	var err error
 
 	for _, cabin := range cabins {
@@ -79,20 +79,20 @@ func addOrUpdateCabins(ctx *gin.Context, tx *sql.Tx, cabins []data.CabinShort, a
 			won,
 		)
 		if err != nil {
-			return tx, err, http.StatusBadRequest
+			return tx, http.StatusBadRequest, err
 		}
 	}
-	return tx, err, http.StatusOK
+	return tx, http.StatusOK, err
 }
 
 // Get applications from Query
-func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}) ([]data.Application, error, int) {
+func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}) ([]data.Application, int, error) {
 	// Create Application array
 	var applications []data.Application
 
 	rows, err := r.sqlDb.Query(query, args...)
 	if err != nil {
-		return applications, err, http.StatusBadRequest
+		return applications, http.StatusBadRequest, err
 	}
 	defer rows.Close()
 
@@ -115,32 +115,32 @@ func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}
 			&periodId,
 			&application.Winner,
 			&application.FeedbackSent); err != nil {
-			return applications, err, http.StatusBadRequest
+			return applications, http.StatusBadRequest, err
 		}
 
 		// Get period
 		application.Period, err = r.getPeriodById(ctx, periodId)
 		if err != nil {
-			return applications, err, http.StatusBadRequest
+			return applications, http.StatusBadRequest, err
 		}
 
 		// Get user
 		application.User, err = r.getUserById(ctx, userId)
 		if err != nil {
-			return applications, err, http.StatusBadRequest
+			return applications, http.StatusBadRequest, err
 		}
 
 		var status int
 		// Get cabins
-		application.Cabins, application.CabinsWon, err, status = r.getCabins(ctx, application.ApplicationId)
+		application.Cabins, application.CabinsWon, status, err = r.getCabins(ctx, application.ApplicationId)
 		if err != nil {
-			return applications, err, status
+			return applications, status, err
 		}
 
 		// Append Application to Applications array
 		applications = append(applications, application)
 	}
-	return applications, err, http.StatusOK
+	return applications, http.StatusOK, err
 }
 
 // Retrieve one application by ID (receives int; returns Application)
@@ -196,7 +196,7 @@ func (r repo) GetApplication(ctx *gin.Context) {
 
 	// Get cabins
 	var status int
-	application.Cabins, application.CabinsWon, err, status = r.getCabins(ctx, applicationId)
+	application.Cabins, application.CabinsWon, status, err = r.getCabins(ctx, applicationId)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -215,7 +215,7 @@ func (r repo) GetUserApplications(ctx *gin.Context) {
 	stmt := `SELECT * FROM Applications WHERE user_id = $1`
 	args := []interface{}{userId}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -244,7 +244,7 @@ func (r repo) GetPastTripsUserApplications(ctx *gin.Context) {
 	) `
 	args := []interface{}{userId, curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -273,7 +273,7 @@ func (r repo) GetPendingUserApplications(ctx *gin.Context) {
 	) `
 	args := []interface{}{userId, curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -302,7 +302,7 @@ func (r repo) GetCurrentTripsUserApplications(ctx *gin.Context) {
 	) `
 	args := []interface{}{userId, curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -331,7 +331,7 @@ func (r repo) GetFutureTripsUserApplications(ctx *gin.Context) {
 	) `
 	args := []interface{}{userId, curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -355,7 +355,7 @@ func (r repo) GetPastWinnerApplications(ctx *gin.Context) {
 	)`
 	args := []interface{}{curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -379,7 +379,7 @@ func (r repo) GetFutureWinnerApplications(ctx *gin.Context) {
 	)`
 	args := []interface{}{curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -403,7 +403,7 @@ func (r repo) GetFuturePendingApplications(ctx *gin.Context) {
 	)`
 	args := []interface{}{curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -427,7 +427,7 @@ func (r repo) GetPastPendingApplications(ctx *gin.Context) {
 	)`
 	args := []interface{}{curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -451,7 +451,7 @@ func (r repo) GetCurrentApplications(ctx *gin.Context) {
 	)`
 	args := []interface{}{curdate}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -467,7 +467,7 @@ func (r repo) GetAllApplications(ctx *gin.Context) {
 	stmt := `SELECT * FROM Applications ORDER BY application_id`
 	args := []interface{}{}
 
-	applications, err, status := r.getApplications(ctx, stmt, args)
+	applications, status, err := r.getApplications(ctx, stmt, args)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -532,7 +532,7 @@ func (r repo) PostApplication(ctx *gin.Context) {
 	}
 
 	// Add cabins for Application
-	tx, err, status := addOrUpdateCabins(ctx, tx, application.Cabins, resId, false)
+	tx, status, err := addOrUpdateCabins(ctx, tx, application.Cabins, resId, false)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -602,7 +602,7 @@ func (r repo) UpdateApplication(ctx *gin.Context) {
 	}
 
 	// Add cabins from Application
-	tx, err, status := addOrUpdateCabins(ctx, tx, application.Cabins, application.ApplicationId, false)
+	tx, status, err := addOrUpdateCabins(ctx, tx, application.Cabins, application.ApplicationId, false)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
@@ -679,7 +679,7 @@ func (r repo) UpdateApplicationWinner(ctx *gin.Context) {
 	}
 
 	// Set ONLY cabins passed through WinnerApplication.CabinsWon as "won"
-	tx, err, status := addOrUpdateCabins(ctx, tx, application.CabinsWon, application.ApplicationId, true)
+	tx, status, err := addOrUpdateCabins(ctx, tx, application.CabinsWon, application.ApplicationId, true)
 	if err != nil {
 		ctx.AbortWithStatusJSON(status, gin.H{"err": err.Error()})
 		return
