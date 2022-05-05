@@ -19,7 +19,6 @@ import EditCabin from './components/Admin/Cabins/EditCabin';
 import EditSite from './components/Admin/EditSite';
 import EditCabins from './components/Admin/Cabins/EditCabins';
 import Applications from './components/Admin/Applications/EditSoknader';
-import Application from './components/Admin/Applications/EditSoknad';
 import OpenPeriod from './components/Admin/OpenPeriod';
 import AddCabin from './components/Admin/Cabins/AddCabin';
 import UploadCabinPics from './components/Admin/UploadPics/UploadCabinPics';
@@ -107,10 +106,6 @@ function App() {
         </Route>
         <Route path="/admin/endresoknader">
           {loginContext.adminAccess && <Applications />}
-          {!loginContext.adminAccess && <Redirect to="/login" />}
-        </Route>
-        <Route path="/admin/endresoknad">
-          {loginContext.adminAccess && <Application />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/endringer">

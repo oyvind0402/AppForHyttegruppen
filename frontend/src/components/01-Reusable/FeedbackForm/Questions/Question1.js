@@ -1,6 +1,6 @@
 import './Questions.css';
 
-const Question1 = (props) => {
+const Question1 = () => {
   return (
     <>
       <div className="question-container">
