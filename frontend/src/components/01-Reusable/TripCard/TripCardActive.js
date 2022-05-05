@@ -10,7 +10,11 @@ const TripCardActive = (props) => {
   const [visible, setVisible] = useState(false);
   const [tooLateError, setTooLateError] = useState(false);
 
-  if (props.data.length === 0) {
+  if (
+    props.data === null ||
+    typeof props.data === undefined ||
+    props.data.length === 0
+  ) {
     return <></>;
   }
 

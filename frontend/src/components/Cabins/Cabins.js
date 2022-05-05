@@ -25,11 +25,13 @@ const Cabins = () => {
       <HeroBanner name="Hytter" />
       <div className="cabins-display">
         {cabins.length > 0 &&
+          cabins !== null &&
+          typeof cabins !== undefined &&
           cabins.map((cabin, index) => {
             return <CabinCardBig key={index} cabin={cabin} />;
           })}
       </div>
-      {cabins.length > 0 && (
+      {cabins.length > 0 && cabins !== null && typeof cabins !== undefined && (
         <>
           <div className="map-elements">
             <MapSingleCabin

@@ -44,7 +44,8 @@ const Features = (props) => {
     <div className="wrapper">
       <div className="features" id="features">
         {props.cabinData !== null &&
-          props.cabinData.features !== undefined &&
+          typeof props.cabinData !== undefined &&
+          typeof props.cabinData.features !== undefined &&
           Object.keys(props.cabinData.features).map((key) => {
             const val = props.cabinData.features[key];
             if (typeof val != 'object') {

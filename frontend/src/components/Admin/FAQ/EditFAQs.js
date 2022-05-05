@@ -25,17 +25,21 @@ const EditFAQs = () => {
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <AdminBanner name="Endre spørsmål og svar" />
       <div className="edit-faqs-container">
-        {FAQs
+        {FAQs.length > 0 && FAQs !== null && typeof FAQs !== undefined
           ? FAQs.map((FAQ, index) => {
               return (
                 <div className="faq-wrapper" key={index}>
                   <div className="edit-faq-wrapper">
                     <label className="edit-faq-label">Spørsmål</label>
-                    <p className="edit-faq-question">{FAQ.question}</p>
+                    <p className="edit-faq-question">
+                      {FAQ.question && FAQ.question}
+                    </p>
                   </div>
                   <div className="edit-faq-wrapper">
                     <label className="edit-faq-label">Svar</label>
-                    <p className="edit-faq-answer">{FAQ.answer}</p>
+                    <p className="edit-faq-answer">
+                      {FAQ.answer && FAQ.answer}
+                    </p>
                   </div>
                   <div className="edit-button">
                     <div>

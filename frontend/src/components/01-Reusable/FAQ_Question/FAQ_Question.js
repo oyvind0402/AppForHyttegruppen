@@ -1,6 +1,16 @@
 import './FAQ_Question.css';
 
 const FAQ_Question = (props) => {
+  if (
+    typeof props.faq === 'undefined' ||
+    props.faq === null ||
+    props.index === null ||
+    typeof props.index === 'undefined' ||
+    props.toggleFAQ === null ||
+    typeof props.toggleFAQ === 'undefined'
+  ) {
+    return <></>;
+  }
   return (
     <>
       <button

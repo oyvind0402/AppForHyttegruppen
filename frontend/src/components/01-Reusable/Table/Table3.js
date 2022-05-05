@@ -19,6 +19,10 @@ export default function Table3({ columns, data }) {
     setFilterBy(value);
   };
 
+  if (data === null || typeof data === undefined) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="react-table-center">

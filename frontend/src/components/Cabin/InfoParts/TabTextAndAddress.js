@@ -11,7 +11,9 @@ const TabTextAndAddress = (props) => {
   return winWidth > 800 ? (
     <div className="infowrapper">
       <p>
-        {props.chosenText !== undefined && props.chosenText !== ''
+        {props.chosenText !== undefined &&
+        props.chosenText !== '' &&
+        props.chosenText !== null
           ? props.chosenText
           : 'Informasjon er dessverre ikke tilgjengelig.'}
       </p>

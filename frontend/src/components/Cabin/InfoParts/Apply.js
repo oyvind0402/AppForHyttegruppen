@@ -6,6 +6,10 @@ import './Apply.css';
 export const Apply = (props) => {
   const cabin = props.cabinData;
 
+  if (cabin === null || typeof cabin === undefined) {
+    return <></>;
+  }
+
   return (
     <div className="to-soknad">
       <BigButtonLink name={`Søk på ${cabin.name}`} link="/soknad" />

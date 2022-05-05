@@ -167,7 +167,8 @@ const EditPeriod = () => {
         <div className="edit-input-wrapper">
           <p className="edit-period-title">Sesong</p>
           <select className="edit-period-input" id="edit-period-select">
-            {typeof seasons !== 'undefined' &&
+            {seasons !== null &&
+              typeof seasons !== 'undefined' &&
               seasons.map((season, index) => {
                 if (season.seasonName === period.season.seasonName) {
                   return (

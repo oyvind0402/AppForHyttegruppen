@@ -2,6 +2,10 @@ import { FeatureIcon } from '../../01-Reusable/FeatureIcon/FeatureIcon';
 import './Address.css';
 
 const Address = (props) => {
+  if (props.cabin === null || typeof props.cabin === undefined) {
+    return <></>;
+  }
+
   const mapsLink = `https://www.google.com/maps/dir//${props.cabin.coordinates.latitude},${props.cabin.coordinates.longitude}/@${props.cabin.coordinates.latitude},${props.cabin.coordinates.longitude},16z`;
   return (
     <div className="address">

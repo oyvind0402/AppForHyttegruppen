@@ -320,7 +320,11 @@ const EditCabin = () => {
             </label>
             <input
               className="edit-cabin-input"
-              defaultValue={cabin.length !== 0 ? cabin[0].name : ''}
+              defaultValue={
+                cabin.length !== 0 && cabin[0].name !== null
+                  ? cabin[0].name
+                  : ''
+              }
               type="text"
               id="edit-name"
             />
@@ -334,7 +338,11 @@ const EditCabin = () => {
             </label>
             <input
               className="edit-cabin-input"
-              defaultValue={cabin.length !== 0 ? cabin[0].address : ''}
+              defaultValue={
+                cabin.length !== 0 && cabin[0].address !== null
+                  ? cabin[0].address
+                  : ''
+              }
               type="text"
               id="edit-address"
             />
@@ -352,7 +360,12 @@ const EditCabin = () => {
             <input
               className="edit-cabin-input"
               defaultValue={
-                cabin.length !== 0 ? cabin[0].coordinates.latitude : ''
+                cabin.length !== 0 &&
+                cabin[0].coordinates.latitude !== null &&
+                typeof cabin[0].coordinates !== undefined &&
+                cabin[0].coordinates !== null
+                  ? cabin[0].coordinates.latitude
+                  : ''
               }
               type="text"
               id="edit-latitude"
@@ -368,7 +381,12 @@ const EditCabin = () => {
             <input
               className="edit-cabin-input"
               defaultValue={
-                cabin.length !== 0 ? cabin[0].coordinates.longitude : ''
+                cabin.length !== 0 &&
+                cabin[0].coordinates.longitude !== null &&
+                typeof cabin[0].coordinates !== undefined &&
+                cabin[0].coordinates !== null
+                  ? cabin[0].coordinates.longitude
+                  : ''
               }
               type="text"
               id="edit-longitude"
@@ -385,7 +403,11 @@ const EditCabin = () => {
           </label>
           <textarea
             className="edit-cabin-input input-long"
-            defaultValue={cabin.length !== 0 ? cabin[0].directions : ''}
+            defaultValue={
+              cabin.length !== 0 && cabin[0].directions !== null
+                ? cabin[0].directions
+                : ''
+            }
             id="edit-directions"
           />
           {errorMessage.directions && (
@@ -398,7 +420,11 @@ const EditCabin = () => {
           </label>
           <textarea
             className="edit-cabin-input input-short"
-            defaultValue={cabin.length !== 0 ? cabin[0].shortDescription : ''}
+            defaultValue={
+              cabin.length !== 0 && cabin[0].shortDescription !== null
+                ? cabin[0].shortDescription
+                : ''
+            }
             id="edit-shortdesc"
           />
           {errorMessage.shortdesc && (
@@ -411,7 +437,11 @@ const EditCabin = () => {
           </label>
           <textarea
             className="edit-cabin-input input-long"
-            defaultValue={cabin.length !== 0 ? cabin[0].longDescription : ''}
+            defaultValue={
+              cabin.length !== 0 && cabin[0].longDescription !== null
+                ? cabin[0].longDescription
+                : ''
+            }
             id="edit-longdesc"
           />
           {errorMessage.longdesc && (
@@ -425,7 +455,12 @@ const EditCabin = () => {
           <textarea
             className="edit-cabin-input input-long"
             defaultValue={
-              cabin.length !== 0 ? cabin[0].other.kildesortering : ''
+              cabin.length !== 0 &&
+              cabin[0].other.kildesortering !== null &&
+              cabin[0].other !== null &&
+              typeof cabin[0].other !== undefined
+                ? cabin[0].other.kildesortering
+                : ''
             }
             id="edit-recycling"
           />
@@ -440,7 +475,11 @@ const EditCabin = () => {
             </label>
             <input
               className="edit-cabin-input"
-              defaultValue={cabin.length !== 0 ? cabin[0].price : ''}
+              defaultValue={
+                cabin.length !== 0 && cabin[0].price !== null
+                  ? cabin[0].price
+                  : ''
+              }
               type="number"
               id="edit-price"
             />
@@ -454,7 +493,11 @@ const EditCabin = () => {
             </label>
             <input
               className="edit-cabin-input"
-              defaultValue={cabin.length !== 0 ? cabin[0].cleaningPrice : ''}
+              defaultValue={
+                cabin.length !== 0 && cabin[0].cleaningPrice !== null
+                  ? cabin[0].cleaningPrice
+                  : ''
+              }
               type="number"
               id="edit-cleaningprice"
             />
@@ -462,7 +505,9 @@ const EditCabin = () => {
               <span className="login-error">{errorMessage.cleaningprice}</span>
             )}
           </div>
-          {cabin.length !== 0
+          {cabin.length !== 0 &&
+          cabin[0].features !== null &&
+          typeof cabin[0].features !== undefined
             ? Object.entries(cabin[0].features).map(([key, value]) => {
                 if (typeof value == 'number') {
                   return (
@@ -504,7 +549,9 @@ const EditCabin = () => {
                 }
               })
             : null}
-          {cabin.length !== 0 && typeof cabin[0].features.other !== 'undefined'
+          {cabin.length !== 0 &&
+          typeof cabin[0].features.other !== 'undefined' &&
+          cabin[0].features.other !== null
             ? Object.entries(cabin[0].features.other).map(([key, value]) => {
                 return (
                   <div className="input-function" key={key}>
@@ -546,7 +593,10 @@ const EditCabin = () => {
         </div>
         <div className="edit-cabin-wrapper" id="todolist">
           <label className="edit-cabin-label">Huskeliste</label>
-          {cabin.length !== 0
+          {cabin.length !== 0 &&
+          cabin[0].other.huskeliste !== null &&
+          cabin[0].other !== undefined &&
+          cabin[0].other !== null
             ? cabin[0].other.huskeliste.map((item, index) => {
                 return (
                   <input
@@ -554,7 +604,7 @@ const EditCabin = () => {
                     id={item}
                     type="text"
                     defaultValue={item}
-                    className="edit-cabin-input"
+                    className="edit-cabin-input2"
                   />
                 );
               })

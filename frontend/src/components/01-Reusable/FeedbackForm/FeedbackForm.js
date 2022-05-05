@@ -224,6 +224,10 @@ const FeedbackForm = (props) => {
     }
   }, [answers]);
 
+  if (typeof props.data === 'undefined' || props.data === null) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="feedback-container">
@@ -245,12 +249,9 @@ const FeedbackForm = (props) => {
                 name="feedbackbtns"
                 type="radio"
                 tabIndex={'0'}
+                onChange={removeReply}
               />
-              <label
-                onClick={removeReply}
-                htmlFor="yesbtn"
-                className="yes-no-label"
-              >
+              <label htmlFor="yesbtn" className="yes-no-label">
                 Ja
               </label>
             </div>
@@ -261,12 +262,9 @@ const FeedbackForm = (props) => {
                 className="answer-input"
                 type="radio"
                 tabIndex={'0'}
+                onChange={showReply}
               />
-              <label
-                onClick={showReply}
-                htmlFor="nobtn"
-                className="yes-no-label"
-              >
+              <label htmlFor="nobtn" className="yes-no-label">
                 Nei
               </label>
             </div>

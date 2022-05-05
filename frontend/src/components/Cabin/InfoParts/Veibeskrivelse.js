@@ -3,8 +3,16 @@ import TabTextAndAddress from './TabTextAndAddress';
 const UtvidetInfo = (props) => {
   return (
     <TabTextAndAddress
-      cabinData={props.cabinData}
-      chosenText={props.cabinData.directions}
+      cabinData={
+        props.cabinData !== null &&
+        typeof props.cabinData !== undefined &&
+        props.cabinData
+      }
+      chosenText={
+        props.cabinData.directions !== null &&
+        typeof props.cabinData.directions !== undefined &&
+        props.cabinData.directions
+      }
     />
   );
 };

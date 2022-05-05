@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom';
 import './TripCard.css';
 
 const TripCardPast = (props) => {
-  if (props.data.length === 0) {
+  if (
+    props.data === null ||
+    typeof props.data === undefined ||
+    props.data.length === 0
+  ) {
     return <></>;
   }
 

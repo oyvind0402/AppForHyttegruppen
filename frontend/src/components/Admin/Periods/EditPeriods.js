@@ -103,9 +103,11 @@ const EditPeriods = () => {
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <AdminBanner name="Endre perioder" />
       <div className="edit-periods-container">
-        {periods !== null && periods.length !== 0 && (
-          <Table2 columns={periodColumns} data={periods} />
-        )}
+        {periods !== null &&
+          typeof periods !== undefined &&
+          periods.length !== 0 && (
+            <Table2 columns={periodColumns} data={periods} />
+          )}
       </div>
       {visible && (
         <InfoPopupNoBg

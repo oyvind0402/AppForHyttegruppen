@@ -15,6 +15,7 @@ const EditFAQ = () => {
 
   const handleEdited = () => {
     setEdited(!edited);
+    setEditing(false);
   };
 
   const handleVisibility = () => {
@@ -98,7 +99,9 @@ const EditFAQ = () => {
           <textarea
             className="faq-input"
             id="edit-faq-question"
-            defaultValue={typeof FAQ !== 'undefined' ? FAQ.question : null}
+            defaultValue={
+              typeof FAQ !== 'undefined' && FAQ !== null ? FAQ.question : null
+            }
           />
           {errors.question && (
             <span className="login-error">{errors.question}</span>
@@ -107,7 +110,9 @@ const EditFAQ = () => {
           <textarea
             className="faq-area"
             id="edit-faq-answer"
-            defaultValue={typeof FAQ !== 'undefined' ? FAQ.answer : null}
+            defaultValue={
+              typeof FAQ !== 'undefined' && FAQ !== null ? FAQ.answer : null
+            }
           />
           {errors.answer && (
             <span className="login-error">{errors.answer}</span>

@@ -23,6 +23,8 @@ const EditCabins = () => {
       <AdminBanner name="Endre hytter" />
       <div className="cabins-display">
         {cabins.length > 0 &&
+          cabins !== null &&
+          typeof cabins !== undefined &&
           cabins.map((cabin, index) => {
             return <AdminCabinCardBig key={index} cabin={cabin} />;
           })}

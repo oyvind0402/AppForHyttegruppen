@@ -6,7 +6,11 @@ import './TripCard.css';
 
 const TripCardActionReq = (props) => {
   const [visible, setVisible] = useState(false);
-  if (props.data.length === 0) {
+  if (
+    props.data === null ||
+    typeof props.data === undefined ||
+    props.data.length === 0
+  ) {
     return <></>;
   }
 

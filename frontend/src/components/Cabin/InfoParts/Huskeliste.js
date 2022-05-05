@@ -23,7 +23,10 @@ const Huskeliste = (props) => {
     }
   }, []);
 
-  return props.cabinData.other.huskeliste !== undefined ? (
+  return typeof props.cabinData.other.huskeliste !== undefined &&
+    props.cabinData.other.huskeliste !== null &&
+    props.cabinData.other !== null &&
+    typeof props.cabinData.other !== undefined ? (
     <div className="huskeliste">
       <ul className="huskeliste-items" id="huskeliste">
         {props.cabinData.other.huskeliste.map((item) => (

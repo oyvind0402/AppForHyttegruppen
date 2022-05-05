@@ -50,13 +50,48 @@ const Cabin = () => {
   const loadInfoTab = (infoTab) => {
     switch (infoTab) {
       case 1:
-        return <UtvidetInfo cabinData={cabinData} />;
+        if (
+          cabinData !== null &&
+          typeof cabinData !== undefined &&
+          cabinData !== ''
+        ) {
+          return <UtvidetInfo cabinData={cabinData} />;
+        } else {
+          return <></>;
+        }
+
       case 2:
-        return <Huskeliste cabinData={cabinData} />;
+        if (
+          cabinData !== null &&
+          typeof cabinData !== undefined &&
+          cabinData !== ''
+        ) {
+          return <Huskeliste cabinData={cabinData} />;
+        } else {
+          return <></>;
+        }
+
       case 3:
-        return <Veibeskrivelse cabinData={cabinData} />;
+        if (
+          cabinData !== null &&
+          typeof cabinData !== undefined &&
+          cabinData !== ''
+        ) {
+          return <Veibeskrivelse cabinData={cabinData} />;
+        } else {
+          return <></>;
+        }
+
       default:
-        return <Features cabinData={cabinData} />;
+        if (
+          cabinData !== null &&
+          typeof cabinData !== undefined &&
+          cabinData !== ''
+        ) {
+          return <Features cabinData={cabinData} />;
+        } else {
+          return <></>;
+        }
     }
   };
 
@@ -65,37 +100,40 @@ const Cabin = () => {
       <BackButton name="Tilbake til hytter" link="hytter" />
       <HeroBanner name={cabinData.name} />
       <div className="cabin-display">
-        <Carousel cabinData={cabinData} />
+        {cabinData !== null &&
+          typeof cabinData !== undefined &&
+          cabinData !== '' && <Carousel cabinData={cabinData} />}
         <TabPicker setInfoTab={setInfoTab} active={infoTab} />
         {loadInfoTab(infoTab)}
         <Apply cabinData={cabinData} />
-        {cabinData !== '' && (
-          <>
-            <div className="map-elements">
-              <MapSingleCabin
-                cabins={cabins}
-                pickedCabin={cabinData}
-                zoom={zoom}
-                setZoom={setZoom}
-              />
-              <div className="map-zoom-elements">
-                <button
-                  className="map-zoom-btn"
-                  onClick={() => setZoom(zoom + 1)}
-                >
-                  +
-                </button>
-                <button
-                  className="map-zoom-btn"
-                  onClick={() => setZoom(zoom - 1)}
-                >
-                  -
-                </button>
+        {cabinData !== '' &&
+          cabinData !== null &&
+          typeof cabinData !== undefined && (
+            <>
+              <div className="map-elements">
+                <MapSingleCabin
+                  cabins={cabins}
+                  pickedCabin={cabinData}
+                  zoom={zoom}
+                  setZoom={setZoom}
+                />
+                <div className="map-zoom-elements">
+                  <button
+                    className="map-zoom-btn"
+                    onClick={() => setZoom(zoom + 1)}
+                  >
+                    +
+                  </button>
+                  <button
+                    className="map-zoom-btn"
+                    onClick={() => setZoom(zoom - 1)}
+                  >
+                    -
+                  </button>
+                </div>
               </div>
-            </div>
-          </>
-          /*<MapSingleCabin cabins={cabins} pickedCabin={cabinData} />*/
-        )}
+            </>
+          )}
       </div>
     </>
   );
