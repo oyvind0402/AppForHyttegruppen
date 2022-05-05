@@ -310,6 +310,7 @@ const AdminSettings = () => {
             type="radio"
             id="edit-users"
             onChange={handleUserMode}
+            tabIndex={'0'}
           />
           <label htmlFor="edit-users" className="checkbox-settings-label">
             Endre brukere
@@ -322,6 +323,7 @@ const AdminSettings = () => {
             type="radio"
             id="edit-emails"
             onChange={handleEmailMode}
+            tabIndex={'0'}
           />
           <label htmlFor="edit-emails" className="checkbox-settings-label">
             Endre epost
