@@ -5,6 +5,10 @@ import CabinContent from './CabinContent';
 const CabinCardSmall = (props) => {
   const [active, setActive] = useState(false);
 
+  if (typeof props.cabin === 'undefined' || props.cabin === null) {
+    return <></>;
+  }
+
   return (
     <>
       {active === true ? (

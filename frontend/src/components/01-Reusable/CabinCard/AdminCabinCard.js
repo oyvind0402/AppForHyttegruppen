@@ -5,6 +5,10 @@ import { GrMoney } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 
 const AdminCabinCardBig = (props) => {
+  if (typeof props.cabin === 'undefined' || props.cabin === null) {
+    return <></>;
+  }
+
   return (
     <>
       <Link

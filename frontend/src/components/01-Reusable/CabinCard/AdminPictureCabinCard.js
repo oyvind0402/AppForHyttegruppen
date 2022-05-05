@@ -2,6 +2,10 @@ import './CabinCard.css';
 import { Link } from 'react-router-dom';
 
 const AdminPictureCabinCard = (props) => {
+  if (typeof props.cabin === 'undefined' || props.cabin === null) {
+    return <></>;
+  }
+
   return (
     <>
       <Link

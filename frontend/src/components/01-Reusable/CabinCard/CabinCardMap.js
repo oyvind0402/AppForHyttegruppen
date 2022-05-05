@@ -4,6 +4,10 @@ import { BiBed } from 'react-icons/bi';
 import { BiBath } from 'react-icons/bi';
 
 const CabinCardMap = (props) => {
+  if (typeof props.cabin === 'undefined' || props.cabin === null) {
+    return <></>;
+  }
+
   if (typeof props.cabin.features !== 'undefined') {
     return (
       <>

@@ -4,6 +4,10 @@ import { BiBath } from 'react-icons/bi';
 import { GrMoney } from 'react-icons/gr';
 
 const CabinCardBig = (props) => {
+  if (typeof props.cabin === 'undefined' || props.cabin === null) {
+    return <></>;
+  }
+
   return (
     <>
       <button

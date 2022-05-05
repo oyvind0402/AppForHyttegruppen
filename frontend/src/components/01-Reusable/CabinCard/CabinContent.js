@@ -3,6 +3,10 @@ import { BiBed } from 'react-icons/bi';
 import { BiBath } from 'react-icons/bi';
 
 const CabinContent = (props) => {
+  if (typeof props.cabin === 'undefined' || props.cabin === null) {
+    return <></>;
+  }
+
   return (
     <>
       <img
