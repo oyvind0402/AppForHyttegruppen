@@ -93,31 +93,6 @@
   .slick-arrow,
   .slick-prev,
   .slick-next {
-    width: var(--slick-arrow);
     height: var(--slick-arrow);
-  }
-}
-
-@media only screen and (max-width: 1500px) {
-  .slick-arrow,
-  .slick-prev,
-  .slick-next {
-    width: 14rem;
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  .slick-arrow,
-  .slick-prev,
-  .slick-next {
-    width: 8rem;
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .slick-arrow,
-  .slick-prev,
-  .slick-next {
-    width: 4rem;
   }
 }
