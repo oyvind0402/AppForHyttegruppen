@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import AlertPopup from '../01-Reusable/PopUp/AlertPopup';
 import BackButton from '../01-Reusable/Buttons/BackButton';
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import './OpenPeriod.css';
 import PeriodCard from './PeriodCard';
 import InfoPopup from '../01-Reusable/PopUp/InfoPopup';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
+import AdminBanner from '../01-Reusable/HeroBanner/AdminBanner';
 
 const OpenPeriod = () => {
   const [visible, setVisible] = useState(false);
@@ -349,7 +349,7 @@ const OpenPeriod = () => {
   return (
     <>
       <BackButton name="Tilbake til admin" link="admin" />
-      <HeroBanner name="Åpne søknads periode" />
+      <AdminBanner name="Åpne søknads periode" />
       <div className="open-period-container">
         <p className="open-period-title">
           Velg start og sluttdato for sesongen
