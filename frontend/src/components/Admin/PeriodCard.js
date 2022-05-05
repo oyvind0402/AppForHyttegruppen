@@ -29,8 +29,11 @@ const PeriodCard = (props) => {
           <button
             className="btn-tiny"
             onClick={() => {
-              props.method();
-              handleExpanded();
+              let saved = props.method();
+              if (!saved) {
+              } else {
+                handleExpanded();
+              }
             }}
           >
             Lagre
