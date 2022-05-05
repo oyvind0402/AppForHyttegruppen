@@ -4,7 +4,6 @@ import ExcelConverter from '../../01-Reusable/ExcelConverter/ExcelConverter';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import './EditSoknader.css';
 import Table from '../../01-Reusable/Table/Table';
-import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 import ExcelConverterPayCheck from '../../01-Reusable/ExcelConverter/ExcelPaycheckConverter';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 
@@ -149,7 +148,6 @@ const Applications = () => {
       Cell: (props) => {
         let winner = props.row.original.winner;
         if (winner) {
-          let end = new Date(props.row.original.period.end);
           let start = new Date(props.row.original.period.start);
           let now = new Date();
           if (start > now) {
