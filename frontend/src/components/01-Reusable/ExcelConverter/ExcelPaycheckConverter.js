@@ -82,6 +82,14 @@ const ExcelConverterPayCheck = (props) => {
 
   const now = new Date();
 
+  if (
+    typeof props.data === 'undefined' ||
+    props.data === null ||
+    props.data.length === 0
+  ) {
+    return <></>;
+  }
+
   return (
     <>
       {loaded && (
