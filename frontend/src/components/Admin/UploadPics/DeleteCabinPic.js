@@ -14,20 +14,26 @@ const DeleteCabinPic = () => {
   const [saved, setSaved] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const link = window.location.href;
-  const pageID = link.split('/');
+  async function getCabin() {
+    const link = window.location.href;
+    const pageID = link.split('/');
+    fetch(`/cabin/${pageID[pageID.length - 1]}`, {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((data) => setCabinData(data))
+      .catch((error) => console.log(error));
+  }
 
   useEffect(() => {
-    async function getCabin(pageId) {
-      fetch(`/cabin/${pageId}`, {
-        method: 'GET',
-      })
-        .then((response) => response.json())
-        .then((data) => setCabinData(data))
-        .catch((error) => console.log(error));
+    if (cabinData === '') {
+      getCabin();
     }
-    getCabin(pageID[pageID.length - 1]);
-  }, [counter, pageID]);
+  });
+
+  useEffect(() => {
+    getCabin();
+  }, [counter]);
 
   const checkCheckBox = (e) => {
     if (e.target.tagName.toUpperCase() === 'INPUT') {
@@ -96,11 +102,8 @@ const DeleteCabinPic = () => {
 
   return (
     <>
-      <BackButton
-        name="Tilbake til last opp bilder"
-        link="admin/lastoppbilder"
-      />
-      <AdminBanner name={'Last opp bilder'} />
+      <BackButton name="Tilbake til slett bilder" link="admin/slettbilder" />
+      <AdminBanner name={'Slett bilder'} />
       <div className="upload-cabin-pic-container">
         <div className="image-upload-wrapper">
           {cabinData !== '' && (

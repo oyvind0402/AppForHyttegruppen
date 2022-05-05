@@ -21,8 +21,11 @@ const DeleteCabinsPic = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <AdminBanner name="Last opp bilder" />
+      <BackButton
+        name="Tilbake til rediger bilder"
+        link="admin/redigerbilder"
+      />
+      <AdminBanner name="Slett bilder" />
       <p className="upload-pics-title">Slett bilder for:</p>
       <div className="cabins-display">
         {cabins.length > 0 &&

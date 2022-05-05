@@ -20,7 +20,10 @@ const UploadCabinPics = () => {
 
   return (
     <>
-      <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
+      <BackButton
+        name="Tilbake til rediger bilder"
+        link="admin/redigerbilder"
+      />
       <AdminBanner name="Last opp bilder" />
       <p className="upload-pics-title">Last opp bilder for:</p>
       <div className="cabins-display">
