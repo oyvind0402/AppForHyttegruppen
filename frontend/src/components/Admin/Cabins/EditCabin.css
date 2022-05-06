@@ -56,6 +56,14 @@
   padding: 1rem;
 }
 
+.edit-cabin-input2 {
+  font-size: 1rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
 .edit-cabin-input-short {
   font-size: 1rem;
   border: 2px solid black;
