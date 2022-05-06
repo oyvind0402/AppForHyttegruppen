@@ -439,7 +439,8 @@ func (r repo) GetPastPendingApplications(ctx *gin.Context) {
 
 // Retrieve all winning applications in database where starting date is before current date and ending date is after current date (receives NOTHING; returns []Application)
 func (r repo) GetCurrentApplications(ctx *gin.Context) {
-	curdate := time.Now()
+	date := time.Now()
+	curdate := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
 
 	// Get all applications from database
 	stmt := `SELECT * FROM Applications 
@@ -447,7 +448,7 @@ func (r repo) GetCurrentApplications(ctx *gin.Context) {
 	AND period_id IN (
 		SELECT period_id
 		FROM Periods
-		WHERE starting < $1 AND ending > $1
+		WHERE starting <= $1 AND ending >= $1
 	)`
 	args := []interface{}{curdate}
 

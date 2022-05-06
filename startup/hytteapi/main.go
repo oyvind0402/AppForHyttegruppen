@@ -52,7 +52,7 @@ func sendEmailNotification() {
 			htmlBody.WriteString(`<p>`)
 			htmlBody.WriteString("Du har en tur om 2 dager!")
 			htmlBody.WriteString(`</p>`)
-			htmlBody.WriteString(`<br /><p>Du ble tildelt `)
+			htmlBody.WriteString(`<p>Du ble tildelt `)
 			for _, cabin := range applications[i].CabinsWon {
 				htmlBody.WriteString(cabin.Name + " ")
 			}
@@ -186,7 +186,7 @@ func main() {
 		<-gocron.Start()
 	}()
 
-	// Every day check if feedback is not sent for past trips
+	// Every day check if feedback is not sent for current trips, sending a reminder
 	go func() {
 		gocron.Every(1).Day().At("10:30").Do(sendFeedbackReminder)
 		<-gocron.Start()
