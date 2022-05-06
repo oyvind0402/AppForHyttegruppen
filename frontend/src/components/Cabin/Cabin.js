@@ -106,35 +106,35 @@ const Cabin = () => {
         <TabPicker setInfoTab={setInfoTab} active={infoTab} />
         {loadInfoTab(infoTab)}
         <Apply cabinData={cabinData} />
-        {cabinData !== '' &&
-          cabinData !== null &&
-          typeof cabinData !== undefined && (
-            <>
-              <div className="map-elements">
-                <MapSingleCabin
-                  cabins={cabins}
-                  pickedCabin={cabinData}
-                  zoom={zoom}
-                  setZoom={setZoom}
-                />
-                <div className="map-zoom-elements">
-                  <button
-                    className="map-zoom-btn"
-                    onClick={() => setZoom(zoom + 1)}
-                  >
-                    +
-                  </button>
-                  <button
-                    className="map-zoom-btn"
-                    onClick={() => setZoom(zoom - 1)}
-                  >
-                    -
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
       </div>
+      {cabinData !== '' &&
+        cabinData !== null &&
+        typeof cabinData !== undefined && (
+          <>
+            <div className="map-elements">
+              <MapSingleCabin
+                cabins={cabins}
+                pickedCabin={cabinData}
+                zoom={zoom}
+                setZoom={setZoom}
+              />
+              <div className="map-zoom-elements">
+                <button
+                  className="map-zoom-btn"
+                  onClick={() => setZoom(zoom + 1)}
+                >
+                  +
+                </button>
+                <button
+                  className="map-zoom-btn"
+                  onClick={() => setZoom(zoom - 1)}
+                >
+                  -
+                </button>
+              </div>
+            </div>
+          </>
+        )}
     </>
   );
 };
