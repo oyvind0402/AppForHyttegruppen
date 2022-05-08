@@ -245,10 +245,9 @@
 
   .logout-mobile {
     background-size: 100%;
-    background-color: #bd00ff;
+    background-color: #eaddff;
     text-align: center;
     align-self: center;
-    color: white;
     width: 100%;
     padding-bottom: 0.5rem;
   }
