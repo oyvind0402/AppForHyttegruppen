@@ -203,7 +203,6 @@
     align-self: flex-end;
     flex-direction: column;
     grid-template-columns: repeat(6, auto);
-    grid-gap: 0.8175rem;
     align-items: center;
     background-color: white;
     z-index: 100;
@@ -211,7 +210,6 @@
     border-radius: 1%;
     right: 2.7rem;
     top: 90px;
-    padding: 1rem;
   }
 
   .nav-list-mobile::before {
@@ -232,6 +230,27 @@
     font-size: 2rem;
     text-decoration: none;
     color: black;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 0.3rem;
+  }
+
+  .nav-list-mobile-item:hover {
+    background-color: var(--purple);
+    color: var(--white);
+  }
+
+  .logout-mobile {
+    background-size: 100%;
+    background-color: #bd00ff;
+    text-align: center;
+    align-self: center;
+    color: white;
+    width: 100%;
+    padding-bottom: 0.5rem;
   }
 
   .right-side {

@@ -230,13 +230,16 @@ const Header = () => {
             </NavLink>
           )}
           {loggedIn && (
-            <Link className="nav-list-mobile-item" onClick={logoutHandler}>
+            <Link
+              className="nav-list-mobile-item logout-mobile"
+              onClick={logoutHandler}
+            >
               Logg ut
             </Link>
           )}
           {!loggedIn && (
             <Link
-              className="nav-list-mobile-item"
+              className="nav-list-mobile-item logout-mobile"
               to="/login"
               onClick={handleClick}
             >
