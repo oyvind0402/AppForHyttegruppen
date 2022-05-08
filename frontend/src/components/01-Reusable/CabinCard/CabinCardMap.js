@@ -19,7 +19,7 @@ const CabinCardMap = (props) => {
             <BiBed className="card-icon bed" aria-label="Bed icon" />
             <p className="card-map-text bedrooms">
               {props.cabin.features.soverom} soverom /{' '}
-              {props.cabin.features.sengeplasser} sengeplasser
+              {props.cabin.features.sengeplasser} senger
             </p>
 
             <BiBath className="card-icon bath" aria-label="Bathroom icon" />

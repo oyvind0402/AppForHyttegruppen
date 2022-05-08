@@ -24,12 +24,18 @@ const Cabins = () => {
     <>
       <HeroBanner name="Hytter" />
       <div className="cabins-display">
-        {cabins.length > 0 &&
+        {cabins.length > 0 ? (
           cabins !== null &&
           typeof cabins !== undefined &&
           cabins.map((cabin, index) => {
             return <CabinCardBig key={index} cabin={cabin} />;
-          })}
+          })
+        ) : (
+          <p className="cabins-error-empty">
+            Det har oppstått tekniske problemer. Ingen hytter tilgjennelig
+            akkurat nå.
+          </p>
+        )}
       </div>
       {cabins.length > 0 && cabins !== null && typeof cabins !== undefined && (
         <>
