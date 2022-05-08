@@ -58,13 +58,13 @@ func (r repo) getUserById(ctx *gin.Context, userId string) (data.User, error) {
 	return user, err
 }
 
-// Retrieve one user by ID (receives userId: string; returns User)
-func (r repo) GetUser(ctx *gin.Context) {
+// Retrieve one user by Email (receives email: string; returns User)
+func (r repo) GetUserByEmail(ctx *gin.Context) {
 	// Retrieve parameter ID
-	userId := ctx.Param("id")
+	email := ctx.Param("email")
 
 	// Select user from database
-	row := r.sqlDb.QueryRow(`SELECT * FROM Users WHERE user_id = $1 LIMIT 1`, userId)
+	row := r.sqlDb.QueryRow(`SELECT * FROM Users WHERE email= $1 LIMIT 1`, email)
 
 	user, response, err := getUser(ctx, row)
 	if err != nil {
@@ -156,7 +156,7 @@ func (r repo) PostUser(ctx *gin.Context) {
 	*user.Id = shortuuid.New()
 
 	// Generating token and refresh token
-	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email)
+	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email, user.AdminAccess)
 
 	if tokenErr != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": tokenErr.Error()})
@@ -272,7 +272,7 @@ func (r repo) SignIn(ctx *gin.Context) {
 	}
 
 	// Updating tokens on login
-	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email)
+	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email, user.AdminAccess)
 	if tokenErr != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": tokenErr.Error()})
 		return

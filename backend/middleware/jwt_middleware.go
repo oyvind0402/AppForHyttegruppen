@@ -11,23 +11,27 @@ import (
 )
 
 type SignedDetails struct {
-	Email string
+	Email       string
+	AdminAccess bool
 	jwt.StandardClaims
 }
 
 var JWT_SECRET_KEY string = os.Getenv("JWT_SECRET_KEY")
 
-func CreateTokens(email string) (signedToken string, signedRefreshToken string, err error) {
+func CreateTokens(email string, adminAccess bool) (signedToken string, signedRefreshToken string, err error) {
 	tokenClaims := &SignedDetails{
-		Email: email,
+		Email:       email,
+		AdminAccess: adminAccess,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(24)).Unix(),
 		},
 	}
 
 	refreshTokenClaims := &SignedDetails{
+		Email:       email,
+		AdminAccess: adminAccess,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Local().Add(time.Hour*time.Duration(24)).Unix() * 3000,
+			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(336)).Unix(),
 		},
 	}
 
@@ -64,30 +68,88 @@ func validateToken(signedToken string) (claims *SignedDetails, msg string) {
 
 	if !ok {
 		msg = "The token is invalid"
-		msg = err.Error()
 		return
 	}
 
 	if claims.ExpiresAt < time.Now().Local().Unix() {
 		msg = "Token is expired"
-		msg = err.Error()
+		return
+	}
+
+	_, err2 := http.Get("http://localhost:8080/user/" + claims.Email)
+	if err2 != nil {
+		msg = "User doesnt exist, authentication invalid"
 		return
 	}
 
 	return claims, msg
 }
 
+func validateAdminToken(signedToken string) (claims *SignedDetails, msg string) {
+	token, err := jwt.ParseWithClaims(
+		signedToken,
+		&SignedDetails{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte(JWT_SECRET_KEY), nil
+		},
+	)
+
+	if err != nil {
+		msg = err.Error()
+		return
+	}
+
+	claims, ok := token.Claims.(*SignedDetails)
+
+	if !ok {
+		msg = "The token is invalid"
+		return
+	}
+
+	if claims.ExpiresAt < time.Now().Local().Unix() {
+		msg = "Token is expired"
+		return
+	}
+
+	if !claims.AdminAccess {
+		msg = "Admin access required!"
+		return
+	}
+
+	return claims, msg
+}
+
+func AuthenticateAdmin() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		adminToken := c.Request.Header.Get("token")
+		if adminToken == "" {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"err": "No Authorization header provided"})
+			return
+		}
+
+		claims, err := validateAdminToken(adminToken)
+		if err != "" {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"err": err})
+			return
+		}
+
+		c.Set("email", claims.Email)
+
+		c.Next()
+	}
+}
+
 func Authenticate() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		clientToken := c.Request.Header.Get("token")
 		if clientToken == "" {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"err": "No Authorization header provided"})
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"err": "No Authorization header provided"})
 			return
 		}
 
 		claims, err := validateToken(clientToken)
 		if err != "" {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"err": err})
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"err": err})
 			return
 		}
 

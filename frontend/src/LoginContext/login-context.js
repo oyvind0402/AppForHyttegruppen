@@ -22,7 +22,7 @@ export const LoginContextProvider = (props) => {
 
   //Setting loggedIn and adminAccess as a boolean from a previous value
   const loggedIn = !!token && !!refreshToken;
-  const adminAccess = !!admin;
+  const adminAccess = !!token && !!admin && !!refreshToken;
 
   //Logging in sets the key with the token thats passed with the function
   const login = (token, refreshToken, admin) => {
@@ -41,9 +41,9 @@ export const LoginContextProvider = (props) => {
     setToken(null);
     setRefreshToken(null);
     setAdmin(null);
-    localStorage.removeItem(key);
-    localStorage.removeItem(key2);
-    localStorage.removeItem(adminKey);
+    localStorage.removeItem('token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('admin');
   };
 
   //Setting the values to the context
@@ -60,6 +60,8 @@ export const LoginContextProvider = (props) => {
     if (localStorage.getItem('refresh_token')) {
       const jwtPayload = JSON.parse(window.atob(refreshToken.split('.')[1]));
       if (Date.now() >= jwtPayload.exp * 1000) {
+        logout();
+        window.location.href = '/login';
       }
     }
   });
