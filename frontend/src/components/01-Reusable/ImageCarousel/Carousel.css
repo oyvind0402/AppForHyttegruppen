@@ -60,10 +60,22 @@
   margin: 0 calc(var(--slick-dot) / 1.5);
 }
 
-.slick-dots li button:focus-visible {
+.slick-dots li button:before {
+  position: relative;
+}
+
+.slick-dots li button:focus-visible::before {
   outline-color: black;
   outline-style: solid;
   outline-width: 2px;
+  outline-offset: 7 px;
+}
+
+.slick-arrow:focus-visible::before {
+  outline-color: black;
+  outline-style: solid;
+  outline-width: 2px;
+  outline-offset: 7 px;
 }
 
 .slick-dots li button::before {

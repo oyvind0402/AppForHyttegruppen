@@ -7,7 +7,6 @@ const Step2 = (props) => {
   const [showExtraInfo, setShowExtraInfo] = useState(false);
   const [tempPerioder, setTempPerioder] = useState([]);
   const [perioder, setPerioder] = useState([]);
-  let newMuligePerioder = [];
   const [muligePerioder, setMuligePerioder] = useState([]);
   const [valgtePerioder, setValgtePerioder] = useState(props.formData.period);
   const [showFeedBack, setShowFeedBack] = useState(false);
@@ -28,6 +27,8 @@ const Step2 = (props) => {
 
   //Fetching all previous applied periods
   useEffect(() => {
+    let newMuligePerioder = [];
+
     async function fetchAlreadyAplliedPeriods() {
       fetch(`/application/byuser/${props.formData.userId}`)
         .then((response) => response.json())
@@ -49,10 +50,12 @@ const Step2 = (props) => {
         .catch((error) => console.log(error));
     }
     fetchAlreadyAplliedPeriods();
-  }, [tempPerioder]);
+  }, [tempPerioder, props.formData.userId]);
 
   //Everytime perioder updates we remove all the periods that are previously selected (saved in props)
   useEffect(() => {
+    let newMuligePerioder = [];
+
     if (perioder !== []) {
       newMuligePerioder = perioder.filter((period) => {
         let match = false;
@@ -64,7 +67,7 @@ const Step2 = (props) => {
       });
       setMuligePerioder(newMuligePerioder);
     }
-  }, [perioder]);
+  }, [perioder, props.formData.period]);
 
   //Add periods to 'Valgete perioder' box and removes them from 'Perioder'
   const addPerioder = () => {

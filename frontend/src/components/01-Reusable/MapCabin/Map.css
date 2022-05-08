@@ -14,7 +14,7 @@
 
 .map-elements {
   width: 80%;
-  margin: 150px auto -80px auto;
+  margin: 0 auto -80px auto;
 }
 
 .map-zoom-elements {
@@ -23,7 +23,8 @@
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
-  top: -700px;
+  top: 100px;
+  z-index: 2;
 }
 
 .map-zoom-btn {

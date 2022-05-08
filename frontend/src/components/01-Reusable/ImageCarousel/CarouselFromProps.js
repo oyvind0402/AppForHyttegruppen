@@ -16,9 +16,9 @@ const CarouselFromProps = (props) => {
     <Slider {...settings}>
       {props.data !== null &&
         props.data !== undefined &&
-        props.data.map((file) => {
+        props.data.map((file, index) => {
           return (
-            <div className="slick-slide-item" key={file.name}>
+            <div className="slick-slide-item" key={index}>
               <img src={URL.createObjectURL(file.image)} alt={file.name} />
             </div>
           );

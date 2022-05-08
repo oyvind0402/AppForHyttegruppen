@@ -112,12 +112,6 @@ const Cabin = () => {
         typeof cabinData !== undefined && (
           <>
             <div className="map-elements">
-              <MapSingleCabin
-                cabins={cabins}
-                pickedCabin={cabinData}
-                zoom={zoom}
-                setZoom={setZoom}
-              />
               <div className="map-zoom-elements">
                 <button
                   className="map-zoom-btn"
@@ -132,6 +126,12 @@ const Cabin = () => {
                   -
                 </button>
               </div>
+              <MapSingleCabin
+                cabins={cabins}
+                pickedCabin={cabinData}
+                zoom={zoom}
+                setZoom={setZoom}
+              />
             </div>
           </>
         )}
