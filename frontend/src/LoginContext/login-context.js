@@ -66,7 +66,7 @@ export const LoginContextProvider = (props) => {
         window.location.href = '/login';
       }
     }
-  }, []);
+  });
 
   return (
     <LoginContext.Provider value={contextValues}>

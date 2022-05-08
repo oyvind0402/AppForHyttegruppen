@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AiFillCar, AiOutlineArrowUp } from 'react-icons/ai';
-import { BiBed, BiWalk } from 'react-icons/bi';
-import {
-  BsFillKeyFill,
-  BsHourglassSplit,
-  BsWifi,
-  BsWifiOff,
-} from 'react-icons/bs';
+import { BiBed } from 'react-icons/bi';
+import { BsFillKeyFill, BsWifi, BsWifiOff } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { GiTakeMyMoney } from 'react-icons/gi';
 import { Md4GMobiledata, MdShower } from 'react-icons/md';
@@ -26,12 +21,11 @@ const MinTurFlere = (props) => {
         setCabinWon(cabin);
       }
     });
-    console.log(cabinWon);
   };
 
   useEffect(() => {
     setCabinWon(props.cabinsWon[0]);
-  }, []);
+  }, [props.cabinsWon]);
 
   if (props.start > Date.now() && props.trip.winner) {
     return (
@@ -98,6 +92,8 @@ const MinTurFlere = (props) => {
                     cabinWon.other.huskeliste.map((item, index) => {
                       if (index < 3) {
                         return <p className="checklist-item">{item}</p>;
+                      } else {
+                        return <></>;
                       }
                     })}
                 </div>
@@ -110,6 +106,8 @@ const MinTurFlere = (props) => {
                     cabinWon.other.huskeliste.map((item, index) => {
                       if (index >= 3) {
                         return <p className="checklist-item">{item}</p>;
+                      } else {
+                        return <></>;
                       }
                     })}
                 </div>
@@ -315,6 +313,8 @@ const MinTurFlere = (props) => {
                     cabinWon.other.huskeliste.map((item, index) => {
                       if (index < 3) {
                         return <p className="checklist-item">{item}</p>;
+                      } else {
+                        return <></>;
                       }
                     })}
                 </div>
@@ -327,6 +327,8 @@ const MinTurFlere = (props) => {
                     cabinWon.other.huskeliste.map((item, index) => {
                       if (index >= 3) {
                         return <p className="checklist-item">{item}</p>;
+                      } else {
+                        return <></>;
                       }
                     })}
                 </div>

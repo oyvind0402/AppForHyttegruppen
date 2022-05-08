@@ -3,7 +3,6 @@ import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import { BsFillKeyFill, BsHourglassSplit } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { AiFillCar } from 'react-icons/ai';
-import { BiWalk } from 'react-icons/bi';
 import { BiBed } from 'react-icons/bi';
 import { GiTakeMyMoney } from 'react-icons/gi';
 import { BsWifiOff } from 'react-icons/bs';
@@ -166,8 +165,10 @@ const MinTur = () => {
   };
 
   useEffect(() => {
-    getTrip();
-  }, [pageID, history]);
+    if (trip === '') {
+      getTrip();
+    }
+  }, [getTrip]);
 
   if (length < 2) {
     if (start > Date.now() && trip.winner) {
@@ -226,6 +227,8 @@ const MinTur = () => {
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         if (index < 3) {
                           return <p className="checklist-item">{item}</p>;
+                        } else {
+                          return <></>;
                         }
                       })}
                   </div>
@@ -238,6 +241,8 @@ const MinTur = () => {
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         if (index >= 3) {
                           return <p className="checklist-item">{item}</p>;
+                        } else {
+                          return <></>;
                         }
                       })}
                   </div>
@@ -475,6 +480,8 @@ const MinTur = () => {
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         if (index < 3) {
                           return <p className="checklist-item">{item}</p>;
+                        } else {
+                          return <></>;
                         }
                       })}
                   </div>
@@ -487,6 +494,8 @@ const MinTur = () => {
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         if (index >= 3) {
                           return <p className="checklist-item">{item}</p>;
+                        } else {
+                          return <></>;
                         }
                       })}
                   </div>

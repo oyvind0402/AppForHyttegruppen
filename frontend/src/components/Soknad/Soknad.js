@@ -26,10 +26,9 @@ const Soknad = () => {
     winner: false,
   });
 
-  const cookies = new Cookies();
-
   //Posting application per period
   useEffect(() => {
+    const cookies = new Cookies();
     let postSuccessful = true;
 
     async function postPeriod(JsonBody) {
