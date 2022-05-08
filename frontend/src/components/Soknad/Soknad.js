@@ -26,8 +26,21 @@ const Soknad = () => {
   });
 
   //Posting application per period
-  useEffect(async () => {
+  useEffect(() => {
     let postSuccessful = true;
+
+    async function postPeriod(JsonBody) {
+      fetch('/application/post', {
+        method: 'POST',
+        body: JSON.stringify(JsonBody),
+        headers: { token: localStorage.getItem('refresh_token') },
+      })
+        .then((response) => response.json())
+        .catch((error) => {
+          postSuccessful = false;
+          console.log(error);
+        });
+    }
 
     if (formCompleted) {
       formData.period.forEach((period) => {
@@ -44,7 +57,9 @@ const Soknad = () => {
           winner: false,
         };
 
-        fetch('/application/post', {
+        postPeriod(JsonBody);
+
+        /*fetch('/application/post', {
           method: 'POST',
           body: JSON.stringify(JsonBody),
           headers: { token: localStorage.getItem('refresh_token') },
@@ -53,15 +68,10 @@ const Soknad = () => {
           .catch((error) => {
             postSuccessful = false;
             console.log(error);
-          });
+          });*/
       });
-      //post for email. Sends in user id
-      if (postSuccessful) {
-        const emailData = {
-          userId: formData.userId,
-          periods: formData.period,
-        };
 
+      async function sendEmail(emailData) {
         fetch('/email/afterApplication', {
           method: 'POST',
           body: JSON.stringify(emailData),
@@ -70,6 +80,25 @@ const Soknad = () => {
           .catch((error) => {
             console.log(error);
           });
+      }
+
+      //post for email. Sends in user id
+      if (postSuccessful) {
+        const emailData = {
+          userId: formData.userId,
+          periods: formData.period,
+        };
+
+        sendEmail(emailData);
+
+        /*fetch('/email/afterApplication', {
+          method: 'POST',
+          body: JSON.stringify(emailData),
+        })
+          .then((response) => response.json())
+          .catch((error) => {
+            console.log(error);
+          });*/
       }
 
       //Everything is set back to the initial start position
