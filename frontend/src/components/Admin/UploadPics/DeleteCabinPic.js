@@ -132,7 +132,7 @@ const DeleteCabinPic = () => {
                     </div>
                   );
                 }
-                return <></>;
+                return null;
               })}
           </div>
 
