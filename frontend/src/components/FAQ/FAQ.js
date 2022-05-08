@@ -40,14 +40,21 @@ const FAQ = () => {
     <>
       <HeroBanner name="faq" />
       <div className="FAQs">
-        {FAQElements.map((faq, index) => (
-          <FAQ_QUESTION
-            key={index}
-            faq={faq}
-            index={index}
-            toggleFAQ={(index) => toggleFAQ(index)}
-          />
-        ))}
+        {FAQElements > 0 ? (
+          FAQElements.map((faq, index) => (
+            <FAQ_QUESTION
+              key={index}
+              faq={faq}
+              index={index}
+              toggleFAQ={(index) => toggleFAQ(index)}
+            />
+          ))
+        ) : (
+          <p className="faq-error">
+            Det ser ut til å enten være tekniske problemer eller at det er ingen
+            FAQ satt opp enda.
+          </p>
+        )}
       </div>
     </>
   );

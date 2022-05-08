@@ -2,6 +2,10 @@
   width: 60%;
   margin: 50px auto 100px auto;
 }
+.faq-error {
+  text-align: center;
+  font-size: 1.5rem;
+}
 
 @media only screen and (max-width: 1500px) {
   .FAQs {
