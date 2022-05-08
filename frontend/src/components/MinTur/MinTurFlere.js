@@ -1,0 +1,551 @@
+import { useEffect, useState } from 'react';
+import { AiFillCar, AiOutlineArrowUp } from 'react-icons/ai';
+import { BiBed, BiWalk } from 'react-icons/bi';
+import {
+  BsFillKeyFill,
+  BsHourglassSplit,
+  BsWifi,
+  BsWifiOff,
+} from 'react-icons/bs';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import { GiTakeMyMoney } from 'react-icons/gi';
+import { Md4GMobiledata, MdShower } from 'react-icons/md';
+import BackButton from '../01-Reusable/Buttons/BackButton';
+import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
+import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import AlertPopup from '../01-Reusable/PopUp/AlertPopup';
+import InfoPopup from '../01-Reusable/PopUp/InfoPopup';
+import './MinTur.css';
+
+const MinTurFlere = (props) => {
+  const [cabinWon, setCabinWon] = useState('');
+
+  const changeCabinInfo = (value) => {
+    props.cabinsWon.forEach((cabin) => {
+      if (value === cabin.name) {
+        setCabinWon(cabin);
+      }
+    });
+    console.log(cabinWon);
+  };
+
+  useEffect(() => {
+    setCabinWon(props.cabinsWon[0]);
+  }, []);
+
+  if (props.start > Date.now() && props.trip.winner) {
+    return (
+      <>
+        <BackButton name="Tilbake til mine turer" link="mineturer" />
+        <HeroBanner name="Min tur" />
+        <div className="mintur-container">
+          <div className="titlepic-wrapper">
+            <p className="mintur-title">{props.length + ' hytter tildelt'}</p>
+
+            <select
+              onChange={(e) => changeCabinInfo(e.target.value)}
+              id="cabin-select"
+              className="mintur-select"
+            >
+              {typeof props.cabinsWon !== undefined &&
+                props.cabinsWon !== '' &&
+                props.trip.cabinsWon.map((cabin) => {
+                  return (
+                    <option value={cabin.cabinName}>{cabin.cabinName}</option>
+                  );
+                })}
+            </select>
+            <img
+              src={
+                cabinWon !== '' &&
+                typeof cabinWon.pictures !== undefined &&
+                `${process.env.PUBLIC_URL}/assets/pictures/` +
+                  cabinWon.pictures.mainPicture.filename
+              }
+              className="mintur-picture"
+              alt="cabin"
+            />
+          </div>
+          <div className="secondrow-wrapper">
+            <div className="info-container">
+              <p className="info-title">Reise informasjon</p>
+              <div className="travelinfo-wrapper">
+                <div className="checkin-info">
+                  <p>Innsjekking</p>
+                  <p>{props.getFormattedDate(props.start, false)}</p>
+                  <p>17:00</p>
+                </div>
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
+                  alt="indicating travel"
+                  className="travel-icon"
+                />
+                <div className="checkout-info">
+                  <p>Utsjekking</p>
+                  <p>{props.getFormattedDate(props.end, false)}</p>
+                  <p>12:00</p>
+                </div>
+              </div>
+            </div>
+            <div className="checklist-container">
+              <p className="checklist-title">Ta med</p>
+              <div className="checklist">
+                <div className="checklist-wrapper">
+                  {cabinWon !== '' &&
+                    typeof cabinWon.other !== undefined &&
+                    cabinWon.other.huskeliste !== null &&
+                    typeof cabinWon.other.huskeliste !== undefined &&
+                    cabinWon.other.huskeliste.map((item, index) => {
+                      if (index < 3) {
+                        return <p className="checklist-item">{item}</p>;
+                      }
+                    })}
+                </div>
+
+                <div className="checklist-wrapper">
+                  {cabinWon !== '' &&
+                    typeof cabinWon.other !== undefined &&
+                    cabinWon.other.huskeliste !== null &&
+                    typeof cabinWon.other.huskeliste !== undefined &&
+                    cabinWon.other.huskeliste.map((item, index) => {
+                      if (index >= 3) {
+                        return <p className="checklist-item">{item}</p>;
+                      }
+                    })}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="omhytta-container">
+            <p className="omhytta-title">Om hytta</p>
+            <div className="hytteinfo-container">
+              <div className="hytteinfo1-wrapper">
+                <BsFillKeyFill className="info-icon key-icon" />
+                <div className="key-text">
+                  <p className="omhytta-text">Nøkkel i en nøkkelboks</p>
+                  <p className="omhytta-text">Koden til boksen via epost</p>
+                </div>
+
+                <FaMapMarkerAlt className="info-icon marker-icon" />
+                <div className="address-text">
+                  <p className="omhytta-text">
+                    {cabinWon !== '' &&
+                      typeof cabinWon.address !== undefined &&
+                      cabinWon.address + ','}
+                  </p>
+                  <p className="omhytta-text">Hemsedal</p>
+                </div>
+
+                <AiFillCar className="info-icon car-icon" />
+                <div className="roaddesc-text">
+                  <p className="omhytta-text">Bilvei helt frem</p>
+                  <p>
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      className="omhytta-text roaddesc-link"
+                      href="https://www.google.com/maps/dir/Oslo+gate+7,+Oslo/3560+Hemsedal/@59.9260916,10.695873,11z/data=!4m14!4m13!1m5!1m1!1s0x46416ef682dc4cd5:0x515b4a96821c140f!2m2!1d10.7677413!2d59.9069394!1m5!1m1!1s0x463fe896e25bc07b:0xfdd68f22ff1ebba0!2m2!1d8.552376!2d60.8630648!3e0"
+                    >
+                      Veibeskrivelse
+                    </a>
+                  </p>
+                </div>
+
+                {cabinWon !== '' &&
+                  typeof cabinWon.name !== undefined &&
+                  cabinWon.name === 'Utsikten' && (
+                    <>
+                      <BiWalk className="info-icon walking-icon" />
+                      <p className="omhytta-text walking-text">
+                        10 min til sentrum til fots
+                      </p>
+                    </>
+                  )}
+                {cabinWon !== '' &&
+                  typeof cabinWon.name !== undefined &&
+                  cabinWon.name === 'Fanitullen' && (
+                    <>
+                      <BiWalk className="info-icon walking-icon" />
+                      <p className="omhytta-text walking-text">
+                        10 min til sentrum til fots
+                      </p>
+                    </>
+                  )}
+                {cabinWon !== '' &&
+                  typeof cabinWon.name !== undefined &&
+                  cabinWon.name === 'Knausen' && (
+                    <>
+                      <AiFillCar className="info-icon walking-icon" />
+                      <p className="omhytta-text walking-text">
+                        17 min til sentrum med bil
+                      </p>
+                    </>
+                  )}
+                {cabinWon !== '' &&
+                  typeof cabinWon.name !== undefined &&
+                  cabinWon.name === 'Store Grøndalen' && (
+                    <>
+                      <AiFillCar className="info-icon walking-icon" />
+                      <p className="omhytta-text walking-text">
+                        17 min til sentrum med bil
+                      </p>
+                    </>
+                  )}
+                <BiBed className="info-icon bed-icon" />
+                <p className="omhytta-text bed-text">
+                  {cabinWon !== '' &&
+                    typeof cabinWon.features !== undefined &&
+                    cabinWon.features.soverom +
+                      ' soverom / ' +
+                      cabinWon.features.sengeplasser +
+                      ' sengeplasser'}
+                </p>
+              </div>
+
+              <div className="hytteinfo2-wrapper">
+                <GiTakeMyMoney className="info-icon money-icon" />
+                <div className="price-text">
+                  <p className="omhytta-text">
+                    Utvask pris:{' '}
+                    {cabinWon !== '' &&
+                      typeof cabinWon.cleaningPrice !== undefined &&
+                      cabinWon.cleaningPrice}
+                    ,-
+                  </p>
+                  <p className="omhytta-text">
+                    Pris for hytte:{' '}
+                    {cabinWon !== '' &&
+                      typeof cabinWon.price !== undefined &&
+                      cabinWon.price}
+                    ,-
+                  </p>
+                </div>
+
+                {cabinWon !== '' &&
+                typeof cabinWon.features !== undefined &&
+                cabinWon.features.wifi ? (
+                  <BsWifi className="info-icon internet-icon" />
+                ) : (
+                  <BsWifiOff className="info-icon internet-icon" />
+                )}
+                <p className="omhytta-text internet-text">
+                  {cabinWon !== '' &&
+                  typeof cabinWon.features !== undefined &&
+                  cabinWon.features.wifi
+                    ? 'Trådløst nett'
+                    : 'Ikke trådløst nett'}
+                </p>
+
+                <Md4GMobiledata className="info-icon 4g-icon" />
+                <p className="omhytta-text 4g-text">God 4G-dekning</p>
+
+                <AiOutlineArrowUp className="info-icon arrow-icon" />
+                <div className="arrow-text">
+                  <p className="omhytta-text">Nylig modernisert</p>
+                  <p className="omhytta-text">Høy standard</p>
+                </div>
+
+                <MdShower className="info-icon bath-icon" />
+                <p className="omhytta-text bath-text">
+                  {cabinWon !== '' &&
+                    typeof cabinWon.features !== undefined &&
+                    cabinWon.features.bad + ' bad'}
+                </p>
+              </div>
+            </div>
+          </div>
+          <button onClick={props.handleVisibility} className="btn small">
+            Avbestill
+          </button>
+        </div>
+        {props.visible && (
+          <AlertPopup
+            title="Avbestilling av tur"
+            description="Er du sikker på at du vil avbestille turen? Hvis ja, trykk avbestill!"
+            acceptMethod={props.cancelTrip}
+            cancelMethod={props.handleVisibility}
+            negativeAction="Avbryt"
+            positiveAction="Avbestill"
+          />
+        )}
+        {props.tooLateError && (
+          <InfoPopup
+            title="Avbestilling av tur"
+            description="Du kan ikke avbestille en tur som har startdato innen 7 dager! Kontakt oss hvis du fortsatt vil avbestille."
+            hideMethod={props.handleTooLateError}
+            btnText="Ok"
+          />
+        )}
+      </>
+    );
+  } else if (
+    props.start <= Date.now() &&
+    props.end >= Date.now() &&
+    props.trip.winner
+  ) {
+    return (
+      <>
+        <BackButton name="Tilbake til mine turer" link="mineturer" />
+        <HeroBanner name="Min tur" />
+        <div className="mintur-container">
+          <div className="titlepic-wrapper">
+            <p className="mintur-title">{props.length + ' hytter tildelt'}</p>
+
+            <select
+              onChange={(e) => changeCabinInfo(e.target.value)}
+              id="cabin-select"
+              className="mintur-select"
+            >
+              {typeof props.cabinsWon !== undefined &&
+                props.cabinsWon !== '' &&
+                props.trip.cabinsWon.map((cabin) => {
+                  return (
+                    <option value={cabin.cabinName}>{cabin.cabinName}</option>
+                  );
+                })}
+            </select>
+            <img
+              src={
+                cabinWon !== '' &&
+                typeof cabinWon.pictures !== undefined &&
+                `${process.env.PUBLIC_URL}/assets/pictures/` +
+                  cabinWon.pictures.mainPicture.filename
+              }
+              className="mintur-picture"
+              alt="cabin"
+            />
+          </div>
+          {!props.trip.feedback ? (
+            <FeedbackForm data={props.trip} />
+          ) : (
+            <p className="feedback-info">
+              Tilbakemelding sendt, hvis du vil kontakte oss send epost til
+              hyttekommitteen@accenture.com
+            </p>
+          )}
+          <div className="secondrow-wrapper">
+            <div className="info-container">
+              <p className="info-title">Reise informasjon</p>
+              <div className="travelinfo-wrapper">
+                <div className="checkin-info">
+                  <p>Innsjekking</p>
+                  <p>{props.getFormattedDate(props.start, false)}</p>
+                  <p>17:00</p>
+                </div>
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
+                  alt="indicating travel"
+                  className="travel-icon"
+                />
+                <div className="checkout-info">
+                  <p>Utsjekking</p>
+                  <p>{props.getFormattedDate(props.end, false)}</p>
+                  <p>12:00</p>
+                </div>
+              </div>
+            </div>
+            <div className="checklist-container">
+              <p className="checklist-title">Ta med</p>
+              <div className="checklist">
+                <div className="checklist-wrapper">
+                  {cabinWon !== '' &&
+                    typeof cabinWon.other !== undefined &&
+                    cabinWon.other.huskeliste !== null &&
+                    typeof cabinWon.other.huskeliste !== undefined &&
+                    cabinWon.other.huskeliste.map((item, index) => {
+                      if (index < 3) {
+                        return <p className="checklist-item">{item}</p>;
+                      }
+                    })}
+                </div>
+
+                <div className="checklist-wrapper">
+                  {cabinWon !== '' &&
+                    typeof cabinWon.other !== undefined &&
+                    cabinWon.other.huskeliste !== null &&
+                    typeof cabinWon.other.huskeliste !== undefined &&
+                    cabinWon.other.huskeliste.map((item, index) => {
+                      if (index >= 3) {
+                        return <p className="checklist-item">{item}</p>;
+                      }
+                    })}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="omhytta-container">
+            <p className="omhytta-title">Om hytta</p>
+            <div className="hytteinfo-container">
+              <div className="hytteinfo1-wrapper">
+                <BsFillKeyFill className="info-icon key-icon" />
+                <div className="key-text">
+                  <p className="omhytta-text">Nøkkel i en nøkkelboks</p>
+                  <p className="omhytta-text">Koden til boksen via epost</p>
+                </div>
+
+                <FaMapMarkerAlt className="info-icon marker-icon" />
+                <div className="address-text">
+                  <p className="omhytta-text">
+                    {cabinWon !== '' &&
+                      typeof cabinWon.address !== undefined &&
+                      cabinWon.address + ','}
+                  </p>
+                  <p className="omhytta-text">Hemsedal</p>
+                </div>
+
+                <AiFillCar className="info-icon car-icon" />
+                <div className="roaddesc-text">
+                  <p className="omhytta-text">Bilvei helt frem</p>
+                  <p>
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      className="omhytta-text roaddesc-link"
+                      href="https://www.google.com/maps/dir/Oslo+gate+7,+Oslo/3560+Hemsedal/@59.9260916,10.695873,11z/data=!4m14!4m13!1m5!1m1!1s0x46416ef682dc4cd5:0x515b4a96821c140f!2m2!1d10.7677413!2d59.9069394!1m5!1m1!1s0x463fe896e25bc07b:0xfdd68f22ff1ebba0!2m2!1d8.552376!2d60.8630648!3e0"
+                    >
+                      Veibeskrivelse
+                    </a>
+                  </p>
+                </div>
+
+                {cabinWon !== '' &&
+                  typeof cabinWon.name !== undefined &&
+                  cabinWon.name === 'Utsikten' && (
+                    <>
+                      <BiWalk className="info-icon walking-icon" />
+                      <p className="omhytta-text walking-text">
+                        10 min til sentrum til fots
+                      </p>
+                    </>
+                  )}
+                {cabinWon !== '' &&
+                  typeof cabinWon.name !== undefined &&
+                  cabinWon.name === 'Fanitullen' && (
+                    <>
+                      <BiWalk className="info-icon walking-icon" />
+                      <p className="omhytta-text walking-text">
+                        10 min til sentrum til fots
+                      </p>
+                    </>
+                  )}
+                {cabinWon !== '' &&
+                  typeof cabinWon.name !== undefined &&
+                  cabinWon.name === 'Knausen' && (
+                    <>
+                      <AiFillCar className="info-icon walking-icon" />
+                      <p className="omhytta-text walking-text">
+                        17 min til sentrum med bil
+                      </p>
+                    </>
+                  )}
+                {cabinWon !== '' &&
+                  typeof cabinWon.name !== undefined &&
+                  cabinWon.name === 'Store Grøndalen' && (
+                    <>
+                      <AiFillCar className="info-icon walking-icon" />
+                      <p className="omhytta-text walking-text">
+                        17 min til sentrum med bil
+                      </p>
+                    </>
+                  )}
+                <BiBed className="info-icon bed-icon" />
+                <p className="omhytta-text bed-text">
+                  {cabinWon !== '' &&
+                    typeof cabinWon.features !== undefined &&
+                    cabinWon.features.soverom +
+                      ' soverom / ' +
+                      cabinWon.features.sengeplasser +
+                      ' sengeplasser'}
+                </p>
+              </div>
+
+              <div className="hytteinfo2-wrapper">
+                <GiTakeMyMoney className="info-icon money-icon" />
+                <div className="price-text">
+                  <p className="omhytta-text">
+                    Utvask pris:{' '}
+                    {cabinWon !== '' &&
+                      typeof cabinWon.cleaningPrice !== undefined &&
+                      cabinWon.cleaningPrice}
+                    ,-
+                  </p>
+                  <p className="omhytta-text">
+                    Pris for hytte:{' '}
+                    {cabinWon !== '' &&
+                      typeof cabinWon.price !== undefined &&
+                      cabinWon.price}
+                    ,-
+                  </p>
+                </div>
+
+                {cabinWon !== '' &&
+                typeof cabinWon.features !== undefined &&
+                cabinWon.features.wifi ? (
+                  <BsWifi className="info-icon internet-icon" />
+                ) : (
+                  <BsWifiOff className="info-icon internet-icon" />
+                )}
+                <p className="omhytta-text internet-text">
+                  {cabinWon !== '' &&
+                  typeof cabinWon.features !== undefined &&
+                  cabinWon.features.wifi
+                    ? 'Trådløst nett'
+                    : 'Ikke trådløst nett'}
+                </p>
+
+                <Md4GMobiledata className="info-icon 4g-icon" />
+                <p className="omhytta-text 4g-text">God 4G-dekning</p>
+
+                <AiOutlineArrowUp className="info-icon arrow-icon" />
+                <div className="arrow-text">
+                  <p className="omhytta-text">Nylig modernisert</p>
+                  <p className="omhytta-text">Høy standard</p>
+                </div>
+
+                <MdShower className="info-icon bath-icon" />
+                <p className="omhytta-text bath-text">
+                  {cabinWon !== '' &&
+                    typeof cabinWon.features !== undefined &&
+                    cabinWon.features.bad + ' bad'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  } else if (props.end < Date.now() && props.trip.winner) {
+    return (
+      <>
+        <BackButton name="Tilbake til mine turer" link="mineturer" />
+        <HeroBanner name="Min tur" />
+        <div className="mintur-container">
+          <div className="titlepic-wrapper">
+            <p className="mintur-title">{props.trip.cabins.cabinName}</p>
+            <img
+              src={
+                cabinWon !== '' &&
+                typeof cabinWon.pictures !== undefined &&
+                `${process.env.PUBLIC_URL}/assets/pictures/` +
+                  cabinWon.pictures.mainPicture.filename
+              }
+              className="mintur-picture"
+              alt="cabin"
+            />
+          </div>
+          {props.trip.winner && !props.trip.feedback && (
+            <FeedbackForm data={props.trip} />
+          )}
+          <p className="pending-trip-text">
+            {props.getFormattedDate(props.start, false)} -{' '}
+            {props.getFormattedDate(props.end, false)}
+          </p>
+        </div>
+      </>
+    );
+  } else {
+    return <></>;
+  }
+};
+
+export default MinTurFlere;

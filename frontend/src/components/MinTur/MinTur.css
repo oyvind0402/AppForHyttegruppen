@@ -22,6 +22,11 @@
 
 .mintur-picture {
   width: 100%;
+  height: 600px;
+}
+
+.mintur-picture2 {
+  width: 100%;
 }
 
 .secondrow-wrapper {
@@ -315,4 +320,11 @@
   .checklist-wrapper {
     font-size: 0.7em;
   }
+}
+
+/* Min tur more cabins specifically */
+.mintur-select {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  width: max-content;
 }

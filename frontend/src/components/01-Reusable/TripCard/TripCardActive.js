@@ -93,7 +93,11 @@ const TripCardActive = (props) => {
               alt="the cabin for the trip"
             />
             <div className="card-info">
-              <p className="card-title">{props.data.cabins[0].cabinName}</p>
+              <p className="card-title">
+                {props.data.cabinsWon.length > 1
+                  ? 'Tildelt ' + props.data.cabinsWon.length + ' hytter'
+                  : props.data.cabinsWon[0].cabinName}
+              </p>
               <div className="season-date-wrapper">
                 <p className="card-season">{props.data.period.name}</p>
                 <p className="card-date">({getFormattedDate(date)})</p>

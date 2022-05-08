@@ -34,25 +34,27 @@ const NeedsAttentionTrips = () => {
 
   return (
     <>
-      {currentTrips !== null ? (
+      {currentTrips !== null || pastTrips !== null ? (
         <div className={'mytrip-card-wrapper'}>
           <p className="mytrip-title-empty">Krever handling:</p>
 
           <div className="trip-row-wrapper">
-            {currentTrips.map((trip, index) => {
-              if (!trip.feedback) {
-                return <TripCardActionReq key={index} data={trip} />;
-              }
-              return <></>;
-            })}
+            {currentTrips !== null &&
+              currentTrips.map((trip, index) => {
+                if (!trip.feedback) {
+                  return <TripCardActionReq key={index} data={trip} />;
+                }
+                return <></>;
+              })}
           </div>
           <div className="trip-row-wrapper">
-            {pastTrips.map((trip, index) => {
-              if (!trip.feedback) {
-                return <TripCardActionReq key={index} data={trip} />;
-              }
-              return <></>;
-            })}
+            {pastTrips !== null &&
+              pastTrips.map((trip, index) => {
+                if (!trip.feedback) {
+                  return <TripCardActionReq key={index} data={trip} />;
+                }
+                return <></>;
+              })}
           </div>
         </div>
       ) : (
