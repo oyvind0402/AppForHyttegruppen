@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import InfoPopupNoBg from '../../01-Reusable/PopUp/InfoPopupNoOverlay';
 import './EditPeriods.css';
@@ -41,7 +41,7 @@ const EditPeriods = () => {
     }
   };
 
-  const periodColumns = useMemo(() => [
+  const periodColumns = [
     {
       Header: 'Navn',
       accessor: 'name',
@@ -92,7 +92,7 @@ const EditPeriods = () => {
         );
       },
     },
-  ]);
+  ];
 
   useEffect(() => {
     getPeriods();

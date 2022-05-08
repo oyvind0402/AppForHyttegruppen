@@ -172,7 +172,11 @@ const EditPeriod = () => {
               seasons.map((season, index) => {
                 if (season.seasonName === period.season.seasonName) {
                   return (
-                    <option value={season.seasonName} key={index} selected>
+                    <option
+                      value={season.seasonName}
+                      key={index}
+                      defaultValue={true}
+                    >
                       {season.seasonName}
                     </option>
                   );

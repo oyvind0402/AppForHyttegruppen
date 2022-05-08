@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import ExcelConverter from '../../01-Reusable/ExcelConverter/ExcelConverter';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
@@ -87,7 +87,7 @@ const Applications = () => {
     }
   };
 
-  const pendingColumns = useMemo(() => [
+  const pendingColumns = [
     {
       Header: 'Enterprise ID',
       accessor: 'accentureId',
@@ -122,9 +122,9 @@ const Applications = () => {
         if (value !== null && value.length > 0) {
           return value.map((cabin, i) => {
             if (i === value.length - 1) {
-              return <span>{cabin.cabinName}</span>;
+              return <span key={i}>{cabin.cabinName}</span>;
             }
-            return <span>{cabin.cabinName + ', '}</span>;
+            return <span key={i}>{cabin.cabinName + ', '}</span>;
           });
         } else {
           return <span></span>;
@@ -219,7 +219,7 @@ const Applications = () => {
         );
       },
     },
-  ]);
+  ];
 
   const addChangedTrip = (id) => {
     let winner = document.getElementById('winnercheck' + id).checked;
@@ -378,6 +378,7 @@ const Applications = () => {
         if (trip.period.season.seasonName === type) {
           return trip;
         }
+        return null;
       });
       setApplications(filteredTrips);
       setPastWinning(filteredTrips);

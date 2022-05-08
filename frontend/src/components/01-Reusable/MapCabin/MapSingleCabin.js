@@ -18,7 +18,7 @@ const MapCabins = (props) => {
 
   useEffect(() => {
     setPickedCabin(props.pickedCabin);
-  });
+  }, [props.pickedCabin]);
 
   useEffect(() => {
     setPickedCabin(cabinCard);
@@ -65,7 +65,6 @@ const MapCabins = (props) => {
 
   const resetMarkers = () => {
     const listMarkers = document.getElementsByClassName('clicked');
-    console.log(listMarkers);
     for (let i = 0; i < listMarkers.length; i++) {
       try {
         listMarkers[i].classList.remove('clicked');

@@ -5,7 +5,6 @@ import './../MineTurer.css';
 const NeedsAttentionTrips = () => {
   const [currentTrips, setCurrentTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
-  let anyFeedback = false;
 
   const getApplications = async () => {
     const response = await fetch(

@@ -167,7 +167,7 @@ const FeedbackForm = (props) => {
         ', og epost ' +
         props.data.user.email +
         ' svarte nei på noen spørsmål i tilbakemeldingsskjemaet. Nedenfor sees svarene.';
-      const emailresponse = await fetch('/email/filledFeedback', {
+      fetch('/email/filledFeedback', {
         method: 'POST',
         body: JSON.stringify({
           period: props.data.period,
