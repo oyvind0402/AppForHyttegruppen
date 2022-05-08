@@ -521,7 +521,20 @@ const MinTurFlere = (props) => {
         <HeroBanner name="Min tur" />
         <div className="mintur-container">
           <div className="titlepic-wrapper">
-            <p className="mintur-title">{props.trip.cabins.cabinName}</p>
+            <p className="mintur-title">{props.length + ' hytter tildelt'}</p>
+            <select
+              onChange={(e) => changeCabinInfo(e.target.value)}
+              id="cabin-select"
+              className="mintur-select"
+            >
+              {typeof props.cabinsWon !== undefined &&
+                props.cabinsWon !== '' &&
+                props.trip.cabinsWon.map((cabin) => {
+                  return (
+                    <option value={cabin.cabinName}>{cabin.cabinName}</option>
+                  );
+                })}
+            </select>
             <img
               src={
                 cabinWon !== '' &&
