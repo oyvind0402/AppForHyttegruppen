@@ -40,7 +40,7 @@ const FAQ = () => {
     <>
       <HeroBanner name="faq" />
       <div className="FAQs">
-        {FAQElements > 0 ? (
+        {FAQElements.length > 0 ? (
           FAQElements.map((faq, index) => (
             <FAQ_QUESTION
               key={index}

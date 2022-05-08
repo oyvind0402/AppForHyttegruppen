@@ -55,3 +55,11 @@
   max-height: 300px;
   opacity: 1;
 }
+
+.FAQ-question {
+  font-size: 1.25rem;
+}
+
+.FAQ-answer {
+  font-size: 1rem;
+}

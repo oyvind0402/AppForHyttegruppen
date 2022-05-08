@@ -58,17 +58,6 @@ const Soknad = () => {
         };
 
         postPeriod(JsonBody);
-
-        /*fetch('/application/post', {
-          method: 'POST',
-          body: JSON.stringify(JsonBody),
-          headers: { token: localStorage.getItem('refresh_token') },
-        })
-          .then((response) => response.json())
-          .catch((error) => {
-            postSuccessful = false;
-            console.log(error);
-          });*/
       });
 
       async function sendEmail(emailData) {
@@ -88,17 +77,7 @@ const Soknad = () => {
           userId: formData.userId,
           periods: formData.period,
         };
-
         sendEmail(emailData);
-
-        /*fetch('/email/afterApplication', {
-          method: 'POST',
-          body: JSON.stringify(emailData),
-        })
-          .then((response) => response.json())
-          .catch((error) => {
-            console.log(error);
-          });*/
       }
 
       //Everything is set back to the initial start position
@@ -198,6 +177,7 @@ const Soknad = () => {
       <HeroBanner name="Søknad om hytte" />
       <Progressbar page={page} clickOnProgressbar={clickOnProgressbar} />
       <div className="content-soknad">
+        {popup === true && <PopupApplication periodArray={popupResponse} />}
         {page === 1 && (
           <Step1
             updateForm={updateForm}
@@ -223,7 +203,6 @@ const Soknad = () => {
           />
         )}
       </div>
-      {popup === true && <PopupApplication periodArray={popupResponse} />}
     </>
   );
 };
