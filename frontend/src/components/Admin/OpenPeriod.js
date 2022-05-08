@@ -257,6 +257,15 @@ const OpenPeriod = () => {
           }
         }
       });
+      if (period.start.toString() === 'Invalid Date') {
+        _errors.openPeriod =
+          'Periode nummer ' + index + ' har ugyldig startdato, endre den!';
+      }
+
+      if (period.end.toString() === 'Invalid Date') {
+        _errors.openPeriod =
+          'Periode nummer ' + index + ' har ugyldig sluttdato, endre den!';
+      }
     });
 
     setErrors(_errors);
