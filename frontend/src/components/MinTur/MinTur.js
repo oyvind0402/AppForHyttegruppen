@@ -276,46 +276,6 @@ const MinTur = () => {
                     </p>
                   </div>
 
-                  {cabinsWon !== '' &&
-                    typeof cabinsWon[0].name !== undefined &&
-                    cabinsWon[0].name === 'Utsikten' && (
-                      <>
-                        <BiWalk className="info-icon walking-icon" />
-                        <p className="omhytta-text walking-text">
-                          10 min til sentrum til fots
-                        </p>
-                      </>
-                    )}
-                  {cabinsWon !== '' &&
-                    typeof cabinsWon[0].name !== undefined &&
-                    cabinsWon.name === 'Fanitullen' && (
-                      <>
-                        <BiWalk className="info-icon walking-icon" />
-                        <p className="omhytta-text walking-text">
-                          10 min til sentrum til fots
-                        </p>
-                      </>
-                    )}
-                  {cabinsWon !== '' &&
-                    typeof cabinsWon[0].name !== undefined &&
-                    cabinsWon[0].name === 'Knausen' && (
-                      <>
-                        <AiFillCar className="info-icon walking-icon" />
-                        <p className="omhytta-text walking-text">
-                          17 min til sentrum med bil
-                        </p>
-                      </>
-                    )}
-                  {cabinsWon !== '' &&
-                    typeof cabinsWon[0].name !== undefined &&
-                    cabinsWon[0].name === 'Store Grøndalen' && (
-                      <>
-                        <AiFillCar className="info-icon walking-icon" />
-                        <p className="omhytta-text walking-text">
-                          17 min til sentrum med bil
-                        </p>
-                      </>
-                    )}
                   <BiBed className="info-icon bed-icon" />
                   <p className="omhytta-text bed-text">
                     {cabinsWon !== '' &&
@@ -564,47 +524,6 @@ const MinTur = () => {
                       </a>
                     </p>
                   </div>
-
-                  {cabinsWon !== '' &&
-                    typeof cabinsWon[0].name !== undefined &&
-                    cabinsWon[0].name === 'Utsikten' && (
-                      <>
-                        <BiWalk className="info-icon walking-icon" />
-                        <p className="omhytta-text walking-text">
-                          10 min til sentrum til fots
-                        </p>
-                      </>
-                    )}
-                  {cabinsWon !== '' &&
-                    typeof cabinsWon[0].name !== undefined &&
-                    cabinsWon.name === 'Fanitullen' && (
-                      <>
-                        <BiWalk className="info-icon walking-icon" />
-                        <p className="omhytta-text walking-text">
-                          10 min til sentrum til fots
-                        </p>
-                      </>
-                    )}
-                  {cabinsWon !== '' &&
-                    typeof cabinsWon[0].name !== undefined &&
-                    cabinsWon[0].name === 'Knausen' && (
-                      <>
-                        <AiFillCar className="info-icon walking-icon" />
-                        <p className="omhytta-text walking-text">
-                          17 min til sentrum med bil
-                        </p>
-                      </>
-                    )}
-                  {cabinsWon !== '' &&
-                    typeof cabinsWon[0].name !== undefined &&
-                    cabinsWon[0].name === 'Store Grøndalen' && (
-                      <>
-                        <AiFillCar className="info-icon walking-icon" />
-                        <p className="omhytta-text walking-text">
-                          17 min til sentrum med bil
-                        </p>
-                      </>
-                    )}
                   <BiBed className="info-icon bed-icon" />
                   <p className="omhytta-text bed-text">
                     {cabinsWon !== '' &&

@@ -151,46 +151,6 @@ const MinTurFlere = (props) => {
                   </p>
                 </div>
 
-                {cabinWon !== '' &&
-                  typeof cabinWon.name !== undefined &&
-                  cabinWon.name === 'Utsikten' && (
-                    <>
-                      <BiWalk className="info-icon walking-icon" />
-                      <p className="omhytta-text walking-text">
-                        10 min til sentrum til fots
-                      </p>
-                    </>
-                  )}
-                {cabinWon !== '' &&
-                  typeof cabinWon.name !== undefined &&
-                  cabinWon.name === 'Fanitullen' && (
-                    <>
-                      <BiWalk className="info-icon walking-icon" />
-                      <p className="omhytta-text walking-text">
-                        10 min til sentrum til fots
-                      </p>
-                    </>
-                  )}
-                {cabinWon !== '' &&
-                  typeof cabinWon.name !== undefined &&
-                  cabinWon.name === 'Knausen' && (
-                    <>
-                      <AiFillCar className="info-icon walking-icon" />
-                      <p className="omhytta-text walking-text">
-                        17 min til sentrum med bil
-                      </p>
-                    </>
-                  )}
-                {cabinWon !== '' &&
-                  typeof cabinWon.name !== undefined &&
-                  cabinWon.name === 'Store Grøndalen' && (
-                    <>
-                      <AiFillCar className="info-icon walking-icon" />
-                      <p className="omhytta-text walking-text">
-                        17 min til sentrum med bil
-                      </p>
-                    </>
-                  )}
                 <BiBed className="info-icon bed-icon" />
                 <p className="omhytta-text bed-text">
                   {cabinWon !== '' &&
@@ -408,46 +368,6 @@ const MinTurFlere = (props) => {
                   </p>
                 </div>
 
-                {cabinWon !== '' &&
-                  typeof cabinWon.name !== undefined &&
-                  cabinWon.name === 'Utsikten' && (
-                    <>
-                      <BiWalk className="info-icon walking-icon" />
-                      <p className="omhytta-text walking-text">
-                        10 min til sentrum til fots
-                      </p>
-                    </>
-                  )}
-                {cabinWon !== '' &&
-                  typeof cabinWon.name !== undefined &&
-                  cabinWon.name === 'Fanitullen' && (
-                    <>
-                      <BiWalk className="info-icon walking-icon" />
-                      <p className="omhytta-text walking-text">
-                        10 min til sentrum til fots
-                      </p>
-                    </>
-                  )}
-                {cabinWon !== '' &&
-                  typeof cabinWon.name !== undefined &&
-                  cabinWon.name === 'Knausen' && (
-                    <>
-                      <AiFillCar className="info-icon walking-icon" />
-                      <p className="omhytta-text walking-text">
-                        17 min til sentrum med bil
-                      </p>
-                    </>
-                  )}
-                {cabinWon !== '' &&
-                  typeof cabinWon.name !== undefined &&
-                  cabinWon.name === 'Store Grøndalen' && (
-                    <>
-                      <AiFillCar className="info-icon walking-icon" />
-                      <p className="omhytta-text walking-text">
-                        17 min til sentrum med bil
-                      </p>
-                    </>
-                  )}
                 <BiBed className="info-icon bed-icon" />
                 <p className="omhytta-text bed-text">
                   {cabinWon !== '' &&
