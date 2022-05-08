@@ -6,6 +6,7 @@ import Step1 from './Steps/Step1';
 import Step2 from './Steps/Step2';
 import Step3 from './Steps/Step3';
 import './Soknad.css';
+import Cookies from 'universal-cookie';
 
 const Soknad = () => {
   const [page, setPage] = useState(1);
@@ -25,6 +26,8 @@ const Soknad = () => {
     winner: false,
   });
 
+  const cookies = new Cookies();
+
   //Posting application per period
   useEffect(() => {
     let postSuccessful = true;
@@ -33,7 +36,7 @@ const Soknad = () => {
       fetch('/application/post', {
         method: 'POST',
         body: JSON.stringify(JsonBody),
-        headers: { token: localStorage.getItem('refresh_token') },
+        headers: { token: cookies.get('refresh_token') },
       })
         .then((response) => response.json())
         .catch((error) => {

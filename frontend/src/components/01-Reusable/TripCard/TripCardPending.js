@@ -4,6 +4,7 @@ import './TripCard.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import AlertPopup from '../PopUp/AlertPopup';
+import Cookies from 'universal-cookie';
 
 const TripCardPending = (props) => {
   const history = useHistory();
@@ -52,12 +53,14 @@ const TripCardPending = (props) => {
     setVisible(!visible);
   };
 
+  const cookies = new Cookies();
+
   const cancelTrip = async () => {
     setVisible(false);
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(props.data.applicationId),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
 
     const data = await response.json();

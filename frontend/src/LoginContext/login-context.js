@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Cookies from 'universal-cookie';
 
 //Setting default values to the context
 const LoginContext = React.createContext({
@@ -14,11 +15,12 @@ export const LoginContextProvider = (props) => {
   const key = 'token';
   const key2 = 'refresh_token';
   const adminKey = 'admin';
-  //comment check
 
-  const [token, setToken] = useState(localStorage.getItem(key));
-  const [refreshToken, setRefreshToken] = useState(localStorage.getItem(key2));
-  const [admin, setAdmin] = useState(localStorage.getItem(adminKey));
+  const cookies = new Cookies();
+
+  const [token, setToken] = useState(cookies.get(key));
+  const [refreshToken, setRefreshToken] = useState(cookies.get(key2));
+  const [admin, setAdmin] = useState(cookies.get(adminKey));
 
   //Setting loggedIn and adminAccess as a boolean from a previous value
   const loggedIn = !!token && !!refreshToken;
@@ -28,11 +30,11 @@ export const LoginContextProvider = (props) => {
   const login = (token, refreshToken, admin) => {
     setToken(token);
     setRefreshToken(refreshToken);
-    localStorage.setItem(key, token);
-    localStorage.setItem(key2, refreshToken);
+    cookies.set(key, token, { sameSite: 'strict' });
+    cookies.set(key2, refreshToken, { sameSite: 'strict' });
     if (admin) {
       setAdmin(admin);
-      localStorage.setItem(adminKey, admin);
+      cookies.set(adminKey, admin, { sameSite: 'strict' });
     }
   };
 
@@ -41,9 +43,9 @@ export const LoginContextProvider = (props) => {
     setToken(null);
     setRefreshToken(null);
     setAdmin(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('admin');
+    cookies.remove(key);
+    cookies.remove(key2);
+    cookies.remove(adminKey);
   };
 
   //Setting the values to the context
@@ -57,14 +59,14 @@ export const LoginContextProvider = (props) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('refresh_token')) {
+    if (cookies.get(key2)) {
       const jwtPayload = JSON.parse(window.atob(refreshToken.split('.')[1]));
       if (Date.now() >= jwtPayload.exp * 1000) {
         logout();
         window.location.href = '/login';
       }
     }
-  });
+  }, []);
 
   return (
     <LoginContext.Provider value={contextValues}>

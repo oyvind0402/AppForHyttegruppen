@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Cookies from 'universal-cookie';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
@@ -47,6 +48,8 @@ const AdminSettings = () => {
     setUserMode(false);
   };
 
+  const cookies = new Cookies();
+
   const editUser = () => {
     let _errors = {};
     if (_changedUsers.length === 0) {
@@ -62,7 +65,7 @@ const AdminSettings = () => {
       fetch('/user/setadmin', {
         method: 'PATCH',
         body: JSON.stringify(user),
-        headers: { token: localStorage.getItem('refresh_token') },
+        headers: { token: cookies.get('refresh_token') },
       })
         .then((response) => response.json())
         .then(() => {
@@ -123,7 +126,7 @@ const AdminSettings = () => {
     const response = await fetch('/admin_email/post', {
       method: 'POST',
       body: JSON.stringify(email),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
     if (response.ok) {
       setVisible(false);
@@ -142,7 +145,7 @@ const AdminSettings = () => {
       const response = await fetch('/admin_email/delete', {
         method: 'DELETE',
         body: JSON.stringify(id),
-        headers: { token: localStorage.getItem('refresh_token') },
+        headers: { token: cookies.get('refresh_token') },
       });
       if (response.ok) {
         setDeleted(false);
@@ -183,7 +186,7 @@ const AdminSettings = () => {
         emailId: id,
         email: email,
       }),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
     if (response.ok) {
       setEdited(false);

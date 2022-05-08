@@ -276,7 +276,7 @@ const MinTurFlere = (props) => {
             />
           </div>
           {!props.trip.feedback ? (
-            <FeedbackForm data={props.trip} />
+            <FeedbackForm data={props.trip} getTrip={props.getTrip} />
           ) : (
             <p className="feedback-info">
               Tilbakemelding sendt, hvis du vil kontakte oss send epost til
@@ -467,7 +467,7 @@ const MinTurFlere = (props) => {
             />
           </div>
           {props.trip.winner && !props.trip.feedback && (
-            <FeedbackForm data={props.trip} />
+            <FeedbackForm data={props.trip} getTrip={props.getTrip} />
           )}
           <p className="pending-trip-text">
             {props.getFormattedDate(props.start, false)} -{' '}

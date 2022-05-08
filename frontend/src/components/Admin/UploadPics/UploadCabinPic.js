@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Cookies from 'universal-cookie';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import CarouselFromProps from '../../01-Reusable/ImageCarousel/CarouselFromProps';
@@ -18,6 +19,8 @@ const UploadCabinPic = () => {
     setUploadedImages((images) => [...images, { image }]);
   };
 
+  const cookies = new Cookies();
+
   const handleImageUpload = async () => {
     const files = document.getElementById('image').files[0];
     const formData = new FormData();
@@ -35,7 +38,7 @@ const UploadCabinPic = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: localStorage.getItem('refresh_token'),
+        token: cookies.get('refresh_token'),
       },
     })
       .then((response) => response.json())

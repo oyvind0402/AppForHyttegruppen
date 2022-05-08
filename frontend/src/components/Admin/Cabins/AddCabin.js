@@ -6,6 +6,7 @@ import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 import { BsQuestionCircle } from 'react-icons/bs';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
+import Cookies from 'universal-cookie';
 
 const AddCabin = () => {
   const [visible, setVisible] = useState(false);
@@ -234,7 +235,7 @@ const AddCabin = () => {
     const response = await fetch('/cabin/post', {
       method: 'POST',
       body: JSON.stringify(cabin),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
     const data = await response.json();
     if (response.ok) {
@@ -244,6 +245,8 @@ const AddCabin = () => {
       setErrorVisible(true);
     }
   };
+
+  const cookies = new Cookies();
 
   const uploadMainPicture = async () => {
     const files = document.getElementById('mainPicture').files[0];
@@ -260,7 +263,7 @@ const AddCabin = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: localStorage.getItem('refresh_token'),
+        token: cookies.get('refresh_token'),
       },
     })
       .then((response) => response.json())
@@ -275,7 +278,7 @@ const AddCabin = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: localStorage.getItem('refresh_token'),
+        token: cookies.get('refresh_token'),
       },
     })
       .then((response) => response.json())

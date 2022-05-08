@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Cookies from 'universal-cookie';
 import AlertPopup from '../PopUp/AlertPopup';
 import './FeedbackForm.css';
 import Question1 from './Questions/Question1';
@@ -147,10 +148,12 @@ const FeedbackForm = (props) => {
       }
     });
 
+    const cookies = new Cookies();
+
     const response = await fetch('/application/setfeedback', {
       method: 'PATCH',
       body: JSON.stringify(props.data.applicationId),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
     if (response.ok) {
       sendEmail = true;
@@ -175,8 +178,9 @@ const FeedbackForm = (props) => {
           feedbackTitle: feedbackTitle,
           feedback: feedback,
         }),
-      });
+      }).catch((error) => console.log(error));
     }
+    props.getTrip();
   };
 
   const sendEmail = () => {

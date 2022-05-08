@@ -5,6 +5,7 @@ import './DeleteCabinPic.css';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
 import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
+import Cookies from 'universal-cookie';
 
 const DeleteCabinPic = () => {
   const [cabinData, setCabinData] = useState('');
@@ -49,6 +50,8 @@ const DeleteCabinPic = () => {
     }
   };
 
+  const cookies = new Cookies();
+
   const deleteChosenPictures = () => {
     setVisible(false);
     const deletePicture = document.querySelectorAll(
@@ -62,7 +65,7 @@ const DeleteCabinPic = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: localStorage.getItem('refresh_token'),
+        token: cookies.get('refresh_token'),
       },
     })
       .then((response) => {

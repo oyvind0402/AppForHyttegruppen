@@ -221,6 +221,12 @@
   }
 }
 
+@media only screen and (max-width: 750px) {
+  .mintur-picture {
+    height: auto;
+  }
+}
+
 @media only screen and (max-width: 680px) {
   .info-title,
   .checklist-title,

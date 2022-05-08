@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import Cookies from 'universal-cookie';
 import TripCardActionReq from '../../01-Reusable/TripCard/TripCardActionReq';
 import './../MineTurer.css';
 
 const NeedsAttentionTrips = () => {
   const [currentTrips, setCurrentTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
+
+  const cookies = new Cookies();
 
   const getApplications = async () => {
     const response = await fetch(

@@ -6,6 +6,7 @@ import './EditSoknader.css';
 import Table from '../../01-Reusable/Table/Table';
 import ExcelConverterPayCheck from '../../01-Reusable/ExcelConverter/ExcelPaycheckConverter';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
+import Cookies from 'universal-cookie';
 
 const Applications = () => {
   const [allApplications, setAllApplications] = useState([]);
@@ -324,13 +325,15 @@ const Applications = () => {
     }
   };
 
+  const cookies = new Cookies();
+
   const assignCabins = () => {
     let postSuccessful = true;
 
     cabinWinners.forEach((cabinWinner) => {
       fetch('/application/setwinner', {
         method: 'PATCH',
-        headers: { token: localStorage.getItem('refresh_token') },
+        headers: { token: cookies.get('refresh_token') },
         body: JSON.stringify(cabinWinner),
       })
         .then((response) => response.json())
@@ -358,7 +361,7 @@ const Applications = () => {
     changedTrips.forEach((application) => {
       fetch('/application/update', {
         method: 'PUT',
-        headers: { token: localStorage.getItem('refresh_token') },
+        headers: { token: cookies.get('refresh_token') },
         body: JSON.stringify(application),
       })
         .then((response) => response.json())

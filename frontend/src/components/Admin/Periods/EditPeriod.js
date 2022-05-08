@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
@@ -63,6 +64,8 @@ const EditPeriod = () => {
     return newDate.toLocaleDateString('en-CA');
   };
 
+  const cookies = new Cookies();
+
   const editPeriod = async () => {
     let seasonName = document.getElementById('edit-period-select').value;
 
@@ -74,7 +77,7 @@ const EditPeriod = () => {
 
     const response = await fetch('/period/update', {
       method: 'PUT',
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
       body: JSON.stringify(period),
     });
 

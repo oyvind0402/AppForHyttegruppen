@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
@@ -34,6 +35,8 @@ const AddFAQ = () => {
     setVisible(!visible);
   };
 
+  const cookies = new Cookies();
+
   const addQuestionAndAnswer = async () => {
     const question = document.getElementById('add-question').value;
     const answer = document.getElementById('add-answer').value;
@@ -47,7 +50,7 @@ const AddFAQ = () => {
 
     const response = await fetch('/faq/post', {
       method: 'POST',
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
       body: JSON.stringify({
         question: question,
         answer: answer,

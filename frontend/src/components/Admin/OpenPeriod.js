@@ -7,6 +7,7 @@ import PeriodCard from './PeriodCard';
 import InfoPopup from '../01-Reusable/PopUp/InfoPopup';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import AdminBanner from '../01-Reusable/HeroBanner/AdminBanner';
+import Cookies from 'universal-cookie';
 
 const OpenPeriod = () => {
   const [visible, setVisible] = useState(false);
@@ -265,10 +266,12 @@ const OpenPeriod = () => {
       return;
     }
 
+    const cookies = new Cookies();
+
     const response = await fetch('/season/post', {
       method: 'POST',
       body: JSON.stringify(season),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
     const data = await response.json();
     if (response.ok) {
@@ -278,7 +281,7 @@ const OpenPeriod = () => {
         fetch('/period/post', {
           method: 'POST',
           body: JSON.stringify(period),
-          headers: { token: localStorage.getItem('refresh_token') },
+          headers: { token: cookies.get('refresh_token') },
         })
           .then((response) => response.json())
           .then((data) => {

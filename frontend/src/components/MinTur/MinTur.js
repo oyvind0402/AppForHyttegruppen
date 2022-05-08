@@ -18,6 +18,7 @@ import AlertPopup from '../01-Reusable/PopUp/AlertPopup';
 import BackButton from '../01-Reusable/Buttons/BackButton';
 import InfoPopup from '../01-Reusable/PopUp/InfoPopup';
 import MinTurFlere from './MinTurFlere';
+import Cookies from 'universal-cookie';
 
 const MinTur = () => {
   const history = useHistory();
@@ -67,6 +68,8 @@ const MinTur = () => {
     setTooLateError(!tooLateError);
   };
 
+  const cookies = new Cookies();
+
   const cancelTrip = async () => {
     setVisible(false);
     const diffTime = Math.abs(Date.now() - new Date(trip.period.start));
@@ -80,7 +83,7 @@ const MinTur = () => {
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(pageID),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
 
     if (response.ok) {
@@ -433,7 +436,7 @@ const MinTur = () => {
               />
             </div>
             {!trip.feedback ? (
-              <FeedbackForm data={trip} />
+              <FeedbackForm data={trip} getTrip={getTrip} />
             ) : (
               <p className="feedback-info">
                 Tilbakemelding sendt, hvis du vil kontakte oss send epost til
@@ -609,7 +612,9 @@ const MinTur = () => {
                 alt="cabin"
               />
             </div>
-            {trip.winner && !trip.feedback && <FeedbackForm data={trip} />}
+            {trip.winner && !trip.feedback && (
+              <FeedbackForm data={trip} getTrip={getTrip} />
+            )}
             <p className="pending-trip-text">
               {getFormattedDate(start, false)} - {getFormattedDate(end, false)}
             </p>
@@ -635,6 +640,7 @@ const MinTur = () => {
             cancelTrip={cancelTrip}
             getFormattedDate={getFormattedDate}
             length={length}
+            getTrip={getTrip}
           />
         )}
       </>

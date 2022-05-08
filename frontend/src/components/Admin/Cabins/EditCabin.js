@@ -6,6 +6,7 @@ import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 import { BsQuestionCircle } from 'react-icons/bs';
 import './EditCabin.css';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
+import Cookies from 'universal-cookie';
 
 const EditCabin = () => {
   const [cabin, setCabin] = useState([]);
@@ -198,6 +199,8 @@ const EditCabin = () => {
     setSaved(!saved);
   };
 
+  const cookies = new Cookies();
+
   async function handleEdit() {
     let inputliste = document
       .getElementById('todolist')
@@ -240,7 +243,7 @@ const EditCabin = () => {
     const response = await fetch('/cabin/update', {
       method: 'PUT',
       body: JSON.stringify(cabin2),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
 
     const data = await response.json();
@@ -276,7 +279,7 @@ const EditCabin = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: localStorage.getItem('refresh_token'),
+        token: cookies.get('refresh_token'),
       },
     })
       .then((response) => response.json())
@@ -291,7 +294,7 @@ const EditCabin = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: localStorage.getItem('refresh_token'),
+        token: cookies.get('refresh_token'),
       },
     })
       .then((response) => response.json())

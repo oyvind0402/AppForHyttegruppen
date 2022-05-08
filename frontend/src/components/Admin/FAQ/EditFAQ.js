@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
 import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
@@ -44,6 +45,8 @@ const EditFAQ = () => {
   const link = window.location.href;
   let id = link.split('/')[5];
 
+  const cookies = new Cookies();
+
   const editFAQ = async () => {
     const _FAQ = {
       id: parseInt(id),
@@ -54,7 +57,7 @@ const EditFAQ = () => {
     const response = await fetch('/faq/update', {
       method: 'PUT',
       body: JSON.stringify(_FAQ),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
     if (response.ok) {
       setEdited(true);
@@ -66,7 +69,7 @@ const EditFAQ = () => {
 
     const response = await fetch('/faq/delete', {
       method: 'DELETE',
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
       body: JSON.stringify(id),
     });
     if (response.ok) {

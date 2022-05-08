@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
 import { Link, useHistory } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import AlertPopup from '../PopUp/AlertPopup';
 import InfoPopup from '../PopUp/InfoPopup';
 import './TripCard.css';
@@ -58,10 +59,12 @@ const TripCardActive = (props) => {
       return;
     }
 
+    const cookies = new Cookies();
+
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(props.data.applicationId),
-      headers: { token: localStorage.getItem('refresh_token') },
+      headers: { token: cookies.get('refresh_token') },
     });
 
     if (response.ok) {
