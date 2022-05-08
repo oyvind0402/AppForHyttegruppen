@@ -71,6 +71,13 @@
   outline-offset: 7 px;
 }
 
+.slick-arrow:focus-visible::before {
+  outline-color: black;
+  outline-style: solid;
+  outline-width: 2px;
+  outline-offset: 7 px;
+}
+
 .slick-dots li button::before {
   font-size: var(--slick-dot);
   color: var(--light-pink);
