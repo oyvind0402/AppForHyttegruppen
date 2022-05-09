@@ -348,7 +348,6 @@ const Applications = () => {
         body: JSON.stringify(cabinWinner),
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
         .catch((error) => {
           console.log(error);
           postSuccessful = false;
@@ -359,9 +358,7 @@ const Applications = () => {
         fetch('/email/applicationApproved', {
           method: 'POST',
           body: JSON.stringify(cabinWinner.applicationId),
-        })
-          .then((data) => console.log(data))
-          .catch((error) => console.log(error));
+        }).catch((error) => console.log(error));
       });
     }
     fetchApplications();
@@ -374,10 +371,7 @@ const Applications = () => {
         method: 'PUT',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(application),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
+      }).catch((error) => console.log(error));
     });
     fetchApplications();
     setEdited(false);
