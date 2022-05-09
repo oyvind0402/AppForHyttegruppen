@@ -187,11 +187,14 @@ const MinTur = () => {
                     <p>{getFormattedDate(start, false)}</p>
                     <p>17:00</p>
                   </div>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
-                    alt="indicating travel"
-                    className="travel-icon"
-                  />
+                  <div className="image-wrapper-mintur">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
+                      alt="indicating travel"
+                      className="travel-icon"
+                    />
+                  </div>
+
                   <div className="checkout-info">
                     <p>Utsjekking</p>
                     <p>{getFormattedDate(end, false)}</p>
@@ -208,33 +211,11 @@ const MinTur = () => {
                       cabinsWon[0].other.huskeliste !== null &&
                       typeof cabinsWon[0].other.huskeliste !== undefined &&
                       cabinsWon[0].other.huskeliste.map((item, index) => {
-                        if (index < 3) {
-                          return (
-                            <p key={index} className="checklist-item">
-                              {item}
-                            </p>
-                          );
-                        } else {
-                          return null;
-                        }
-                      })}
-                  </div>
-
-                  <div className="checklist-wrapper">
-                    {cabinsWon !== '' &&
-                      typeof cabinsWon[0].other !== undefined &&
-                      cabinsWon[0].other.huskeliste !== null &&
-                      typeof cabinsWon[0].other.huskeliste !== undefined &&
-                      cabinsWon[0].other.huskeliste.map((item, index) => {
-                        if (index >= 3) {
-                          return (
-                            <p key={index} className="checklist-item">
-                              {item}
-                            </p>
-                          );
-                        } else {
-                          return null;
-                        }
+                        return (
+                          <p key={index} className="checklist-item">
+                            {item}
+                          </p>
+                        );
                       })}
                   </div>
                 </div>
@@ -308,7 +289,7 @@ const MinTur = () => {
                 </div>
               </div>
             </div>
-            <button onClick={handleVisibility} className="btn small">
+            <button onClick={handleVisibility} className="btn big">
               Avbestill
             </button>
           </div>
@@ -362,7 +343,7 @@ const MinTur = () => {
               ))}
             </div>
 
-            <button onClick={handleVisibility} className="btn small">
+            <button onClick={handleVisibility} className="btn big">
               Avbestill
             </button>
           </div>
@@ -418,11 +399,14 @@ const MinTur = () => {
                     <p>{getFormattedDate(start, false)}</p>
                     <p>17:00</p>
                   </div>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
-                    alt="indicating travel"
-                    className="travel-icon"
-                  />
+                  <div className="image-wrapper-mintur">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
+                      alt="indicating travel"
+                      className="travel-icon"
+                    />
+                  </div>
+
                   <div className="checkout-info">
                     <p>Utsjekking</p>
                     <p>{getFormattedDate(end, false)}</p>
@@ -439,33 +423,11 @@ const MinTur = () => {
                       cabinsWon[0].other.huskeliste !== null &&
                       typeof cabinsWon[0].other.huskeliste !== undefined &&
                       cabinsWon[0].other.huskeliste.map((item, index) => {
-                        if (index < 3) {
-                          return (
-                            <p key={index} className="checklist-item">
-                              {item}
-                            </p>
-                          );
-                        } else {
-                          return null;
-                        }
-                      })}
-                  </div>
-
-                  <div className="checklist-wrapper">
-                    {cabinsWon !== '' &&
-                      typeof cabinsWon[0].other !== undefined &&
-                      cabinsWon[0].other.huskeliste !== null &&
-                      typeof cabinsWon[0].other.huskeliste !== undefined &&
-                      cabinsWon[0].other.huskeliste.map((item, index) => {
-                        if (index >= 3) {
-                          return (
-                            <p key={index} className="checklist-item">
-                              {item}
-                            </p>
-                          );
-                        } else {
-                          return null;
-                        }
+                        return (
+                          <p key={index} className="checklist-item">
+                            {item}
+                          </p>
+                        );
                       })}
                   </div>
                 </div>

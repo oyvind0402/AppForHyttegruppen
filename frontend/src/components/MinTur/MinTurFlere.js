@@ -68,11 +68,13 @@ const MinTurFlere = (props) => {
                   <p>{props.getFormattedDate(props.start, false)}</p>
                   <p>17:00</p>
                 </div>
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
-                  alt="indicating travel"
-                  className="travel-icon"
-                />
+                <div className="image-wrapper-mintur">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
+                    alt="indicating travel"
+                    className="travel-icon"
+                  />
+                </div>
                 <div className="checkout-info">
                   <p>Utsjekking</p>
                   <p>{props.getFormattedDate(props.end, false)}</p>
@@ -89,25 +91,11 @@ const MinTurFlere = (props) => {
                     cabinWon.other.huskeliste !== null &&
                     typeof cabinWon.other.huskeliste !== undefined &&
                     cabinWon.other.huskeliste.map((item, index) => {
-                      if (index < 3) {
-                        return <p className="checklist-item">{item}</p>;
-                      } else {
-                        return <></>;
-                      }
-                    })}
-                </div>
-
-                <div className="checklist-wrapper">
-                  {cabinWon !== '' &&
-                    typeof cabinWon.other !== undefined &&
-                    cabinWon.other.huskeliste !== null &&
-                    typeof cabinWon.other.huskeliste !== undefined &&
-                    cabinWon.other.huskeliste.map((item, index) => {
-                      if (index >= 3) {
-                        return <p className="checklist-item">{item}</p>;
-                      } else {
-                        return <></>;
-                      }
+                      return (
+                        <p key={index} className="checklist-item">
+                          {item}
+                        </p>
+                      );
                     })}
                 </div>
               </div>
@@ -259,11 +247,13 @@ const MinTurFlere = (props) => {
                   <p>{props.getFormattedDate(props.start, false)}</p>
                   <p>17:00</p>
                 </div>
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
-                  alt="indicating travel"
-                  className="travel-icon"
-                />
+                <div className="image-wrapper-mintur">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/icons/FlyingIcon.svg`}
+                    alt="indicating travel"
+                    className="travel-icon"
+                  />
+                </div>
                 <div className="checkout-info">
                   <p>Utsjekking</p>
                   <p>{props.getFormattedDate(props.end, false)}</p>
@@ -280,25 +270,11 @@ const MinTurFlere = (props) => {
                     cabinWon.other.huskeliste !== null &&
                     typeof cabinWon.other.huskeliste !== undefined &&
                     cabinWon.other.huskeliste.map((item, index) => {
-                      if (index < 3) {
-                        return <p className="checklist-item">{item}</p>;
-                      } else {
-                        return <></>;
-                      }
-                    })}
-                </div>
-
-                <div className="checklist-wrapper">
-                  {cabinWon !== '' &&
-                    typeof cabinWon.other !== undefined &&
-                    cabinWon.other.huskeliste !== null &&
-                    typeof cabinWon.other.huskeliste !== undefined &&
-                    cabinWon.other.huskeliste.map((item, index) => {
-                      if (index >= 3) {
-                        return <p className="checklist-item">{item}</p>;
-                      } else {
-                        return <></>;
-                      }
+                      return (
+                        <p key={index} className="checklist-item">
+                          {item}
+                        </p>
+                      );
                     })}
                 </div>
               </div>

@@ -31,10 +31,12 @@
 
 .secondrow-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   align-self: center;
   grid-gap: 3rem;
   margin-bottom: 3rem;
+  padding: 1rem;
+  width: 1115px;
 }
 
 .travelinfo-wrapper {
@@ -43,7 +45,6 @@
   align-items: center;
   justify-content: center;
   border: solid 1px gray;
-  height: 130.23px;
   padding: 15px;
   text-align: center;
 }
@@ -66,26 +67,34 @@
 
 .travel-icon {
   width: 4.5rem;
-  padding: 20px;
+  padding: 1rem;
+}
+
+.image-wrapper-mintur {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .checklist {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   border: solid 1px gray;
-  height: 130.23px;
   padding: 15px;
+  min-height: 113px;
+  text-align: center;
 }
 
 .checklist-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .checklist-item {
   padding-left: 2rem;
   padding-right: 2rem;
-  margin-bottom: 0;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .omhytta-container {
@@ -111,10 +120,11 @@
 .hytteinfo1-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  padding: 0.5rem;
 }
 
 .omhytta-text {
-  font-size: 1.5rem;
+  font-size: 1rem;
   align-self: center;
 }
 
@@ -128,6 +138,7 @@
 .hytteinfo2-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  padding: 0.5rem;
 }
 
 .pending-trip-container {
@@ -191,29 +202,19 @@
     flex-direction: column;
   }
 
+  .secondrow-wrapper {
+    width: 100%;
+  }
+
   .titlepic-wrapper img {
     width: 100%;
     place-self: center;
   }
-
-  .secondrow-wrapper {
-    grid-gap: 2rem;
-  }
 }
 
 @media only screen and (max-width: 850px) {
-  .travelinfo-wrapper,
-  .checklist-wrapper {
-    font-size: 0.8rem;
-  }
-
   .checklist-wrapper {
     justify-content: center;
-  }
-
-  .checklist-item {
-    margin-top: 0;
-    padding: 0.65rem;
   }
 
   .pending-trip-icon {
@@ -238,30 +239,9 @@
     font-size: 1rem;
   }
 
-  .secondrow-wrapper {
-    grid-gap: 0.5rem;
-  }
-}
-
-@media only screen and (max-width: 635px) {
-  .secondrow-wrapper {
-    grid-template-columns: 1fr;
-  }
-
-  .info-title,
-  .checklist-title,
-  .omhytta-title {
-    font-size: 2rem;
-  }
-
   .travelinfo-wrapper,
   .checklist-wrapper {
     font-size: 1rem;
-  }
-
-  .checklist,
-  .travelinfo-wrapper {
-    padding: 2rem;
   }
 }
 
@@ -284,12 +264,17 @@
   .checklist-wrapper {
     font-size: 0.8rem;
   }
+
+  .checklist-item {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 @media only screen and (max-width: 410px) {
-  .checklist,
-  .travelinfo-wrapper {
-    padding: 1rem;
+  .travel-icon {
+    width: 3.5rem;
+    padding: 0.5rem;
   }
 }
 
@@ -297,7 +282,6 @@
   .checklist,
   .travelinfo-wrapper {
     padding: 0.5rem;
-    height: 115px;
   }
 
   .checklist-item {
@@ -311,9 +295,7 @@
   .pending-trip-text {
     font-size: 1.5rem;
   }
-}
 
-@media only screen and (max-width: 325px) {
   .omhytta-text {
     font-size: 0.7rem;
   }
@@ -325,6 +307,12 @@
   .travelinfo-wrapper,
   .checklist-wrapper {
     font-size: 0.7em;
+  }
+}
+
+@media only screen and (max-width: 313px) {
+  .checklist {
+    padding: 0;
   }
 }
 
