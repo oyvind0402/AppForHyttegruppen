@@ -511,7 +511,7 @@ const MinTur = () => {
           <HeroBanner name="Min tur" />
           <div className="mintur-container">
             <div className="titlepic-wrapper">
-              <p className="mintur-title">{trip.cabins[0].cabinName}</p>
+              <p className="mintur-title">{trip.cabinsWon[0].cabinName}</p>
               <img
                 src={
                   cabinsWon !== '' && typeof cabinsWon[0].pictures !== undefined
