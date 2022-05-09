@@ -223,7 +223,11 @@ const MinTur = () => {
                       typeof cabinsWon[0].other.huskeliste !== undefined &&
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         if (index < 3) {
-                          return <p className="checklist-item">{item}</p>;
+                          return (
+                            <p key={index} className="checklist-item">
+                              {item}
+                            </p>
+                          );
                         } else {
                           return null;
                         }
@@ -237,7 +241,11 @@ const MinTur = () => {
                       typeof cabinsWon[0].other.huskeliste !== undefined &&
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         if (index >= 3) {
-                          return <p className="checklist-item">{item}</p>;
+                          return (
+                            <p key={index} className="checklist-item">
+                              {item}
+                            </p>
+                          );
                         } else {
                           return null;
                         }
@@ -446,7 +454,11 @@ const MinTur = () => {
                       typeof cabinsWon[0].other.huskeliste !== undefined &&
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         if (index < 3) {
-                          return <p className="checklist-item">{item}</p>;
+                          return (
+                            <p key={index} className="checklist-item">
+                              {item}
+                            </p>
+                          );
                         } else {
                           return null;
                         }
@@ -460,7 +472,11 @@ const MinTur = () => {
                       typeof cabinsWon[0].other.huskeliste !== undefined &&
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         if (index >= 3) {
-                          return <p className="checklist-item">{item}</p>;
+                          return (
+                            <p key={index} className="checklist-item">
+                              {item}
+                            </p>
+                          );
                         } else {
                           return null;
                         }
