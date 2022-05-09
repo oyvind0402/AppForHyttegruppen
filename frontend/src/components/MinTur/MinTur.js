@@ -228,7 +228,7 @@ const MinTur = () => {
                         if (index < 3) {
                           return <p className="checklist-item">{item}</p>;
                         } else {
-                          return <></>;
+                          return null;
                         }
                       })}
                   </div>
@@ -242,7 +242,7 @@ const MinTur = () => {
                         if (index >= 3) {
                           return <p className="checklist-item">{item}</p>;
                         } else {
-                          return <></>;
+                          return null;
                         }
                       })}
                   </div>
@@ -481,7 +481,7 @@ const MinTur = () => {
                         if (index < 3) {
                           return <p className="checklist-item">{item}</p>;
                         } else {
-                          return <></>;
+                          return null;
                         }
                       })}
                   </div>
@@ -495,7 +495,7 @@ const MinTur = () => {
                         if (index >= 3) {
                           return <p className="checklist-item">{item}</p>;
                         } else {
-                          return <></>;
+                          return null;
                         }
                       })}
                   </div>
