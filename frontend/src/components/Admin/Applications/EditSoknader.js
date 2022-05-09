@@ -333,7 +333,7 @@ const Applications = () => {
     cabinWinners.forEach((cabinWinner) => {
       fetch('/application/setwinner', {
         method: 'PATCH',
-        headers: { token: cookies.get('refresh_token') },
+        headers: { token: cookies.get('token') },
         body: JSON.stringify(cabinWinner),
       })
         .then((response) => response.json())
@@ -361,7 +361,7 @@ const Applications = () => {
     changedTrips.forEach((application) => {
       fetch('/application/update', {
         method: 'PUT',
-        headers: { token: cookies.get('refresh_token') },
+        headers: { token: cookies.get('token') },
         body: JSON.stringify(application),
       })
         .then((response) => response.json())

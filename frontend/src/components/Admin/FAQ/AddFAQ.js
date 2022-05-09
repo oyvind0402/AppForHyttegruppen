@@ -50,7 +50,7 @@ const AddFAQ = () => {
 
     const response = await fetch('/faq/post', {
       method: 'POST',
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
       body: JSON.stringify({
         question: question,
         answer: answer,

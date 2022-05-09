@@ -18,16 +18,8 @@ type SignedDetails struct {
 
 var JWT_SECRET_KEY string = os.Getenv("JWT_SECRET_KEY")
 
-func CreateTokens(email string, adminAccess bool) (signedToken string, signedRefreshToken string, err error) {
+func CreateTokens(email string, adminAccess bool) (signedToken string, err error) {
 	tokenClaims := &SignedDetails{
-		Email:       email,
-		AdminAccess: adminAccess,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(24)).Unix(),
-		},
-	}
-
-	refreshTokenClaims := &SignedDetails{
 		Email:       email,
 		AdminAccess: adminAccess,
 		StandardClaims: jwt.StandardClaims{
@@ -41,13 +33,7 @@ func CreateTokens(email string, adminAccess bool) (signedToken string, signedRef
 		return
 	}
 
-	refreshToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshTokenClaims).SignedString([]byte(JWT_SECRET_KEY))
-	if err != nil {
-		fmt.Println("ERROR WITH TOKEN GENERATION")
-		return
-	}
-
-	return token, refreshToken, err
+	return token, err
 }
 
 func validateToken(signedToken string) (claims *SignedDetails, msg string) {

@@ -280,7 +280,7 @@ const OpenPeriod = () => {
     const response = await fetch('/season/post', {
       method: 'POST',
       body: JSON.stringify(season),
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
     });
     const data = await response.json();
     if (response.ok) {
@@ -290,7 +290,7 @@ const OpenPeriod = () => {
         fetch('/period/post', {
           method: 'POST',
           body: JSON.stringify(period),
-          headers: { token: cookies.get('refresh_token') },
+          headers: { token: cookies.get('token') },
         })
           .then((response) => response.json())
           .then((data) => {

@@ -77,7 +77,7 @@ const EditPeriod = () => {
 
     const response = await fetch('/period/update', {
       method: 'PUT',
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
       body: JSON.stringify(period),
     });
 

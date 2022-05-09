@@ -65,7 +65,7 @@ const DeleteCabinPic = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: cookies.get('refresh_token'),
+        token: cookies.get('token'),
       },
     })
       .then((response) => {

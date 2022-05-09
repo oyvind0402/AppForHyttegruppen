@@ -57,7 +57,7 @@ const EditFAQ = () => {
     const response = await fetch('/faq/update', {
       method: 'PUT',
       body: JSON.stringify(_FAQ),
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
     });
     if (response.ok) {
       setEdited(true);
@@ -69,7 +69,7 @@ const EditFAQ = () => {
 
     const response = await fetch('/faq/delete', {
       method: 'DELETE',
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
       body: JSON.stringify(id),
     });
     if (response.ok) {

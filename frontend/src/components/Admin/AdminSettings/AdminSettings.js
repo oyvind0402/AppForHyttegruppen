@@ -65,7 +65,7 @@ const AdminSettings = () => {
       fetch('/user/setadmin', {
         method: 'PATCH',
         body: JSON.stringify(user),
-        headers: { token: cookies.get('refresh_token') },
+        headers: { token: cookies.get('token') },
       })
         .then((response) => response.json())
         .then(() => {
@@ -126,7 +126,7 @@ const AdminSettings = () => {
     const response = await fetch('/admin_email/post', {
       method: 'POST',
       body: JSON.stringify(email),
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
     });
     if (response.ok) {
       setVisible(false);
@@ -145,7 +145,7 @@ const AdminSettings = () => {
       const response = await fetch('/admin_email/delete', {
         method: 'DELETE',
         body: JSON.stringify(id),
-        headers: { token: cookies.get('refresh_token') },
+        headers: { token: cookies.get('token') },
       });
       if (response.ok) {
         setDeleted(false);
@@ -186,7 +186,7 @@ const AdminSettings = () => {
         emailId: id,
         email: email,
       }),
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
     });
     if (response.ok) {
       setEdited(false);
