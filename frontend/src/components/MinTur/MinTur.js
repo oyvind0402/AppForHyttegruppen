@@ -183,10 +183,10 @@ const MinTur = () => {
 
               <img
                 src={
-                  cabinsWon !== '' &&
-                  typeof cabinsWon[0].pictures !== undefined &&
-                  `${process.env.PUBLIC_URL}/assets/pictures/` +
-                    cabinsWon[0].pictures.mainPicture.filename
+                  cabinsWon !== '' && typeof cabinsWon[0].pictures !== undefined
+                    ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                      cabinsWon[0].pictures.mainPicture.filename
+                    : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
                 }
                 className="mintur-picture"
                 alt="cabin"
@@ -398,10 +398,10 @@ const MinTur = () => {
               </p>
               <img
                 src={
-                  cabinsWon !== '' &&
-                  typeof cabinsWon[0].pictures !== undefined &&
-                  `${process.env.PUBLIC_URL}/assets/pictures/` +
-                    cabinsWon[0].pictures.mainPicture.filename
+                  cabinsWon !== '' && typeof cabinsWon[0].pictures !== undefined
+                    ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                      cabinsWon[0].pictures.mainPicture.filename
+                    : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
                 }
                 className="mintur-picture"
                 alt="cabin"
@@ -550,10 +550,10 @@ const MinTur = () => {
               <p className="mintur-title">{trip.cabins[0].cabinName}</p>
               <img
                 src={
-                  cabinsWon !== '' &&
-                  typeof cabinsWon[0].pictures !== undefined &&
-                  `${process.env.PUBLIC_URL}/assets/pictures/` +
-                    cabinsWon[0].pictures.mainPicture.filename
+                  cabinsWon !== '' && typeof cabinsWon[0].pictures !== undefined
+                    ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                      cabinsWon[0].pictures.mainPicture.filename
+                    : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
                 }
                 className="mintur-picture"
                 alt="cabin"

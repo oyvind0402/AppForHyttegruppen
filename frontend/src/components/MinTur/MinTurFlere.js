@@ -50,10 +50,10 @@ const MinTurFlere = (props) => {
             </select>
             <img
               src={
-                cabinWon !== '' &&
-                typeof cabinWon.pictures !== undefined &&
-                `${process.env.PUBLIC_URL}/assets/pictures/` +
-                  cabinWon.pictures.mainPicture.filename
+                cabinWon !== '' && typeof cabinWon.pictures !== undefined
+                  ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                    cabinWon.pictures.mainPicture.filename
+                  : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
               }
               className="mintur-picture"
               alt="cabin"
@@ -233,10 +233,10 @@ const MinTurFlere = (props) => {
             </select>
             <img
               src={
-                cabinWon !== '' &&
-                typeof cabinWon.pictures !== undefined &&
-                `${process.env.PUBLIC_URL}/assets/pictures/` +
-                  cabinWon.pictures.mainPicture.filename
+                cabinWon !== '' && typeof cabinWon.pictures !== undefined
+                  ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                    cabinWon.pictures.mainPicture.filename
+                  : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
               }
               className="mintur-picture"
               alt="cabin"
@@ -398,10 +398,10 @@ const MinTurFlere = (props) => {
             </select>
             <img
               src={
-                cabinWon !== '' &&
-                typeof cabinWon.pictures !== undefined &&
-                `${process.env.PUBLIC_URL}/assets/pictures/` +
-                  cabinWon.pictures.mainPicture.filename
+                cabinWon !== '' && typeof cabinWon.pictures !== undefined
+                  ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                    cabinWon.pictures.mainPicture.filename
+                  : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
               }
               className="mintur-picture"
               alt="cabin"
