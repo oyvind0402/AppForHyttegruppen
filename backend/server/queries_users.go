@@ -257,7 +257,7 @@ func (r repo) SignIn(ctx *gin.Context) {
 		return
 	}
 
-	// Returns token, refreshToken, userId and adminAccess
+	// Returns token, userId and adminAccess
 	ctx.JSON(http.StatusOK, gin.H{
 		"token":       token,
 		"userId":      user.Id,
