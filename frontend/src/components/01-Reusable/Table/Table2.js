@@ -14,7 +14,7 @@ export default function Table2({ columns, data }) {
   const [filterBy, setFilterBy] = useState('');
 
   const handleFiltering = (e) => {
-    const value = e.target.value || undefined;
+    const value = e.target.value || '';
     setFilter('name', value);
     setFilterBy(value);
   };
