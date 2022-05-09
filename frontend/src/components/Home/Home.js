@@ -73,7 +73,7 @@ const Home = () => {
         </div>
         <HomeImage
           imageLink="cabin-cosy.jpg"
-          imageAlt="Something"
+          imageAlt="Cosy by the fire cabin picture"
           buttonText="Vis hyttene"
           link="/hytter"
         />
@@ -89,7 +89,7 @@ const Home = () => {
         </div>
         <HomeImage
           imageLink="mountain-dog.jpg"
-          imageAlt="Something"
+          imageAlt="Mountain tur with dog"
           buttonText="Utforsk Hemsedal"
           link="/hytteomraade"
         />
