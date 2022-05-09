@@ -5,8 +5,6 @@ type User struct {
 	Email          string  `json:"email" binding:"required"`
 	Password       string  `pg:"-"`
 	HashedPassword string  `json:"-"`
-	Token          string  `json:"token"`
-	RefreshToken   string  `json:"refresh_token"`
 	FirstName      string  `json:"firstname" binding:"required"`
 	LastName       string  `json:"lastname" binding:"required"`
 	AdminAccess    bool    `json:"adminAccess"`

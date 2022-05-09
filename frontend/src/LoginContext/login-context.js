@@ -60,10 +60,12 @@ export const LoginContextProvider = (props) => {
 
   useEffect(() => {
     if (cookies.get(key2)) {
-      const jwtPayload = JSON.parse(window.atob(refreshToken.split('.')[1]));
-      if (Date.now() >= jwtPayload.exp * 1000) {
-        logout();
-        window.location.href = '/login';
+      if (refreshToken) {
+        const jwtPayload = JSON.parse(window.atob(refreshToken.split('.')[1]));
+        if (Date.now() >= jwtPayload.exp * 1000) {
+          logout();
+          window.location.href = '/login';
+        }
       }
     }
   });

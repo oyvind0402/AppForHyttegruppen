@@ -24,8 +24,6 @@ func getUser(ctx *gin.Context, row *sql.Row) (data.User, int, error) {
 		&user.Id,
 		&user.Email,
 		&user.HashedPassword,
-		&user.Token,
-		&user.RefreshToken,
 		&user.FirstName,
 		&user.LastName,
 		&user.AdminAccess); err != nil && err != sql.ErrNoRows {
@@ -98,8 +96,6 @@ func (r repo) GetAllUsers(ctx *gin.Context) {
 			&user.Id,
 			&user.Email,
 			&user.HashedPassword,
-			&user.Token,
-			&user.RefreshToken,
 			&user.FirstName,
 			&user.LastName,
 			&user.AdminAccess); err != nil {
@@ -155,17 +151,6 @@ func (r repo) PostUser(ctx *gin.Context) {
 	user.Id = new(string)
 	*user.Id = shortuuid.New()
 
-	// Generating token and refresh token
-	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email, user.AdminAccess)
-
-	if tokenErr != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": tokenErr.Error()})
-
-	}
-
-	user.Token = token
-	user.RefreshToken = refreshToken
-
 	// Execute INSERT query and retrieve ID of inserted user
 	var resId string
 	if err = r.sqlDb.QueryRow(
@@ -173,8 +158,6 @@ func (r repo) PostUser(ctx *gin.Context) {
 			user_id,
 			email,
 			hashed_passwd,
-			token,
-			refresh_token,
 			firstname,
 			lastname,
 			admin_access) 
@@ -182,8 +165,6 @@ func (r repo) PostUser(ctx *gin.Context) {
 		&user.Id,
 		&user.Email,
 		&user.HashedPassword,
-		&user.Token,
-		&user.RefreshToken,
 		&user.FirstName,
 		&user.LastName,
 		&user.AdminAccess,
@@ -253,8 +234,6 @@ func (r repo) SignIn(ctx *gin.Context) {
 	scanErr := row.Scan(&user.Id,
 		&user.Email,
 		&user.HashedPassword,
-		&user.Token,
-		&user.RefreshToken,
 		&user.FirstName,
 		&user.LastName,
 		&user.AdminAccess)
@@ -278,16 +257,10 @@ func (r repo) SignIn(ctx *gin.Context) {
 		return
 	}
 
-	_, updateErr := r.sqlDb.Exec(`UPDATE Users SET token = $1, refresh_token = $2 WHERE email = $3`, &token, &refreshToken, &user.Email)
-	if updateErr != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": updateErr.Error()})
-		return
-	}
-
 	// Returns token, refreshToken, userId and adminAccess
 	ctx.JSON(http.StatusOK, gin.H{
-		"token":        user.Token,
-		"refreshToken": user.RefreshToken,
+		"token":        token,
+		"refreshToken": refreshToken,
 		"userId":       user.Id,
 		"adminAccess":  user.AdminAccess,
 	})
