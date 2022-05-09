@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
 import { BsFillKeyFill, BsHourglassSplit } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
@@ -100,7 +100,7 @@ const MinTur = () => {
     }
   };
 
-  const getTrip = async () => {
+  const getTrip = useCallback(async () => {
     const response = await fetch('/application/' + pageID);
 
     const data = await response.json();
@@ -162,13 +162,13 @@ const MinTur = () => {
     } else {
       history.goBack();
     }
-  };
+  }, [history, pageID]);
 
   useEffect(() => {
     if (trip === '') {
       getTrip();
     }
-  }, [getTrip]);
+  }, [trip, getTrip]);
 
   if (length < 2) {
     if (start > Date.now() && trip.winner) {
