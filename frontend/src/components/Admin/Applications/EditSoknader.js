@@ -285,7 +285,6 @@ const Applications = () => {
     } else {
       _cabinWinners.push(winnerAppliction);
     }
-    console.log(_cabinWinners);
   };
 
   const handleApplications = () => {
@@ -337,7 +336,6 @@ const Applications = () => {
         body: JSON.stringify(cabinWinner),
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
         .catch((error) => {
           console.log(error);
           postSuccessful = false;
@@ -348,9 +346,7 @@ const Applications = () => {
         fetch('/email/applicationApproved', {
           method: 'POST',
           body: JSON.stringify(cabinWinner.applicationId),
-        })
-          .then((data) => console.log(data))
-          .catch((error) => console.log(error));
+        }).catch((error) => console.log(error));
       });
     }
     fetchApplications();
