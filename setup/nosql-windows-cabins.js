@@ -126,10 +126,10 @@ db.cabins.insertMany([
     features: { bad: 2, soverom: 5, sengeplasser: 10, wifi: false },
     other: {
       huskeliste: [
-        "Sovepose eller sengetøy",
+        "Sengetøy",
         "Håndklær",
         "Stearinlys",
-        "Tørkehåndkle/oppvaskklut",
+        "Tørkehåndkle",
         "Toalettpapir",
         "Tørkerull",
       ],
@@ -177,10 +177,10 @@ db.cabins.insertMany([
     },
     other: {
       huskeliste: [
-        "Sovepose eller sengetøy",
+        "Sengetøy",
         "Håndklær",
         "Stearinlys",
-        "Tørkehåndkle/oppvaskklut",
+        "Tørkehåndkle",
         "Toalettpapir",
         "Tørkerull",
       ],
@@ -235,10 +235,10 @@ db.cabins.insertMany([
     features: { bad: 1, soverom: 4, sengeplasser: 8, wifi: true },
     other: {
       huskeliste: [
-        "Sovepose eller sengetøy",
+        "Sengetøy",
         "Håndklær",
         "Stearinlys",
-        "Tørkehåndkle/oppvaskklut",
+        "Tørkehåndkle",
         "Toalettpapir",
         "Tørkerull",
       ],
@@ -291,10 +291,10 @@ db.cabins.insertMany([
     features: { bad: 2, soverom: 4, sengeplasser: 8, wifi: true },
     other: {
       huskeliste: [
-        "Sovepose eller sengetøy",
+        "Sengetøy",
         "Håndklær",
         "Stearinlys",
-        "Tørkehåndkle/oppvaskklut",
+        "Tørkehåndkle",
         "Toalettpapir",
         "Tørkerull",
       ],
