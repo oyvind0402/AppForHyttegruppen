@@ -30,10 +30,10 @@ const Step3 = (props) => {
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));
     }
-    if (cabins !== []) {
+    if (cabins.length === 0) {
       fetchData();
     }
-  }, []);
+  }, [cabins]);
 
   //No cabin is picked yet
   useEffect(() => {
