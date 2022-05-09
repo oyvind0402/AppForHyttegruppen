@@ -87,16 +87,20 @@ const MinTurFlere = (props) => {
               <div className="checklist">
                 <div className="checklist-wrapper">
                   {cabinWon !== '' &&
-                    typeof cabinWon.other !== undefined &&
-                    cabinWon.other.huskeliste !== null &&
-                    typeof cabinWon.other.huskeliste !== undefined &&
+                  typeof cabinWon.other !== undefined &&
+                  cabinWon.other.huskeliste !== null &&
+                  typeof cabinWon.other.huskeliste !== undefined &&
+                  cabinWon.other.huskeliste.length > 0 ? (
                     cabinWon.other.huskeliste.map((item, index) => {
                       return (
                         <p key={index} className="checklist-item">
                           {item}
                         </p>
                       );
-                    })}
+                    })
+                  ) : (
+                    <p>Ingen huskeliste lagt til for hytten!</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -266,16 +270,20 @@ const MinTurFlere = (props) => {
               <div className="checklist">
                 <div className="checklist-wrapper">
                   {cabinWon !== '' &&
-                    typeof cabinWon.other !== undefined &&
-                    cabinWon.other.huskeliste !== null &&
-                    typeof cabinWon.other.huskeliste !== undefined &&
+                  typeof cabinWon.other !== undefined &&
+                  cabinWon.other.huskeliste !== null &&
+                  typeof cabinWon.other.huskeliste !== undefined &&
+                  cabinWon.other.huskeliste.length > 0 ? (
                     cabinWon.other.huskeliste.map((item, index) => {
                       return (
                         <p key={index} className="checklist-item">
                           {item}
                         </p>
                       );
-                    })}
+                    })
+                  ) : (
+                    <p>Ingen huskeliste lagt til for hytten!</p>
+                  )}
                 </div>
               </div>
             </div>

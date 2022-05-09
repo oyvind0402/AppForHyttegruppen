@@ -207,16 +207,20 @@ const MinTur = () => {
                 <div className="checklist">
                   <div className="checklist-wrapper">
                     {cabinsWon !== '' &&
-                      typeof cabinsWon[0].other !== undefined &&
-                      cabinsWon[0].other.huskeliste !== null &&
-                      typeof cabinsWon[0].other.huskeliste !== undefined &&
+                    typeof cabinsWon[0].other !== undefined &&
+                    cabinsWon[0].other.huskeliste !== null &&
+                    typeof cabinsWon[0].other.huskeliste !== undefined &&
+                    cabinsWon[0].other.huskeliste.length > 0 ? (
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         return (
                           <p key={index} className="checklist-item">
                             {item}
                           </p>
                         );
-                      })}
+                      })
+                    ) : (
+                      <p>Ingen huskeliste lagt til for hytten!</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -419,16 +423,20 @@ const MinTur = () => {
                 <div className="checklist">
                   <div className="checklist-wrapper">
                     {cabinsWon !== '' &&
-                      typeof cabinsWon[0].other !== undefined &&
-                      cabinsWon[0].other.huskeliste !== null &&
-                      typeof cabinsWon[0].other.huskeliste !== undefined &&
+                    typeof cabinsWon[0].other !== undefined &&
+                    cabinsWon[0].other.huskeliste !== null &&
+                    typeof cabinsWon[0].other.huskeliste !== undefined &&
+                    cabinsWon[0].other.huskeliste.length > 0 ? (
                       cabinsWon[0].other.huskeliste.map((item, index) => {
                         return (
                           <p key={index} className="checklist-item">
                             {item}
                           </p>
                         );
-                      })}
+                      })
+                    ) : (
+                      <p>Ingen huskeliste lagt til for hytten!</p>
+                    )}
                   </div>
                 </div>
               </div>
