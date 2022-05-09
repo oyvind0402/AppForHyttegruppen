@@ -251,18 +251,17 @@ func (r repo) SignIn(ctx *gin.Context) {
 	}
 
 	// Updating tokens on login
-	token, refreshToken, tokenErr := middleware.CreateTokens(user.Email, user.AdminAccess)
+	token, tokenErr := middleware.CreateTokens(user.Email, user.AdminAccess)
 	if tokenErr != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": tokenErr.Error()})
 		return
 	}
 
-	// Returns token, refreshToken, userId and adminAccess
+	// Returns token, userId and adminAccess
 	ctx.JSON(http.StatusOK, gin.H{
-		"token":        token,
-		"refreshToken": refreshToken,
-		"userId":       user.Id,
-		"adminAccess":  user.AdminAccess,
+		"token":       token,
+		"userId":      user.Id,
+		"adminAccess": user.AdminAccess,
 	})
 }
 

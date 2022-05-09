@@ -35,7 +35,7 @@ const Soknad = () => {
       fetch('/application/post', {
         method: 'POST',
         body: JSON.stringify(JsonBody),
-        headers: { token: cookies.get('refresh_token') },
+        headers: { token: cookies.get('token') },
       })
         .then((response) => response.json())
         .catch((error) => {

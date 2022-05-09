@@ -235,7 +235,7 @@ const AddCabin = () => {
     const response = await fetch('/cabin/post', {
       method: 'POST',
       body: JSON.stringify(cabin),
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
     });
     const data = await response.json();
     if (response.ok) {
@@ -263,7 +263,7 @@ const AddCabin = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: cookies.get('refresh_token'),
+        token: cookies.get('token'),
       },
     })
       .then((response) => response.json())
@@ -278,7 +278,7 @@ const AddCabin = () => {
       method: 'POST',
       body: formData,
       headers: {
-        token: cookies.get('refresh_token'),
+        token: cookies.get('token'),
       },
     })
       .then((response) => response.json())

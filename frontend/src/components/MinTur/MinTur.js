@@ -1,14 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
-import { BsFillKeyFill, BsHourglassSplit } from 'react-icons/bs';
+import { BsHourglassSplit } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import { AiFillCar } from 'react-icons/ai';
 import { BiBed } from 'react-icons/bi';
 import { GiTakeMyMoney } from 'react-icons/gi';
 import { BsWifiOff } from 'react-icons/bs';
 import { BsWifi } from 'react-icons/bs';
-import { Md4GMobiledata } from 'react-icons/md';
-import { AiOutlineArrowUp } from 'react-icons/ai';
 import { MdShower } from 'react-icons/md';
 import './MinTur.css';
 import FeedbackForm from '../01-Reusable/FeedbackForm/FeedbackForm';
@@ -82,7 +79,7 @@ const MinTur = () => {
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(pageID),
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
     });
 
     if (response.ok) {
@@ -186,10 +183,10 @@ const MinTur = () => {
 
               <img
                 src={
-                  cabinsWon !== '' &&
-                  typeof cabinsWon[0].pictures !== undefined &&
-                  `${process.env.PUBLIC_URL}/assets/pictures/` +
-                    cabinsWon[0].pictures.mainPicture.filename
+                  cabinsWon !== '' && typeof cabinsWon[0].pictures !== undefined
+                    ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                      cabinsWon[0].pictures.mainPicture.filename
+                    : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
                 }
                 className="mintur-picture"
                 alt="cabin"
@@ -253,12 +250,6 @@ const MinTur = () => {
               <p className="omhytta-title">Om hytta</p>
               <div className="hytteinfo-container">
                 <div className="hytteinfo1-wrapper">
-                  <BsFillKeyFill className="info-icon key-icon" />
-                  <div className="key-text">
-                    <p className="omhytta-text">Nøkkel i en nøkkelboks</p>
-                    <p className="omhytta-text">Koden til boksen via epost</p>
-                  </div>
-
                   <FaMapMarkerAlt className="info-icon marker-icon" />
                   <div className="address-text">
                     <p className="omhytta-text">
@@ -267,21 +258,6 @@ const MinTur = () => {
                         cabinsWon[0].address + ','}
                     </p>
                     <p className="omhytta-text">Hemsedal</p>
-                  </div>
-
-                  <AiFillCar className="info-icon car-icon" />
-                  <div className="roaddesc-text">
-                    <p className="omhytta-text">Bilvei helt frem</p>
-                    <p>
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        className="omhytta-text roaddesc-link"
-                        href="https://www.google.com/maps/dir/Oslo+gate+7,+Oslo/3560+Hemsedal/@59.9260916,10.695873,11z/data=!4m14!4m13!1m5!1m1!1s0x46416ef682dc4cd5:0x515b4a96821c140f!2m2!1d10.7677413!2d59.9069394!1m5!1m1!1s0x463fe896e25bc07b:0xfdd68f22ff1ebba0!2m2!1d8.552376!2d60.8630648!3e0"
-                      >
-                        Veibeskrivelse
-                      </a>
-                    </p>
                   </div>
 
                   <BiBed className="info-icon bed-icon" />
@@ -328,15 +304,6 @@ const MinTur = () => {
                       ? 'Trådløst nett'
                       : 'Ikke trådløst nett'}
                   </p>
-
-                  <Md4GMobiledata className="info-icon 4g-icon" />
-                  <p className="omhytta-text 4g-text">God 4G-dekning</p>
-
-                  <AiOutlineArrowUp className="info-icon arrow-icon" />
-                  <div className="arrow-text">
-                    <p className="omhytta-text">Nylig modernisert</p>
-                    <p className="omhytta-text">Høy standard</p>
-                  </div>
 
                   <MdShower className="info-icon bath-icon" />
                   <p className="omhytta-text bath-text">
@@ -431,10 +398,10 @@ const MinTur = () => {
               </p>
               <img
                 src={
-                  cabinsWon !== '' &&
-                  typeof cabinsWon[0].pictures !== undefined &&
-                  `${process.env.PUBLIC_URL}/assets/pictures/` +
-                    cabinsWon[0].pictures.mainPicture.filename
+                  cabinsWon !== '' && typeof cabinsWon[0].pictures !== undefined
+                    ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                      cabinsWon[0].pictures.mainPicture.filename
+                    : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
                 }
                 className="mintur-picture"
                 alt="cabin"
@@ -506,12 +473,6 @@ const MinTur = () => {
               <p className="omhytta-title">Om hytta</p>
               <div className="hytteinfo-container">
                 <div className="hytteinfo1-wrapper">
-                  <BsFillKeyFill className="info-icon key-icon" />
-                  <div className="key-text">
-                    <p className="omhytta-text">Nøkkel i en nøkkelboks</p>
-                    <p className="omhytta-text">Koden til boksen via epost</p>
-                  </div>
-
                   <FaMapMarkerAlt className="info-icon marker-icon" />
                   <div className="address-text">
                     <p className="omhytta-text">
@@ -522,20 +483,6 @@ const MinTur = () => {
                     <p className="omhytta-text">Hemsedal</p>
                   </div>
 
-                  <AiFillCar className="info-icon car-icon" />
-                  <div className="roaddesc-text">
-                    <p className="omhytta-text">Bilvei helt frem</p>
-                    <p>
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        className="omhytta-text roaddesc-link"
-                        href="https://www.google.com/maps/dir/Oslo+gate+7,+Oslo/3560+Hemsedal/@59.9260916,10.695873,11z/data=!4m14!4m13!1m5!1m1!1s0x46416ef682dc4cd5:0x515b4a96821c140f!2m2!1d10.7677413!2d59.9069394!1m5!1m1!1s0x463fe896e25bc07b:0xfdd68f22ff1ebba0!2m2!1d8.552376!2d60.8630648!3e0"
-                      >
-                        Veibeskrivelse
-                      </a>
-                    </p>
-                  </div>
                   <BiBed className="info-icon bed-icon" />
                   <p className="omhytta-text bed-text">
                     {cabinsWon !== '' &&
@@ -581,15 +528,6 @@ const MinTur = () => {
                       : 'Ikke trådløst nett'}
                   </p>
 
-                  <Md4GMobiledata className="info-icon 4g-icon" />
-                  <p className="omhytta-text 4g-text">God 4G-dekning</p>
-
-                  <AiOutlineArrowUp className="info-icon arrow-icon" />
-                  <div className="arrow-text">
-                    <p className="omhytta-text">Nylig modernisert</p>
-                    <p className="omhytta-text">Høy standard</p>
-                  </div>
-
                   <MdShower className="info-icon bath-icon" />
                   <p className="omhytta-text bath-text">
                     {cabinsWon !== '' &&
@@ -612,10 +550,10 @@ const MinTur = () => {
               <p className="mintur-title">{trip.cabins[0].cabinName}</p>
               <img
                 src={
-                  cabinsWon !== '' &&
-                  typeof cabinsWon[0].pictures !== undefined &&
-                  `${process.env.PUBLIC_URL}/assets/pictures/` +
-                    cabinsWon[0].pictures.mainPicture.filename
+                  cabinsWon !== '' && typeof cabinsWon[0].pictures !== undefined
+                    ? `${process.env.PUBLIC_URL}/assets/pictures/` +
+                      cabinsWon[0].pictures.mainPicture.filename
+                    : `${process.env.PUBLIC_URL}/assets/pictures/MyTripPic.svg`
                 }
                 className="mintur-picture"
                 alt="cabin"

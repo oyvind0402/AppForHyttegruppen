@@ -153,7 +153,7 @@ const FeedbackForm = (props) => {
     const response = await fetch('/application/setfeedback', {
       method: 'PATCH',
       body: JSON.stringify(props.data.applicationId),
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
     });
     if (response.ok) {
       sendEmail = true;

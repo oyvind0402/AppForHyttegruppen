@@ -64,7 +64,7 @@ const TripCardActive = (props) => {
     const response = await fetch('/application/delete', {
       method: 'DELETE',
       body: JSON.stringify(props.data.applicationId),
-      headers: { token: cookies.get('refresh_token') },
+      headers: { token: cookies.get('token') },
     });
 
     if (response.ok) {
