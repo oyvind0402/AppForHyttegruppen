@@ -14,18 +14,20 @@ const Home = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('/season/open');
-      const data = await response.json();
-      if (response.ok) {
-        setSoknadOpen(data.isOpen);
-        if (data.isOpen) {
-          let date;
-          date = data.seasons[0].applyUntil.replace('T00:00:00Z', '');
-          const dates = date.split('-');
-          setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
+      try {
+        const response = await fetch('/season/open');
+        const data = await response.json();
+        if (response.ok) {
+          setSoknadOpen(data.isOpen);
+          if (data.isOpen) {
+            let date;
+            date = data.seasons[0].applyUntil.replace('T00:00:00Z', '');
+            const dates = date.split('-');
+            setsoknadEndDate(dates[2] + '.' + dates[1] + '.' + dates[0]);
+          }
         }
-      } else {
-        console.log(response);
+      } catch (error) {
+        console.log(error);
       }
     }
     fetchData();

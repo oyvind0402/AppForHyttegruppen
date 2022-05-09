@@ -140,7 +140,7 @@ const MinTurFlere = (props) => {
 
               <div className="hytteinfo2-wrapper">
                 <GiTakeMyMoney className="info-icon money-icon" />
-                <div className="price-text">
+                <div className="price-text2">
                   <p className="omhytta-text">
                     Utvask pris:{' '}
                     {cabinWon !== '' &&
@@ -331,7 +331,7 @@ const MinTurFlere = (props) => {
 
               <div className="hytteinfo2-wrapper">
                 <GiTakeMyMoney className="info-icon money-icon" />
-                <div className="price-text">
+                <div className="price-text2">
                   <p className="omhytta-text">
                     Utvask pris:{' '}
                     {cabinWon !== '' &&

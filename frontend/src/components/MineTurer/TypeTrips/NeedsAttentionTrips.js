@@ -7,24 +7,28 @@ const NeedsAttentionTrips = () => {
   const [pastTrips, setPastTrips] = useState([]);
 
   const getApplications = async () => {
-    const response = await fetch(
-      '/application/byuser/' + localStorage.getItem('userID') + '/current',
-      {
-        method: 'GET',
+    try {
+      const response = await fetch(
+        '/application/byuser/' + localStorage.getItem('userID') + '/current',
+        {
+          method: 'GET',
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        setCurrentTrips(data);
       }
-    );
 
-    const data = await response.json();
-    if (response.ok) {
-      setCurrentTrips(data);
-    }
-
-    const response2 = await fetch(
-      '/application/byuser/' + localStorage.getItem('userID') + '/past'
-    );
-    const data2 = await response2.json();
-    if (response2.ok) {
-      setPastTrips(data2);
+      const response2 = await fetch(
+        '/application/byuser/' + localStorage.getItem('userID') + '/past'
+      );
+      const data2 = await response2.json();
+      if (response2.ok) {
+        setPastTrips(data2);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

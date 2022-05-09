@@ -48,16 +48,20 @@ const AddFAQ = () => {
       return;
     }
 
-    const response = await fetch('/faq/post', {
-      method: 'POST',
-      headers: { token: cookies.get('token') },
-      body: JSON.stringify({
-        question: question,
-        answer: answer,
-      }),
-    });
-    if (response.ok) {
-      setSaved(true);
+    try {
+      const response = await fetch('/faq/post', {
+        method: 'POST',
+        headers: { token: cookies.get('token') },
+        body: JSON.stringify({
+          question: question,
+          answer: answer,
+        }),
+      });
+      if (response.ok) {
+        setSaved(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

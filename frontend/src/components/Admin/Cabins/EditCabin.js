@@ -240,22 +240,26 @@ const EditCabin = () => {
       },
     };
 
-    const response = await fetch('/cabin/update', {
-      method: 'PUT',
-      body: JSON.stringify(cabin2),
-      headers: { token: cookies.get('token') },
-    });
+    try {
+      const response = await fetch('/cabin/update', {
+        method: 'PUT',
+        body: JSON.stringify(cabin2),
+        headers: { token: cookies.get('token') },
+      });
 
-    const data = await response.json();
-    if (response.ok) {
-      if (document.getElementById('mainPictureEndre').value !== '') {
-        uploadMainPicture();
+      const data = await response.json();
+      if (response.ok) {
+        if (document.getElementById('mainPictureEndre').value !== '') {
+          uploadMainPicture();
+        } else {
+          setSaved(true);
+        }
       } else {
-        setSaved(true);
+        setError(data.err);
+        setErrorVisible(true);
       }
-    } else {
-      setError(data.err);
-      setErrorVisible(true);
+    } catch (error) {
+      console.log(error);
     }
     setVisible(false);
     return;

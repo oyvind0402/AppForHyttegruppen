@@ -30,10 +30,14 @@ const Header = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('/season/open');
-      const data = await response.json();
-      if (response.ok) {
-        setSoknadOpen(data.isOpen);
+      try {
+        const response = await fetch('/season/open');
+        const data = await response.json();
+        if (response.ok) {
+          setSoknadOpen(data.isOpen);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
 

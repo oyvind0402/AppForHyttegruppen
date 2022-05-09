@@ -13,34 +13,38 @@ const YourTrips = () => {
   const [visibleTrips, setVisibleTrips] = useState(false);
 
   const getApplications = async () => {
-    const response2 = await fetch(
-      '/application/byuser/' + localStorage.getItem('userID') + '/past',
-      {
-        method: 'GET',
+    try {
+      const response2 = await fetch(
+        '/application/byuser/' + localStorage.getItem('userID') + '/past',
+        {
+          method: 'GET',
+        }
+      );
+      const data2 = await response2.json();
+      if (response2.ok) {
+        setPastTrips(data2);
       }
-    );
-    const data2 = await response2.json();
-    if (response2.ok) {
-      setPastTrips(data2);
-    }
 
-    const response4 = await fetch(
-      '/application/byuser/' + localStorage.getItem('userID') + '/future',
-      {
-        method: 'GET',
+      const response4 = await fetch(
+        '/application/byuser/' + localStorage.getItem('userID') + '/future',
+        {
+          method: 'GET',
+        }
+      );
+      const data4 = await response4.json();
+      if (response4.ok) {
+        setFutureTrips(data4);
       }
-    );
-    const data4 = await response4.json();
-    if (response4.ok) {
-      setFutureTrips(data4);
-    }
 
-    const response3 = await fetch(
-      '/application/byuser/' + localStorage.getItem('userID') + '/current'
-    );
-    const data3 = await response3.json();
-    if (response3.ok) {
-      setCurrentTrips(data3);
+      const response3 = await fetch(
+        '/application/byuser/' + localStorage.getItem('userID') + '/current'
+      );
+      const data3 = await response3.json();
+      if (response3.ok) {
+        setCurrentTrips(data3);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

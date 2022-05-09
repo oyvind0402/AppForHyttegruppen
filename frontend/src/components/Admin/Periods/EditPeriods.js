@@ -34,10 +34,14 @@ const EditPeriods = () => {
   }
 
   const getPeriods = async () => {
-    const response = await fetch('/period/all');
-    const data = await response.json();
-    if (response.ok) {
-      setPeriods(data);
+    try {
+      const response = await fetch('/period/all');
+      const data = await response.json();
+      if (response.ok) {
+        setPeriods(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

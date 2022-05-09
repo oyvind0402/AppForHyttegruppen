@@ -61,24 +61,28 @@ const TripCardActive = (props) => {
 
     const cookies = new Cookies();
 
-    const response = await fetch('/application/delete', {
-      method: 'DELETE',
-      body: JSON.stringify(props.data.applicationId),
-      headers: { token: cookies.get('token') },
-    });
+    try {
+      const response = await fetch('/application/delete', {
+        method: 'DELETE',
+        body: JSON.stringify(props.data.applicationId),
+        headers: { token: cookies.get('token') },
+      });
 
-    if (response.ok) {
-      fetch('/email/cancelledTrip', {
-        method: 'POST',
-        body: JSON.stringify({
-          period: props.data.period,
-          cabinsWon: props.data.cabinsWon,
-          user: props.data.user,
-        }),
-      })
-        .then((response) => response.json())
-        .catch((error) => console.log(error));
-      history.go(0);
+      if (response.ok) {
+        fetch('/email/cancelledTrip', {
+          method: 'POST',
+          body: JSON.stringify({
+            period: props.data.period,
+            cabinsWon: props.data.cabinsWon,
+            user: props.data.user,
+          }),
+        })
+          .then((response) => response.json())
+          .catch((error) => console.log(error));
+        history.go(0);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

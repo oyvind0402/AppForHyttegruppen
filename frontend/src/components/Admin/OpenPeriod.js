@@ -277,38 +277,42 @@ const OpenPeriod = () => {
 
     const cookies = new Cookies();
 
-    const response = await fetch('/season/post', {
-      method: 'POST',
-      body: JSON.stringify(season),
-      headers: { token: cookies.get('token') },
-    });
-    const data = await response.json();
-    if (response.ok) {
-      setPopupVisible(false);
-      setOpened(true);
-      periods.forEach((period) =>
-        fetch('/period/post', {
-          method: 'POST',
-          body: JSON.stringify(period),
-          headers: { token: cookies.get('token') },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (!response.ok) {
-              setError(data.err);
+    try {
+      const response = await fetch('/season/post', {
+        method: 'POST',
+        body: JSON.stringify(season),
+        headers: { token: cookies.get('token') },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setPopupVisible(false);
+        setOpened(true);
+        periods.forEach((period) =>
+          fetch('/period/post', {
+            method: 'POST',
+            body: JSON.stringify(period),
+            headers: { token: cookies.get('token') },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (!response.ok) {
+                setError(data.err);
+                setErrorVisible(true);
+              }
+            })
+            .catch((error) => {
+              setError(error.err);
               setErrorVisible(true);
-            }
-          })
-          .catch((error) => {
-            setError(error.err);
-            setErrorVisible(true);
-          })
-      );
-    }
+            })
+        );
+      }
 
-    if (!response.ok) {
-      setError(data.err);
-      setErrorVisible(true);
+      if (!response.ok) {
+        setError(data.err);
+        setErrorVisible(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

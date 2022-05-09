@@ -21,18 +21,26 @@ const AdminSettings = () => {
   let _changedUsers = [];
 
   const fetchUsers = async () => {
-    const response = await fetch('/user/all');
-    const data = await response.json();
-    if (response.ok) {
-      setUsers(data);
+    try {
+      const response = await fetch('/user/all');
+      const data = await response.json();
+      if (response.ok) {
+        setUsers(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const fetchEmails = async () => {
-    const response = await fetch('/admin_email/all');
-    const data = await response.json();
-    if (response.ok) {
-      setEmails(data);
+    try {
+      const response = await fetch('/admin_email/all');
+      const data = await response.json();
+      if (response.ok) {
+        setEmails(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -123,15 +131,19 @@ const AdminSettings = () => {
   };
 
   const addEmail = async () => {
-    const response = await fetch('/admin_email/post', {
-      method: 'POST',
-      body: JSON.stringify(email),
-      headers: { token: cookies.get('token') },
-    });
-    if (response.ok) {
-      setVisible(false);
-      fetchEmails();
-      document.getElementById('add-email').value = '';
+    try {
+      const response = await fetch('/admin_email/post', {
+        method: 'POST',
+        body: JSON.stringify(email),
+        headers: { token: cookies.get('token') },
+      });
+      if (response.ok) {
+        setVisible(false);
+        fetchEmails();
+        document.getElementById('add-email').value = '';
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -142,14 +154,18 @@ const AdminSettings = () => {
 
   const deleteEmail = async (id) => {
     if (id > 0) {
-      const response = await fetch('/admin_email/delete', {
-        method: 'DELETE',
-        body: JSON.stringify(id),
-        headers: { token: cookies.get('token') },
-      });
-      if (response.ok) {
-        setDeleted(false);
-        fetchEmails();
+      try {
+        const response = await fetch('/admin_email/delete', {
+          method: 'DELETE',
+          body: JSON.stringify(id),
+          headers: { token: cookies.get('token') },
+        });
+        if (response.ok) {
+          setDeleted(false);
+          fetchEmails();
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };
@@ -180,21 +196,25 @@ const AdminSettings = () => {
   };
 
   const editEmail = async () => {
-    const response = await fetch('/admin_email/update', {
-      method: 'PUT',
-      body: JSON.stringify({
-        emailId: id,
-        email: email,
-      }),
-      headers: { token: cookies.get('token') },
-    });
-    if (response.ok) {
-      setEdited(false);
-      setEditing(false);
-      fetchEmails();
-    } else {
-      setEdited(false);
-      setEditing(false);
+    try {
+      const response = await fetch('/admin_email/update', {
+        method: 'PUT',
+        body: JSON.stringify({
+          emailId: id,
+          email: email,
+        }),
+        headers: { token: cookies.get('token') },
+      });
+      if (response.ok) {
+        setEdited(false);
+        setEditing(false);
+        fetchEmails();
+      } else {
+        setEdited(false);
+        setEditing(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

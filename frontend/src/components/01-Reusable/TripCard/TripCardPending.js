@@ -56,17 +56,21 @@ const TripCardPending = (props) => {
   const cookies = new Cookies();
 
   const cancelTrip = async () => {
-    setVisible(false);
-    const response = await fetch('/application/delete', {
-      method: 'DELETE',
-      body: JSON.stringify(props.data.applicationId),
-      headers: { token: cookies.get('token') },
-    });
+    try {
+      const response = await fetch('/application/delete', {
+        method: 'DELETE',
+        body: JSON.stringify(props.data.applicationId),
+        headers: { token: cookies.get('token') },
+      });
 
-    const data = await response.json();
-    if (response.ok) {
-      console.log(data);
-      history.go(0);
+      const data = await response.json();
+      if (response.ok) {
+        setVisible(false);
+        console.log(data);
+        history.go(0);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

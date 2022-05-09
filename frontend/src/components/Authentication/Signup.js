@@ -79,21 +79,25 @@ const SignupForm = () => {
       return;
     }
 
-    const response = await fetch('/user/post', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: values.email,
-        password: values.password,
-        firstname: values.firstname,
-        lastname: values.lastname,
-      }),
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      setServerError(data.err);
-      setGotError(true);
-    } else {
-      setRegistered(true);
+    try {
+      const response = await fetch('/user/post', {
+        method: 'POST',
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+          firstname: values.firstname,
+          lastname: values.lastname,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setServerError(data.err);
+        setGotError(true);
+      } else {
+        setRegistered(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 

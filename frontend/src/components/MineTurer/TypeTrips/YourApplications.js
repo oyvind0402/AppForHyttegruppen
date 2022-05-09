@@ -7,15 +7,19 @@ const YourApplications = () => {
   const [pendingTrips, setPendingTrips] = useState([]);
 
   const getApplications = async () => {
-    const response = await fetch(
-      '/application/byuser/' + localStorage.getItem('userID') + '/pending',
-      {
-        method: 'GET',
+    try {
+      const response = await fetch(
+        '/application/byuser/' + localStorage.getItem('userID') + '/pending',
+        {
+          method: 'GET',
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setPendingTrips(data);
       }
-    );
-    const data = await response.json();
-    if (response.ok) {
-      setPendingTrips(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 

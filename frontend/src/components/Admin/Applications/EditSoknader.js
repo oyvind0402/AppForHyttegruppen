@@ -36,55 +36,67 @@ const Applications = () => {
   };
 
   const fetchSeasons = async () => {
-    const response = await fetch('/season/all');
-    const data = await response.json();
-    if (response.ok) {
-      setSeasons(data);
+    try {
+      const response = await fetch('/season/all');
+      const data = await response.json();
+      if (response.ok) {
+        setSeasons(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const fetchApplications = async () => {
-    const allApps = await fetch('/application/all');
-    const pastWinners = await fetch('/application/winners/past');
-    const futureWinners = await fetch('/application/winners/future');
-    const currentWinners = await fetch('/application/winners/current');
-    const pastPending = await fetch('/application/pending/past');
-    const futurePending = await fetch('/application/pending/future');
+    try {
+      const allApps = await fetch('/application/all');
+      const pastWinners = await fetch('/application/winners/past');
+      const futureWinners = await fetch('/application/winners/future');
+      const currentWinners = await fetch('/application/winners/current');
+      const pastPending = await fetch('/application/pending/past');
+      const futurePending = await fetch('/application/pending/future');
 
-    const allAppsData = await allApps.json();
-    const pastWinnersData = await pastWinners.json();
-    const futureWinnersData = await futureWinners.json();
-    const currentWinnersData = await currentWinners.json();
-    const pastPendingData = await pastPending.json();
-    const futurePendingData = await futurePending.json();
+      const allAppsData = await allApps.json();
+      const pastWinnersData = await pastWinners.json();
+      const futureWinnersData = await futureWinners.json();
+      const currentWinnersData = await currentWinners.json();
+      const pastPendingData = await pastPending.json();
+      const futurePendingData = await futurePending.json();
 
-    if (allApps.ok) {
-      setAllApplications(allAppsData);
-    }
+      if (allApps.ok) {
+        setAllApplications(allAppsData);
+      }
 
-    if (pastWinners.ok) {
-      setPastWinning(pastWinnersData);
-      setPastWinningCopy(pastWinnersData);
-    }
-    if (futureWinners.ok) {
-      setFutureWinning(futureWinnersData);
-    }
-    if (currentWinners.ok) {
-      setCurrentWinning(currentWinnersData);
-    }
-    if (pastPending.ok) {
-      setPastPending(pastPendingData);
-    }
-    if (futurePending.ok) {
-      setFuturePending(futurePendingData);
+      if (pastWinners.ok) {
+        setPastWinning(pastWinnersData);
+        setPastWinningCopy(pastWinnersData);
+      }
+      if (futureWinners.ok) {
+        setFutureWinning(futureWinnersData);
+      }
+      if (currentWinners.ok) {
+        setCurrentWinning(currentWinnersData);
+      }
+      if (pastPending.ok) {
+        setPastPending(pastPendingData);
+      }
+      if (futurePending.ok) {
+        setFuturePending(futurePendingData);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const fetchCabins = async () => {
-    const response = await fetch('/cabin/active/names');
-    const data = await response.json();
-    if (response.ok) {
-      setCabins(data);
+    try {
+      const response = await fetch('/cabin/active/names');
+      const data = await response.json();
+      if (response.ok) {
+        setCabins(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -336,6 +348,7 @@ const Applications = () => {
         body: JSON.stringify(cabinWinner),
       })
         .then((response) => response.json())
+        .then((data) => console.log(data))
         .catch((error) => {
           console.log(error);
           postSuccessful = false;
@@ -346,7 +359,9 @@ const Applications = () => {
         fetch('/email/applicationApproved', {
           method: 'POST',
           body: JSON.stringify(cabinWinner.applicationId),
-        }).catch((error) => console.log(error));
+        })
+          .then((data) => console.log(data))
+          .catch((error) => console.log(error));
       });
     }
     fetchApplications();
@@ -359,7 +374,10 @@ const Applications = () => {
         method: 'PUT',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(application),
-      }).catch((error) => console.log(error));
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
     });
     fetchApplications();
     setEdited(false);

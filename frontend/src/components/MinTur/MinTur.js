@@ -76,88 +76,74 @@ const MinTur = () => {
       return;
     }
 
-    const response = await fetch('/application/delete', {
-      method: 'DELETE',
-      body: JSON.stringify(pageID),
-      headers: { token: cookies.get('token') },
-    });
+    try {
+      const response = await fetch('/application/delete', {
+        method: 'DELETE',
+        body: JSON.stringify(pageID),
+        headers: { token: cookies.get('token') },
+      });
 
-    if (response.ok) {
-      fetch('/email/cancelledTrip', {
-        method: 'POST',
-        body: JSON.stringify({
-          period: trip.period,
-          cabinsWon: trip.cabinsWon,
-          user: trip.user,
-        }),
-      })
-        .then((response) => response.json())
-        .catch((error) => console.log(error));
-      history.goBack();
+      if (response.ok) {
+        fetch('/email/cancelledTrip', {
+          method: 'POST',
+          body: JSON.stringify({
+            period: trip.period,
+            cabinsWon: trip.cabinsWon,
+            user: trip.user,
+          }),
+        })
+          .then((response) => response.json())
+          .catch((error) => console.log(error));
+        history.goBack();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const getTrip = useCallback(async () => {
-    const response = await fetch('/application/' + pageID);
+    try {
+      const response = await fetch('/application/' + pageID);
 
-    const data = await response.json();
-    if (response.ok) {
-      setTrip(data);
+      const data = await response.json();
+      if (response.ok) {
+        setTrip(data);
 
-      const start = new Date(data.period.start);
-      const end = new Date(data.period.end);
-      setEnd(end);
-      setStart(start);
+        const start = new Date(data.period.start);
+        const end = new Date(data.period.end);
+        setEnd(end);
+        setStart(start);
 
-      let length = -1;
+        let length = -1;
 
-      if (data.winner) {
-        length = data.cabinsWon.length;
-        setLength(length);
+        if (data.winner) {
+          length = data.cabinsWon.length;
+          setLength(length);
+        }
+
+        let _cabinWinners = [];
+
+        const nameresponse = await fetch('/cabin/active/names');
+        const cabinNames = await nameresponse.json();
+        if (nameresponse.ok) {
+          if (length > 0) {
+            data.cabinsWon.forEach((cabin) => {
+              if (cabinNames.includes(cabin.cabinName)) {
+                fetch('/cabin/' + cabin.cabinName)
+                  .then((response) => response.json())
+                  .then((data) => {
+                    _cabinWinners.push(data);
+                    setCabinsWon(_cabinWinners);
+                  });
+              }
+            });
+          }
+        }
+      } else {
+        history.goBack();
       }
-
-      let _cabinWinners = [];
-
-      if (length > 0) {
-        const response2 = await fetch('/cabin/' + data.cabinsWon[0].cabinName);
-        const data2 = await response2.json();
-        if (response2.ok) {
-          _cabinWinners.push(data2);
-          setCabinsWon(_cabinWinners);
-        }
-        if (length > 1) {
-          const response3 = await fetch(
-            '/cabin/' + data.cabinsWon[1].cabinName
-          );
-          const data3 = await response3.json();
-          if (response3.ok) {
-            _cabinWinners.push(data3);
-            setCabinsWon(_cabinWinners);
-          }
-        }
-        if (length > 2) {
-          const response4 = await fetch(
-            '/cabin/' + data.cabinsWon[2].cabinName
-          );
-          const data4 = await response4.json();
-          if (response4.ok) {
-            _cabinWinners.push(data4);
-            setCabinsWon(_cabinWinners);
-          }
-        }
-        if (length > 3) {
-          const response5 = await fetch(
-            '/cabin/' + data.cabinsWon[3].cabinName
-          );
-          const data5 = await response5.json();
-          if (response5.ok) {
-            _cabinWinners.push(data5);
-            setCabinsWon(_cabinWinners);
-          }
-        }
-      }
-    } else {
-      history.goBack();
+    } catch (error) {
+      console.log(error);
     }
   }, [history, pageID]);
 
@@ -281,7 +267,7 @@ const MinTur = () => {
 
                 <div className="hytteinfo2-wrapper">
                   <GiTakeMyMoney className="info-icon money-icon" />
-                  <div className="price-text">
+                  <div className="price-text2">
                     <p className="omhytta-text">
                       Utvask pris:{' '}
                       {cabinsWon !== '' &&
@@ -512,7 +498,7 @@ const MinTur = () => {
 
                 <div className="hytteinfo2-wrapper">
                   <GiTakeMyMoney className="info-icon money-icon" />
-                  <div className="price-text">
+                  <div className="price-text2">
                     <p className="omhytta-text">
                       Utvask pris:{' '}
                       {cabinsWon !== '' &&

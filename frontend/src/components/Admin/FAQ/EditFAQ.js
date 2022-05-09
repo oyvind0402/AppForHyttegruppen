@@ -54,13 +54,17 @@ const EditFAQ = () => {
       answer: document.getElementById('edit-faq-answer').value,
     };
 
-    const response = await fetch('/faq/update', {
-      method: 'PUT',
-      body: JSON.stringify(_FAQ),
-      headers: { token: cookies.get('token') },
-    });
-    if (response.ok) {
-      setEdited(true);
+    try {
+      const response = await fetch('/faq/update', {
+        method: 'PUT',
+        body: JSON.stringify(_FAQ),
+        headers: { token: cookies.get('token') },
+      });
+      if (response.ok) {
+        setEdited(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

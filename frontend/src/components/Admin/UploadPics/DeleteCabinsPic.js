@@ -8,10 +8,14 @@ const DeleteCabinsPic = () => {
   const [cabins, setCabins] = useState([]);
 
   const getCabin = async () => {
-    const response = await fetch('/cabin/all');
-    const data = await response.json();
-    if (response.ok) {
-      setCabins(data);
+    try {
+      const response = await fetch('/cabin/all');
+      const data = await response.json();
+      if (response.ok) {
+        setCabins(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

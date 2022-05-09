@@ -150,14 +150,18 @@ const FeedbackForm = (props) => {
 
     const cookies = new Cookies();
 
-    const response = await fetch('/application/setfeedback', {
-      method: 'PATCH',
-      body: JSON.stringify(props.data.applicationId),
-      headers: { token: cookies.get('token') },
-    });
-    if (response.ok) {
-      sendEmail = true;
-      setVisible(false);
+    try {
+      const response = await fetch('/application/setfeedback', {
+        method: 'PATCH',
+        body: JSON.stringify(props.data.applicationId),
+        headers: { token: cookies.get('token') },
+      });
+      if (response.ok) {
+        sendEmail = true;
+        setVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
 
     if (feedbackSent && sendEmail) {

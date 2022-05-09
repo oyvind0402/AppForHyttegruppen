@@ -75,15 +75,19 @@ const EditPeriod = () => {
       }
     });
 
-    const response = await fetch('/period/update', {
-      method: 'PUT',
-      headers: { token: cookies.get('token') },
-      body: JSON.stringify(period),
-    });
+    try {
+      const response = await fetch('/period/update', {
+        method: 'PUT',
+        headers: { token: cookies.get('token') },
+        body: JSON.stringify(period),
+      });
 
-    if (response.ok) {
-      setPopupVisible(false);
-      history.push('/admin/endreperioder');
+      if (response.ok) {
+        setPopupVisible(false);
+        history.push('/admin/endreperioder');
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

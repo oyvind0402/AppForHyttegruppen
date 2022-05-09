@@ -232,17 +232,21 @@ const AddCabin = () => {
       },
     };
 
-    const response = await fetch('/cabin/post', {
-      method: 'POST',
-      body: JSON.stringify(cabin),
-      headers: { token: cookies.get('token') },
-    });
-    const data = await response.json();
-    if (response.ok) {
-      uploadMainPicture();
-    } else {
-      setError(data.err);
-      setErrorVisible(true);
+    try {
+      const response = await fetch('/cabin/post', {
+        method: 'POST',
+        body: JSON.stringify(cabin),
+        headers: { token: cookies.get('token') },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        uploadMainPicture();
+      } else {
+        setError(data.err);
+        setErrorVisible(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

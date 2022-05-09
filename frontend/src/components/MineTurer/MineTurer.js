@@ -14,7 +14,7 @@ const MineTurer = () => {
       try {
         btns[button].classList.remove('mytrip-active');
       } catch (error) {
-        //isnt there
+        //isnt there, do nothing
       }
     }
   };
