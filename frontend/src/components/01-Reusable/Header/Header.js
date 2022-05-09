@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import LoginContext from '../../../LoginContext/login-context';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
@@ -9,12 +9,7 @@ const Header = () => {
   const history = useHistory();
   const loginContext = useContext(LoginContext);
   const [click, setClick] = useState(false);
-  const [visible, setVisible] = useState(true);
   const [soknadOpen, setSoknadOpen] = useState(false);
-
-  const prevScrollPos = useRef(
-    typeof window !== 'undefined' && window.pageYOffset
-  );
 
   const loggedIn = loginContext.loggedIn;
   const adminAccess = loginContext.adminAccess;
@@ -34,23 +29,6 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos =
-        window.pageYOffset || document.documentElement.scrollTop;
-      if (prevScrollPos.current > currentScrollPos) {
-        setVisible(true);
-      } else {
-        setVisible(false);
-      }
-      prevScrollPos.current = currentScrollPos;
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
     async function fetchData() {
       const response = await fetch('/season/open');
       const data = await response.json();
@@ -64,7 +42,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className={visible ? 'nav-container' : 'nav-hide'}>
+      <nav className="nav-container">
         <div className="left-side">
           <div className="home-icon">
             <Link to="/">

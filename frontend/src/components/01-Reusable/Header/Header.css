@@ -1,7 +1,8 @@
 .nav-container {
   box-shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.1);
   display: grid;
-  position: sticky;
+  grid-gap: 0.5rem;
+  position: relative;
   grid-template-columns: 1fr 2fr 1fr;
   height: 6.25rem;
   align-items: center;
