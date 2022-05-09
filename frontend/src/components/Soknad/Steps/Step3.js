@@ -30,16 +30,17 @@ const Step3 = (props) => {
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));
     }
-    fetchData();
+    if (cabins !== []) {
+      fetchData();
+    }
   }, []);
 
   //No cabin is picked yet
   useEffect(() => {
-    if (pickedCabins.length === 0) {
+    if (pickedCabins.length === 0 && cabins.length > 0) {
       let newPickedCabins = [];
-      cabins.map((cabin) => {
+      cabins.forEach(() => {
         newPickedCabins.push(false);
-        return '';
       });
       setPickedCabins(newPickedCabins);
     }

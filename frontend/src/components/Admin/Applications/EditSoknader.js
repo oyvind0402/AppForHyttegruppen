@@ -359,10 +359,7 @@ const Applications = () => {
         method: 'PUT',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(application),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
+      }).catch((error) => console.log(error));
     });
     fetchApplications();
     setEdited(false);
