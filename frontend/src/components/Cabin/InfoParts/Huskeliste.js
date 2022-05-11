@@ -29,10 +29,10 @@ const Huskeliste = (props) => {
     typeof props.cabinData.other !== undefined ? (
     <div className="huskeliste">
       <ul className="huskeliste-items" id="huskeliste">
-        {props.cabinData.other.huskeliste.map((item) => (
-          <>
-            <li className="huskeliste-item">{item}</li>
-          </>
+        {props.cabinData.other.huskeliste.map((item, index) => (
+          <li key={index} className="huskeliste-item">
+            {item}
+          </li>
         ))}
       </ul>
     </div>

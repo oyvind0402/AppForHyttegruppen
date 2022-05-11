@@ -37,6 +37,19 @@
   max-width: 48ch;
 }
 
+.register-focus:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
+.form-control:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+}
+
 @keyframes error {
   0% {
     transform: translate(-1px, -2px) rotate(-1deg);

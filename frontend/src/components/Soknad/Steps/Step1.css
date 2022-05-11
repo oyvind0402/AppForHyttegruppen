@@ -46,6 +46,14 @@
   box-shadow: 0 0 2px 2px black;
 }
 
+.step1-radiobutton:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  border-radius: 5px;
+  outline-offset: 0.1rem;
+}
+
 .soknad-radio:checked ~ .soknad-radio-text {
   background-color: #bd00ff;
   color: white;

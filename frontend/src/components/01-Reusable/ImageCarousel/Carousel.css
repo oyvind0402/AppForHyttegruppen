@@ -67,15 +67,15 @@
 .slick-dots li button:focus-visible::before {
   outline-color: black;
   outline-style: solid;
-  outline-width: 2px;
-  outline-offset: 7 px;
+  outline-width: medium;
+  outline-offset: 0.25rem;
 }
 
 .slick-arrow:focus-visible::before {
   outline-color: black;
   outline-style: solid;
-  outline-width: 2px;
-  outline-offset: 7 px;
+  outline-width: medium;
+  outline-offset: 0.1rem;
 }
 
 .slick-dots li button::before {

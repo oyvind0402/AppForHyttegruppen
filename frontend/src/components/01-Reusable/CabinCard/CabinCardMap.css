@@ -79,6 +79,14 @@
   text-decoration: underline;
 }
 
+.card-map-btn:focus-visible {
+  text-decoration: underline;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 .pigeon-overlays > div:nth-child(1) > div:not(.pigeon-click-block) {
   background: #bd00ff !important;
   border-color: #eaddff !important;

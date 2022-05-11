@@ -15,6 +15,13 @@
   margin: 1rem 0;
 }
 
+.progress-step:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 .activeProgress {
   color: white;
   background-color: #bc01ff;

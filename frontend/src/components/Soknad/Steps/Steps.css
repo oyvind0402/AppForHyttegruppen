@@ -11,6 +11,11 @@
   color: #bd00ff;
   cursor: pointer;
 }
+.stepQuestion:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+}
 
 .step-extra-info-div {
   margin-bottom: 2rem;

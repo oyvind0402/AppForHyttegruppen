@@ -30,9 +30,12 @@
   width: auto;
 }
 
-hr {
-  margin-left: 10%;
-  margin-right: 10%;
+.mintur-link:focus-visible {
+  outline-width: medium;
+}
+
+.mintur-link:focus-visible .mytrip-card-container {
+  background-color: #eaddff;
 }
 
 .empty-trip {
@@ -118,6 +121,13 @@ hr {
 .mytrip-types-btn:hover {
   cursor: pointer;
   border-bottom: 4px solid black;
+}
+
+.mytrip-types-btn:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
 }
 
 .mytrip-active {

@@ -17,6 +17,14 @@
   background-color: #eaddff;
 }
 
+.card-small:focus-visible {
+  background-color: #eaddff;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 .card-small-active {
   background-color: #eaddff;
   box-shadow: 0px 0px 2px 2px #8900c5;

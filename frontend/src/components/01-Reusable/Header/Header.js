@@ -49,7 +49,7 @@ const Header = () => {
       <nav className="nav-container">
         <div className="left-side">
           <div className="home-icon">
-            <Link to="/">
+            <Link to="/" className="header-focus">
               <img
                 src={`${process.env.PUBLIC_URL}/assets/pictures/Logo.svg`}
                 alt="Hjemmeikon"
@@ -122,7 +122,7 @@ const Header = () => {
           {loggedIn && (
             <NavLink
               activeClassName="active"
-              className="nav-list-logout"
+              className="nav-list-item nav-list-logout"
               to="/login"
               onClick={logoutHandler}
             >
@@ -130,12 +130,12 @@ const Header = () => {
             </NavLink>
           )}
           {!loggedIn && (
-            <Link className="nav-list-logout" to="/login">
+            <Link className="nav-list-item nav-list-logout" to="/login">
               Logg inn
             </Link>
           )}
           {adminAccess && (
-            <NavLink className="nav-list-admin" to="/admin">
+            <NavLink className="nav-list-item nav-list-admin" to="/admin">
               Admin
             </NavLink>
           )}

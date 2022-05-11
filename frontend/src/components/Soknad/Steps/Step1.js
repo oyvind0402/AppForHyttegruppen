@@ -128,7 +128,6 @@ const Step1 = (props) => {
         <div className="step1-input">
           {radioPrivatProject === 'Privat' ? (
             <>
-              {' '}
               <label className="soknad-label" htmlFor="credentials">
                 Ansattnummer:
               </label>
@@ -142,7 +141,6 @@ const Step1 = (props) => {
             </>
           ) : (
             <>
-              {' '}
               <label className="soknad-label" htmlFor="credentials">
                 WBS:
               </label>

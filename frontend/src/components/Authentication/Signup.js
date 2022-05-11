@@ -109,7 +109,7 @@ const SignupForm = () => {
           <div className="login-form-group">
             <label htmlFor="username">Epost:</label>
             <input
-              readonly="readonly"
+              readOnly="readonly"
               onFocus={() => {
                 if (
                   document
@@ -187,7 +187,9 @@ const SignupForm = () => {
             <button type="submit" className="btn big">
               Registrer
             </button>
-            <Link to="/login">Logg inn med eksisterende konto</Link>
+            <Link className="register-focus" to="/login">
+              Logg inn med eksisterende konto
+            </Link>
           </div>
         </form>
         {registered && (

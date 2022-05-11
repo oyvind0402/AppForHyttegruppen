@@ -21,6 +21,20 @@
   border: 3px solid var(--purple);
 }
 
+.back-btn:focus-visible {
+  outline-style: solid;
+  outline-width: 3px;
+  outline-color: black;
+  outline-offset: -0.5rem;
+}
+
+.btn:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 .btn-tiny {
   background-color: var(--purple);
   border-radius: 5px;

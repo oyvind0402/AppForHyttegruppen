@@ -12,7 +12,12 @@ const Address = (props) => {
       <FeatureIcon feature="address" className="address-svg" />
       <div className="address-txt">
         <p>Adresse</p>
-        <a href={mapsLink} target="_blank" rel="noopener noreferrer">
+        <a
+          className="focus-link"
+          href={mapsLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {props.cabin.address}
         </a>
       </div>

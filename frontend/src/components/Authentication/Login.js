@@ -78,7 +78,9 @@ const LoginForm = () => {
             <button type="submit" className="btn big">
               Logg inn
             </button>
-            <Link to="/signup">Registrer ny konto</Link>
+            <Link className="register-focus" to="/signup">
+              Registrer ny konto
+            </Link>
           </div>
         </form>
       </div>

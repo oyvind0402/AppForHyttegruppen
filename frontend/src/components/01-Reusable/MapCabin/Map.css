@@ -43,6 +43,13 @@
   background-color: #eaddff;
 }
 
+.map-zoom-btn:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 .cabincardmap-btn {
   border-radius: 100rem;
   background-color: white;
@@ -63,6 +70,17 @@
 }
 
 .cabincardmap-btn:hover svg polyline {
+  stroke: black;
+}
+
+.cabincardmap-btn:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+  background-color: #eaddff;
+}
+.cabincardmap-btn:focus-visible svg polyline {
   stroke: black;
 }
 

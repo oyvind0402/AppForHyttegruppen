@@ -72,6 +72,19 @@
   transition: background 0.3s linear;
 }
 
+.nav-list-item:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+.header-focus:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: -0.25rem;
+}
+
 .nav-list-admin:hover {
   background-size: 100% 3px;
 }

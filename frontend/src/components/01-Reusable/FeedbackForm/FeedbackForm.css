@@ -47,7 +47,17 @@
 }
 
 .answer-input:focus-visible ~ .yes-no-label {
-  outline: 2px solid black;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
+.feedback-btn:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
 }
 
 .yes-no-label:hover {
