@@ -161,7 +161,7 @@ func (r repo) PostUser(ctx *gin.Context) {
 			firstname,
 			lastname,
 			admin_access) 
-			VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING user_id`,
+			VALUES($1, $2, $3, $4, $5, $6) RETURNING user_id`,
 		&user.Id,
 		&user.Email,
 		&user.HashedPassword,
