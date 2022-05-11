@@ -50,7 +50,7 @@ const Header = () => {
         <div className="left-side">
           <div className="home-icon">
             <a className="secret-tab-button" href="#container">
-              Skip navigation
+              Skip to content
             </a>
             <Link to="/" className="header-focus">
               <img
