@@ -50,6 +50,13 @@
   color: #666666;
 }
 
+.endrefaq-add:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 @media only screen and (max-width: 1400px) {
   .edit-faqs-container {
     grid-gap: 2rem;

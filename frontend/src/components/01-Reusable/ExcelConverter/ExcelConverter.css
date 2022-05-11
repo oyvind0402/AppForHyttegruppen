@@ -1,0 +1,15 @@
+.excel-link {
+  margin: 0.5rem 2rem;
+  width: fit-content;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.55rem;
+  font-weight: 500;
+}
+
+.excel-link:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}

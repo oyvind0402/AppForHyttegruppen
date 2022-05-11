@@ -589,8 +589,14 @@ const EditCabin = () => {
             defaultChecked={cabin.length !== 0 ? cabin[0].active : null}
           />
           <BsQuestionCircle
-            className="add-cabin-comment add-question"
+            className="add-cabin-comment add-question add-icon-active"
             onClick={handleExplanation}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleExplanation();
+              }
+            }}
           />
           {explanation && (
             <p className="add-cabin-comment">
@@ -621,8 +627,26 @@ const EditCabin = () => {
           )}
         </div>
         <div className="add-remove-item">
-          <IoMdAddCircle onClick={handleAddItem} />
-          <IoIosRemoveCircle onClick={removeItem} />
+          <IoMdAddCircle
+            className="add-icon-active"
+            onClick={handleAddItem}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleAddItem();
+              }
+            }}
+          />
+          <IoIosRemoveCircle
+            className="add-icon-active"
+            onClick={removeItem}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                removeItem();
+              }
+            }}
+          />
         </div>
 
         <div className="add-cabin-wrapper">

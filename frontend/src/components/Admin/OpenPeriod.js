@@ -474,9 +474,9 @@ const OpenPeriod = () => {
           )}
         </div>
 
-        <div className="period-info-button" onClick={handleShowInfo}>
+        <button className="period-info-button" onClick={handleShowInfo}>
           <AiOutlineQuestionCircle />
-        </div>
+        </button>
         <p className={visible ? 'open-period-text' : 'no-show'}>
           Ingenting vil være lagret før du trykker på åpne søknadsperioden.{' '}
           <br />
@@ -545,14 +545,22 @@ const OpenPeriod = () => {
                     </div>
                   </PeriodCard>
                   <div className="add-remove-period">
-                    <IoIosRemoveCircle
-                      tabIndex={'0'}
-                      onClick={() => handleDeletePeriod(index)}
-                      className="period-button"
-                    />
                     <IoMdAddCircle
                       tabIndex={'0'}
                       onClick={() => handleAddPeriodAfter(index, period)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter')
+                          handleAddPeriodAfter(index, period);
+                      }}
+                      className="period-button"
+                    />
+                    <IoIosRemoveCircle
+                      tabIndex={'0'}
+                      onClick={() => handleDeletePeriod(index)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter')
+                          handleAddPeriodAfter(index, period);
+                      }}
                       className="period-button"
                     />
                   </div>

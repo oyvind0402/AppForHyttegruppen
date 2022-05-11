@@ -37,6 +37,14 @@
   background-color: #eaddff;
 }
 
+.admin-card:focus-visible {
+  background-color: #eaddff;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 .card:hover {
   cursor: pointer;
   background-color: #eaddff;

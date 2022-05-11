@@ -21,6 +21,13 @@
   cursor: pointer;
 }
 
+.edit-user-checkbox:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 .edit-user-btns {
   display: flex;
   flex-direction: row;
@@ -49,7 +56,10 @@
 }
 
 .change-setting-type:focus-visible ~ .checkbox-settings-label {
-  outline: 2px solid black;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
 }
 
 .checkbox-settings-label:hover {
@@ -122,6 +132,12 @@
   border: 2px solid black;
   border-radius: 16px;
   padding: 0.5rem;
+}
+
+.add-email-input:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
 }
 
 .add-email-label {

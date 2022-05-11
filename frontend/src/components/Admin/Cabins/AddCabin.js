@@ -517,7 +517,14 @@ const AddCabin = () => {
           <BsQuestionCircle
             className="add-cabin-comment add-question"
             onClick={handleExplanation}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleExplanation();
+              }
+            }}
           />
+
           {explanation && (
             <p className="add-cabin-comment">
               Dersom huket av vil hytten være mulig å søkes på
@@ -536,8 +543,26 @@ const AddCabin = () => {
           )}
         </div>
         <div className="add-remove-item">
-          <IoMdAddCircle onClick={handleAddItem} />
-          <IoIosRemoveCircle onClick={removeItem} />
+          <IoMdAddCircle
+            className="add-icon-active"
+            onClick={handleAddItem}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleAddItem();
+              }
+            }}
+          />
+          <IoIosRemoveCircle
+            className="add-icon-active"
+            onClick={removeItem}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                removeItem();
+              }
+            }}
+          />
         </div>
 
         <div className="add-cabin-wrapper">

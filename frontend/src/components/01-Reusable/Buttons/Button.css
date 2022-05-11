@@ -23,7 +23,7 @@
 
 .back-btn:focus-visible {
   outline-style: solid;
-  outline-width: 3px;
+  outline-width: medium;
   outline-color: black;
   outline-offset: -0.5rem;
 }
@@ -48,6 +48,13 @@
 .btn-tiny:hover {
   background-color: var(--light-purple);
   color: var(--black);
+}
+
+.btn-tiny:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
 }
 
 .btn-link {
@@ -148,6 +155,13 @@
   background-color: var(--light-purple);
   color: var(--black);
   outline: 3px solid var(--purple);
+}
+
+.btn-smaller:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
 }
 
 .feedback-btn {

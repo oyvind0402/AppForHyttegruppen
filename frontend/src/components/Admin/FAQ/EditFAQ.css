@@ -39,3 +39,10 @@
   height: 50px;
   margin-top: 1rem;
 }
+
+#edit-faq-question:focus-visible,
+#edit-faq-answer:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+}

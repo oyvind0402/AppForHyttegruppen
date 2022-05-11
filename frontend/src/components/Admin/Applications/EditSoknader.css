@@ -57,7 +57,10 @@
 }
 
 .change-trip-type:focus-visible ~ .checkbox-trip-label {
-  outline: 2px solid black;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
 }
 
 .checkbox-trip-label:hover {
@@ -83,11 +86,32 @@
   max-width: 250px;
 }
 
+.season-filter:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 .hidden-text {
   color: transparent;
   margin: 0;
   line-height: 1rem;
   height: 1.3125rem;
+}
+.excelConverter {
+  text-align: center;
+  padding-top: 0.5rem;
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+  justify-items: center;
+}
+
+.react-table-input:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
 }
 
 @media only screen and (max-width: 730px) {

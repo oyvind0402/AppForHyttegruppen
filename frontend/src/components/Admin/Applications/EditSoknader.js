@@ -409,21 +409,24 @@ const Applications = () => {
     <>
       <BackButton name="Tilbake til admin" link="admin" />
       <AdminBanner name="Alle søknader" />
-      {applications !== null ? (
-        <ExcelConverter data={applications} />
-      ) : (
-        <p className="hidden-text"></p>
-      )}
-      {applications !== null &&
-      applications === pastWinning &&
-      pastWinning.length !== 0 ? (
-        <>
-          <br />
-          <ExcelConverterPayCheck data={applications} />
-        </>
-      ) : (
-        <p className="hidden-text"></p>
-      )}
+      <div className="excelConverter">
+        {applications !== null ? (
+          <ExcelConverter data={applications} />
+        ) : (
+          <p className="hidden-text"></p>
+        )}
+
+        {applications !== null &&
+        applications === pastWinning &&
+        pastWinning.length !== 0 ? (
+          <>
+            <ExcelConverterPayCheck data={applications} />
+          </>
+        ) : (
+          <p className="hidden-text"></p>
+        )}
+      </div>
+
       {applications === null && (
         <p className="application-title">Søknader / turer (0)</p>
       )}

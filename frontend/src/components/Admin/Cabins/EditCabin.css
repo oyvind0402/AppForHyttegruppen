@@ -126,6 +126,13 @@
   margin-bottom: 1rem;
 }
 
+.edit-cabin-input:focus-visible,
+.edit-cabin-checkbox:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+}
+
 @media only screen and (max-width: 1012px) {
   .edit-cabin-1-1-1 {
     grid-template-columns: 1fr 1fr;

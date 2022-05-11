@@ -41,10 +41,20 @@
   margin-top: 1rem;
   cursor: pointer;
   font-size: 2rem;
+  border: none;
+  background-color: transparent;
 }
 
 .period-info-button:hover {
   color: #bd00ff;
+}
+
+.period-info-button:focus-visible {
+  color: #bd00ff;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
 }
 
 ::-webkit-calendar-picker-indicator {
@@ -153,10 +163,18 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 .period-button {
   cursor: pointer;
+  margin: 0.25rem 0 0.25rem 0.5rem;
 }
 
 .period-button:hover {
-  opacity: 0.8;
+  fill: #bd00ff;
+}
+
+.period-button:focus-visible {
+  fill: #bd00ff;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
 }
 
 .openperiod-button-container {

@@ -30,3 +30,10 @@
   border-radius: 16px;
   padding: 1rem;
 }
+
+#add-question:focus-visible,
+#add-answer:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+}

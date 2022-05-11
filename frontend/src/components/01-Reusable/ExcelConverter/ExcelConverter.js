@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
+import './ExcelConverter.css';
 
 const ExcelConverter = (props) => {
   const [applications, setApplications] = useState([]);
@@ -105,11 +106,12 @@ const ExcelConverter = (props) => {
     <>
       {loaded && (
         <CSVLink
+          className="excel-link btn-tiny"
           headers={headers}
           data={applications}
           filename={'hyttesøknader' + getFormattedDate(now) + '.csv'}
         >
-          Konverter søknader/turer til Excel (.csv fil)
+          Konverter oversikt til Excel
         </CSVLink>
       )}
     </>

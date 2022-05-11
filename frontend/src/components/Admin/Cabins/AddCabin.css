@@ -132,6 +132,43 @@
   color: #bd00ff;
 }
 
+.add-cabin-input:focus-visible,
+.add-cabin-checkbox:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+}
+
+.add-cabin-comment:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+  color: #bd00ff;
+}
+
+.add-icon-active {
+  margin: 0 1rem;
+}
+
+.add-icon-active:hover {
+  color: #bd00ff;
+}
+.add-icon-active:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+  color: #bd00ff;
+}
+
+.upload-input:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
 @media only screen and (max-width: 1012px) {
   .add-cabin-1-1-1 {
     grid-template-columns: 1fr 1fr;

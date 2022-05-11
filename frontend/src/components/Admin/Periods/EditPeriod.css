@@ -31,3 +31,9 @@
 .endreperiode-container select {
   margin-bottom: 2rem;
 }
+
+#edit-period-select:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+}

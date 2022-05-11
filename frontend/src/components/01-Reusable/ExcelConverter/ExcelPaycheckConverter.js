@@ -94,12 +94,12 @@ const ExcelConverterPayCheck = (props) => {
     <>
       {loaded && (
         <CSVLink
+          className="excel-link btn-tiny"
           headers={headers}
           data={applications}
-          filename={'hyttesøknader' + getFormattedDate(now) + '.csv'}
+          filename={'lonnsslipp' + getFormattedDate(now) + '.csv'}
         >
-          Konverter tidligere turer (fra valgt sesong) til Excel lønnsslipp
-          (.csv fil)
+          Konverter oversikt til lønnsslipp fil
         </CSVLink>
       )}
     </>
