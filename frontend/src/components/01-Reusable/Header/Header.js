@@ -49,6 +49,9 @@ const Header = () => {
       <nav className="nav-container">
         <div className="left-side">
           <div className="home-icon">
+            <a className="secret-tab-button" href="#container">
+              Skip navigation
+            </a>
             <Link to="/" className="header-focus">
               <img
                 src={`${process.env.PUBLIC_URL}/assets/pictures/Logo.svg`}
@@ -143,9 +146,23 @@ const Header = () => {
         <div className="mobile-menu">
           <span className="menu-icon">
             {click ? (
-              <IoIosCloseCircleOutline onClick={handleClick} />
+              <IoIosCloseCircleOutline
+                aria-label="close menu"
+                onClick={handleClick}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleClick();
+                }}
+              />
             ) : (
-              <GiHamburgerMenu onClick={handleClick} />
+              <GiHamburgerMenu
+                aria-label="Open menu"
+                onClick={handleClick}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleClick();
+                }}
+              />
             )}
           </span>
         </div>
