@@ -628,7 +628,7 @@ const EditCabin = () => {
           cabin[0].other !== null
             ? cabin[0].other.huskeliste.map((item, index) => {
                 return (
-                  <div className="huskelist-row">
+                  <div className="huskelist-row" key={index}>
                     <label className="huskeliste-label" htmlFor={item}>
                       {index + 1}:
                     </label>
