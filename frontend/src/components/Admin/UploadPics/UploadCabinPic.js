@@ -67,7 +67,9 @@ const UploadCabinPic = () => {
       <AdminBanner name={'Last opp bilder'} />
       <div className="upload-cabin-pic-container">
         <div className="image-upload-wrapper">
-          <p className="upload-title">Last opp bilder for {cabinName}</p>
+          <label className="upload-title" htmlFor="image">
+            Last opp bilder for {cabinName}
+          </label>
           <input
             onChange={(e) => handleChange(e)}
             className="upload-input"

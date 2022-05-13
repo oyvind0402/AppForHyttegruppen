@@ -102,7 +102,9 @@ const EditFAQ = () => {
       <AdminBanner name="Endre FAQ" />
       <div className="edit-faq-container">
         <div className="edit-faq-box">
-          <label className="faq-title">Spørsmål</label>
+          <label className="faq-title" htmlFor="edit-faq-question">
+            Spørsmål
+          </label>
           <textarea
             className="faq-input"
             id="edit-faq-question"
@@ -113,7 +115,9 @@ const EditFAQ = () => {
           {errors.question && (
             <span className="login-error">{errors.question}</span>
           )}
-          <label className="faq-title">Svar</label>
+          <label className="faq-title" htmlFor="edit-faq-answer">
+            Svar
+          </label>
           <textarea
             className="faq-area"
             id="edit-faq-answer"
