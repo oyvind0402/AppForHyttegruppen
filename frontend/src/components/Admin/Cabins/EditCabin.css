@@ -56,14 +56,6 @@
   padding: 1rem;
 }
 
-.edit-cabin-input2 {
-  font-size: 1rem;
-  border: 2px solid black;
-  border-radius: 16px;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-}
-
 .edit-cabin-input-short {
   font-size: 1rem;
   border: 2px solid black;
@@ -131,6 +123,26 @@
   outline-style: solid;
   outline-width: medium;
   outline-color: black;
+}
+.huskelist-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.huskeliste-label {
+  font-size: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.edit-cabin-input2 {
+  width: 100%;
+  font-size: 1rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
 }
 
 @media only screen and (max-width: 1012px) {

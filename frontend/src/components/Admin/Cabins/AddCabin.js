@@ -17,10 +17,24 @@ const AddCabin = () => {
   const [explanation, setExplanation] = useState(false);
 
   const handleAddItem = () => {
+    const id = document.getElementById('todolist').childNodes.length;
+    const divElement = document.createElement('div');
+    divElement.className = 'huskelist-row';
+
+    const labelElement = document.createElement('label');
+    labelElement.setAttribute('htmlFor', id);
+    labelElement.className = 'huskeliste-label';
+    labelElement.textContent = id + ':';
+
     const node = document.createElement('input');
-    node.className = 'add-cabin-input';
+    node.setAttribute('id', id);
+    node.className = 'add-cabin-input-huskelist';
     node.placeholder = 'Skriv inn noe brukeren må huske på..';
-    document.getElementById('todolist').appendChild(node);
+
+    divElement.appendChild(labelElement);
+    divElement.appendChild(node);
+
+    document.getElementById('todolist').appendChild(divElement);
   };
 
   const removeItem = () => {
@@ -515,6 +529,7 @@ const AddCabin = () => {
             defaultChecked
           />
           <BsQuestionCircle
+            aria-label="More information"
             className="add-cabin-comment add-question"
             onClick={handleExplanation}
             tabIndex={0}
@@ -533,17 +548,24 @@ const AddCabin = () => {
         </div>
         <div className="add-cabin-wrapper" id="todolist">
           <label className="add-cabin-label">Huskeliste</label>
-          <input
-            type="text"
-            className="add-cabin-input"
-            placeholder="Skriv inn noe brukeren må huske på.."
-          />
+          <div className="huskelist-row">
+            <label className="huskeliste-label" htmlFor="firstChecklist">
+              1:
+            </label>
+            <input
+              type="text"
+              className="add-cabin-input-huskelist"
+              placeholder="Skriv inn noe brukeren må huske på.."
+              id="firstChecklist"
+            />
+          </div>
           {errors.huskeliste && (
             <span className="login-error">{errors.huskeliste}</span>
           )}
         </div>
         <div className="add-remove-item">
           <IoMdAddCircle
+            aria-label="Add checklist element"
             className="add-icon-active"
             onClick={handleAddItem}
             tabIndex={0}
@@ -554,6 +576,7 @@ const AddCabin = () => {
             }}
           />
           <IoIosRemoveCircle
+            aria-label="Remove checklist element"
             className="add-icon-active"
             onClick={removeItem}
             tabIndex={0}
@@ -566,7 +589,7 @@ const AddCabin = () => {
         </div>
 
         <div className="add-cabin-wrapper">
-          <label className="add-cabin-label">
+          <label className="add-cabin-label" htmlFor="mainPicture">
             Legg til hovedbildet til hytte
           </label>
           <input

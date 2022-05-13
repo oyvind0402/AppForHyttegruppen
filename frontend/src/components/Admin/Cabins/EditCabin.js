@@ -39,9 +39,24 @@ const EditCabin = () => {
   }, [cabinName]);
 
   const handleAddItem = () => {
+    const id = document.getElementById('todolist').childNodes.length;
+    const divElement = document.createElement('div');
+    divElement.className = 'huskelist-row';
+
+    const labelElement = document.createElement('label');
+    labelElement.setAttribute('htmlFor', id);
+    labelElement.className = 'huskeliste-label';
+    labelElement.textContent = id + ':';
+
     const node = document.createElement('input');
-    node.className = 'edit-cabin-input';
-    document.getElementById('todolist').appendChild(node);
+    node.setAttribute('id', id);
+    node.className = 'edit-cabin-input2';
+    node.placeholder = 'Skriv inn noe brukeren må huske på..';
+
+    divElement.appendChild(labelElement);
+    divElement.appendChild(node);
+
+    document.getElementById('todolist').appendChild(divElement);
   };
 
   const removeItem = () => {
@@ -589,6 +604,7 @@ const EditCabin = () => {
             defaultChecked={cabin.length !== 0 ? cabin[0].active : null}
           />
           <BsQuestionCircle
+            aria-label="More information"
             className="add-cabin-comment add-question add-icon-active"
             onClick={handleExplanation}
             tabIndex={0}
@@ -612,13 +628,18 @@ const EditCabin = () => {
           cabin[0].other !== null
             ? cabin[0].other.huskeliste.map((item, index) => {
                 return (
-                  <input
-                    key={index}
-                    id={item}
-                    type="text"
-                    defaultValue={item}
-                    className="edit-cabin-input2"
-                  />
+                  <div className="huskelist-row">
+                    <label className="huskeliste-label" htmlFor={item}>
+                      {index + 1}:
+                    </label>
+                    <input
+                      key={index}
+                      id={item}
+                      type="text"
+                      defaultValue={item}
+                      className="edit-cabin-input2"
+                    />
+                  </div>
                 );
               })
             : null}
@@ -628,6 +649,7 @@ const EditCabin = () => {
         </div>
         <div className="add-remove-item">
           <IoMdAddCircle
+            aria-label="Add checklist element"
             className="add-icon-active"
             onClick={handleAddItem}
             tabIndex={0}
@@ -638,6 +660,7 @@ const EditCabin = () => {
             }}
           />
           <IoIosRemoveCircle
+            aria-label="Remove checklist element"
             className="add-icon-active"
             onClick={removeItem}
             tabIndex={0}
@@ -650,7 +673,9 @@ const EditCabin = () => {
         </div>
 
         <div className="add-cabin-wrapper">
-          <label className="add-cabin-label">Endre hovedbildet til hytte</label>
+          <label className="add-cabin-label" htmlFor="mainPictureEndre">
+            Endre hovedbildet til hytte
+          </label>
           <input
             className="upload-input"
             type="file"

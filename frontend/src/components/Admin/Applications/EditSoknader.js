@@ -218,7 +218,7 @@ const Applications = () => {
               className="admin-tabel-label"
               htmlFor={'add-assignment' + props.row.original.applicationId}
             >
-              Velg:
+              Velg hytte(ne):
             </label>
             <select
               id={'add-assignment' + props.row.original.applicationId}
