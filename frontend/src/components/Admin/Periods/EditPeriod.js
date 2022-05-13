@@ -67,7 +67,7 @@ const EditPeriod = () => {
   const cookies = new Cookies();
 
   const editPeriod = async () => {
-    let seasonName = document.getElementById('edit-period-select').value;
+    let seasonName = document.getElementById('select-period').value;
 
     seasons.forEach((season) => {
       if (season.seasonName === seasonName) {
@@ -178,32 +178,33 @@ const EditPeriod = () => {
         </div>
 
         <div className="edit-input-wrapper">
-          <label className="edit-period-title" htmlFor='edit-period-select"'>
+          <label className="edit-period-title" htmlFor='select-period"'>
             Sesong
+            <br />
+            <select className="edit-period-input" id="select-period">
+              {seasons !== null &&
+                typeof seasons !== 'undefined' &&
+                seasons.map((season, index) => {
+                  if (season.seasonName === period.season.seasonName) {
+                    return (
+                      <option
+                        value={season.seasonName}
+                        key={index}
+                        defaultValue={true}
+                      >
+                        {season.seasonName}
+                      </option>
+                    );
+                  } else {
+                    return (
+                      <option value={season.seasonName} key={index}>
+                        {season.seasonName}
+                      </option>
+                    );
+                  }
+                })}
+            </select>
           </label>
-          <select className="edit-period-input" id="edit-period-select">
-            {seasons !== null &&
-              typeof seasons !== 'undefined' &&
-              seasons.map((season, index) => {
-                if (season.seasonName === period.season.seasonName) {
-                  return (
-                    <option
-                      value={season.seasonName}
-                      key={index}
-                      defaultValue={true}
-                    >
-                      {season.seasonName}
-                    </option>
-                  );
-                } else {
-                  return (
-                    <option value={season.seasonName} key={index}>
-                      {season.seasonName}
-                    </option>
-                  );
-                }
-              })}
-          </select>
         </div>
 
         <button onClick={handleVisibility} className="btn big">

@@ -22,6 +22,7 @@
 .edit-period-title {
   font-weight: 700;
   margin: 1rem 0 0 0;
+  width: 100%;
 }
 
 .endreperiode-container select:hover {
