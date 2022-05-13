@@ -39,9 +39,6 @@ export default function Table2({ columns, data }) {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column, index) => {
-                if (column.Header === 'Endre') {
-                  column.Header = ' ';
-                }
                 return (
                   <th
                     className={

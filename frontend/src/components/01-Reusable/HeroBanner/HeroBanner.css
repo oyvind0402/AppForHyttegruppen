@@ -47,6 +47,7 @@
   letter-spacing: 7px;
   z-index: 5;
   color: var(--white);
+  margin-top: 3rem;
 }
 
 @media only screen and (max-width: 850px) {

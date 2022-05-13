@@ -122,11 +122,13 @@ const DeleteCabinPic = () => {
                       className="delete-picture-element"
                       onClick={(e) => checkCheckBox(e)}
                     >
+                      <label htmlFor={index}>Slett</label>
                       <input
                         type="radio"
                         className="edit-cabin-checkbox"
                         name="delete-picture"
                         value={element.filename}
+                        id={index}
                       ></input>
                       <img
                         src={`${process.env.PUBLIC_URL}/assets/pictures/${element.filename}`}

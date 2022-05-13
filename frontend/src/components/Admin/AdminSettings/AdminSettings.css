@@ -144,6 +144,17 @@
   font-size: 1rem;
 }
 
+.edit-user-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-user-label {
+  margin-right: 0.5rem;
+}
+
 @media only screen and (max-width: 800px) {
   .edit-emails-container table {
     font-size: 1rem;

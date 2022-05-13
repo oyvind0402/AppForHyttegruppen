@@ -321,7 +321,7 @@ const AddCabin = () => {
         <div className="add-cabin-1-3">
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-name">
-              Navn
+              Navn*
             </label>
             <input
               placeholder="Skriv inn navnet.."
@@ -333,7 +333,7 @@ const AddCabin = () => {
           </div>
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-address">
-              Adresse
+              Adresse*
             </label>
             <input
               placeholder="Skriv inn adressen.."
@@ -350,7 +350,7 @@ const AddCabin = () => {
         <div className="add-cabin-2-2">
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-latitude">
-              Breddegrad
+              Breddegrad*
             </label>
             <input
               placeholder="Skriv inn breddegraden.."
@@ -364,7 +364,7 @@ const AddCabin = () => {
           </div>
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-longitude">
-              Lengdegrad
+              Lengdegrad*
             </label>
             <input
               placeholder="Skriv inn lengdegraden.."
@@ -380,7 +380,7 @@ const AddCabin = () => {
 
         <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="add-directions">
-            Veibeskrivelse
+            Veibeskrivelse*
           </label>
           <textarea
             placeholder="Skriv inn veibeskrivelsen.."
@@ -393,7 +393,7 @@ const AddCabin = () => {
         </div>
         <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="add-shortdesc">
-            Kort beskrivelse
+            Kort beskrivelse*
           </label>
           <textarea
             placeholder="Skriv inn en kort beskrivelse.."
@@ -406,7 +406,7 @@ const AddCabin = () => {
         </div>
         <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="add-longdesc">
-            Lang beskrivelse
+            Lang beskrivelse*
           </label>
           <textarea
             placeholder="Skriv inn en lang beskrivelse.."
@@ -419,7 +419,7 @@ const AddCabin = () => {
         </div>
         <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="add-recycling">
-            Kildesortering info
+            Kildesortering info*
           </label>
           <textarea
             placeholder="Skriv inn info om kildesortering.."
@@ -433,7 +433,7 @@ const AddCabin = () => {
         <div className="add-cabin-1-1-1">
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-price">
-              Leiepris
+              Leiepris*
             </label>
             <input
               defaultValue={1200}
@@ -447,7 +447,7 @@ const AddCabin = () => {
           </div>
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label" htmlFor="add-cleaningprice">
-              Vaskepris
+              Vaskepris*
             </label>
             <input
               defaultValue={1200}
@@ -462,7 +462,7 @@ const AddCabin = () => {
 
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label2" htmlFor={'add-bad'}>
-              Bad
+              Bad*
             </label>
             <input
               className="add-cabin-input"
@@ -477,7 +477,7 @@ const AddCabin = () => {
 
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label2" htmlFor={'add-soveplasser'}>
-              Soveplasser
+              Soveplasser*
             </label>
             <input
               className="add-cabin-input"
@@ -492,7 +492,7 @@ const AddCabin = () => {
 
           <div className="add-cabin-wrapper">
             <label className="add-cabin-label2" htmlFor={'add-soverom'}>
-              Soverom
+              Soverom*
             </label>
             <input
               className="add-cabin-input"
@@ -507,7 +507,7 @@ const AddCabin = () => {
 
           <div className="input-function">
             <label className="add-cabin-label2" htmlFor={'add-wifi'}>
-              Wifi
+              Wifi*
             </label>
             <input
               className="add-cabin-checkbox"
@@ -520,7 +520,7 @@ const AddCabin = () => {
 
         <div className="add-cabin-cbwrapper">
           <label className="add-cabin-label" htmlFor="add-active">
-            Kan søkes på
+            Kan søkes på*
           </label>
           <input
             className="add-cabin-checkbox"
@@ -547,7 +547,7 @@ const AddCabin = () => {
           )}
         </div>
         <div className="add-cabin-wrapper" id="todolist">
-          <label className="add-cabin-label">Huskeliste</label>
+          <label className="add-cabin-label">Huskeliste*</label>
           <div className="huskelist-row">
             <label className="huskeliste-label" htmlFor="firstChecklist">
               1:
@@ -590,7 +590,7 @@ const AddCabin = () => {
 
         <div className="add-cabin-wrapper">
           <label className="add-cabin-label" htmlFor="mainPicture">
-            Legg til hovedbildet til hytte
+            Legg til hovedbildet til hytte*
           </label>
           <input
             className="upload-input"

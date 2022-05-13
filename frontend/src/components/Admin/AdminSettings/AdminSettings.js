@@ -239,13 +239,23 @@ const AdminSettings = () => {
       accessor: 'adminAccess',
       Cell: (props) => {
         return (
-          <input
-            onChange={() => addChangedUser(props.row.original.userId)}
-            id={'edituser_' + props.row.original.userId}
-            className="edit-user-checkbox"
-            defaultChecked={props.row.original.adminAccess}
-            type="checkbox"
-          />
+          <>
+            <div className="edit-user-row">
+              <label
+                className="edit-user-label"
+                htmlFor={'edituser_' + props.row.original.userId}
+              >
+                Velg adminrettigheter:
+              </label>
+              <input
+                onChange={() => addChangedUser(props.row.original.userId)}
+                id={'edituser_' + props.row.original.userId}
+                className="edit-user-checkbox"
+                defaultChecked={props.row.original.adminAccess}
+                type="checkbox"
+              />
+            </div>
+          </>
         );
       },
     },
@@ -258,11 +268,13 @@ const AdminSettings = () => {
       Cell: (props) => {
         if (editing) {
           return (
-            <input
-              type="text"
-              id="edit-email"
-              defaultValue={props.row.original.email}
-            />
+            <>
+              <input
+                type="text"
+                id="edit-email"
+                defaultValue={props.row.original.email}
+              />
+            </>
           );
         } else {
           return <span>{props.row.original.email}</span>;
@@ -294,7 +306,7 @@ const AdminSettings = () => {
       },
     },
     {
-      Header: ' ',
+      Header: 'Slett',
       Cell: (props) => {
         return (
           <button

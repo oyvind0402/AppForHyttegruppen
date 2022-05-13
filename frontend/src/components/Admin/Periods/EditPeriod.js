@@ -123,7 +123,9 @@ const EditPeriod = () => {
       <AdminBanner name="Endre periode" />
       <div className="endreperiode-container">
         <div className="edit-input-wrapper">
-          <p className="edit-period-title">Navn</p>
+          <label className="edit-period-title" htmlFor="edit-period-name">
+            Navn
+          </label>
           <input
             type="text"
             id="edit-period-name"
@@ -138,7 +140,9 @@ const EditPeriod = () => {
         </div>
 
         <div className="edit-input-wrapper">
-          <p className="edit-period-title">Startdato</p>
+          <label className="edit-period-title" htmlFor="edit-period-startdate">
+            Startdato
+          </label>
           <input
             type="date"
             id="edit-period-startdate"
@@ -155,7 +159,9 @@ const EditPeriod = () => {
         </div>
 
         <div className="edit-input-wrapper">
-          <p className="edit-period-title">Sluttdato</p>
+          <label className="edit-period-title" htmlFor="edit-period-enddate">
+            Sluttdato
+          </label>
           <input
             type="date"
             id="edit-period-enddate"
@@ -172,7 +178,9 @@ const EditPeriod = () => {
         </div>
 
         <div className="edit-input-wrapper">
-          <p className="edit-period-title">Sesong</p>
+          <label className="edit-period-title" htmlFor='edit-period-select"'>
+            Sesong
+          </label>
           <select className="edit-period-input" id="edit-period-select">
             {seasons !== null &&
               typeof seasons !== 'undefined' &&
