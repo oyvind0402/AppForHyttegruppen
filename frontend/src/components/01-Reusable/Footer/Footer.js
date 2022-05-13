@@ -6,9 +6,9 @@ function Footer() {
 
   return (
     <>
-      <div className="footer-container">
+      <footer className="footer-container">
         <p>&copy; {currentYear} Accenture. All rights reserved</p>
-      </div>
+      </footer>
     </>
   );
 }

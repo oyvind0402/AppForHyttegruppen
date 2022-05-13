@@ -453,7 +453,7 @@ const OpenPeriod = () => {
         </div>
         <br />
         <div className="date-wrapper">
-          <label className="date-title" htmlFor="startdate">
+          <label className="date-title" htmlFor="applyFrom">
             Kan søkes på fra
           </label>
           <input type="date" id="applyFrom" className="open-period-date" />
@@ -462,7 +462,7 @@ const OpenPeriod = () => {
           )}
         </div>
         <div className="date-wrapper">
-          <label className="date-title" htmlFor="startdate">
+          <label className="date-title" htmlFor="applyTo">
             Kan søkes på til
           </label>
           <input type="date" id="applyTo" className="open-period-date" />
@@ -474,7 +474,11 @@ const OpenPeriod = () => {
           )}
         </div>
 
-        <button className="period-info-button" onClick={handleShowInfo}>
+        <button
+          className="period-info-button"
+          onClick={handleShowInfo}
+          aria-label="Additional information"
+        >
           <AiOutlineQuestionCircle />
         </button>
         <p className={visible ? 'open-period-text' : 'no-show'}>
@@ -553,6 +557,7 @@ const OpenPeriod = () => {
                           handleAddPeriodAfter(index, period);
                       }}
                       className="period-button"
+                      aria-label="Add a period"
                     />
                     <IoIosRemoveCircle
                       tabIndex={'0'}
@@ -562,6 +567,7 @@ const OpenPeriod = () => {
                           handleAddPeriodAfter(index, period);
                       }}
                       className="period-button"
+                      aria-label="Remove a period"
                     />
                   </div>
                 </div>

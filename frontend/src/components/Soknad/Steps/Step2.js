@@ -156,7 +156,7 @@ const Step2 = (props) => {
 
         <div>
           <div>
-            <h3 className="input-header">Perioder</h3>
+            <h2 className="input-header">Perioder</h2>
             <div className="perioder-input">
               {muligePerioder.length > 0 ? (
                 muligePerioder.map((period, index) => (
@@ -195,7 +195,7 @@ const Step2 = (props) => {
           </div>
 
           <div>
-            <h3 className="input-header">Valgte perioder</h3>
+            <h2 className="input-header">Valgte perioder</h2>
             {showFeedBack && (
               <p className="soknad-error step2-error">
                 <BsExclamationTriangle /> Husk å legge til perioder!

@@ -1,4 +1,4 @@
-import HeroBanner from '../01-Reusable/HeroBanner/HeroBanner';
+import HeroBannerHome from '../01-Reusable/HeroBanner/HeroBannerHome';
 import BigButtonLink from '../01-Reusable/Buttons/BigButtonLink';
 import HomeImage from '../01-Reusable/HomeImage/HomeImage';
 import { FaRegUserCircle, FaQuestionCircle } from 'react-icons/fa';
@@ -35,7 +35,7 @@ const Home = () => {
 
   return (
     <>
-      <HeroBanner />
+      <HeroBannerHome />
       <div className="home-display">
         <div className="home-application">
           <h2 className="home-h2">Søknadsperioden er</h2>

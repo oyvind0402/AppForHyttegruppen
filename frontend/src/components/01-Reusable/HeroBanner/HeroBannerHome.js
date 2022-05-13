@@ -5,7 +5,6 @@ const HeroBanner = (props) => {
     <>
       <div className="hero">
         <div className="hero-container">
-          <h1 className="hero-text">{props.name}</h1>
           <img
             className="hero-picture"
             src={`${process.env.PUBLIC_URL}/assets/pictures/herobanner.jpg`}
