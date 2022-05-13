@@ -61,7 +61,11 @@ const TripCardActionReq = (props) => {
         </Link>
         <div className="handling-info">
           <div className="warning" onClick={showInformation}>
-            <AiOutlineWarning className="warning-icon" />
+            <AiOutlineWarning
+              className="warning-icon"
+              aria-label="Needs attention"
+              role="button"
+            />
             <p className="warning-text">Handling kreves</p>
           </div>
         </div>

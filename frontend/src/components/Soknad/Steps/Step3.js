@@ -110,7 +110,10 @@ const Step3 = (props) => {
           className="stepQuestion"
           onClick={() => setShowExtraInfo(!showExtraInfo)}
         >
-          <BsQuestionCircle className="soknad-question-icon" />
+          <BsQuestionCircle
+            className="soknad-question-icon"
+            aria-label="more information"
+          />
           <p className="soknad-question-text">Velg hytter</p>
         </button>
         {showExtraInfo && (
@@ -145,7 +148,8 @@ const Step3 = (props) => {
           />
           {showFeedBackNumber && (
             <p className="soknad-error step3-error">
-              <BsExclamationTriangle /> Husk å legge til antall hytter!
+              <BsExclamationTriangle aria-label="warning" /> Husk å legge til
+              antall hytter!
             </p>
           )}
 
@@ -186,7 +190,8 @@ const Step3 = (props) => {
               </div>
               {showFeedbackAssignment && (
                 <p className="soknad-error">
-                  <BsExclamationTriangle /> Du må velge type tildeling!
+                  <BsExclamationTriangle aria-label="warning" /> Du må velge
+                  type tildeling!
                 </p>
               )}
             </div>
@@ -213,7 +218,8 @@ const Step3 = (props) => {
             </div>
             {showFeedbackCabins && (
               <p className="soknad-error soknad-error-cabins">
-                <BsExclamationTriangle /> Du må velge minst en hytte!
+                <BsExclamationTriangle aria-label="warning" /> Du må velge minst
+                en hytte!
               </p>
             )}
             <div className="soknad-step3-antall">

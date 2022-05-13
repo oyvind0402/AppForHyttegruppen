@@ -56,6 +56,8 @@ const EditFAQs = () => {
             })
           : null}
         <BsFillPlusCircleFill
+          aria-label="Add a new FAQ"
+          role="button"
           className="endrefaq-add"
           onClick={() => (window.location.href = '/admin/leggtilfaq')}
           tabIndex={0}

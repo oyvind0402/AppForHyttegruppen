@@ -139,7 +139,11 @@ const Step2 = (props) => {
           className="stepQuestion"
           onClick={() => setShowExtraInfo(!showExtraInfo)}
         >
-          <BsQuestionCircle className="soknad-question-icon" />
+          <BsQuestionCircle
+            className="soknad-question-icon"
+            aria-label="More information"
+            role="button"
+          />
           <p className="soknad-question-text">Velg perioder du vil søke på</p>
         </button>
         {showExtraInfo && (
@@ -198,7 +202,8 @@ const Step2 = (props) => {
             <h2 className="input-header">Valgte perioder*</h2>
             {showFeedBack && (
               <p className="soknad-error step2-error">
-                <BsExclamationTriangle /> Husk å legge til perioder!
+                <BsExclamationTriangle aria-label="warning" /> Husk å legge til
+                perioder!
               </p>
             )}
             <div className="perioder-input">

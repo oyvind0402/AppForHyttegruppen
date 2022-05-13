@@ -72,7 +72,11 @@ const Step1 = (props) => {
           className="stepQuestion"
           onClick={() => setShowExtraInfo(!showExtraInfo)}
         >
-          <BsQuestionCircle className="soknad-question-icon" />
+          <BsQuestionCircle
+            className="soknad-question-icon"
+            aria-label="More information"
+            role="button"
+          />
           <p className="soknad-question-text">Hva er grunnen for oppholdet</p>
         </button>
         {showExtraInfo && (
@@ -99,7 +103,11 @@ const Step1 = (props) => {
               onClick={() => setRadioPrivatProject('Privat')}
             >
               <label className="soknad-radio-text" htmlFor="privat">
-                <RiSuitcase2Line className="soknad-step1-icon" />
+                <RiSuitcase2Line
+                  className="soknad-step1-icon"
+                  aria-label="privat"
+                  role="button"
+                />
                 Privat
               </label>
             </button>
@@ -119,7 +127,12 @@ const Step1 = (props) => {
               onClick={() => setRadioPrivatProject('Prosjekt')}
             >
               <label className="soknad-radio-text" htmlFor="prosjekt">
-                <RiSuitcaseLine className="soknad-step1-icon" /> Prosjekt
+                <RiSuitcaseLine
+                  className="soknad-step1-icon"
+                  aria-label="Projekt"
+                  role="button"
+                />{' '}
+                Prosjekt
               </label>
             </button>
           </div>
@@ -156,7 +169,8 @@ const Step1 = (props) => {
 
           {showCredentialsFeedback && (
             <p className="soknad-error step1-error">
-              <BsExclamationTriangle /> Dette feltet må fylles ut!
+              <BsExclamationTriangle aria-label="Warning" /> Dette feltet må
+              fylles ut!
             </p>
           )}
 
@@ -173,7 +187,8 @@ const Step1 = (props) => {
           />
           {showaccentureFeedback && (
             <p className="soknad-error step1-error">
-              <BsExclamationTriangle /> Dette feltet må fylles ut!
+              <BsExclamationTriangle aria-label="Warning" /> Dette feltet må
+              fylles ut!
             </p>
           )}
         </div>

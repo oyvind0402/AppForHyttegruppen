@@ -605,6 +605,7 @@ const EditCabin = () => {
           />
           <BsQuestionCircle
             aria-label="More information"
+            role="button"
             className="add-cabin-comment add-question add-icon-active"
             onClick={handleExplanation}
             tabIndex={0}
@@ -650,6 +651,7 @@ const EditCabin = () => {
         <div className="add-remove-item">
           <IoMdAddCircle
             aria-label="Add checklist element"
+            role="button"
             className="add-icon-active"
             onClick={handleAddItem}
             tabIndex={0}
@@ -661,6 +663,7 @@ const EditCabin = () => {
           />
           <IoIosRemoveCircle
             aria-label="Remove checklist element"
+            role="button"
             className="add-icon-active"
             onClick={removeItem}
             tabIndex={0}
