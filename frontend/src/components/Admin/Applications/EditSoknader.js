@@ -166,6 +166,14 @@ const Applications = () => {
           if (start > now) {
             return (
               <>
+                {
+                  <label
+                    className="admin-tabel-label"
+                    htmlFor={'winnercheck' + props.row.original.applicationId}
+                  >
+                    Tildelte hytte(r):
+                  </label>
+                }
                 <input
                   type="checkbox"
                   id={'winnercheck' + props.row.original.applicationId}
@@ -176,7 +184,6 @@ const Applications = () => {
                 />
                 <br />
                 <span>
-                  Tildelte hytte(r): <br />
                   {props.row.original.cabinsWon.map((cabin) => {
                     return cabin.cabinName + ' ';
                   })}
@@ -207,6 +214,12 @@ const Applications = () => {
         }
         return (
           <div id="get-select">
+            <label
+              className="admin-tabel-label"
+              htmlFor={'add-assignment' + props.row.original.applicationId}
+            >
+              Velg:
+            </label>
             <select
               id={'add-assignment' + props.row.original.applicationId}
               multiple
@@ -536,9 +549,16 @@ const Applications = () => {
         applications === pastWinning &&
         seasons !== null && (
           <div className="filter-container">
+            <label
+              className="admin-tabel-label-header"
+              htmlFor={'season-picker'}
+            >
+              <span>Søk på sesong:</span>
+            </label>
             <select
               onChange={(e) => filterSeason(e.target.value)}
               className="season-filter"
+              id="season-picker"
             >
               <option value="all">Alle sesonger</option>
               {seasons.map((season, index) => {
