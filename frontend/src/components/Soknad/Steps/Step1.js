@@ -129,7 +129,7 @@ const Step1 = (props) => {
           {radioPrivatProject === 'Privat' ? (
             <>
               <label className="soknad-label" htmlFor="credentials">
-                Ansattnummer:
+                Ansattnummer:*
               </label>
               <input
                 className="soknad-input"
@@ -142,7 +142,7 @@ const Step1 = (props) => {
           ) : (
             <>
               <label className="soknad-label" htmlFor="credentials">
-                WBS:
+                WBS:*
               </label>
               <input
                 className="soknad-input"
@@ -162,7 +162,7 @@ const Step1 = (props) => {
 
           {/*Når login løsningn er implementert kan dette feltet fylles ut automatisk*/}
           <label className="soknad-label" htmlFor="EnterpriseID">
-            Enterprise ID:
+            Enterprise ID:*
           </label>
           <input
             className="soknad-input"

@@ -127,7 +127,7 @@ const Step3 = (props) => {
 
         <div className="soknad-step3-antall">
           <label className="soknad-label" htmlFor="numberOfHytter">
-            Ønsket antall hytter
+            Ønsket antall hytter*
           </label>
 
           <input
@@ -148,47 +148,54 @@ const Step3 = (props) => {
               <BsExclamationTriangle /> Husk å legge til antall hytter!
             </p>
           )}
-        </div>
 
-        {numberOfCabins > 0 && (
-          <div className="soknad-step3-antall step3-radio">
-            <div>
-              <input
-                type="radio"
-                id="random"
-                name="cabinChoice"
-                value="Tilfeldig"
-                checked={cabinAssigment === 'Tilfeldig' ? true : false}
-                onChange={(event) => {
-                  setCabinAssigment(event.target.value);
-                  setShowFeedbackAssignment(false);
-                  setShowFeedbackCabins(false);
-                }}
-              />
-              <label htmlFor="random">Jeg ønsker tilfeldig tildeling</label>
+          {numberOfCabins > 0 && (
+            <div className="step3-radio">
+              <p className="soknad-label">Velg alle eller velg selv:*</p>
+              <div>
+                <input
+                  type="radio"
+                  id="random"
+                  name="cabinChoice"
+                  value="Tilfeldig"
+                  checked={cabinAssigment === 'Tilfeldig' ? true : false}
+                  onChange={(event) => {
+                    setCabinAssigment(event.target.value);
+                    setShowFeedbackAssignment(false);
+                    setShowFeedbackCabins(false);
+                  }}
+                />
+                <label htmlFor="random">Jeg ønsker å søke på alle hytter</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="pickSelf"
+                  name="cabinChoice"
+                  value="Spesifikk"
+                  checked={cabinAssigment === 'Spesifikk' ? true : false}
+                  onChange={(event) => {
+                    setCabinAssigment(event.target.value);
+                    setShowFeedbackAssignment(false);
+                    setShowFeedbackCabins(false);
+                  }}
+                />
+                <label htmlFor="pickSelf">
+                  Jeg ønsker å velge hyttene selv
+                </label>
+              </div>
+              {showFeedbackAssignment && (
+                <p className="soknad-error">
+                  <BsExclamationTriangle /> Du må velge type tildeling!
+                </p>
+              )}
             </div>
-            <div>
-              <input
-                type="radio"
-                id="pickSelf"
-                name="cabinChoice"
-                value="Spesifikk"
-                checked={cabinAssigment === 'Spesifikk' ? true : false}
-                onChange={(event) => {
-                  setCabinAssigment(event.target.value);
-                  setShowFeedbackAssignment(false);
-                  setShowFeedbackCabins(false);
-                }}
-              />
-              <label htmlFor="pickSelf">Jeg ønsker å velge hyttene selv</label>
-            </div>
-            {showFeedbackAssignment && (
-              <p className="soknad-error">
-                <BsExclamationTriangle /> Du må velge type tildeling!
-              </p>
-            )}
-          </div>
-        )}
+          )}
+
+          {numberOfCabins > 0 && cabinAssigment === 'Spesifikk' && (
+            <p className="soknad-label">Velg hytte(ne):*</p>
+          )}
+        </div>
 
         {numberOfCabins > 0 && cabinAssigment === 'Spesifikk' && (
           <>

@@ -195,7 +195,7 @@ const Step2 = (props) => {
           </div>
 
           <div>
-            <h2 className="input-header">Valgte perioder</h2>
+            <h2 className="input-header">Valgte perioder*</h2>
             {showFeedBack && (
               <p className="soknad-error step2-error">
                 <BsExclamationTriangle /> Husk å legge til perioder!

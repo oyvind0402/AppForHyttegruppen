@@ -417,7 +417,7 @@ const OpenPeriod = () => {
 
         <div className="date-wrapper">
           <label className="date-title" htmlFor="seasonname">
-            Sesongnavn
+            Sesongnavn*
           </label>
           <input
             placeholder="F.eks 'Vår 2022'"
