@@ -8,7 +8,7 @@ const Question3 = () => {
           Før avreise må følgende spørsmål besvares:
         </p>
         <p className="question-text">
-          Var alt ok da dere forlat hytten? (Ble noe ødelagt?)
+          Var alt ok da dere forlat hytten? (Ble noe ødelagt?)*
         </p>
       </div>
     </>

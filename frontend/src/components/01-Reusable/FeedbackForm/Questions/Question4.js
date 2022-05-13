@@ -9,7 +9,7 @@ const Question4 = () => {
         </p>
         <p className="question-text">
           Har hytten alt av forsyning (toalettpapir, ved, lyspærer,
-          rengjøringsmiddel)?
+          rengjøringsmiddel)?*
         </p>
       </div>
     </>

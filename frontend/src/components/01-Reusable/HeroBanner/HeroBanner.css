@@ -34,6 +34,7 @@
   font-size: 3rem;
   font-weight: 750;
   letter-spacing: 7px;
+  z-index: 2;
 }
 
 .admin-hero-text {

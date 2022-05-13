@@ -7,7 +7,7 @@ const Question2 = () => {
         <p className="question-title">
           Før avreise må følgende spørsmål besvares:
         </p>
-        <p className="question-text"> Var alt ok da dere ankom hytten?</p>
+        <p className="question-text"> Var alt ok da dere ankom hytten?*</p>
       </div>
     </>
   );
