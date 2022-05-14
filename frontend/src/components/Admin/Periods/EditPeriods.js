@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import InfoPopupNoBg from '../../01-Reusable/PopUp/InfoPopupNoOverlay';
 import './EditPeriods.css';
 import { Link } from 'react-router-dom';
 import Table2 from '../../01-Reusable/Table/Table2';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
+import Cookies from 'universal-cookie';
+import AlertPopup from '../../01-Reusable/PopUp/AlertPopup';
+import InfoPopup from '../../01-Reusable/PopUp/InfoPopup';
 
 const EditPeriods = () => {
   const [periods, setPeriods] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [fail, setFail] = useState(false);
 
   const handleVisibility = () => {
     setVisible(!visible);
@@ -31,6 +35,21 @@ const EditPeriods = () => {
       day = '0' + day;
     }
     return day + '/' + month + '/' + year;
+  }
+
+  function getDateForDeletion(date) {
+    const newDate = new Date(date);
+    let year = newDate.getFullYear();
+
+    let month = (1 + newDate.getMonth()).toString();
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    let day = newDate.getDate().toString();
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+    return year + '-' + month + '-' + day;
   }
 
   const getPeriods = async () => {
@@ -97,6 +116,31 @@ const EditPeriods = () => {
       },
     },
   ];
+  const cookies = new Cookies();
+  const deletePastSeasons = async () => {
+    const now = getDateForDeletion(new Date());
+    try {
+      const response = await fetch('/season/deleteolder', {
+        method: 'DELETE',
+        headers: { token: cookies.get('token') },
+        body: JSON.stringify(now),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        if (data > 0) {
+          getPeriods();
+          setVisible(false);
+          setSuccess(true);
+        }
+        if (data === 0) {
+          setVisible(false);
+          setFail(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getPeriods();
@@ -107,6 +151,9 @@ const EditPeriods = () => {
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <AdminBanner name="Endre perioder" />
       <div className="edit-periods-container">
+        <button className="big btn" onClick={handleVisibility}>
+          Slett tidligere sesonger
+        </button>
         {periods !== null &&
           typeof periods !== undefined &&
           periods.length !== 0 && (
@@ -114,12 +161,41 @@ const EditPeriods = () => {
           )}
       </div>
       {visible && (
-        <InfoPopupNoBg
+        <AlertPopup
+          positiveAction="Ja"
+          negativeAction="Nei"
+          cancelMethod={handleVisibility}
+          acceptMethod={deletePastSeasons}
+          title="Sletting av gamle sesonger!"
+          description={[
+            'Er du sikker på at du vil slette alle gamle sesonger? Alt som har sluttdato før dagens dato vil bli slettet.',
+            <>
+              <br />
+              <br />
+            </>,
+            'OBS: dette sletter også perioder som er linket til sesongen, og alle søknader (tildelte eller avslåtte) som er linket til de periodene.',
+          ]}
+        />
+      )}
+      {success && (
+        <InfoPopup
           btnText="Ok"
-          hideMethod={handleVisibility}
-          title="Periode endret!"
+          hideMethod={() => {
+            setSuccess(!success);
+          }}
+          title="Sletting vellykket!"
+          description={'Alle gamle sesonger ble slettet!'}
+        />
+      )}
+      {fail && (
+        <InfoPopup
+          btnText="Ok"
+          hideMethod={() => {
+            setFail(!fail);
+          }}
+          title="Ingen sesonger ble slettet!"
           description={
-            'Perioden ble endret og endringen er lagret i databasen!'
+            'Det er ingen sesonger som har sluttdato før dagens dato.'
           }
         />
       )}
