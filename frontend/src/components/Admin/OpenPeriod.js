@@ -8,8 +8,10 @@ import InfoPopup from '../01-Reusable/PopUp/InfoPopup';
 import { IoIosRemoveCircle, IoMdAddCircle } from 'react-icons/io';
 import AdminBanner from '../01-Reusable/HeroBanner/AdminBanner';
 import Cookies from 'universal-cookie';
+import { useHistory } from 'react-router-dom';
 
 const OpenPeriod = () => {
+  const history = useHistory();
   const [visible, setVisible] = useState(false);
   const [showPeriods, setShowPeriods] = useState(false);
   const [periods, setPeriods] = useState([{}]);
@@ -625,7 +627,10 @@ const OpenPeriod = () => {
             getFormattedDate(season.applyUntil) +
             '.'
           }
-          hideMethod={handleOpenedVisibility}
+          hideMethod={() => {
+            handleOpenedVisibility();
+            history.replace('/admin');
+          }}
         />
       )}
       {inputError && (
