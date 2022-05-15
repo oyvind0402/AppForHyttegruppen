@@ -37,8 +37,8 @@ export const LoginContextProvider = (props) => {
   const logout = () => {
     setToken(null);
     setAdmin(null);
-    cookies.remove(key);
-    cookies.remove(adminKey);
+    cookies.remove('token', { path: '/' });
+    cookies.remove('admin', { path: '/' });
   };
 
   //Setting the values to the context
