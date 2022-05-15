@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
   grid-gap: 1rem;
 }
 
@@ -22,6 +21,11 @@
 
 .edit-periods-container .react-table-header24 {
   width: 150px;
+}
+
+.application-period-title {
+  font-weight: 750;
+  font-size: 2rem;
 }
 
 @media only screen and (max-width: 350px) {

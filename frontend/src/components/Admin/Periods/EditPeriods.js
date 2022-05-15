@@ -151,6 +151,7 @@ const EditPeriods = () => {
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
       <AdminBanner name="Endre søknads perioder" />
       <div className="edit-periods-container">
+        <p className="application-period-title">Sesonger</p>
         <button className="btn-medium" onClick={handleVisibility}>
           Slett tidligere sesonger
         </button>
@@ -159,10 +160,10 @@ const EditPeriods = () => {
           Endre sesonger
         </Link>
 
+        <p className="application-period-title">Perioder</p>
         <Link className="btn-medium btn-link" to="/admin/leggtilperiode">
           Legg til periode
         </Link>
-
         {periods !== null &&
           typeof periods !== undefined &&
           periods.length !== 0 && (
