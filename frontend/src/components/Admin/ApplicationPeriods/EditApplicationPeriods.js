@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import './EditPeriods.css';
+import './EditApplicationPeriods.css';
 import { Link } from 'react-router-dom';
 import Table2 from '../../01-Reusable/Table/Table2';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
