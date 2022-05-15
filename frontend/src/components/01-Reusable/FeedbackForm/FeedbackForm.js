@@ -141,7 +141,7 @@ const FeedbackForm = (props) => {
 
   const sendFeedback = async () => {
     let feedbackSent = false;
-    let sendEmail = false;
+    let sendTheEmail = false;
     answers.forEach((answer) => {
       if (answer.length > 0) {
         feedbackSent = true;
@@ -157,14 +157,14 @@ const FeedbackForm = (props) => {
         headers: { token: cookies.get('token') },
       });
       if (response.ok) {
-        sendEmail = true;
+        sendTheEmail = true;
         setVisible(false);
       }
     } catch (error) {
       console.log(error);
     }
 
-    if (feedbackSent && sendEmail) {
+    if (feedbackSent && sendTheEmail) {
       const feedback = sendEmail();
       const feedbackTitle =
         'Bruker med navn ' +
