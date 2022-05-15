@@ -291,21 +291,6 @@ const AddCabin = () => {
       .catch((error) => {
         console.error(error);
       });
-
-    fetch('/pictures/replace', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        token: cookies.get('token'),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
     setSaved(true);
   };
 

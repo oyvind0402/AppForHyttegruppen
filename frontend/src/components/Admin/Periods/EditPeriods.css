@@ -23,3 +23,24 @@
 .react-table-header24 {
   width: 150px;
 }
+
+@media only screen and (max-width: 400px) {
+  .edit-periods-container {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .edit-periods-container table a {
+    width: 60px;
+  }
+
+  .cell24 {
+    width: auto;
+  }
+
+  .react-table-header24 {
+    width: auto;
+  }
+}
