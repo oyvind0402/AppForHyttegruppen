@@ -17,8 +17,14 @@ const AdminSettings = () => {
   const [deleted, setDeleted] = useState(false);
   const [editing, setEditing] = useState(false);
   const [edited, setEdited] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [id, setId] = useState(0);
   let _changedUsers = [];
+
+  const handleDeleting = (id) => {
+    setDeleting(true);
+    setId(id);
+  };
 
   const fetchUsers = async () => {
     try {
@@ -57,6 +63,18 @@ const AdminSettings = () => {
   };
 
   const cookies = new Cookies();
+
+  const deleteUser = async () => {
+    const response = await fetch('/user/delete', {
+      method: 'DELETE',
+      headers: { token: cookies.get('token') },
+      body: JSON.stringify(id),
+    });
+    if (response.ok) {
+      setDeleting(false);
+      fetchUsers();
+    }
+  };
 
   const editUser = () => {
     let _errors = {};
@@ -259,6 +277,21 @@ const AdminSettings = () => {
         );
       },
     },
+    {
+      Header: ' ',
+      Cell: (props) => {
+        return (
+          <>
+            <button
+              className="btn-smaller"
+              onClick={() => handleDeleting(props.row.original.userId)}
+            >
+              Slett
+            </button>
+          </>
+        );
+      },
+    },
   ];
 
   const emailColumns = [
@@ -385,6 +418,20 @@ const AdminSettings = () => {
               description="Admintilgangen for brukeren(e) ble endret!"
               btnText="Ok"
               hideMethod={handleVisibility}
+            />
+          )}
+          {deleting && (
+            <AlertPopup
+              title="Sletting av bruker"
+              description={
+                'Er du sikker på at du vil slette brukeren? \n\nOBS: Dette vil også slette alle søknader linket til brukeren.'
+              }
+              negativeAction="Nei"
+              positiveAction="Ja"
+              cancelMethod={() => {
+                setDeleting(false);
+              }}
+              acceptMethod={deleteUser}
             />
           )}
         </>
