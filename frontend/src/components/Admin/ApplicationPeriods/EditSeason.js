@@ -137,7 +137,7 @@ const EditSeason = () => {
       <div className="endreseason-container">
         <div className="edit-season-wrapper">
           <label className="edit-season-title" htmlFor="edit-season-name">
-            Navn
+            Navn*
           </label>
           <input
             type="text"
@@ -150,7 +150,7 @@ const EditSeason = () => {
         {errors.name && <span className="login-error">{errors.name}</span>}
         <div className="edit-season-wrapper">
           <label className="edit-season-title" htmlFor="edit-season-startdate">
-            Startdato
+            Startdato*
           </label>
           <input
             type="date"
@@ -168,7 +168,7 @@ const EditSeason = () => {
         {errors.start && <span className="login-error">{errors.start}</span>}
         <div className="edit-season-wrapper">
           <label className="edit-season-title" htmlFor="edit-season-enddate">
-            Sluttdato
+            Sluttdato*
           </label>
           <input
             type="date"
@@ -186,7 +186,7 @@ const EditSeason = () => {
         {errors.end && <span className="login-error">{errors.end}</span>}
         <div className="edit-season-wrapper">
           <label className="edit-season-title" htmlFor="edit-season-enddate">
-            Kan søkes på fra
+            Kan søkes på fra*
           </label>
           <input
             type="date"
@@ -206,7 +206,7 @@ const EditSeason = () => {
         )}
         <div className="edit-season-wrapper">
           <label className="edit-season-title" htmlFor="edit-season-enddate">
-            Kan søkes på til
+            Kan søkes på til*
           </label>
           <input
             type="date"

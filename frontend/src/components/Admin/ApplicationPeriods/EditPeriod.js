@@ -148,7 +148,7 @@ const EditPeriod = () => {
       <div className="endreperiode-container">
         <div className="edit-input-wrapper">
           <label className="edit-period-title" htmlFor="edit-period-name">
-            Navn
+            Navn*
           </label>
           <input
             type="text"
@@ -164,7 +164,7 @@ const EditPeriod = () => {
         {errors.name && <span className="login-error">{errors.name}</span>}
         <div className="edit-input-wrapper">
           <label className="edit-period-title" htmlFor="edit-period-startdate">
-            Startdato
+            Startdato*
           </label>
           <input
             type="date"
@@ -182,7 +182,7 @@ const EditPeriod = () => {
         {errors.start && <span className="login-error">{errors.start}</span>}
         <div className="edit-input-wrapper">
           <label className="edit-period-title" htmlFor="edit-period-enddate">
-            Sluttdato
+            Sluttdato*
           </label>
           <input
             type="date"
@@ -200,7 +200,7 @@ const EditPeriod = () => {
         {errors.end && <span className="login-error">{errors.end}</span>}
         <div className="edit-input-wrapper">
           <label className="edit-period-title" htmlFor='select-period"'>
-            Sesong
+            Sesong*
             <br />
             <select className="edit-period-input" id="select-period">
               {seasons !== null &&
