@@ -8,27 +8,20 @@
   grid-gap: 1rem;
 }
 
-.edit-periods-container a {
+.edit-periods-container table a {
   width: 100px;
   padding: 0;
   font-size: 1rem;
 }
 
-.cell24 {
+.edit-periods-container .cell24 {
   display: flex;
   justify-content: center;
   width: 150px;
 }
 
-.react-table-header24 {
+.edit-periods-container .react-table-header24 {
   width: 150px;
-}
-
-@media only screen and (max-width: 400px) {
-  .edit-periods-container {
-    display: block;
-    overflow-x: auto;
-  }
 }
 
 @media only screen and (max-width: 350px) {

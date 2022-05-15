@@ -1,17 +1,17 @@
-.endreperiode-container {
+.endreseason-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 1rem;
 }
 
-.edit-input-wrapper {
+.edit-season-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.edit-period-input {
+.edit-season-input {
   width: 300px;
   height: 2rem;
   border: 2px solid gray;
@@ -19,18 +19,10 @@
   font-size: 0.9rem;
 }
 
-.edit-period-title {
+.edit-season-title {
   font-weight: 700;
   margin: 1rem 0 0 0;
   width: 100%;
-}
-
-.endreperiode-container select:hover {
-  cursor: pointer;
-}
-
-.endreperiode-container select {
-  margin-bottom: 2rem;
 }
 
 #edit-period-select:focus-visible {
@@ -39,7 +31,8 @@
   outline-color: black;
 }
 
-.periodbuttons {
+.seasonbuttons {
+  margin-top: 1.5rem;
   display: flex;
-  grid-gap: 1rem;
+  grid-gap: 1.5rem;
 }

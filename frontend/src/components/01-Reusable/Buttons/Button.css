@@ -197,6 +197,40 @@
   border-color: var(--purple);
 }
 
+.btn-medium {
+  color: var(--white);
+  background-color: var(--purple);
+  width: 500px;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  border-radius: 5px;
+  font-weight: 750;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.btn-medium:hover {
+  background-color: var(--light-purple);
+  color: var(--black);
+  outline: 3px solid var(--purple);
+}
+
+.btn-medium:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+  outline-offset: 0.25rem;
+}
+
+@media only screen and (max-width: 625px) {
+  .btn-medium {
+    width: 350px;
+  }
+}
+
 @media only screen and (max-width: 500px) {
   .btn {
     padding: 15px 10px;
@@ -209,6 +243,12 @@
 
   .tabbtn {
     padding: 0.3rem 2vw;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .btn-medium {
+    width: 250px;
   }
 }
 

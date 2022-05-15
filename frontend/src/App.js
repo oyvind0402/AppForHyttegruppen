@@ -33,6 +33,9 @@ import UploadOrDeleteCabinsPics from './components/Admin/UploadPics/UploadOrDele
 import DeleteCabinPic from './components/Admin/UploadPics/DeleteCabinPic';
 import DeleteCabinsPic from './components/Admin/UploadPics/DeleteCabinsPic';
 import AdminSettings from './components/Admin/AdminSettings/AdminSettings';
+import EditSeasons from './components/Admin/Periods/EditSeasons';
+import EditSeason from './components/Admin/Periods/EditSeason';
+import AddPeriod from './components/Admin/Periods/AddPeriod';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -106,6 +109,18 @@ function App() {
         </Route>
         <Route path="/admin/endreperiode">
           {loginContext.adminAccess && <EditPeriod />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/leggtilperiode">
+          {loginContext.adminAccess && <AddPeriod />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/endresesonger">
+          {loginContext.adminAccess && <EditSeasons />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/endresesong">
+          {loginContext.adminAccess && <EditSeason />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/endresoknader">
