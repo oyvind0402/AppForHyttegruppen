@@ -7,7 +7,7 @@ const UploadOrDeleteCabinsPics = () => {
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <AdminBanner name="Last opp bilder" />
+      <AdminBanner name="Rediger bilder" />
       <Link className="btn-link big btn" to="/admin/lastoppbilder">
         Legg til bilder
       </Link>
