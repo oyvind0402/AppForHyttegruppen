@@ -1,6 +1,7 @@
 package server
 
 import (
+	"bachelorprosjekt/backend/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -49,6 +50,12 @@ func (r repo) PostAdminEmailAddress(ctx *gin.Context) {
 	err := ctx.BindJSON(email)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	validEmail := utils.CheckAdminEmailValidation(*email)
+	if !validEmail {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Invalid email!"})
 		return
 	}
 
