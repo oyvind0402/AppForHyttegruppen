@@ -444,7 +444,7 @@ func (r repo) DeleteCabin(ctx *gin.Context) {
 	defer tx.Rollback()
 
 	// Delete from SQL (not yet committed)
-	resSql, err := tx.Exec(`DELETE FROM CabinShort WHERE cabinName = $1`, &cabinName)
+	resSql, err := tx.Exec(`DELETE FROM Cabins WHERE cabin_name = $1`, &cabinName)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
