@@ -178,22 +178,26 @@ const Header = () => {
           >
             Hjem
           </NavLink>
-          <NavLink
-            activeClassName="active"
-            className="nav-list-mobile-item"
-            onClick={handleClick}
-            to="/mineturer"
-          >
-            Mine Turer
-          </NavLink>
-          <NavLink
-            activeClassName="active"
-            className="nav-list-mobile-item"
-            onClick={handleClick}
-            to="/soknad"
-          >
-            Søknad
-          </NavLink>
+          {loggedIn && (
+            <NavLink
+              activeClassName="active"
+              className="nav-list-mobile-item"
+              onClick={handleClick}
+              to="/mineturer"
+            >
+              Mine Turer
+            </NavLink>
+          )}
+          {loggedIn && (
+            <NavLink
+              activeClassName="active"
+              className="nav-list-mobile-item"
+              onClick={handleClick}
+              to="/soknad"
+            >
+              Søknad
+            </NavLink>
+          )}
           <NavLink
             activeClassName="active"
             className="nav-list-mobile-item"
