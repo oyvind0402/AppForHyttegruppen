@@ -9,7 +9,7 @@ const EditCabins = () => {
   //Fetching
   useEffect(() => {
     async function fetchData() {
-      fetch('/api/cabin/bin/all')
+      fetch('/api/cabin/all')
         .then((response) => response.json())
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));

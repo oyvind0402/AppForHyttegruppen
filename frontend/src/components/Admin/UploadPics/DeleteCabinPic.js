@@ -18,7 +18,7 @@ const DeleteCabinPic = () => {
   async function getCabin() {
     const link = window.location.href;
     const pageID = link.split('/');
-    fetch(`/cabin/${pageID[pageID.length - 1]}`, {
+    fetch(`/api/cabin/${pageID[pageID.length - 1]}`, {
       method: 'GET',
     })
       .then((response) => response.json())
