@@ -41,12 +41,12 @@ const DeleteCabinPic = () => {
       return;
     }
     if (e.target.tagName.toUpperCase() === 'IMG') {
-      e.target.parentElement.childNodes[0].checked =
-        !e.target.parentElement.childNodes[0].checked;
+      e.target.parentElement.childNodes[1].checked =
+        !e.target.parentElement.childNodes[1].checked;
       return;
     }
-    if (e.target.childNodes[0].tagName.toUpperCase() === 'INPUT') {
-      e.target.childNodes[0].checked = !e.target.childNodes[0].checked;
+    if (e.target.childNodes[1].tagName.toUpperCase() === 'INPUT') {
+      e.target.childNodes[1].checked = !e.target.childNodes[0].checked;
     }
   };
 

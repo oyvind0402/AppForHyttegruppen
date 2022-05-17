@@ -1,0 +1,26 @@
+.editseason-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.editseason-container table a {
+  padding: 0;
+  width: 100px;
+  font-size: 1rem;
+}
+
+.editseason-container .cell25 {
+  display: flex;
+  justify-content: center;
+  width: 150px;
+}
+
+.editseason-container .react-table-header25 {
+  width: 150px;
+}
+
+.editseason-container input {
+  display: none;
+}

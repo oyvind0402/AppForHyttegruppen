@@ -781,7 +781,7 @@ func (r repo) DeleteLosingApplications(ctx *gin.Context) {
 	// Delete from database
 	res, err := r.sqlDb.Exec(`
 		DELETE FROM Applications 
-		WHERE NOT winner OR winner IS NULL 
+		WHERE NOT winner
 		AND period_id IN (
 			SELECT period_id
 			FROM Periods

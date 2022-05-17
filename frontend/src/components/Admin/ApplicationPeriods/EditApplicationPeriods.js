@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import BackButton from '../../01-Reusable/Buttons/BackButton';
-import './EditPeriods.css';
+import './EditApplicationPeriods.css';
 import { Link } from 'react-router-dom';
 import Table2 from '../../01-Reusable/Table/Table2';
 import AdminBanner from '../../01-Reusable/HeroBanner/AdminBanner';
@@ -149,11 +149,21 @@ const EditPeriods = () => {
   return (
     <>
       <BackButton name="Tilbake til endre sideinnhold" link="admin/endringer" />
-      <AdminBanner name="Endre perioder" />
+      <AdminBanner name="Endre søknads perioder" />
       <div className="edit-periods-container">
-        <button className="big btn" onClick={handleVisibility}>
+        <p className="application-period-title">Sesonger</p>
+        <button className="btn-medium" onClick={handleVisibility}>
           Slett tidligere sesonger
         </button>
+
+        <Link className="btn-medium btn-link" to="/admin/endresesonger">
+          Endre sesonger
+        </Link>
+
+        <p className="application-period-title">Perioder</p>
+        <Link className="btn-medium btn-link" to="/admin/leggtilperiode">
+          Legg til periode
+        </Link>
         {periods !== null &&
           typeof periods !== undefined &&
           periods.length !== 0 && (
@@ -167,14 +177,9 @@ const EditPeriods = () => {
           cancelMethod={handleVisibility}
           acceptMethod={deletePastSeasons}
           title="Sletting av gamle sesonger!"
-          description={[
-            'Er du sikker på at du vil slette alle gamle sesonger? Alt som har sluttdato før dagens dato vil bli slettet.',
-            <>
-              <br />
-              <br />
-            </>,
-            'OBS: dette sletter også perioder som er linket til sesongen, og alle søknader (tildelte eller avslåtte) som er linket til de periodene.',
-          ]}
+          description={
+            'Er du sikker på at du vil slette alle gamle sesonger? Alt som har sluttdato før dagens dato vil bli slettet.\n\nOBS: dette sletter også perioder som er linket til sesongen, og alle søknader (tildelte eller avslåtte) som er linket til de periodene.'
+          }
         />
       )}
       {success && (

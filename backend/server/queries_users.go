@@ -177,19 +177,19 @@ func (r repo) PostUser(ctx *gin.Context) {
 	ctx.JSON(200, resId)
 }
 
-// Delete one user with specified ID (receives userId: string; returns rowsAffected: int)
+// Delete one user with specified email (receives email: string; returns rowsAffected: int)
 func (r repo) DeleteUser(ctx *gin.Context) {
 	// curl -X DELETE -v -d "1" localhost:8080/user/delete
 
 	// Retrieve ID parameter
-	userId := new(string)
-	if err := ctx.BindJSON(userId); err != nil {
+	email := new(string)
+	if err := ctx.BindJSON(email); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
 
 	// Delete from database
-	res, err := r.sqlDb.Exec(`DELETE FROM Users WHERE user_id = $1`, &userId)
+	res, err := r.sqlDb.Exec(`DELETE FROM Users WHERE email = $1`, &email)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
@@ -203,7 +203,7 @@ func (r repo) DeleteUser(ctx *gin.Context) {
 	}
 
 	if rowsAffected == 0 {
-		ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"err": fmt.Sprintf("Cannot delete non-existent user #%s", *userId)})
+		ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"err": fmt.Sprintf("Cannot delete non-existent user #%s", *email)})
 		return
 	}
 

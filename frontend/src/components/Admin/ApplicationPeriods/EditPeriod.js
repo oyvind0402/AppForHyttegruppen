@@ -11,7 +11,12 @@ const EditPeriod = () => {
   const [period, setPeriod] = useState({});
   const [seasons, setSeasons] = useState([]);
   const [popupVisible, setPopupVisible] = useState(false);
+  const [alertPopupVisible, setAlertPopupVisible] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const handleAlertVisibility = () => {
+    setAlertPopupVisible(!alertPopupVisible);
+  };
 
   const handleVisibility = () => {
     let _errors = {};
@@ -20,15 +25,15 @@ const EditPeriod = () => {
     if (period.name.length === 0) {
       _errors.name = 'Du må fylle inn et navn!';
     }
-    if (end < start) {
-      _errors.end = 'Sluttdato kan ikke være før startdato!';
+    if (end <= start) {
+      _errors.end = 'Sluttdato kan ikke være før eller samtidig som startdato!';
     }
 
-    if (end.toString === 'Invalid Date') {
+    if (end.toString() === 'Invalid Date') {
       _errors.end = 'Du valgte en ugyldig sluttdato!';
     }
 
-    if (start.toString === 'Invalid Date') {
+    if (start.toString() === 'Invalid Date') {
       _errors.start = 'Du valgte en ugyldig startdato!';
     }
 
@@ -91,6 +96,25 @@ const EditPeriod = () => {
     }
   };
 
+  const deletePeriod = async () => {
+    try {
+      const response = await fetch('/period/delete', {
+        method: 'DELETE',
+        headers: { token: cookies.get('token') },
+        body: JSON.stringify(parseInt(id)),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        if (data > 0) {
+          history.replace('/admin/endreperioder');
+        } else {
+          setAlertPopupVisible(false);
+          setErrors('Perioden kunne ikke slettes!');
+        }
+      }
+    } catch (error) {}
+  };
+
   useEffect(() => {
     async function fetchPeriod() {
       fetch('/period/' + id)
@@ -124,7 +148,7 @@ const EditPeriod = () => {
       <div className="endreperiode-container">
         <div className="edit-input-wrapper">
           <label className="edit-period-title" htmlFor="edit-period-name">
-            Navn
+            Navn*
           </label>
           <input
             type="text"
@@ -136,12 +160,11 @@ const EditPeriod = () => {
               setPeriod({ ...period });
             }}
           />
-          {errors.name && <span className="login-error">{errors.name}</span>}
         </div>
-
+        {errors.name && <span className="login-error">{errors.name}</span>}
         <div className="edit-input-wrapper">
           <label className="edit-period-title" htmlFor="edit-period-startdate">
-            Startdato
+            Startdato*
           </label>
           <input
             type="date"
@@ -155,12 +178,11 @@ const EditPeriod = () => {
               }
             }}
           />
-          {errors.start && <span className="login-error">{errors.start}</span>}
         </div>
-
+        {errors.start && <span className="login-error">{errors.start}</span>}
         <div className="edit-input-wrapper">
           <label className="edit-period-title" htmlFor="edit-period-enddate">
-            Sluttdato
+            Sluttdato*
           </label>
           <input
             type="date"
@@ -174,12 +196,11 @@ const EditPeriod = () => {
               }
             }}
           />
-          {errors.end && <span className="login-error">{errors.end}</span>}
         </div>
-
+        {errors.end && <span className="login-error">{errors.end}</span>}
         <div className="edit-input-wrapper">
           <label className="edit-period-title" htmlFor='select-period"'>
-            Sesong
+            Sesong*
             <br />
             <select className="edit-period-input" id="select-period">
               {seasons !== null &&
@@ -210,9 +231,14 @@ const EditPeriod = () => {
           </label>
         </div>
 
-        <button onClick={handleVisibility} className="btn big">
-          Endre
-        </button>
+        <div className="periodbuttons">
+          <button onClick={handleVisibility} className="btn-smaller">
+            Endre
+          </button>
+          <button onClick={handleAlertVisibility} className="btn-smaller">
+            Slett
+          </button>
+        </div>
       </div>
       {popupVisible && (
         <AlertPopup
@@ -222,6 +248,18 @@ const EditPeriod = () => {
           description={'Er du sikker på at du vil endre perioden?'}
           acceptMethod={editPeriod}
           cancelMethod={handleVisibility}
+        />
+      )}
+      {alertPopupVisible && (
+        <AlertPopup
+          positiveAction="Ja"
+          negativeAction="Nei"
+          title="Sletting av periode"
+          description={
+            'Er du sikker på at du vil slette perioden?\n\nDa slettes også alle søknader som er linket til perioden!'
+          }
+          acceptMethod={deletePeriod}
+          cancelMethod={handleAlertVisibility}
         />
       )}
     </>

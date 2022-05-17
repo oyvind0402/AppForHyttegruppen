@@ -33,10 +33,6 @@
   display: inline-block;
 }
 
-.upload-cabin-pic-container .slick-slide-item img {
-  aspect-ratio: 1;
-}
-
 .uploaded-pics-title {
   text-align: center;
 }

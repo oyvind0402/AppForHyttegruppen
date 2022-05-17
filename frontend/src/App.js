@@ -23,16 +23,19 @@ import OpenPeriod from './components/Admin/OpenPeriod';
 import AddCabin from './components/Admin/Cabins/AddCabin';
 import UploadCabinPics from './components/Admin/UploadPics/UploadCabinPics';
 import UploadCabinPic from './components/Admin/UploadPics/UploadCabinPic';
-import EditPeriods from './components/Admin/Periods/EditPeriods';
+import EditApplicationPeriods from './components/Admin/ApplicationPeriods/EditApplicationPeriods';
 import AddFAQ from './components/Admin/FAQ/AddFAQ';
 import EditFAQs from './components/Admin/FAQ/EditFAQs';
 import EditFAQ from './components/Admin/FAQ/EditFAQ';
 import SoknadStengtPage from './pages/SoknadStengtPage';
-import EditPeriod from './components/Admin/Periods/EditPeriod';
+import EditPeriod from './components/Admin/ApplicationPeriods/EditPeriod';
 import UploadOrDeleteCabinsPics from './components/Admin/UploadPics/UploadOrDeleteCabinsPics';
 import DeleteCabinPic from './components/Admin/UploadPics/DeleteCabinPic';
 import DeleteCabinsPic from './components/Admin/UploadPics/DeleteCabinsPic';
 import AdminSettings from './components/Admin/AdminSettings/AdminSettings';
+import EditSeasons from './components/Admin/ApplicationPeriods/EditSeasons';
+import EditSeason from './components/Admin/ApplicationPeriods/EditSeason';
+import AddPeriod from './components/Admin/ApplicationPeriods/AddPeriod';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -101,11 +104,23 @@ function App() {
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/endreperioder">
-          {loginContext.adminAccess && <EditPeriods />}
+          {loginContext.adminAccess && <EditApplicationPeriods />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/endreperiode">
           {loginContext.adminAccess && <EditPeriod />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/leggtilperiode">
+          {loginContext.adminAccess && <AddPeriod />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/endresesonger">
+          {loginContext.adminAccess && <EditSeasons />}
+          {!loginContext.adminAccess && <Redirect to="/login" />}
+        </Route>
+        <Route path="/admin/endresesong">
+          {loginContext.adminAccess && <EditSeason />}
           {!loginContext.adminAccess && <Redirect to="/login" />}
         </Route>
         <Route path="/admin/endresoknader">

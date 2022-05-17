@@ -38,3 +38,8 @@
   outline-width: medium;
   outline-color: black;
 }
+
+.periodbuttons {
+  display: flex;
+  grid-gap: 1rem;
+}

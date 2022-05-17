@@ -53,6 +53,7 @@
   border: 3px solid #787878;
   margin-left: 37.5%;
   margin-right: 37.5%;
+  white-space: pre-line;
 }
 
 .alert-popup-container hr {

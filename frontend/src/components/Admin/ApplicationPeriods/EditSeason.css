@@ -1,0 +1,38 @@
+.endreseason-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-season-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-season-input {
+  width: 300px;
+  height: 2rem;
+  border: 2px solid gray;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.edit-season-title {
+  font-weight: 700;
+  margin: 1rem 0 0 0;
+  width: 100%;
+}
+
+#edit-period-select:focus-visible {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: black;
+}
+
+.seasonbuttons {
+  margin-top: 1.5rem;
+  display: flex;
+  grid-gap: 1.5rem;
+}

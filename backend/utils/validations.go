@@ -59,3 +59,15 @@ func CheckCabinValidation(name string, address string, latitude float64, longitu
 
 	return nameRegex.MatchString(name) && addressRegex.MatchString(address) && latRegex.MatchString(strconv.FormatFloat(latitude, 'f', -1, 64)) && longRegex.MatchString(strconv.FormatFloat(longitude, 'f', -1, 64)) && dirRegex.MatchString(directions) && longDescRegex.MatchString(longdesc) && shortDescRegex.MatchString(shortdesc) && priceRegex.MatchString(strconv.Itoa(price)) && cleaningPriceRegex.MatchString(strconv.Itoa(cleaningprice)) && bathroomsRegex.MatchString(strconv.Itoa(bathrooms)) && bedsRegex.MatchString(strconv.Itoa(beds)) && bedroomsRegex.MatchString(strconv.Itoa(bedrooms))
 }
+
+func CheckFAQValidation(question string, answer string) bool {
+	questionRegex := regexp.MustCompile(`^[\S\s]{1,}$`)
+	answerRegex := regexp.MustCompile(`^[\S\s]{1,}$`)
+
+	return questionRegex.MatchString(question) && answerRegex.MatchString(answer)
+}
+
+func CheckAdminEmailValidation(email string) bool {
+	emailRegex := regexp.MustCompile(`^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$`)
+	return emailRegex.MatchString(email)
+}
