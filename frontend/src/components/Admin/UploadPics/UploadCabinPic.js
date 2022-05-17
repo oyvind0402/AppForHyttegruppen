@@ -25,9 +25,9 @@ const UploadCabinPic = () => {
     const files = document.getElementById('image').files[0];
     console.log(files);
     const formData = new FormData();
-    formData.append('file', files);
     formData.append('cabinName', cabinName);
     formData.append('altText', files);
+    formData.append('file', files);
     setUrl(null);
 
     if (typeof files === 'undefined') {

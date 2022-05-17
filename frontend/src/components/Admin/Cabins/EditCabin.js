@@ -283,12 +283,12 @@ const EditCabin = () => {
   const uploadMainPicture = async () => {
     const files = document.getElementById('mainPictureEndre').files[0];
     const formData = new FormData();
-    formData.append('file', files);
     formData.append(
       'altText',
       document.getElementById('mainPictureEndre').value
     );
     formData.append('cabinName', document.getElementById('edit-name').value);
+    formData.append('file', files);
 
     if (typeof files === 'undefined') {
       return;

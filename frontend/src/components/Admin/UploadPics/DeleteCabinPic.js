@@ -58,8 +58,8 @@ const DeleteCabinPic = () => {
       'input[type=radio]:checked'
     );
     const formData = new FormData();
-    formData.append('file', deletePicture[0].value);
     formData.append('cabinName', cabinData.name);
+    formData.append('file', deletePicture[0].value);
 
     fetch('/api/pictures/deletepictures', {
       method: 'POST',

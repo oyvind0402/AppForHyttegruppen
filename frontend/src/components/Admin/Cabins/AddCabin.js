@@ -269,9 +269,9 @@ const AddCabin = () => {
   const uploadMainPicture = async () => {
     const files = document.getElementById('mainPicture').files[0];
     const formData = new FormData();
-    formData.append('file', files);
     formData.append('altText', document.getElementById('mainPicture').value);
     formData.append('cabinName', document.getElementById('add-name').value);
+    formData.append('file', files);
 
     if (typeof files === 'undefined') {
       return;
