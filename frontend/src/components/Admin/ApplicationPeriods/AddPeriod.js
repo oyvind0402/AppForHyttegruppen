@@ -67,7 +67,7 @@ const AddPeriod = () => {
 
   const addPeriod = async () => {
     try {
-      const response = await fetch('/period/post', {
+      const response = await fetch('/api/period/iod/post', {
         method: 'POST',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(period),
@@ -84,7 +84,7 @@ const AddPeriod = () => {
 
   useEffect(() => {
     async function fetchSeasons() {
-      fetch('/season/all')
+      fetch('/api/season/all')
         .then((response) => response.json())
         .then((data) => {
           setSeasons(data);

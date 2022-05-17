@@ -57,7 +57,7 @@ const TripCardPending = (props) => {
 
   const cancelTrip = async () => {
     try {
-      const response = await fetch('/application/delete', {
+      const response = await fetch('/api/application/delete', {
         method: 'DELETE',
         body: JSON.stringify(props.data.applicationId),
         headers: { token: cookies.get('token') },

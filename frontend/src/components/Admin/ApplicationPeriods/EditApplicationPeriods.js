@@ -54,7 +54,7 @@ const EditPeriods = () => {
 
   const getPeriods = async () => {
     try {
-      const response = await fetch('/period/all');
+      const response = await fetch('/api/period/iod/iod/all');
       const data = await response.json();
       if (response.ok) {
         setPeriods(data);
@@ -120,7 +120,7 @@ const EditPeriods = () => {
   const deletePastSeasons = async () => {
     const now = getDateForDeletion(new Date());
     try {
-      const response = await fetch('/season/deleteolder', {
+      const response = await fetch('/api/season/deleteolder', {
         method: 'DELETE',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(now),

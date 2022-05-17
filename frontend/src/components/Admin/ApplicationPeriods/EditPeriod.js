@@ -81,7 +81,7 @@ const EditPeriod = () => {
     });
 
     try {
-      const response = await fetch('/period/update', {
+      const response = await fetch('/api/period/update', {
         method: 'PUT',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(period),
@@ -98,7 +98,7 @@ const EditPeriod = () => {
 
   const deletePeriod = async () => {
     try {
-      const response = await fetch('/period/delete', {
+      const response = await fetch('/api/period/delete', {
         method: 'DELETE',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(parseInt(id)),
@@ -117,7 +117,7 @@ const EditPeriod = () => {
 
   useEffect(() => {
     async function fetchPeriod() {
-      fetch('/period/' + id)
+      fetch('/api/period/' + id)
         .then((response) => response.json())
         .then((data) => {
           setPeriod(data);
@@ -126,7 +126,7 @@ const EditPeriod = () => {
     }
 
     async function fetchSeasons() {
-      fetch('/season/all')
+      fetch('/api/season/all')
         .then((response) => response.json())
         .then((data) => {
           setSeasons(data);

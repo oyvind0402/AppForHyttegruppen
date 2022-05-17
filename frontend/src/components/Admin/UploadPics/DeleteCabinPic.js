@@ -61,7 +61,7 @@ const DeleteCabinPic = () => {
     formData.append('file', deletePicture[0].value);
     formData.append('cabinName', cabinData.name);
 
-    fetch('/pictures/deletepictures', {
+    fetch('/api/pictures/deletepictures', {
       method: 'POST',
       body: formData,
       headers: {

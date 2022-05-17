@@ -32,7 +32,7 @@ const Soknad = () => {
     let postSuccessful = true;
 
     async function postPeriod(JsonBody) {
-      fetch('/application/post', {
+      fetch('/api/application/post', {
         method: 'POST',
         body: JSON.stringify(JsonBody),
         headers: { token: cookies.get('token') },
@@ -63,7 +63,7 @@ const Soknad = () => {
       });
 
       async function sendEmail(emailData) {
-        fetch('/email/afterApplication', {
+        fetch('/api/email/afterApplication', {
           method: 'POST',
           body: JSON.stringify(emailData),
         })

@@ -247,7 +247,7 @@ const AddCabin = () => {
     };
 
     try {
-      const response = await fetch('/cabin/post', {
+      const response = await fetch('/api/cabin/post', {
         method: 'POST',
         body: JSON.stringify(cabin),
         headers: { token: cookies.get('token') },
@@ -277,7 +277,7 @@ const AddCabin = () => {
       return;
     }
 
-    fetch('/pictures/main', {
+    fetch('/api/pictures/main', {
       method: 'POST',
       body: formData,
       headers: {

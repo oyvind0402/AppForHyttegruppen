@@ -9,7 +9,9 @@ const NeedsAttentionTrips = () => {
   const getApplications = async () => {
     try {
       const response = await fetch(
-        '/application/byuser/' + localStorage.getItem('userID') + '/current',
+        '/api/application/byuser/' +
+          localStorage.getItem('userID') +
+          '/current',
         {
           method: 'GET',
         }
@@ -21,7 +23,7 @@ const NeedsAttentionTrips = () => {
       }
 
       const response2 = await fetch(
-        '/application/byuser/' + localStorage.getItem('userID') + '/past'
+        '/api/application/byuser/' + localStorage.getItem('userID') + '/past'
       );
       const data2 = await response2.json();
       if (response2.ok) {

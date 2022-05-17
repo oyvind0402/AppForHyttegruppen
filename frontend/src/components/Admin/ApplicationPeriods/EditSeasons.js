@@ -90,7 +90,7 @@ const Seasons = () => {
 
   const getSeasons = async () => {
     try {
-      const response = await fetch('/season/all');
+      const response = await fetch('/api/season/all');
       const data = await response.json();
       if (response.ok) {
         setSeasons(data);

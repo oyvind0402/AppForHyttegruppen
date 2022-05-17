@@ -45,7 +45,7 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('/season/open');
+        const response = await fetch('/api/season/open');
         const data = await response.json();
         if (response.ok) {
           setSoknadOpen(data.isOpen);

@@ -25,7 +25,7 @@ const Step3 = (props) => {
   //Fetching
   useEffect(() => {
     async function fetchData() {
-      fetch('/cabin/active')
+      fetch('/api/cabin/active')
         .then((response) => response.json())
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));

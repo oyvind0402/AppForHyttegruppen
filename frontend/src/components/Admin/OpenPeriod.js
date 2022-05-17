@@ -280,7 +280,7 @@ const OpenPeriod = () => {
     const cookies = new Cookies();
 
     try {
-      const response = await fetch('/season/post', {
+      const response = await fetch('/api/season/post', {
         method: 'POST',
         body: JSON.stringify(season),
         headers: { token: cookies.get('token') },
@@ -290,7 +290,7 @@ const OpenPeriod = () => {
         setPopupVisible(false);
         setOpened(true);
         periods.forEach((period) =>
-          fetch('/period/post', {
+          fetch('/api/period/post', {
             method: 'POST',
             body: JSON.stringify(period),
             headers: { token: cookies.get('token') },

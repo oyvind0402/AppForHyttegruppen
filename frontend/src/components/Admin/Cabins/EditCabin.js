@@ -26,7 +26,7 @@ const EditCabin = () => {
 
   useEffect(() => {
     async function fetchCabin() {
-      fetch('/cabin/' + cabinName)
+      fetch('/api/cabin/bin/' + cabinName)
         .then((response) => response.json())
         .then((data) => {
           let copy = [];
@@ -256,7 +256,7 @@ const EditCabin = () => {
     };
 
     try {
-      const response = await fetch('/cabin/update', {
+      const response = await fetch('/api/cabin/bin/update', {
         method: 'PUT',
         body: JSON.stringify(cabin2),
         headers: { token: cookies.get('token') },
@@ -294,7 +294,7 @@ const EditCabin = () => {
       return;
     }
 
-    fetch('/pictures/main', {
+    fetch('/api/pictures/main', {
       method: 'POST',
       body: formData,
       headers: {
@@ -309,7 +309,7 @@ const EditCabin = () => {
         console.error(error);
       });
 
-    fetch('/pictures/replaceFirst', {
+    fetch('/api/pictures/replaceFirst', {
       method: 'POST',
       body: formData,
       headers: {

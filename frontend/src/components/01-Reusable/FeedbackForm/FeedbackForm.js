@@ -151,7 +151,7 @@ const FeedbackForm = (props) => {
     const cookies = new Cookies();
 
     try {
-      const response = await fetch('/application/setfeedback', {
+      const response = await fetch('/api/application/setfeedback', {
         method: 'PATCH',
         body: JSON.stringify(props.data.applicationId),
         headers: { token: cookies.get('token') },
@@ -174,7 +174,7 @@ const FeedbackForm = (props) => {
         ', og epost ' +
         props.data.user.email +
         ' svarte nei på noen spørsmål i tilbakemeldingsskjemaet. Nedenfor sees svarene.';
-      fetch('/email/filledFeedback', {
+      fetch('/api/email/filledFeedback', {
         method: 'POST',
         body: JSON.stringify({
           period: props.data.period,

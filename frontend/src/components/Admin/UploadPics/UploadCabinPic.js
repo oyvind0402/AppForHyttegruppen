@@ -34,7 +34,7 @@ const UploadCabinPic = () => {
 
     handleShowingPictures(files);
 
-    fetch('/pictures/one', {
+    fetch('/api/pictures/one', {
       method: 'POST',
       body: formData,
       headers: {

@@ -21,7 +21,7 @@ const LoginForm = () => {
     const passwordValue = password.current.value;
 
     try {
-      const response = await fetch('/user/signin', {
+      const response = await fetch('/api/user/signin', {
         method: 'POST',
         body: JSON.stringify({
           email: usernameValue,

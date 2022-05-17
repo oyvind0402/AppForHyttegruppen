@@ -9,7 +9,7 @@ const UploadCabinPics = () => {
 
   useEffect(() => {
     async function getCabin() {
-      fetch('/cabin/all')
+      fetch('/api/cabin/all')
         .then((response) => response.json())
         .then((data) => {
           setCabins(data);

@@ -77,14 +77,14 @@ const MinTur = () => {
     }
 
     try {
-      const response = await fetch('/application/delete', {
+      const response = await fetch('/api/application/delete', {
         method: 'DELETE',
         body: JSON.stringify(pageID),
         headers: { token: cookies.get('token') },
       });
 
       if (response.ok) {
-        fetch('/email/cancelledTrip', {
+        fetch('/api/email/cancelledTrip', {
           method: 'POST',
           body: JSON.stringify({
             period: trip.period,
@@ -103,7 +103,7 @@ const MinTur = () => {
 
   const getTrip = useCallback(async () => {
     try {
-      const response = await fetch('/application/' + pageID);
+      const response = await fetch('/api/application/' + pageID);
 
       const data = await response.json();
       if (response.ok) {
@@ -123,13 +123,13 @@ const MinTur = () => {
 
         let _cabinWinners = [];
 
-        const nameresponse = await fetch('/cabin/active/names');
+        const nameresponse = await fetch('/api/cabin/active/names');
         const cabinNames = await nameresponse.json();
         if (nameresponse.ok) {
           if (length > 0) {
             data.cabinsWon.forEach((cabin) => {
               if (cabinNames.includes(cabin.cabinName)) {
-                fetch('/cabin/' + cabin.cabinName)
+                fetch('/api/cabin/' + cabin.cabinName)
                   .then((response) => response.json())
                   .then((data) => {
                     _cabinWinners.push(data);

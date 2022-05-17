@@ -9,7 +9,7 @@ const DeleteCabinsPic = () => {
 
   const getCabin = async () => {
     try {
-      const response = await fetch('/cabin/all');
+      const response = await fetch('/api/cabin/all');
       const data = await response.json();
       if (response.ok) {
         setCabins(data);
