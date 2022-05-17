@@ -23,9 +23,11 @@ const UploadCabinPic = () => {
 
   const handleImageUpload = async () => {
     const files = document.getElementById('image').files[0];
+    console.log(files);
     const formData = new FormData();
     formData.append('file', files);
     formData.append('cabinName', cabinName);
+    formData.append('altText', files);
     setUrl(null);
 
     if (typeof files === 'undefined') {
@@ -42,9 +44,6 @@ const UploadCabinPic = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
       .catch((error) => {
         console.error(error);
       });

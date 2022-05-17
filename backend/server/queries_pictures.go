@@ -122,9 +122,8 @@ func (r repo) PostOnePicture(ctx *gin.Context) {
 		return
 	}
 	cabinName := ctx.Request.FormValue("cabinName")
-	//FIXME Comment out when altText is passed
-	//altText := ctx.Request.FormValue("altText")
-	altText := "altText"
+	altText := ctx.Request.FormValue("altText")
+	//altText := "altText"
 
 	// Check that file name is valid (done also before file saving to avoid SQL injection)
 	filename, err := utils.CheckFilename(file.Filename)
