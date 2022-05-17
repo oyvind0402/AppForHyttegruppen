@@ -20,12 +20,11 @@ func SaveFile(ctx *gin.Context, file *multipart.FileHeader) (context *gin.Contex
 	if err != nil {
 		return ctx, http.StatusBadRequest, err
 	}
+	path := os.Getenv("hytteroot")
 
-	if err := ctx.SaveUploadedFile(file, "./frontend/public/assets/pictures/"+filename); err != nil {
+	if err := ctx.SaveUploadedFile(file, fmt.Sprintf("%s/frontend/public/assets/pictures/%s", path, filename)); err != nil {
 		return ctx, http.StatusFailedDependency, err
 	}
-
-	// TODO: Handle duplicates
 
 	return ctx, http.StatusOK, nil
 }
@@ -121,9 +120,7 @@ func (r repo) PostOnePicture(ctx *gin.Context) {
 		return
 	}
 	cabinName := ctx.Request.FormValue("cabinName")
-	//FIXME Comment out when altText is passed
-	//altText := ctx.Request.FormValue("altText")
-	altText := "altText"
+	altText := ctx.Request.FormValue("altText")
 
 	// Check that file name is valid (done also before file saving to avoid SQL injection)
 	filename, err := utils.CheckFilename(file.Filename)
@@ -469,7 +466,8 @@ func (r repo) DeletePictures(ctx *gin.Context) {
 	}
 
 	// Delete the picture
-	path := "./frontend/public/assets/pictures/" + file
+	root := os.Getenv("hytteroot")
+	path := fmt.Sprintf("%s/frontend/public/assets/pictures/%s", root, file)
 	error := os.Remove(path) // remove a single file
 	if error != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})

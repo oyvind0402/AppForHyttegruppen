@@ -2,6 +2,7 @@ package server
 
 import (
 	"bachelorprosjekt/backend/data"
+	"bachelorprosjekt/backend/utils"
 	"database/sql"
 	"fmt"
 	"net/http"
@@ -82,6 +83,12 @@ func (r repo) PostFAQ(ctx *gin.Context) {
 	err := ctx.BindJSON(faq)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	validFAQ := utils.CheckFAQValidation(faq.Question, faq.Answer)
+	if !validFAQ {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "Invalid FAQ input!"})
 		return
 	}
 

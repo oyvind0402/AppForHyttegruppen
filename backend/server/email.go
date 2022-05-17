@@ -64,7 +64,7 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 		return
 	}
 	//TODO change the email to userEmail
-	SendEmail("oyvind0402@gmail.com", htmlBody, "Kvittering for søknaden din")
+	SendEmail(*userEmail, htmlBody, "Kvittering for søknaden din")
 }
 
 //endpoint to send email after application was approved
@@ -124,8 +124,8 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	htmlBody.WriteString(`</body></html>`)
 
 	//sending the email
-	//TODO change the email used to application.User.Email
-	SendEmail("oyvind0402@gmail.com", htmlBody, "Søknad godkjent!")
+	//TODO change the email used to
+	SendEmail(application.User.Email, htmlBody, "Søknad godkjent!")
 }
 
 //endpoint to send email after feedback is sent
@@ -174,8 +174,29 @@ func (r repo) AfterFeedbackSent(ctx *gin.Context) {
 	htmlBody.WriteString(`</p>`)
 	htmlBody.WriteString(`</body></html>`)
 
-	//TODO send to admin email
-	SendEmail("oyvind0402@gmail.com", htmlBody, "Tilbakemelding mottatt!")
+	resp, err := http.Get("http://localhost:8080/admin_email/all")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	type Emails struct {
+		Id    string `json:"emailId"`
+		Email string `json:"email"`
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var emails []Emails
+
+	json.Unmarshal(body, &emails)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for _, email := range emails {
+		SendEmail(email.Email, htmlBody, "Tilbakemelding mottatt!")
+	}
 }
 
 func (r repo) AfterTripCancelled(ctx *gin.Context) {
@@ -218,8 +239,29 @@ func (r repo) AfterTripCancelled(ctx *gin.Context) {
 	htmlBody.WriteString("Perioden " + formData.Period.Name + " (" + formData.Period.Start.Format("2006-01-02") + " - " + formData.Period.End.Format("2006-01-02") + ") er altså åpen for den / de hyttene igjen.")
 	htmlBody.WriteString(`</body></html>`)
 
-	//TODO change email to admin email
-	SendEmail("oyvind0402@gmail.com", htmlBody, "Tur kansellert!")
+	resp, err := http.Get("http://localhost:8080/admin_email/all")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	type Emails struct {
+		Id    string `json:"emailId"`
+		Email string `json:"email"`
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var emails []Emails
+
+	json.Unmarshal(body, &emails)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for _, email := range emails {
+		SendEmail(email.Email, htmlBody, "Tur kansellert!")
+	}
 }
 
 func connectToEmailService(userName string, passwd string) *mail.SMTPClient {
