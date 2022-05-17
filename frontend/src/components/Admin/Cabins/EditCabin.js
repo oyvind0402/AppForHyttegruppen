@@ -26,7 +26,7 @@ const EditCabin = () => {
 
   useEffect(() => {
     async function fetchCabin() {
-      fetch('/api/cabin/bin/' + cabinName)
+      fetch('/api/cabin/' + cabinName)
         .then((response) => response.json())
         .then((data) => {
           let copy = [];
@@ -256,7 +256,7 @@ const EditCabin = () => {
     };
 
     try {
-      const response = await fetch('/api/cabin/bin/update', {
+      const response = await fetch('/api/cabin/update', {
         method: 'PUT',
         body: JSON.stringify(cabin2),
         headers: { token: cookies.get('token') },
