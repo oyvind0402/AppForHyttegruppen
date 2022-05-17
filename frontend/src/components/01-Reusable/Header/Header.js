@@ -123,14 +123,13 @@ const Header = () => {
         </div>
         <div className="right-side">
           {loggedIn && (
-            <NavLink
-              activeClassName="active"
+            <Link
               className="nav-list-item nav-list-logout"
               to="/"
               onClick={logoutHandler}
             >
               Logg ut
-            </NavLink>
+            </Link>
           )}
           {!loggedIn && (
             <Link className="nav-list-item nav-list-logout" to="/login">
