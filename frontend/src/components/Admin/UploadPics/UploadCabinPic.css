@@ -37,6 +37,11 @@
   text-align: center;
 }
 
+.pic-error {
+  text-align: center;
+  margin: auto;
+}
+
 @media only screen and (max-width: 500px) {
   .upload-title {
     font-size: 1.5rem;

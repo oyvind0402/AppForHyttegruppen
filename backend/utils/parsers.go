@@ -57,7 +57,10 @@ func ObjToPrimitive(initkey string, obj interface{}) []primitive.E {
 
 func CheckFilename(filename string) (string, error) {
 	if match, _ := regexp.MatchString("[/\\?%*:|\"<>;=]", filename); match {
-		return "", errors.New("Invalid file name. Must not contain / \\ ? % * : | \" < > ; =")
+		return "", errors.New("invalid file name, must not contain / \\ ? % * : | \" < > ; =")
+	}
+	if match, _ := regexp.MatchString("\\.(jpeg)|(jpg)$", filename); !match {
+		return "", errors.New("invalid file type, must be jpeg/jpg")
 	}
 	return filename, nil
 }

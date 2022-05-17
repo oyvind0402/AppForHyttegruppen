@@ -585,7 +585,7 @@ const AddCabin = () => {
             type="file"
             id="mainPicture"
             name="mainPicture"
-            accept=".jpg,.png"
+            accept=".jpg,.jpeg"
           />
           {errors.mainPicture && (
             <span className="login-error">{errors.mainPicture}</span>

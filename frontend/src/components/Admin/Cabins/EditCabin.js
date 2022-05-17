@@ -684,7 +684,7 @@ const EditCabin = () => {
             type="file"
             id="mainPictureEndre"
             name="mainPictureEndre"
-            accept=".jpg,.png"
+            accept=".jpg,.jpeg"
           />
           {errorMessage.mainPicture && (
             <span className="login-error">{errorMessage.mainPicture}</span>
