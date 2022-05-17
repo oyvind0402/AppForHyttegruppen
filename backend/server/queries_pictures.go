@@ -123,7 +123,6 @@ func (r repo) PostOnePicture(ctx *gin.Context) {
 	}
 	cabinName := ctx.Request.FormValue("cabinName")
 	altText := ctx.Request.FormValue("altText")
-	//altText := "altText"
 
 	// Check that file name is valid (done also before file saving to avoid SQL injection)
 	filename, err := utils.CheckFilename(file.Filename)
