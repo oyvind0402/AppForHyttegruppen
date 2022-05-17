@@ -20,8 +20,9 @@ func SaveFile(ctx *gin.Context, file *multipart.FileHeader) (context *gin.Contex
 	if err != nil {
 		return ctx, http.StatusBadRequest, err
 	}
+	path := os.Getenv("hytteroot")
 
-	if err := ctx.SaveUploadedFile(file, "./frontend/public/assets/pictures/"+filename); err != nil {
+	if err := ctx.SaveUploadedFile(file, fmt.Sprintf("%s/frontend/public/assets/pictures/%s", path, filename)); err != nil {
 		return ctx, http.StatusFailedDependency, err
 	}
 
