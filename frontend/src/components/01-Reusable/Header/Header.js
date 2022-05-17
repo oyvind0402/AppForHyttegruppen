@@ -126,7 +126,7 @@ const Header = () => {
             <NavLink
               activeClassName="active"
               className="nav-list-item nav-list-logout"
-              to="/login"
+              to="/"
               onClick={logoutHandler}
             >
               Logg ut
@@ -236,6 +236,7 @@ const Header = () => {
             <Link
               className="nav-list-mobile-item logout-mobile"
               onClick={logoutHandler}
+              to="/"
             >
               Logg ut
             </Link>
