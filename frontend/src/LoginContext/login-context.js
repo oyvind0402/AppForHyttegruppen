@@ -11,7 +11,7 @@ const LoginContext = React.createContext({
 });
 
 export const LoginContextProvider = (props) => {
-  const key = 'token';
+  const key = 'tokenCreated';
   const adminKey = 'admin';
 
   const cookies = new Cookies();
@@ -24,9 +24,8 @@ export const LoginContextProvider = (props) => {
   const adminAccess = !!token && !!admin;
 
   //Logging in sets the key with the token thats passed with the function
-  const login = (token, admin) => {
-    setToken(token);
-    cookies.set(key, token, { sameSite: 'strict' });
+  const login = (admin) => {
+    setToken(cookies.get(key));
     if (admin) {
       setAdmin(admin);
       cookies.set(adminKey, admin, { sameSite: 'strict' });
@@ -37,7 +36,6 @@ export const LoginContextProvider = (props) => {
   const logout = () => {
     setToken(null);
     setAdmin(null);
-    cookies.remove('token', { path: '/' });
     cookies.remove('admin', { path: '/' });
   };
 
@@ -49,18 +47,6 @@ export const LoginContextProvider = (props) => {
     login: login,
     logout: logout,
   };
-
-  useEffect(() => {
-    if (cookies.get(key)) {
-      if (token) {
-        const jwtPayload = JSON.parse(window.atob(token.split('.')[1]));
-        if (Date.now() >= jwtPayload.exp * 1000) {
-          logout();
-          window.location.href = '/login';
-        }
-      }
-    }
-  });
 
   return (
     <LoginContext.Provider value={contextValues}>

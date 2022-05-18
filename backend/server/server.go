@@ -115,6 +115,7 @@ func setRouter(r repo) *gin.Engine {
 		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
 		userapi.POST("/signin", r.SignIn)
+		userapi.GET("/logout", r.LogOut)
 		userapi.PATCH("/setadmin", middleware.AuthenticateAdmin(), r.UpdateUserAdminAccess)
 	}
 

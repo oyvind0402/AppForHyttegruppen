@@ -33,7 +33,7 @@ const LoginForm = () => {
       if (!response.ok) {
         setShowFeedBack(true);
       } else {
-        loginContext.login(data.token, data.adminAccess);
+        loginContext.login(data.adminAccess);
         localStorage.setItem('userID', data.userId);
         history.replace('/');
       }

@@ -107,7 +107,13 @@ func validateAdminToken(signedToken string) (claims *SignedDetails, msg string) 
 
 func AuthenticateAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		adminToken := c.Request.Header.Get("token")
+		cookie, err2 := c.Request.Cookie("token")
+		if err2 != nil {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"err": err2})
+			return
+		}
+
+		adminToken := cookie.Value
 		if adminToken == "" {
 			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"err": "No Authorization header provided"})
 			return
@@ -127,7 +133,12 @@ func AuthenticateAdmin() gin.HandlerFunc {
 
 func Authenticate() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		clientToken := c.Request.Header.Get("token")
+		cookie, err2 := c.Request.Cookie("token")
+		if err2 != nil {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"err": err2})
+			return
+		}
+		clientToken := cookie.Value
 		if clientToken == "" {
 			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"err": "No Authorization header provided"})
 			return

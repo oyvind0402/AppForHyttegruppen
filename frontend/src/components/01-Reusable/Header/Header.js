@@ -6,7 +6,6 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import './Header.css';
 
 const Header = () => {
-  const history = useHistory();
   const loginContext = useContext(LoginContext);
   const [click, setClick] = useState(false);
   const [soknadOpen, setSoknadOpen] = useState(false);
@@ -18,10 +17,12 @@ const Header = () => {
     if (click) {
       handleClick();
     }
-
+    fetch('/api/user/logout')
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
     loginContext.logout();
     localStorage.removeItem('userID');
-    history.replace('/');
   };
 
   const handleClick = () => {
