@@ -122,7 +122,7 @@ VALUES('Utsikten', TRUE),
 ('Store Grøndalen', TRUE);
 
 INSERT INTO Users 
-VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4uHEb2bdYRKt4OuX9xye5U8PkVSH.WJRS', 'test', 'tester', FALSE),
+VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@tester.com', '$2a$10$LiT2C86qK7ijDZp9GL6lTOXOv.4HQ4SEHjQMlTv.gPDak8Qcq3W3K', 'Test', 'Tester', FALSE),
 ('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$x4GzHVRz/7Gf2NWM6z4jG.wBd3YQXDDVr68V/dmTK3kyXb3xlvmri', 'Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner, feedback)
