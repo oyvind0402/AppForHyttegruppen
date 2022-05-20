@@ -6,7 +6,6 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import './Header.css';
 
 const Header = () => {
-  const history = useHistory();
   const loginContext = useContext(LoginContext);
   const [click, setClick] = useState(false);
   const [soknadOpen, setSoknadOpen] = useState(false);
@@ -18,10 +17,12 @@ const Header = () => {
     if (click) {
       handleClick();
     }
-
+    fetch('/api/user/logout')
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
     loginContext.logout();
     localStorage.removeItem('userID');
-    history.replace('/');
   };
 
   const handleClick = () => {
@@ -31,7 +32,7 @@ const Header = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('/season/open');
+        const response = await fetch('/api/season/open');
         const data = await response.json();
         if (response.ok) {
           setSoknadOpen(data.isOpen);
@@ -123,14 +124,13 @@ const Header = () => {
         </div>
         <div className="right-side">
           {loggedIn && (
-            <NavLink
-              activeClassName="active"
+            <Link
               className="nav-list-item nav-list-logout"
-              to="/login"
+              to="/"
               onClick={logoutHandler}
             >
               Logg ut
-            </NavLink>
+            </Link>
           )}
           {!loggedIn && (
             <Link className="nav-list-item nav-list-logout" to="/login">
@@ -178,22 +178,26 @@ const Header = () => {
           >
             Hjem
           </NavLink>
-          <NavLink
-            activeClassName="active"
-            className="nav-list-mobile-item"
-            onClick={handleClick}
-            to="/mineturer"
-          >
-            Mine Turer
-          </NavLink>
-          <NavLink
-            activeClassName="active"
-            className="nav-list-mobile-item"
-            onClick={handleClick}
-            to="/soknad"
-          >
-            Søknad
-          </NavLink>
+          {loggedIn && (
+            <NavLink
+              activeClassName="active"
+              className="nav-list-mobile-item"
+              onClick={handleClick}
+              to="/mineturer"
+            >
+              Mine Turer
+            </NavLink>
+          )}
+          {loggedIn && (
+            <NavLink
+              activeClassName="active"
+              className="nav-list-mobile-item"
+              onClick={handleClick}
+              to="/soknad"
+            >
+              Søknad
+            </NavLink>
+          )}
           <NavLink
             activeClassName="active"
             className="nav-list-mobile-item"
@@ -232,6 +236,7 @@ const Header = () => {
             <Link
               className="nav-list-mobile-item logout-mobile"
               onClick={logoutHandler}
+              to="/"
             >
               Logg ut
             </Link>

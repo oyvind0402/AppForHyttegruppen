@@ -62,14 +62,14 @@ const TripCardActive = (props) => {
     const cookies = new Cookies();
 
     try {
-      const response = await fetch('/application/delete', {
+      const response = await fetch('/api/application/delete', {
         method: 'DELETE',
         body: JSON.stringify(props.data.applicationId),
         headers: { token: cookies.get('token') },
       });
 
       if (response.ok) {
-        fetch('/email/cancelledTrip', {
+        fetch('/api/email/cancelledTrip', {
           method: 'POST',
           body: JSON.stringify({
             period: props.data.period,

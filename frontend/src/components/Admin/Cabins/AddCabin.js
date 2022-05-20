@@ -247,7 +247,7 @@ const AddCabin = () => {
     };
 
     try {
-      const response = await fetch('/cabin/post', {
+      const response = await fetch('/api/cabin/post', {
         method: 'POST',
         body: JSON.stringify(cabin),
         headers: { token: cookies.get('token') },
@@ -269,15 +269,15 @@ const AddCabin = () => {
   const uploadMainPicture = async () => {
     const files = document.getElementById('mainPicture').files[0];
     const formData = new FormData();
-    formData.append('file', files);
     formData.append('altText', document.getElementById('mainPicture').value);
     formData.append('cabinName', document.getElementById('add-name').value);
+    formData.append('file', files);
 
     if (typeof files === 'undefined') {
       return;
     }
 
-    fetch('/pictures/main', {
+    fetch('/api/pictures/main', {
       method: 'POST',
       body: formData,
       headers: {
@@ -585,7 +585,7 @@ const AddCabin = () => {
             type="file"
             id="mainPicture"
             name="mainPicture"
-            accept=".jpg,.png"
+            accept=".jpg,.jpeg"
           />
           {errors.mainPicture && (
             <span className="login-error">{errors.mainPicture}</span>

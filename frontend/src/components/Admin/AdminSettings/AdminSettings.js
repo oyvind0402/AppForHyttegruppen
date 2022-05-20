@@ -28,7 +28,7 @@ const AdminSettings = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/user/all');
+      const response = await fetch('/api/user/all');
       const data = await response.json();
       if (response.ok) {
         setUsers(data);
@@ -40,7 +40,7 @@ const AdminSettings = () => {
 
   const fetchEmails = async () => {
     try {
-      const response = await fetch('/admin_email/all');
+      const response = await fetch('/api/admin_email/all');
       const data = await response.json();
       if (response.ok) {
         setEmails(data);
@@ -65,7 +65,7 @@ const AdminSettings = () => {
   const cookies = new Cookies();
 
   const deleteUser = async () => {
-    const response = await fetch('/user/delete', {
+    const response = await fetch('/api/user/delete', {
       method: 'DELETE',
       headers: { token: cookies.get('token') },
       body: JSON.stringify(id),
@@ -88,7 +88,7 @@ const AdminSettings = () => {
       return;
     }
     _changedUsers.forEach((user) => {
-      fetch('/user/setadmin', {
+      fetch('/api/user/setadmin', {
         method: 'PATCH',
         body: JSON.stringify(user),
         headers: { token: cookies.get('token') },
@@ -150,7 +150,7 @@ const AdminSettings = () => {
 
   const addEmail = async () => {
     try {
-      const response = await fetch('/admin_email/post', {
+      const response = await fetch('/api/admin_email/post', {
         method: 'POST',
         body: JSON.stringify(email),
         headers: { token: cookies.get('token') },
@@ -173,7 +173,7 @@ const AdminSettings = () => {
   const deleteEmail = async (id) => {
     if (id > 0) {
       try {
-        const response = await fetch('/admin_email/delete', {
+        const response = await fetch('/api/admin_email/delete', {
           method: 'DELETE',
           body: JSON.stringify(id),
           headers: { token: cookies.get('token') },
@@ -215,7 +215,7 @@ const AdminSettings = () => {
 
   const editEmail = async () => {
     try {
-      const response = await fetch('/admin_email/update', {
+      const response = await fetch('/api/admin_email/update', {
         method: 'PUT',
         body: JSON.stringify({
           emailId: id,

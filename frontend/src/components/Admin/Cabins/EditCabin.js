@@ -26,7 +26,7 @@ const EditCabin = () => {
 
   useEffect(() => {
     async function fetchCabin() {
-      fetch('/cabin/' + cabinName)
+      fetch('/api/cabin/' + cabinName)
         .then((response) => response.json())
         .then((data) => {
           let copy = [];
@@ -256,7 +256,7 @@ const EditCabin = () => {
     };
 
     try {
-      const response = await fetch('/cabin/update', {
+      const response = await fetch('/api/cabin/update', {
         method: 'PUT',
         body: JSON.stringify(cabin2),
         headers: { token: cookies.get('token') },
@@ -283,18 +283,18 @@ const EditCabin = () => {
   const uploadMainPicture = async () => {
     const files = document.getElementById('mainPictureEndre').files[0];
     const formData = new FormData();
-    formData.append('file', files);
     formData.append(
       'altText',
       document.getElementById('mainPictureEndre').value
     );
     formData.append('cabinName', document.getElementById('edit-name').value);
+    formData.append('file', files);
 
     if (typeof files === 'undefined') {
       return;
     }
 
-    fetch('/pictures/main', {
+    fetch('/api/pictures/main', {
       method: 'POST',
       body: formData,
       headers: {
@@ -309,7 +309,7 @@ const EditCabin = () => {
         console.error(error);
       });
 
-    fetch('/pictures/replaceFirst', {
+    fetch('/api/pictures/replaceFirst', {
       method: 'POST',
       body: formData,
       headers: {
@@ -684,7 +684,7 @@ const EditCabin = () => {
             type="file"
             id="mainPictureEndre"
             name="mainPictureEndre"
-            accept=".jpg,.png"
+            accept=".jpg,.jpeg"
           />
           {errorMessage.mainPicture && (
             <span className="login-error">{errorMessage.mainPicture}</span>

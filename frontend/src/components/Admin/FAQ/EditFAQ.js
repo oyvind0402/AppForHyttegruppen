@@ -55,7 +55,7 @@ const EditFAQ = () => {
     };
 
     try {
-      const response = await fetch('/faq/update', {
+      const response = await fetch('/api/faq/update', {
         method: 'PUT',
         body: JSON.stringify(_FAQ),
         headers: { token: cookies.get('token') },
@@ -71,7 +71,7 @@ const EditFAQ = () => {
   const deleteFAQ = async (id) => {
     setEditing(false);
 
-    const response = await fetch('/faq/delete', {
+    const response = await fetch('/api/faq/delete', {
       method: 'DELETE',
       headers: { token: cookies.get('token') },
       body: JSON.stringify(id),
@@ -83,7 +83,7 @@ const EditFAQ = () => {
 
   useEffect(() => {
     async function fetchFAQ() {
-      fetch('/faq/' + id)
+      fetch('/api/faq/' + id)
         .then((response) => response.json())
         .then((data) => {
           setFAQ(data);

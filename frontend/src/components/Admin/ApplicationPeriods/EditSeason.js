@@ -80,7 +80,7 @@ const EditSeason = () => {
 
   const editSeason = async () => {
     try {
-      const response = await fetch('/season/update', {
+      const response = await fetch('/api/season/update', {
         method: 'PUT',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(season),
@@ -98,7 +98,7 @@ const EditSeason = () => {
 
   const deleteSeason = async () => {
     try {
-      const response = await fetch('/season/delete', {
+      const response = await fetch('/api/season/delete', {
         method: 'DELETE',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(id),
@@ -117,7 +117,7 @@ const EditSeason = () => {
 
   useEffect(() => {
     async function fetchSeason() {
-      fetch('/season/' + id)
+      fetch('/api/season/' + id)
         .then((response) => response.json())
         .then((data) => {
           setSeason(data);

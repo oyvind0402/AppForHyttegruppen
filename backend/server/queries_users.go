@@ -106,7 +106,6 @@ func (r repo) GetAllUsers(ctx *gin.Context) {
 		// Append User to Users array
 		users = append(users, user)
 	}
-
 	// Return success and User array
 	ctx.JSON(200, users)
 }
@@ -257,12 +256,43 @@ func (r repo) SignIn(ctx *gin.Context) {
 		return
 	}
 
+	http.SetCookie(ctx.Writer, &http.Cookie{
+		Name:     "token",
+		Value:    token,
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+		Path:     "/",
+	})
+
+	http.SetCookie(ctx.Writer, &http.Cookie{
+		Name:  "tokenCreated",
+		Value: "Token is created",
+		Path:  "/",
+	})
+
 	// Returns token, userId and adminAccess
 	ctx.JSON(http.StatusOK, gin.H{
 		"token":       token,
 		"userId":      user.Id,
 		"adminAccess": user.AdminAccess,
 	})
+}
+
+func (r repo) LogOut(ctx *gin.Context) {
+	http.SetCookie(ctx.Writer, &http.Cookie{
+		Name:     "token",
+		MaxAge:   -1,
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+		Path:     "/",
+	})
+	http.SetCookie(ctx.Writer, &http.Cookie{
+		Name:   "tokenCreated",
+		Value:  "Token is created",
+		Path:   "/",
+		MaxAge: -1,
+	})
+	ctx.JSON(http.StatusOK, gin.H{"msg": "Logged out"})
 }
 
 // Update one users admin rights

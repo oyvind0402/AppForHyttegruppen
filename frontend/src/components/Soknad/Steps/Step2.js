@@ -14,7 +14,7 @@ const Step2 = (props) => {
   //Fetching all periods
   useEffect(() => {
     async function fetchData() {
-      fetch('/period/inseason/open')
+      fetch('/api/period/inseason/open')
         .then((response) => response.json())
         .then((data) => {
           //setPerioder(data);
@@ -30,7 +30,7 @@ const Step2 = (props) => {
     let newMuligePerioder = [];
 
     async function fetchAlreadyAplliedPeriods() {
-      fetch(`/application/byuser/${props.formData.userId}`)
+      fetch(`/api/application/byuser/${props.formData.userId}`)
         .then((response) => response.json())
         .then((data) => {
           if (data !== null) {

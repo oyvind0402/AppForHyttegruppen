@@ -18,7 +18,7 @@ const DeleteCabinPic = () => {
   async function getCabin() {
     const link = window.location.href;
     const pageID = link.split('/');
-    fetch(`/cabin/${pageID[pageID.length - 1]}`, {
+    fetch(`/api/cabin/${pageID[pageID.length - 1]}`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -58,10 +58,10 @@ const DeleteCabinPic = () => {
       'input[type=radio]:checked'
     );
     const formData = new FormData();
-    formData.append('file', deletePicture[0].value);
     formData.append('cabinName', cabinData.name);
+    formData.append('file', deletePicture[0].value);
 
-    fetch('/pictures/deletepictures', {
+    fetch('/api/pictures/deletepictures', {
       method: 'POST',
       body: formData,
       headers: {

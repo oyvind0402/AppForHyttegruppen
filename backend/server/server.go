@@ -30,7 +30,7 @@ func setRouter(r repo) *gin.Engine {
 	router.RedirectTrailingSlash = true
 
 	// Create API route groups
-	periodapi := router.Group("/period")
+	periodapi := router.Group("/api/period")
 	{
 		periodapi.GET("/:id", r.GetPeriod)
 		periodapi.GET("/inseason/:season", r.GetAllPeriodsInSeason)
@@ -43,7 +43,7 @@ func setRouter(r repo) *gin.Engine {
 		periodapi.DELETE("/deletemany", middleware.AuthenticateAdmin(), r.DeleteManyPeriods)
 	}
 
-	emailapi := router.Group("/email")
+	emailapi := router.Group("/api/email")
 	{
 		emailapi.POST("/afterApplication", r.AfterApplicationSent)
 		emailapi.POST("/applicationApproved", r.AfterApplicationApproved)
@@ -52,7 +52,7 @@ func setRouter(r repo) *gin.Engine {
 		emailapi.POST("/cancelledTrip", r.AfterTripCancelled)
 	}
 
-	seasonapi := router.Group("/season")
+	seasonapi := router.Group("/api/season")
 	{
 		seasonapi.GET("/:name", r.GetSeason)
 		seasonapi.GET("/open", r.GetCurrentOpenSeason)
@@ -63,7 +63,7 @@ func setRouter(r repo) *gin.Engine {
 		seasonapi.DELETE("/deleteolder", middleware.AuthenticateAdmin(), r.DeleteOlderSeasons)
 	}
 
-	featureapi := router.Group("/feature")
+	featureapi := router.Group("/api/feature")
 	{
 		featureapi.GET("/all")
 		featureapi.PUT("/update")
@@ -71,7 +71,7 @@ func setRouter(r repo) *gin.Engine {
 		featureapi.DELETE("/deletemany")
 	}
 
-	cabinsapi := router.Group("/cabin")
+	cabinsapi := router.Group("/api/cabin")
 	{
 		cabinsapi.GET("/:name", r.GetCabin)
 		cabinsapi.GET("/active/names", r.GetActiveCabinNames)
@@ -84,7 +84,7 @@ func setRouter(r repo) *gin.Engine {
 		cabinsapi.DELETE("/delete", middleware.AuthenticateAdmin(), r.DeleteCabin)
 	}
 
-	applicationapi := router.Group("/application")
+	applicationapi := router.Group("/api/application")
 	{
 		applicationapi.GET("/:id", r.GetApplication)
 		applicationapi.GET("/byuser/:userid", r.GetUserApplications)
@@ -107,7 +107,7 @@ func setRouter(r repo) *gin.Engine {
 		applicationapi.DELETE("/deletemanybyid", middleware.AuthenticateAdmin(), r.DeleteApplicationsById)
 	}
 
-	userapi := router.Group("/user")
+	userapi := router.Group("/api/user")
 	{
 		userapi.GET("/:email", r.GetUserByEmail)
 		userapi.GET("/all", r.GetAllUsers)
@@ -115,10 +115,11 @@ func setRouter(r repo) *gin.Engine {
 		userapi.POST("/signup", r.PostUser)
 		userapi.DELETE("/delete", r.DeleteUser)
 		userapi.POST("/signin", r.SignIn)
+		userapi.GET("/logout", r.LogOut)
 		userapi.PATCH("/setadmin", middleware.AuthenticateAdmin(), r.UpdateUserAdminAccess)
 	}
 
-	faqapi := router.Group("/faq")
+	faqapi := router.Group("/api/faq")
 	{
 		faqapi.GET("/:id", r.GetOneFAQ)
 		faqapi.GET("/all", r.GetAllFAQs)
@@ -127,7 +128,7 @@ func setRouter(r repo) *gin.Engine {
 		faqapi.DELETE("/delete", middleware.AuthenticateAdmin(), r.DeleteFAQ)
 	}
 
-	picturesapi := router.Group("/pictures")
+	picturesapi := router.Group("/api/pictures")
 	{
 		picturesapi.POST("/main", middleware.AuthenticateAdmin(), r.PostMainPicture)
 		picturesapi.POST("/one", middleware.AuthenticateAdmin(), r.PostOnePicture)
@@ -136,7 +137,7 @@ func setRouter(r repo) *gin.Engine {
 		picturesapi.POST("/deletepictures", middleware.AuthenticateAdmin(), r.DeletePictures)
 	}
 
-	adminapi := router.Group("/admin_email")
+	adminapi := router.Group("/api/admin_email")
 	{
 		adminapi.GET("/all", r.GetAllAdminEmailAddresses)
 		adminapi.POST("/post", middleware.AuthenticateAdmin(), r.PostAdminEmailAddress)

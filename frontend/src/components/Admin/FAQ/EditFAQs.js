@@ -10,7 +10,7 @@ const EditFAQs = () => {
 
   useEffect(() => {
     async function fetchFAQs() {
-      fetch('/faq/all')
+      fetch('/api/faq/all')
         .then((response) => response.json())
         .then((data) => {
           setFAQs(data);

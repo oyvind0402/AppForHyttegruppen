@@ -21,7 +21,7 @@ const LoginForm = () => {
     const passwordValue = password.current.value;
 
     try {
-      const response = await fetch('/user/signin', {
+      const response = await fetch('/api/user/signin', {
         method: 'POST',
         body: JSON.stringify({
           email: usernameValue,
@@ -33,7 +33,7 @@ const LoginForm = () => {
       if (!response.ok) {
         setShowFeedBack(true);
       } else {
-        loginContext.login(data.token, data.adminAccess);
+        loginContext.login(data.adminAccess);
         localStorage.setItem('userID', data.userId);
         history.replace('/');
       }

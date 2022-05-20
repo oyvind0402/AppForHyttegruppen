@@ -15,7 +15,7 @@ const YourTrips = () => {
   const getApplications = async () => {
     try {
       const response2 = await fetch(
-        '/application/byuser/' + localStorage.getItem('userID') + '/past',
+        '/api/application/byuser/' + localStorage.getItem('userID') + '/past',
         {
           method: 'GET',
         }
@@ -26,7 +26,7 @@ const YourTrips = () => {
       }
 
       const response4 = await fetch(
-        '/application/byuser/' + localStorage.getItem('userID') + '/future',
+        '/api/application/byuser/' + localStorage.getItem('userID') + '/future',
         {
           method: 'GET',
         }
@@ -37,7 +37,7 @@ const YourTrips = () => {
       }
 
       const response3 = await fetch(
-        '/application/byuser/' + localStorage.getItem('userID') + '/current'
+        '/api/application/byuser/' + localStorage.getItem('userID') + '/current'
       );
       const data3 = await response3.json();
       if (response3.ok) {

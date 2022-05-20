@@ -9,7 +9,9 @@ const YourApplications = () => {
   const getApplications = async () => {
     try {
       const response = await fetch(
-        '/application/byuser/' + localStorage.getItem('userID') + '/pending',
+        '/api/application/byuser/' +
+          localStorage.getItem('userID') +
+          '/pending',
         {
           method: 'GET',
         }

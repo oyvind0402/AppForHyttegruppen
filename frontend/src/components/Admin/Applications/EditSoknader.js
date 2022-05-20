@@ -37,7 +37,7 @@ const Applications = () => {
 
   const fetchSeasons = async () => {
     try {
-      const response = await fetch('/season/all');
+      const response = await fetch('/api/season/all');
       const data = await response.json();
       if (response.ok) {
         setSeasons(data);
@@ -49,12 +49,12 @@ const Applications = () => {
 
   const fetchApplications = async () => {
     try {
-      const allApps = await fetch('/application/all');
-      const pastWinners = await fetch('/application/winners/past');
-      const futureWinners = await fetch('/application/winners/future');
-      const currentWinners = await fetch('/application/winners/current');
-      const pastPending = await fetch('/application/pending/past');
-      const futurePending = await fetch('/application/pending/future');
+      const allApps = await fetch('/api/application/all');
+      const pastWinners = await fetch('/api/application/winners/past');
+      const futureWinners = await fetch('/api/application/winners/future');
+      const currentWinners = await fetch('/api/application/winners/current');
+      const pastPending = await fetch('/api/application/pending/past');
+      const futurePending = await fetch('/api/application/pending/future');
 
       const allAppsData = await allApps.json();
       const pastWinnersData = await pastWinners.json();
@@ -90,7 +90,7 @@ const Applications = () => {
 
   const fetchCabins = async () => {
     try {
-      const response = await fetch('/cabin/active/names');
+      const response = await fetch('/api/cabin/active/names');
       const data = await response.json();
       if (response.ok) {
         setCabins(data);
@@ -355,7 +355,7 @@ const Applications = () => {
     let postSuccessful = true;
 
     cabinWinners.forEach((cabinWinner) => {
-      fetch('/application/setwinner', {
+      fetch('/api/application/setwinner', {
         method: 'PATCH',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(cabinWinner),
@@ -368,7 +368,7 @@ const Applications = () => {
     });
     if (postSuccessful) {
       cabinWinners.forEach((cabinWinner) => {
-        fetch('/email/applicationApproved', {
+        fetch('/api/email/applicationApproved', {
           method: 'POST',
           body: JSON.stringify(cabinWinner.applicationId),
         }).catch((error) => console.log(error));
@@ -380,7 +380,7 @@ const Applications = () => {
 
   const editApplications = () => {
     changedTrips.forEach((application) => {
-      fetch('/application/update', {
+      fetch('/api/application/update', {
         method: 'PUT',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(application),

@@ -123,7 +123,7 @@ VALUES('Utsikten', TRUE),
 
 INSERT INTO Users 
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA', 'test@teter.com', '$2a$10$HiqchIVx0pAyMXpGQuAL4uHEb2bdYRKt4OuX9xye5U8PkVSH.WJRS', 'test', 'tester', FALSE),
-('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$PsxqvC8fkSF6sEu9DF45/.N/eZLZyj8.K9k/BDsz7C/FqyMOdtH/S', 'Admin', 'Adminer', TRUE);
+('Z5CBgnCHiFsYXMmNdBYmKB', 'admin@adminr.com', '$2a$10$x4GzHVRz/7Gf2NWM6z4jG.wBd3YQXDDVr68V/dmTK3kyXb3xlvmri', 'Admin', 'Adminer', TRUE);
 
 INSERT INTO Applications(user_id, ansattnummerWBS, employee_id, trip_purpose, number_of_cabins, kommentar, cabin_assignment, period_id, winner, feedback)
 VALUES('Z5CBgnCHiFsYXMmNdBYmKA','123456','mark.v.d.baan', 'Privat', '1','kommentar' ,'Tilfeldig', '1', TRUE, FALSE), /*Won in the past*/

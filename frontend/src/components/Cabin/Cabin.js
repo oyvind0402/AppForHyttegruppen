@@ -26,7 +26,7 @@ const Cabin = () => {
 
   useEffect(() => {
     async function getCabin(pageId) {
-      fetch(`/cabin/` + pageId)
+      fetch(`/api/cabin/` + pageId)
         .then((response) => response.json())
         .then((data) => setCabinData(data))
         .catch((error) => console.log(error));
@@ -39,7 +39,7 @@ const Cabin = () => {
 
   useEffect(() => {
     async function fetchData() {
-      fetch('/cabin/all')
+      fetch('/api/cabin/all')
         .then((response) => response.json())
         .then((data) => setCabins(data))
         .catch((error) => console.log(error));

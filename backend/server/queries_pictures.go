@@ -28,8 +28,6 @@ func SaveFile(ctx *gin.Context, file *multipart.FileHeader) (context *gin.Contex
 		return ctx, http.StatusFailedDependency, err
 	}
 
-	// TODO: Handle duplicates
-
 	return ctx, http.StatusOK, nil
 }
 
@@ -470,7 +468,8 @@ func (r repo) DeletePictures(ctx *gin.Context) {
 	}
 
 	// Delete the picture
-	path := "./frontend/public/assets/pictures/" + file
+	root := os.Getenv("hytteroot")
+	path := fmt.Sprintf("%s/frontend/public/assets/pictures/%s", root, file)
 	error := os.Remove(path) // remove a single file
 	if error != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})

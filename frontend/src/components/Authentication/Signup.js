@@ -80,7 +80,7 @@ const SignupForm = () => {
     }
 
     try {
-      const response = await fetch('/user/post', {
+      const response = await fetch('/api/user/post', {
         method: 'POST',
         body: JSON.stringify({
           email: values.email,
