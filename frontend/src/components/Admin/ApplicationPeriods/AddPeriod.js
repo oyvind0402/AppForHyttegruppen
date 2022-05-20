@@ -67,7 +67,7 @@ const AddPeriod = () => {
 
   const addPeriod = async () => {
     try {
-      const response = await fetch('/api/period/iod/post', {
+      const response = await fetch('/api/period/post', {
         method: 'POST',
         headers: { token: cookies.get('token') },
         body: JSON.stringify(period),

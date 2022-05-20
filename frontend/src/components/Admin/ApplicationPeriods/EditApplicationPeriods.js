@@ -54,7 +54,7 @@ const EditPeriods = () => {
 
   const getPeriods = async () => {
     try {
-      const response = await fetch('/api/period/iod/iod/all');
+      const response = await fetch('/api/period/all');
       const data = await response.json();
       if (response.ok) {
         setPeriods(data);
