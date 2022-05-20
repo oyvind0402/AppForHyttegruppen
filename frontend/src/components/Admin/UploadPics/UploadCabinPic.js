@@ -67,9 +67,11 @@ const UploadCabinPic = () => {
 
   useEffect(() => {
     if (error !== '') {
+      console.log(error);
       let imgs = [...uploadedImages];
       imgs.splice(imgs.length - 1, 1);
       setUploadedImages(imgs);
+      setError('');
     }
   }, [error, uploadedImages]);
 
