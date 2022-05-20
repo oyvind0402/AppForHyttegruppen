@@ -93,6 +93,12 @@
   color: white;
 }
 
+@media only screen and (max-width: 700px) {
+  .cabincardmap {
+    justify-content: center;
+  }
+}
+
 @media only screen and (max-width: 450px) {
   .card-map {
     height: 175px;

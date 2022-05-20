@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import LoginContext from '../../../LoginContext/login-context';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { GiHamburgerMenu } from 'react-icons/gi';

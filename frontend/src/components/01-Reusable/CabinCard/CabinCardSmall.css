@@ -55,7 +55,7 @@
 }
 
 .card-content-small .card-address {
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-top: 0px;
   font-weight: 50;
 }
@@ -104,6 +104,15 @@
   }
   .card-content-small {
     height: 70%;
+  }
+
+  .card-content-small .card-title {
+    font-size: 1rem;
+    margin-top: 5px;
+  }
+
+  .card-content-small .card-address {
+    font-size: 0.6rem;
   }
 }
 

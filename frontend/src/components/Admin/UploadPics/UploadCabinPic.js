@@ -69,10 +69,9 @@ const UploadCabinPic = () => {
     if (error !== '') {
       let imgs = [...uploadedImages];
       imgs.splice(imgs.length - 1, 1);
-      console.log(imgs);
       setUploadedImages(imgs);
     }
-  }, [error]);
+  }, [error, uploadedImages]);
 
   const handleChange = (event) => {
     if (event.target.files.length > 0) {

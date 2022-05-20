@@ -133,28 +133,18 @@
 }
 
 @media only screen and (max-width: 601px) {
-  .checkbox-trip-container {
-    font-size: 0.7rem;
-  }
-
   .application-title {
     font-size: 1.5rem;
   }
 
   .tab-container {
     grid-template-columns: 1fr 1fr 1fr;
-    padding: 3rem;
+    padding: 1rem 3rem;
     padding-bottom: 0;
   }
 
   .checkbox-trip-label {
     text-align: center;
-  }
-}
-
-@media only screen and (max-width: 502px) {
-  .checkbox-trip-container {
-    font-size: 0.6rem;
   }
 }
 
