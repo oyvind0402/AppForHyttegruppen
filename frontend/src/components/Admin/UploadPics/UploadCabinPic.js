@@ -9,6 +9,7 @@ const UploadCabinPic = () => {
   const [url, setUrl] = useState();
   const [uploadedImages, setUploadedImages] = useState([]);
   const [error, setError] = useState('');
+  const [oldError, setOldError] = useState('');
   const link = window.location.href;
   let cabinName = link.split('/')[5];
   if (cabinName.includes('%20') || cabinName.includes('%C3%B8')) {
@@ -67,10 +68,10 @@ const UploadCabinPic = () => {
 
   useEffect(() => {
     if (error !== '') {
-      console.log(error);
       let imgs = [...uploadedImages];
       imgs.splice(imgs.length - 1, 1);
       setUploadedImages(imgs);
+      setOldError(error);
       setError('');
     }
   }, [error, uploadedImages]);
@@ -82,6 +83,7 @@ const UploadCabinPic = () => {
       setUrl(null);
     }
     setError('');
+    setOldError('');
   };
   return (
     <>
@@ -119,6 +121,7 @@ const UploadCabinPic = () => {
           Last opp bilde
         </button>
         {error && <p className="login-error pic-error">{error}</p>}
+        {oldError && <p className="login-error pic-error">{oldError}</p>}
         {uploadedImages.length > 0 ? (
           <>
             <p className="uploaded-pics-title">Opplastede bilder:</p>
