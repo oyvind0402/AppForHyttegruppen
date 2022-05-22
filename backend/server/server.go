@@ -29,6 +29,8 @@ func setRouter(r repo) *gin.Engine {
 	// handler for the path with (without) the trailing slash exists.
 	router.RedirectTrailingSlash = true
 
+	router.SetTrustedProxies([]string{":3000"})
+
 	// Create API route groups
 	periodapi := router.Group("/api/period")
 	{
