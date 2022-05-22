@@ -1,5 +1,11 @@
 echo "Starting to populate Postgres database"
 sleep 1
-echo "Please supply the password for the Postgres user 'hgeier' when asked."
+read -r -p "Insert username (or press Enter to continue; default is 'hgeier'): " u
+user="hgeier"
+if [[ $u != "" ]]
+then
+	user=$u
+fi
+echo "Please supply the password for the Postgres user $user when asked."
 sleep 1
-psql -h localhost -d postgres -U hgeier -W -f ./db.sql
+psql -h localhost -d postgres -U "$user" -W -f ./db.sql

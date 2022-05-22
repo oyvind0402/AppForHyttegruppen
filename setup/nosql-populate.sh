@@ -15,7 +15,7 @@ done
 while [[ $pwd == "" ]]
 do
     echo "No MongoDB password found"
-    read -r -p "Insert MongoDB username: " p
+    read -r -p "Insert password for $user: " p
     pwd=$p
 done
 
