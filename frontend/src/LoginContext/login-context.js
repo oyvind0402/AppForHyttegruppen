@@ -28,7 +28,7 @@ export const LoginContextProvider = (props) => {
     setToken(cookies.get(key));
     if (admin) {
       setAdmin(admin);
-      cookies.set(adminKey, admin, { sameSite: 'strict' });
+      cookies.set(adminKey, admin, { sameSite: 'strict', path: '/' });
     }
   };
 
