@@ -63,7 +63,6 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-	//TODO change the email to userEmail
 	SendEmail(*userEmail, htmlBody, "Kvittering for søknaden din")
 }
 
@@ -124,7 +123,6 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	htmlBody.WriteString(`</body></html>`)
 
 	//sending the email
-	//TODO change the email used to
 	SendEmail(application.User.Email, htmlBody, "Søknad godkjent!")
 }
 

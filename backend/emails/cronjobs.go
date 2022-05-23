@@ -53,7 +53,6 @@ func SendEmailNotification() {
 			htmlBody.WriteString(`<br />Husk å sjekk hytteportalen for å se informasjon om hva du må ta med osv!`)
 			htmlBody.WriteString(`</p>`)
 			htmlBody.WriteString(`</body></html>`)
-			//TODO add user email instead of this email (application[i].User.Email)
 			server.SendEmail(applications[i].User.Email, htmlBody, "Husk turen om 2 dager!")
 			htmlBody.Reset()
 		}

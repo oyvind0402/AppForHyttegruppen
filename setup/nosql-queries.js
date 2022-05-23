@@ -1,9 +1,6 @@
 use hyttegruppen;
 
-//FIXME Remove drops
-
 db.faq.drop()
-
 db.cabins.drop()
 
 db.createCollection("cabins", {
