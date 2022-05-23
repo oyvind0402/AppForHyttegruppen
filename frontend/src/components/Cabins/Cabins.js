@@ -32,7 +32,7 @@ const Cabins = () => {
           })
         ) : (
           <p className="cabins-error-empty">
-            Det har oppstått tekniske problemer. Ingen hytter tilgjennelig
+            Det har oppstått tekniske problemer. Ingen hytter tilgjengelige
             akkurat nå.
           </p>
         )}

@@ -51,8 +51,8 @@ const FAQ = () => {
           ))
         ) : (
           <p className="faq-error">
-            Det ser ut til å enten være tekniske problemer eller at det er ingen
-            FAQ satt opp enda.
+            Det ser ut til å være tekniske problemer, eller så har ingen FAQ
+            blitt opprettet enda.
           </p>
         )}
       </div>

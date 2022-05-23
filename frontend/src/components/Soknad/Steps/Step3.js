@@ -222,21 +222,21 @@ const Step3 = (props) => {
                 en hytte!
               </p>
             )}
-            <div className="soknad-step3-antall">
-              <label className="soknad-label" htmlFor="comments">
-                Kommentar
-              </label>
-              <textarea
-                className="soknad-input"
-                name="comments"
-                id="comments"
-                value={kommentar}
-                placeholder="Skriv gjerne hytteprioritet eller spesifikke ønsker hvis du vil.."
-                onChange={(e) => setKommentar(e.target.value)}
-              ></textarea>
-            </div>
           </>
         )}
+        <div className="soknad-step3-antall">
+          <label className="soknad-label" htmlFor="comments">
+            Kommentar
+          </label>
+          <textarea
+            className="soknad-input"
+            name="comments"
+            id="comments"
+            value={kommentar}
+            placeholder="Skriv gjerne hytteprioritet eller spesifikke ønsker hvis du vil.."
+            onChange={(e) => setKommentar(e.target.value)}
+          />
+        </div>
       </div>
       <div className="soknad-btn">
         <button className="btn small btn-nonActive" onClick={previousPage}>
