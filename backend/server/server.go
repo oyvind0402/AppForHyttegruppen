@@ -29,7 +29,6 @@ func setRouter(r repo) *gin.Engine {
 	// handler for the path with (without) the trailing slash exists.
 	router.RedirectTrailingSlash = true
 
-	//router.SetTrustedProxies([]string{":3000"})
 	router.SetTrustedProxies([]string{"localhost:3000", "159.223.16.218"})
 
 	// Create API route groups
