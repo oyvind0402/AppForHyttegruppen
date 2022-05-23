@@ -59,3 +59,17 @@ else
 	echo "REMINDER: you might need to run 'chmod +x $nosql' first"
 	sleep 2
 fi
+
+# Populate PostgreSQL
+postgres="sql-populate.sh"
+if [ -f "$postgres" ]
+then
+	chmod +x "$postgres"
+	bash "$postgres"
+else
+	echo ""
+	echo "ERROR: $postgres not found"
+	echo "Go to the folder where this script is located and run $postgres manually"
+	echo "REMINDER: you might need to run 'chmod +x $postgres' first"
+	sleep 2
+fi
