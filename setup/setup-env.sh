@@ -147,12 +147,12 @@ else
 			;;
 		dnf)
 			echo '[Mongodb]
-			name=MongoDB Repository
-			baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.4/x86_64/
-			gpgcheck=1
-			enabled=1
-			gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc' | sudo tee /etc/yum.repos.d/mongodb.repo
-			sudo dnf install mongodb-org mongodb-org-server
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc' | sudo tee /etc/yum.repos.d/mongodb.repo
+			sudo dnf install mongodb-org mongodb-org-server mongosh
 			sudo systemctl enable mongod.service
 			sudo systemctl start mongod.service
 			;;
