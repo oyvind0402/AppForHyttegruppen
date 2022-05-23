@@ -70,7 +70,7 @@ If running the commands from within MongoSH, you may also replace the password f
 
 #### Populating MongoDB
 
-To populate the database, run the script `nosql-populate.sh`. See [next section](#nosql-populate.sh)
+To populate the database, run the script `nosql-populate.sh`. See [instructions in `nosql-populate.sh` section](#nosql-populatesh)
 
 ### Known Issues
 
