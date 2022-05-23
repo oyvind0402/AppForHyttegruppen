@@ -135,6 +135,8 @@ then
 			echo "You are not running a Debian-based or RedHat system. Please visit http://repo.mongodb.org/ and locate the correct package for your system or use your package manager."
 			sleep 1
 			echo "The setup will be terminated"
+			sleep 1
+			echo "See README.md for last steps"
 			exit 1
 			;;
 	esac
@@ -160,6 +162,8 @@ else
 			echo "You are not running a Debian-based or RedHat system. Please visit http://repo.mongodb.org/ and locate the correct package for your system or use your package manager."
 			sleep 1
 			echo "The setup will be terminated"
+			sleep 1
+			echo "See README.md for last steps"
 			exit 1
 			;;
 	esac
@@ -170,7 +174,6 @@ if [[ $PKGMGR == "apt" ]]
 then
 	curl "$mongourl" -o "$mongofile"
 	sudo dpkg -i "$mongofile"
-	echo "MongoDB has been installed"
 	rm "$mongofile"
 
 	sudo mkdir -p /data/db
@@ -186,6 +189,7 @@ then
 	sudo dpkg -i "$mongoshell"
 fi
 
+sleep 1
 echo ""
 echo "Starting MongoDB user setup"
 sleep 1
