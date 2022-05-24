@@ -178,7 +178,7 @@ func (r repo) PostUser(ctx *gin.Context) {
 
 // Delete one user with specified email (receives email: string; returns rowsAffected: int)
 func (r repo) DeleteUser(ctx *gin.Context) {
-	// curl -X DELETE -v -d "1" localhost:8080/user/delete
+	// curl -X DELETE -v -d "1" localhost:8080/api/user/delete
 
 	// Retrieve ID parameter
 	email := new(string)

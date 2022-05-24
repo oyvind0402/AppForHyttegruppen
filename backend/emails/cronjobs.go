@@ -13,7 +13,7 @@ import (
 // Function to send an email to any winning application 2 days before the trip
 func SendEmailNotification() {
 	var htmlBody strings.Builder
-	resp, err := http.Get("http://localhost:8080/application/winners/future")
+	resp, err := http.Get("http://localhost:8080/api/application/winners/future")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -63,7 +63,7 @@ func SendEmailNotification() {
 //Sends info to the admin in case a user hasnt sent in the feedback form 2 days after the trip
 func SendFeedbackInfo() {
 	var htmlBody strings.Builder
-	resp, err := http.Get("http://localhost:8080/application/winners/past")
+	resp, err := http.Get("http://localhost:8080/api/application/winners/past")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -81,7 +81,7 @@ func SendFeedbackInfo() {
 	loc, _ := time.LoadLocation("UTC")
 	now := time.Now().In(loc)
 
-	resp2, err2 := http.Get("http://localhost:8080/admin_email/all")
+	resp2, err2 := http.Get("http://localhost:8080/api/admin_email/all")
 	if err2 != nil {
 		panic(err2.Error())
 	}
@@ -140,7 +140,7 @@ func SendFeedbackInfo() {
 //Sends notification to a user about sending in the feedback form at the end of their trip
 func SendFeedbackReminder() {
 	var htmlBody strings.Builder
-	resp, err := http.Get("http://localhost:8080/application/winners/current")
+	resp, err := http.Get("http://localhost:8080/api/application/winners/current")
 	if err != nil {
 		panic(err.Error())
 	}

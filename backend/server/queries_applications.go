@@ -145,7 +145,7 @@ func (r repo) getApplications(ctx *gin.Context, query string, args []interface{}
 
 // Retrieve one application by ID (receives int; returns Application)
 func (r repo) GetApplication(ctx *gin.Context) {
-	// curl -X GET -v -d "1" localhost:8080/application/get
+	// curl -X GET -v -d "1" localhost:8080/api/application/get
 
 	// Retrieve parameter ID
 	rec := ctx.Param("id")
@@ -740,7 +740,7 @@ func (r repo) UpdateApplicationFeedback(ctx *gin.Context) {
 
 // Delete one application with specified ID (receives int; returns rowsAffected: int)
 func (r repo) DeleteApplication(ctx *gin.Context) {
-	// curl -X DELETE -v -d "1" localhost:8080/application/delete
+	// curl -X DELETE -v -d "1" localhost:8080/api/application/delete
 
 	// Retrieve ID parameter
 	applicationId := new(int)
@@ -769,7 +769,7 @@ func (r repo) DeleteApplication(ctx *gin.Context) {
 
 // Delete all losing applications of a specified season (receives string; returns rowsAffected: int)
 func (r repo) DeleteLosingApplications(ctx *gin.Context) {
-	// curl -X DELETE -v -d "\"winter2022\"" localhost:8080/application/deletelosing
+	// curl -X DELETE -v -d "\"winter2022\"" localhost:8080/api/application/deletelosing
 
 	// Retrieve season parameter
 	season := new(string)
@@ -805,7 +805,7 @@ func (r repo) DeleteLosingApplications(ctx *gin.Context) {
 
 // Delete multiple applications by ID (receives []int; returns rowsAffected: int)
 func (r repo) DeleteApplicationsById(ctx *gin.Context) {
-	// curl -X DELETE -v -d "[1, 2]" localhost:8080/application/deletemanybyid
+	// curl -X DELETE -v -d "[1, 2]" localhost:8080/api/application/deletemanybyid
 
 	// Retrives array of IDs
 	applicationIds := new([]int)

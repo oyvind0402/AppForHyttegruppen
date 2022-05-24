@@ -62,7 +62,7 @@ func validateToken(signedToken string) (claims *SignedDetails, msg string) {
 		return
 	}
 
-	_, err2 := http.Get("http://localhost:8080/user/" + claims.Email)
+	_, err2 := http.Get("http://localhost:8080/api/user/" + claims.Email)
 	if err2 != nil {
 		msg = "User doesnt exist, authentication invalid"
 		return

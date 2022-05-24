@@ -63,7 +63,6 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-	//TODO change the email to userEmail
 	SendEmail(*userEmail, htmlBody, "Kvittering for søknaden din")
 }
 
@@ -91,7 +90,7 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 
 	//get the application based on applicationId
 	i := strconv.Itoa(*applicationId)
-	resp, err := http.Get(`http://localhost:8080/application/` + i)
+	resp, err := http.Get(`http://localhost:8080/api/application/` + i)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -124,7 +123,6 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	htmlBody.WriteString(`</body></html>`)
 
 	//sending the email
-	//TODO change the email used to
 	SendEmail(application.User.Email, htmlBody, "Søknad godkjent!")
 }
 
@@ -174,7 +172,7 @@ func (r repo) AfterFeedbackSent(ctx *gin.Context) {
 	htmlBody.WriteString(`</p>`)
 	htmlBody.WriteString(`</body></html>`)
 
-	resp, err := http.Get("http://localhost:8080/admin_email/all")
+	resp, err := http.Get("http://localhost:8080/api/admin_email/all")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -239,7 +237,7 @@ func (r repo) AfterTripCancelled(ctx *gin.Context) {
 	htmlBody.WriteString("Perioden " + formData.Period.Name + " (" + formData.Period.Start.Format("2006-01-02") + " - " + formData.Period.End.Format("2006-01-02") + ") er altså åpen for den / de hyttene igjen.")
 	htmlBody.WriteString(`</body></html>`)
 
-	resp, err := http.Get("http://localhost:8080/admin_email/all")
+	resp, err := http.Get("http://localhost:8080/api/admin_email/all")
 	if err != nil {
 		panic(err.Error())
 	}
