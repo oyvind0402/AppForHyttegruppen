@@ -161,4 +161,4 @@ VALUES ('Hvordan avbestiller jeg en tur?', 'En tur kan avbestilles under mine tu
 ('Hvem kontakter jeg dersom jeg har et spørsmål?', 'Dersom du har et spørsmål kan du ta kontakt med hyttekomiteen@accenture.com');
 
 INSERT INTO AdminEmails (email)
-VALUES ('oyvind0402@gmail.com');
+VALUES ('admin@adminr.com');
