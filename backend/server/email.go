@@ -63,7 +63,7 @@ func (r repo) AfterApplicationSent(ctx *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-	SendEmail(*userEmail, htmlBody, "Kvittering for søknaden din")
+	//SendEmail(*userEmail, htmlBody, "Kvittering for søknaden din")
 }
 
 //endpoint to send email after application was approved
@@ -123,7 +123,7 @@ func (r repo) AfterApplicationApproved(ctx *gin.Context) {
 	htmlBody.WriteString(`</body></html>`)
 
 	//sending the email
-	SendEmail(application.User.Email, htmlBody, "Søknad godkjent!")
+	//SendEmail(application.User.Email, htmlBody, "Søknad godkjent!")
 }
 
 //endpoint to send email after feedback is sent
@@ -192,9 +192,9 @@ func (r repo) AfterFeedbackSent(ctx *gin.Context) {
 		panic(err.Error())
 	}
 
-	for _, email := range emails {
-		SendEmail(email.Email, htmlBody, "Tilbakemelding mottatt!")
-	}
+	// for _, email := range emails {
+	// 	SendEmail(email.Email, htmlBody, "Tilbakemelding mottatt!")
+	// }
 }
 
 func (r repo) AfterTripCancelled(ctx *gin.Context) {
@@ -257,9 +257,9 @@ func (r repo) AfterTripCancelled(ctx *gin.Context) {
 		panic(err.Error())
 	}
 
-	for _, email := range emails {
-		SendEmail(email.Email, htmlBody, "Tur kansellert!")
-	}
+	// for _, email := range emails {
+	// 	SendEmail(email.Email, htmlBody, "Tur kansellert!")
+	// }
 }
 
 func connectToEmailService(userName string, passwd string) *mail.SMTPClient {

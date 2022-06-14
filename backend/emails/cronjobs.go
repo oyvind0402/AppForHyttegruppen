@@ -2,7 +2,6 @@ package emails
 
 import (
 	"bachelorprosjekt/backend/data"
-	"bachelorprosjekt/backend/server"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -53,7 +52,7 @@ func SendEmailNotification() {
 			htmlBody.WriteString(`<br />Husk å sjekk hytteportalen for å se informasjon om hva du må ta med osv!`)
 			htmlBody.WriteString(`</p>`)
 			htmlBody.WriteString(`</body></html>`)
-			server.SendEmail(applications[i].User.Email, htmlBody, "Husk turen om 2 dager!")
+			//server.SendEmail(applications[i].User.Email, htmlBody, "Husk turen om 2 dager!")
 			htmlBody.Reset()
 		}
 	}
@@ -127,9 +126,9 @@ func SendFeedbackInfo() {
 				htmlBody.WriteString(`</p>`)
 				htmlBody.WriteString(`</body></html>`)
 
-				for _, email := range emails {
-					server.SendEmail(email.Email, htmlBody, "Notifikasjon om for sen tilbakemelding")
-				}
+				// for _, email := range emails {
+				// 	server.SendEmail(email.Email, htmlBody, "Notifikasjon om for sen tilbakemelding")
+				// }
 				htmlBody.Reset()
 			}
 		}
@@ -176,7 +175,7 @@ func SendFeedbackReminder() {
 				htmlBody.WriteString(`</p>`)
 				htmlBody.WriteString(`</body></html>`)
 
-				server.SendEmail(applications[i].User.Email, htmlBody, "Husk tilbakemeldingsskjema!")
+				//server.SendEmail(applications[i].User.Email, htmlBody, "Husk tilbakemeldingsskjema!")
 				htmlBody.Reset()
 			}
 		}
